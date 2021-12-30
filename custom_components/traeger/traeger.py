@@ -227,6 +227,10 @@ class traeger:
 
     def mqtt_log(self, client, userdata, level, buf):
         _LOGGER.debug("MQTT Log Level: %s, MQTT Log BUF: %s", level, buf)
+        if buf == "Connection failed, retrying":
+            _LOGGER.error(f"MQTT Client Reported:{buf} This happens after 5 failed attempts.")
+            _LOGGER.info(f"MQTT Client Kill.")
+            self.hass.async_create_task(self.kill())
 
     def get_state_for_device(self, thingName):
         if thingName not in self.grill_status:
