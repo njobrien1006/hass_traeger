@@ -174,7 +174,7 @@ class traeger:
         if self.mqtt_client == None:
             await self.refresh_mqtt_url()
             mqtt_parts = urllib.parse.urlparse(self.mqtt_url)
-            self.mqtt_client = mqtt.Client(transport="websockets")
+            self.mqtt_client = mqtt.Client(clean_session=True, transport="websockets")
             self.mqtt_client.on_connect = on_connect
             self.mqtt_client.on_message = on_message
             self.mqtt_client.on_subscribe = on_subscribe
@@ -188,7 +188,8 @@ class traeger:
             context.check_hostname = False
             context.verify_mode = ssl.CERT_NONE
             self.mqtt_client.tls_set_context(context)
-            self.mqtt_client.connect(mqtt_parts.netloc, 443)
+            self.mqtt_client.reconnect_delay_set(min_delay=10, max_delay=160)
+            self.mqtt_client.connect(mqtt_parts.netloc, 443, keepalive=300)
             _LOGGER.debug(f"Thread Active Count:{threading.active_count()}")
             if self.mqtt_thread_running == False:
                 self.mqtt_thread = threading.Thread(target=self._mqtt_connect_func)
