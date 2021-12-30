@@ -37,6 +37,7 @@ class traeger:
         self.mqtt_uuid = str(uuid.uuid1())
         self.mqtt_thread_running = False
         self.mqtt_thread_refreshing = False
+        self.grills_active = False
         self.hass = hass
         self.loop = hass.loop
         self.task = None
@@ -204,6 +205,15 @@ class traeger:
             if grill_id in self.grill_callbacks:
                 for callback in self.grill_callbacks[grill_id]:
                     callback()
+            if self.grills_active == False:
+                for grill in self.grills:
+                    grill_id = grill["thingName"]
+                    state = self.get_state_for_device(grill_id)
+                    if state == None:
+                        return
+                    if state["connected"]:
+                        if 4 <= state["system_status"] <= 8:
+                            self.grills_active = True
 
     def grill_connect(self, client, userdata, flags, rc):
         _LOGGER.info("Grill Connected")
@@ -265,9 +275,9 @@ class traeger:
                 return accessory
         return None
 
-    async def start(self):
+    async def start(self, delay):
         await self.update_grills()
-        delay = 30
+        self.grills_active = True
         _LOGGER.info(f"Call_Later in: {delay} seconds")
         self.task = self.loop.call_later(delay, self.syncmain)
 
@@ -278,6 +288,10 @@ class traeger:
     async def main(self):
         _LOGGER.debug(f"Current Main Loop Time: {time.time()}")
         _LOGGER.debug(f"MQTT Logger Token Time Remaining:{self.token_remaining()} MQTT Time Remaining:{self.mqtt_url_remaining()}")
+        if self.grills_active == False:
+            _LOGGER.debug(f"Grills Report unactive. Disconnecting.")
+            await self.kill()
+            return
         if self.mqtt_url_remaining() < 60:
             self.mqtt_thread_refreshing = True
             if self.mqtt_thread_running:
@@ -286,6 +300,7 @@ class traeger:
             await self.get_mqtt_client(self.grill_connect, self.grill_message, self.mqtt_log, self.grill_subscribe)
             self.mqtt_thread_refreshing = False
         _LOGGER.debug(f"Call_Later @: {self.mqtt_url_expires}")
+        self.grills_active = False
         delay = self.mqtt_url_remaining()
         if delay < 30:
             delay = 30
@@ -306,6 +321,7 @@ class traeger:
             self.mqtt_url_expires = time.time()
             for grill in self.grills:
                 grill_id = grill["thingName"]
+                self.grill_status[grill_id]["status"]["connected"] = False
                 for callback in self.grill_callbacks[grill_id]:
                     callback()
         else:
