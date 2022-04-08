@@ -306,7 +306,7 @@ class ProbeState(TraegerBaseSensor):
 
         if self.probe_alarm or probe_temp >= target_temp:
             state = "at_temp"
-        elif target_temp != 0 and self.grill_state in self.active_modes:
+        elif target_temp != 0 and grill_mode in self.active_modes:
             close_temp = 3 if self.grill_units == TEMP_CELSIUS else 5
             if probe_temp + close_temp >= target_temp:
                 state = "close"
