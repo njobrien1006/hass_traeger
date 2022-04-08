@@ -1,9 +1,7 @@
 {
-    "config": {
-        "title": "Traeger",
+    "config": {        
         "step": {
             "user": {
-                "title": "Traeger",
                 "description": "If you need help with the configuration have a look here: https://github.com/sebirdman/hass_traeger/issues",
                 "data": {
                     "username": "Username",
@@ -25,7 +23,8 @@
                     "sensor": "Sensors enabled",
                     "climate": "Climate entity enabled",
                     "switch": "Switch entity enabled",
-                    "number": "Number entity enabled"
+                    "number": "Number entity enabled",
+                    "binary_sensor": "Binary Sensors enabled"
                 }
             }
         }
