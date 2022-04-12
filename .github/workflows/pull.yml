@@ -28,7 +28,9 @@ jobs:
   autoyapf:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@master
+        with:
+          ref: ${{ github.head_ref }}
       - name: autoyapf
         id: autoyapf
         uses: mritunjaysharma394/autoyapf@v2
