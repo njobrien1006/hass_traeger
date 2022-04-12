@@ -25,6 +25,15 @@ jobs:
       - uses: psf/black@stable
         with:
           options: "--check --diff --line-length 120"
+  autoyapf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: autoyapf
+        id: autoyapf
+        uses: mritunjaysharma394/autoyapf@v2
+        with:
+          args: --style pep8 --recursive --in-place .
           
   style:
     runs-on: "ubuntu-latest"
