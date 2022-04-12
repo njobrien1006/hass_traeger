@@ -16,6 +16,7 @@ from .const import (
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
+
 class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow for Blueprint."""
 
@@ -35,13 +36,11 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         #     return self.async_abort(reason="single_instance_allowed")
 
         if user_input is not None:
-            valid = await self._test_credentials(
-                user_input[CONF_USERNAME], user_input[CONF_PASSWORD]
-            )
+            valid = await self._test_credentials(user_input[CONF_USERNAME],
+                                                 user_input[CONF_PASSWORD])
             if valid:
-                return self.async_create_entry(
-                    title=user_input[CONF_USERNAME], data=user_input
-                )
+                return self.async_create_entry(title=user_input[CONF_USERNAME],
+                                               data=user_input)
             else:
                 self._errors["base"] = "auth"
 
@@ -63,12 +62,12 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         """Show the configuration form to edit location data."""
         return self.async_show_form(
             step_id="user",
-            data_schema=vol.Schema(
-                {
-                    vol.Required(CONF_USERNAME, default=user_input[CONF_USERNAME]): str,
-                    vol.Required(CONF_PASSWORD, default=user_input[CONF_PASSWORD]): str,
-                }
-            ),
+            data_schema=vol.Schema({
+                vol.Required(CONF_USERNAME, default=user_input[CONF_USERNAME]):
+                str,
+                vol.Required(CONF_PASSWORD, default=user_input[CONF_PASSWORD]):
+                str,
+            }),
             errors=self._errors,
         )
 
@@ -81,8 +80,8 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             return True
         except Exception as exception:  # pylint: disable=broad-except
             _LOGGER.error(
-                 "Failed to login %s",
-                 exception,
+                "Failed to login %s",
+                exception,
             )
             pass
         return False
@@ -108,16 +107,13 @@ class BlueprintOptionsFlowHandler(config_entries.OptionsFlow):
 
         return self.async_show_form(
             step_id="user",
-            data_schema=vol.Schema(
-                {
-                    vol.Required(x, default=self.options.get(x, True)): bool
-                    for x in sorted(PLATFORMS)
-                }
-            ),
+            data_schema=vol.Schema({
+                vol.Required(x, default=self.options.get(x, True)): bool
+                for x in sorted(PLATFORMS)
+            }),
         )
 
     async def _update_options(self):
         """Update config entry options."""
         return self.async_create_entry(
-            title=self.config_entry.data.get(CONF_USERNAME), data=self.options
-        )
+            title=self.config_entry.data.get(CONF_USERNAME), data=self.options)

@@ -1,7 +1,6 @@
 """Climate platform for Traeger grills"""
 from homeassistant.components.climate import (
-    ClimateEntity,
-)
+    ClimateEntity, )
 from homeassistant.components.climate.const import (
     SUPPORT_TARGET_TEMPERATURE,
     HVAC_MODE_HEAT,
@@ -38,10 +37,12 @@ async def async_setup_entry(hass, entry, async_add_devices):
     for grill in grills:
         grill_id = grill["thingName"]
         async_add_devices([TraegerClimateEntity(client, grill_id, "Climate")])
-        TraegerGrillMonitor(client, grill_id, async_add_devices, AccessoryTraegerClimateEntity)
+        TraegerGrillMonitor(client, grill_id, async_add_devices,
+                            AccessoryTraegerClimateEntity)
 
 
 class TraegerBaseClimate(ClimateEntity, TraegerBaseEntity):
+
     def __init__(self, client, grill_id, friendly_name):
         super().__init__(client, grill_id)
         self.friendly_name = friendly_name
@@ -177,18 +178,17 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
         super().__init__(client, grill_id, f"Probe {sensor_id}")
         self.sensor_id = sensor_id
         self.grill_accessory = self.client.get_details_for_accessory(
-            self.grill_id, self.sensor_id
-        )
+            self.grill_id, self.sensor_id)
 
         # Tell the Traeger client to call grill_update() when it gets an update
-        self.client.set_callback_for_grill(self.grill_id, self.grill_accessory_update)
+        self.client.set_callback_for_grill(self.grill_id,
+                                           self.grill_accessory_update)
 
     def grill_accessory_update(self):
         """This gets called when the grill has an update. Update state variable"""
         self.grill_refresh_state()
         self.grill_accessory = self.client.get_details_for_accessory(
-            self.grill_id, self.sensor_id
-        )
+            self.grill_id, self.sensor_id)
 
         if self.hass is None:
             return
@@ -268,7 +268,8 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
     async def async_set_temperature(self, **kwargs):
         """Set new target temperature."""
         temperature = kwargs.get(ATTR_TEMPERATURE)
-        await self.client.set_probe_temperature(self.grill_id, round(temperature))
+        await self.client.set_probe_temperature(self.grill_id,
+                                                round(temperature))
 
     async def async_set_hvac_mode(self, hvac_mode):
         """Start grill shutdown sequence"""
