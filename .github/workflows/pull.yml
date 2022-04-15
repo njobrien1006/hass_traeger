@@ -18,12 +18,25 @@ jobs:
 
         - name: Hassfest validation
           uses: "home-assistant/actions/hassfest@master"
-  formatting-check:
-    name: Formatting Check
+  autoyapf:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: run YAPF to test if python code is correctly formatted
-      uses: AlexanderMelde/yapf-action@master
-      with:
-        args: --verbose --style facebook
+      - uses: actions/checkout@master
+        with:
+          ref: ${{ github.head_ref }}
+      - name: autoyapf
+        id: autoyapf
+        uses: mritunjaysharma394/autoyapf@v2
+        with:
+          args: --style facebook --recursive --in-place .
+      - name: Check for modified files
+        id: git-check
+        run: echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
+      - name: Push changes
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          git config --global user.name 'github-actions' 
+          git config --global user.email 'github-actions@github.com' 
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git commit -am "Automated autoyapf fixes"
+          git push        
