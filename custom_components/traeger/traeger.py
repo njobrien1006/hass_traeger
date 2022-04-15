@@ -23,14 +23,14 @@ import async_timeout
 import aiohttp
 import homeassistant.const
 
-
 CLIENT_ID = "2fuohjtqv1e63dckp5v84rau0j"
 TIMEOUT = 60
 
-
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
+
 class traeger:
+
     def __init__(self, username, password, hass, request_library):
         self.username = username
         self.password = password
@@ -64,45 +64,54 @@ class traeger:
         #_LOGGER.info(f"do_cognito self.password:{self.password}")
         _LOGGER.info(f"do_cognito self.username:{self.username}")
         _LOGGER.info(f"do_cognito CLIENT_ID:{CLIENT_ID}")
-        return await self.api_wrapper("post", "https://cognito-idp.us-west-2.amazonaws.com/",
-                                      data={
-                                              "ClientMetadata": {},
-                                              "AuthParameters": {
-                                                  "PASSWORD": self.password,
-                                                  "USERNAME": self.username,
-                                              },
-                                          "AuthFlow": "USER_PASSWORD_AUTH",
-                                          "ClientId": CLIENT_ID
-                                      },
-                                      headers={'Content-Type': 'application/x-amz-json-1.1',
-                                               'X-Amz-Date': amzdate,
-                                               'X-Amz-Target': 'AWSCognitoIdentityProviderService.InitiateAuth'})
+        return await self.api_wrapper(
+            "post",
+            "https://cognito-idp.us-west-2.amazonaws.com/",
+            data={
+                "ClientMetadata": {},
+                "AuthParameters": {
+                    "PASSWORD": self.password,
+                    "USERNAME": self.username,
+                },
+                "AuthFlow": "USER_PASSWORD_AUTH",
+                "ClientId": CLIENT_ID
+            },
+            headers={
+                'Content-Type': 'application/x-amz-json-1.1',
+                'X-Amz-Date': amzdate,
+                'X-Amz-Target': 'AWSCognitoIdentityProviderService.InitiateAuth'
+            })
 
     async def refresh_token(self):
         if self.token_remaining() < 60:
             request_time = time.time()
             response = await self.do_cognito()
-            self.token_expires = response["AuthenticationResult"]["ExpiresIn"] + request_time
+            self.token_expires = response["AuthenticationResult"][
+                "ExpiresIn"] + request_time
             self.token = response["AuthenticationResult"]["IdToken"]
 
     async def get_user_data(self):
         await self.refresh_token()
-        return await self.api_wrapper("get", "https://1ywgyc65d1.execute-api.us-west-2.amazonaws.com/prod/users/self",
-                                   headers={'authorization': self.token})
+        return await self.api_wrapper(
+            "get",
+            "https://1ywgyc65d1.execute-api.us-west-2.amazonaws.com/prod/users/self",
+            headers={'authorization': self.token})
 
     async def send_command(self, thingName, command):
-        _LOGGER.debug("Send Command Topic: %s, Send Command: %s", thingName, command)
+        _LOGGER.debug("Send Command Topic: %s, Send Command: %s", thingName,
+                      command)
         await self.refresh_token()
-        await self.api_wrapper("post_raw", "https://1ywgyc65d1.execute-api.us-west-2.amazonaws.com/prod/things/{}/commands".format(thingName),
-                               data={
-            'command': command
-        },
+        await self.api_wrapper(
+            "post_raw",
+            "https://1ywgyc65d1.execute-api.us-west-2.amazonaws.com/prod/things/{}/commands"
+            .format(thingName),
+            data={'command': command},
             headers={
-            'Authorization': self.token,
-            "Content-Type": "application/json",
-            "Accept-Language": "en-us",
-            "User-Agent": "Traeger/11 CFNetwork/1209 Darwin/20.2.0",
-        })
+                'Authorization': self.token,
+                "Content-Type": "application/json",
+                "Accept-Language": "en-us",
+                "User-Agent": "Traeger/11 CFNetwork/1209 Darwin/20.2.0",
+            })
 
     async def update_state(self, thingName):
         await self.send_command(thingName, "90")
@@ -134,7 +143,7 @@ class traeger:
             self.grill_callbacks[grill_id] = []
         self.grill_callbacks[grill_id].append(callback)
 
-    async def grill_callback(self,grill_id):
+    async def grill_callback(self, grill_id):
         for callback in self.grill_callbacks[grill_id]:
             callback()
 
@@ -146,8 +155,10 @@ class traeger:
         if self.mqtt_url_remaining() < 60:
             try:
                 mqtt_request_time = time.time()
-                json = await self.api_wrapper("post", "https://1ywgyc65d1.execute-api.us-west-2.amazonaws.com/prod/mqtt-connections",
-                                           headers={'Authorization': self.token})
+                json = await self.api_wrapper(
+                    "post",
+                    "https://1ywgyc65d1.execute-api.us-west-2.amazonaws.com/prod/mqtt-connections",
+                    headers={'Authorization': self.token})
                 self.mqtt_url_expires = json["expirationSeconds"] + \
                     mqtt_request_time
                 self.mqtt_url = json["signedUrl"]
@@ -163,7 +174,8 @@ class traeger:
                     json,
                     exception,
                 )
-        _LOGGER.debug(f"MQTT URL:{self.mqtt_url} Expires @:{self.mqtt_url_expires}")
+        _LOGGER.debug(
+            f"MQTT URL:{self.mqtt_url} Expires @:{self.mqtt_url_expires}")
 
     def _mqtt_connect_func(self):
         if self.mqtt_client != None:
@@ -172,7 +184,9 @@ class traeger:
                 self.mqtt_client_inloop = True
                 self.mqtt_client.loop_forever()
                 self.mqtt_client_inloop = False
-                while (self.mqtt_url_remaining() < 60 or self.mqtt_thread_refreshing) and self.mqtt_thread_running:
+                while (self.mqtt_url_remaining() < 60 or
+                       self.mqtt_thread_refreshing
+                      ) and self.mqtt_thread_running:
                     time.sleep(1)
         _LOGGER.debug(f"Should be the end of the thread.")
 
@@ -187,9 +201,9 @@ class traeger:
             self.mqtt_client.on_connect_fail = self.mqtt_onconnectfail
             self.mqtt_client.on_subscribe = self.mqtt_onsubscribe
             self.mqtt_client.on_message = self.mqtt_onmessage
-            if _LOGGER.level <= 10:                                     #Add these callbacks only if our logging is Debug or less.
+            if _LOGGER.level <= 10:  #Add these callbacks only if our logging is Debug or less.
                 self.mqtt_client.enable_logger(_LOGGER)
-                self.mqtt_client.on_publish = self.mqtt_onpublish       #We dont Publish to MQTT
+                self.mqtt_client.on_publish = self.mqtt_onpublish  #We dont Publish to MQTT
                 self.mqtt_client.on_unsubscribe = self.mqtt_onunsubscribe
                 self.mqtt_client.on_disconnect = self.mqtt_ondisconnect
                 self.mqtt_client.on_socket_open = self.mqtt_onsocketopen
@@ -206,7 +220,8 @@ class traeger:
             "Host": "{0:s}".format(mqtt_parts.netloc),
         }
         self.mqtt_client.ws_set_options(path="{}?{}".format(
-        mqtt_parts.path, mqtt_parts.query), headers=headers)     
+            mqtt_parts.path, mqtt_parts.query),
+                                        headers=headers)
         _LOGGER.info(f"Thread Active Count:{threading.active_count()}")
         self.mqtt_client.connect(mqtt_parts.netloc, 443, keepalive=300)
         if self.mqtt_thread_running == False:
@@ -215,60 +230,96 @@ class traeger:
             self.mqtt_thread.start()
 
 #===========================Paho MQTT Functions=======================================================
+
     def mqtt_onlog(self, client, userdata, level, buf):
-        _LOGGER.debug(f"OnLog Callback. Client:{client} userdata:{userdata} level:{level} buf:{buf}")
+        _LOGGER.debug(
+            f"OnLog Callback. Client:{client} userdata:{userdata} level:{level} buf:{buf}"
+        )
+
     def mqtt_onconnect(self, client, userdata, flags, rc):
         _LOGGER.info("Grill Connected")
         for grill in self.grills:
             grill_id = grill["thingName"]
             if grill_id in self.grill_status:
                 del self.grill_status[grill_id]
-            client.subscribe(
-                ("prod/thing/update/{}".format(grill_id), 1))
+            client.subscribe(("prod/thing/update/{}".format(grill_id), 1))
+
     def mqtt_onconnectfail(self, client, userdata):
-        _LOGGER.debug(f"Connect Fail Callback. Client:{client} userdata:{userdata}")
+        _LOGGER.debug(
+            f"Connect Fail Callback. Client:{client} userdata:{userdata}")
         _LOGGER.warning("Grill Connect Failed! MQTT Client Kill.")
-        self.hass.async_create_task(self.kill())                    #Shutdown if we arn't getting anywhere.
+        self.hass.async_create_task(
+            self.kill())  #Shutdown if we arn't getting anywhere.
+
     def mqtt_onsubscribe(self, client, userdata, mid, granted_qos):
-        _LOGGER.debug(f"OnSubscribe Callback. Client:{client} userdata:{userdata} mid:{mid} granted_qos:{granted_qos}")
+        _LOGGER.debug(
+            f"OnSubscribe Callback. Client:{client} userdata:{userdata} mid:{mid} granted_qos:{granted_qos}"
+        )
         for grill in self.grills:
             grill_id = grill["thingName"]
             if grill_id in self.grill_status:
                 del self.grill_status[grill_id]
             #self.update_state(grill_id)
             self.hass.async_create_task(self.update_state(grill_id))
+
     def mqtt_onmessage(self, client, userdata, message):
-        _LOGGER.debug("grill_message: message.topic = %s, message.payload = %s", message.topic, message.payload)
-        _LOGGER.info(f"Token Time Remaining:{self.token_remaining()} MQTT Time Remaining:{self.mqtt_url_remaining()}")
+        _LOGGER.debug("grill_message: message.topic = %s, message.payload = %s",
+                      message.topic, message.payload)
+        _LOGGER.info(
+            f"Token Time Remaining:{self.token_remaining()} MQTT Time Remaining:{self.mqtt_url_remaining()}"
+        )
         if message.topic.startswith("prod/thing/update/"):
             grill_id = message.topic[len("prod/thing/update/"):]
             self.grill_status[grill_id] = json.loads(message.payload)
             if grill_id in self.grill_callbacks:
                 for callback in self.grill_callbacks[grill_id]:
                     callback()
-            if self.grills_active == False:                         #Go see if any grills are doing work.
-                for grill in self.grills:                           #If nobody is working next MQTT refresh
-                    grill_id = grill["thingName"]                   #It'll call kill.
+            if self.grills_active == False:  #Go see if any grills are doing work.
+                for grill in self.grills:  #If nobody is working next MQTT refresh
+                    grill_id = grill["thingName"]  #It'll call kill.
                     state = self.get_state_for_device(grill_id)
                     if state == None:
                         return
                     if state["connected"]:
                         if 4 <= state["system_status"] <= 8:
                             self.grills_active = True
+
     def mqtt_onpublish(self, client, userdata, mid):
-        _LOGGER.debug(f"OnPublish Callback. Client:{client} userdata:{userdata} mid:{mid}")
+        _LOGGER.debug(
+            f"OnPublish Callback. Client:{client} userdata:{userdata} mid:{mid}"
+        )
+
     def mqtt_onunsubscribe(self, client, userdata, mid):
-        _LOGGER.debug(f"OnUnsubscribe Callback. Client:{client} userdata:{userdata} mid:{mid}")
+        _LOGGER.debug(
+            f"OnUnsubscribe Callback. Client:{client} userdata:{userdata} mid:{mid}"
+        )
+
     def mqtt_ondisconnect(self, client, userdata, rc):
-        _LOGGER.debug(f"OnDisconnect Callback. Client:{client} userdata:{userdata} rc:{rc}")
+        _LOGGER.debug(
+            f"OnDisconnect Callback. Client:{client} userdata:{userdata} rc:{rc}"
+        )
+
     def mqtt_onsocketopen(self, client, userdata, sock):
-        _LOGGER.debug(f"Sock.Open.Report...Client: {client} UserData: {userdata} Sock: {sock}")
+        _LOGGER.debug(
+            f"Sock.Open.Report...Client: {client} UserData: {userdata} Sock: {sock}"
+        )
+
     def mqtt_onsocketclose(self, client, userdata, sock):
-        _LOGGER.debug(f"Sock.Clse.Report...Client: {client} UserData: {userdata} Sock: {sock}")
+        _LOGGER.debug(
+            f"Sock.Clse.Report...Client: {client} UserData: {userdata} Sock: {sock}"
+        )
+
     def mqtt_onsocketregisterwrite(self, client, userdata, sock):
-        _LOGGER.debug(f"Sock.Regi.Write....Client: {client} UserData: {userdata} Sock: {sock}")
+        _LOGGER.debug(
+            f"Sock.Regi.Write....Client: {client} UserData: {userdata} Sock: {sock}"
+        )
+
     def mqtt_onsocketunregisterwrite(self, client, userdata, sock):
-        _LOGGER.debug(f"Sock.UnRg.Write....Client: {client} UserData: {userdata} Sock: {sock}")
+        _LOGGER.debug(
+            f"Sock.UnRg.Write....Client: {client} UserData: {userdata} Sock: {sock}"
+        )
+
+
 #===========================/Paho MQTT Functions=======================================================
 
     def get_state_for_device(self, thingName):
@@ -331,7 +382,9 @@ class traeger:
 
     async def main(self):
         _LOGGER.debug(f"Current Main Loop Time: {time.time()}")
-        _LOGGER.debug(f"MQTT Logger Token Time Remaining:{self.token_remaining()} MQTT Time Remaining:{self.mqtt_url_remaining()}")
+        _LOGGER.debug(
+            f"MQTT Logger Token Time Remaining:{self.token_remaining()} MQTT Time Remaining:{self.mqtt_url_remaining()}"
+        )
         if self.mqtt_url_remaining() < 60:
             self.mqtt_thread_refreshing = True
             if self.mqtt_thread_running:
@@ -350,24 +403,29 @@ class traeger:
             _LOGGER.info(f"Killing Task")
             _LOGGER.debug(f"Task Info: {self.task}")
             self.task.cancel()
-            _LOGGER.debug(f"Task Info: {self.task} TaskCancelled Status: {self.task.cancelled()}")
+            _LOGGER.debug(
+                f"Task Info: {self.task} TaskCancelled Status: {self.task.cancelled()}"
+            )
             self.task = None
             self.mqtt_thread_running = False
             self.mqtt_client.disconnect()
-            while self.mqtt_client_inloop:                  #Wait for disconnect to finish
+            while self.mqtt_client_inloop:  #Wait for disconnect to finish
                 await asyncio.sleep(0.25)
             self.mqtt_url_expires = time.time()
-            for grill in self.grills:                       #Mark the grill(s) disconnected so they report unavail.
-                grill_id = grill["thingName"]               #Also hit the callbacks to update HA
+            for grill in self.grills:  #Mark the grill(s) disconnected so they report unavail.
+                grill_id = grill[
+                    "thingName"]  #Also hit the callbacks to update HA
                 self.grill_status[grill_id]["status"]["connected"] = False
                 for callback in self.grill_callbacks[grill_id]:
                     callback()
         else:
             _LOGGER.info(f"Task Already Dead")
 
-    async def api_wrapper(
-        self, method: str, url: str, data: dict = {}, headers: dict = {}
-    ) -> dict:
+    async def api_wrapper(self,
+                          method: str,
+                          url: str,
+                          data: dict = {},
+                          headers: dict = {}) -> dict:
         """Get information from the API."""
         try:
             async with async_timeout.timeout(TIMEOUT):
@@ -377,10 +435,12 @@ class traeger:
                     return json.loads(data)
 
                 if method == "post_raw":
-                     await self.request.post(url, headers=headers, json=data)
+                    await self.request.post(url, headers=headers, json=data)
 
                 elif method == "post":
-                    response = await self.request.post(url, headers=headers, json=data)
+                    response = await self.request.post(url,
+                                                       headers=headers,
+                                                       json=data)
                     data = await response.read()
                     return json.loads(data)
 

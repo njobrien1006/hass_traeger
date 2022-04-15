@@ -27,12 +27,29 @@ async def async_setup_entry(hass, entry, async_add_devices):
     grills = client.get_grills()
     for grill in grills:
         grill_id = grill["thingName"]
-        async_add_devices([PelletSensor(client, grill["thingName"], "Pellet Level", "pellet_level")])
-        async_add_devices([ValueTemperature(client, grill["thingName"], "Ambient Temperature", "ambient")])
-        async_add_devices([GrillTimer(client, grill["thingName"], "Cook Timer Start", "cook_timer_start")])
-        async_add_devices([GrillTimer(client, grill["thingName"], "Cook Timer End", "cook_timer_end")])
-        async_add_devices([GrillState(client, grill["thingName"], "Grill State", "grill_state")])
-        async_add_devices([HeatingState(client, grill["thingName"], "Heating State", "heating_state")])
+        async_add_devices([
+            PelletSensor(client, grill["thingName"], "Pellet Level",
+                         "pellet_level")
+        ])
+        async_add_devices([
+            ValueTemperature(client, grill["thingName"], "Ambient Temperature",
+                             "ambient")
+        ])
+        async_add_devices([
+            GrillTimer(client, grill["thingName"], "Cook Timer Start",
+                       "cook_timer_start")
+        ])
+        async_add_devices([
+            GrillTimer(client, grill["thingName"], "Cook Timer End",
+                       "cook_timer_end")
+        ])
+        async_add_devices([
+            GrillState(client, grill["thingName"], "Grill State", "grill_state")
+        ])
+        async_add_devices([
+            HeatingState(client, grill["thingName"], "Heating State",
+                         "heating_state")
+        ])
         TraegerGrillMonitor(client, grill_id, async_add_devices, ProbeState)
 
 
@@ -95,7 +112,8 @@ class PelletSensor(TraegerBaseSensor):
         if self.grill_features is None:
             return False
         else:
-            return True if self.grill_features["pellet_sensor_connected"] == 1 else False
+            return True if self.grill_features[
+                "pellet_sensor_connected"] == 1 else False
 
     @property
     def icon(self):
@@ -156,7 +174,7 @@ class GrillState(TraegerBaseSensor):
         elif state == GRILL_MODE_SHUTDOWN:
             return "shutdown"
         else:
-            return "unknown"    # Likely a new state we don't know about
+            return "unknown"  # Likely a new state we don't know about
 
 
 class HeatingState(TraegerBaseSensor):
@@ -187,9 +205,8 @@ class HeatingState(TraegerBaseSensor):
         grill_mode = self.grill_state["system_status"]
         current_temp = self.grill_state["grill"]
         target_changed = True if target_temp != self.previous_target_temp else False
-        min_cook_temp = (
-            GRILL_MIN_TEMP_C if self.grill_units == TEMP_CELSIUS else GRILL_MIN_TEMP_F
-        )
+        min_cook_temp = (GRILL_MIN_TEMP_C if self.grill_units == TEMP_CELSIUS
+                         else GRILL_MIN_TEMP_F)
         temp_swing = 11 if self.grill_units == TEMP_CELSIUS else 20
         low_temp = target_temp - temp_swing
         high_temp = target_temp + temp_swing
@@ -250,22 +267,27 @@ class HeatingState(TraegerBaseSensor):
 class ProbeState(TraegerBaseSensor):
 
     def __init__(self, client, grill_id, sensor_id):
-        super().__init__(client, grill_id, f"Probe State {sensor_id}", f"probe_state_{sensor_id}")
+        super().__init__(client, grill_id, f"Probe State {sensor_id}",
+                         f"probe_state_{sensor_id}")
         self.sensor_id = sensor_id
-        self.grill_accessory = self.client.get_details_for_accessory(self.grill_id, self.sensor_id)
+        self.grill_accessory = self.client.get_details_for_accessory(
+            self.grill_id, self.sensor_id)
         self.previous_target_temp = None
         self.probe_alarm = False
-        self.active_modes = [GRILL_MODE_PREHEATING, GRILL_MODE_IGNITING, GRILL_MODE_CUSTOM_COOK, GRILL_MODE_MANUAL_COOK]
+        self.active_modes = [
+            GRILL_MODE_PREHEATING, GRILL_MODE_IGNITING, GRILL_MODE_CUSTOM_COOK,
+            GRILL_MODE_MANUAL_COOK
+        ]
 
         # Tell the Traeger client to call grill_update() when it gets an update
-        self.client.set_callback_for_grill(self.grill_id, self.grill_accessory_update)
+        self.client.set_callback_for_grill(self.grill_id,
+                                           self.grill_accessory_update)
 
     def grill_accessory_update(self):
         """This gets called when the grill has an update. Update state variable"""
         self.grill_refresh_state()
         self.grill_accessory = self.client.get_details_for_accessory(
-            self.grill_id, self.sensor_id
-        )
+            self.grill_id, self.sensor_id)
 
         if self.hass is None:
             return

@@ -40,6 +40,7 @@ async def async_setup(hass: HomeAssistant, config: Config):
     """Set up this integration using YAML is not supported."""
     return True
 
+
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up this integration using UI."""
     if hass.data.get(DOMAIN) is None:
@@ -51,7 +52,6 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     session = async_get_clientsession(hass)
 
-
     client = traeger(username, password, hass, session)
 
     await client.start(30)
@@ -60,8 +60,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     for platform in PLATFORMS:
         if entry.options.get(platform, True):
             hass.async_add_job(
-                hass.config_entries.async_forward_entry_setup(entry, platform)
-            )
+                hass.config_entries.async_forward_entry_setup(entry, platform))
+
     async def async_shutdown(event: Event):
         """Shut down the client."""
         await client.kill()
@@ -70,17 +70,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     entry.add_update_listener(async_reload_entry)
     return True
 
+
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Handle removal of an entry."""
     client = hass.data[DOMAIN][entry.entry_id]
-    unloaded = all(
-        await asyncio.gather(
-            *[
-                hass.config_entries.async_forward_entry_unload(entry, platform)
-                for platform in PLATFORMS
-            ]
-        )
-    )
+    unloaded = all(await asyncio.gather(*[
+        hass.config_entries.async_forward_entry_unload(entry, platform)
+        for platform in PLATFORMS
+    ]))
     await client.kill()
     if unloaded:
         hass.data[DOMAIN].pop(entry.entry_id)
