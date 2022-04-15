@@ -18,6 +18,7 @@ jobs:
 
         - name: Hassfest validation
           uses: "home-assistant/actions/hassfest@master"
+          
   autoyapf:
     runs-on: ubuntu-latest
     steps:
