@@ -8,17 +8,32 @@ from .const import (
 
 from .entity import TraegerBaseEntity
 
+
 async def async_setup_entry(hass, entry, async_add_devices):
     """Setup Binary Sensor platform."""
     client = hass.data[DOMAIN][entry.entry_id]
     grills = client.get_grills()
     for grill in grills:
         grill_id = grill["thingName"]
-        async_add_devices([zTimer(client, grill["thingName"], "Cook Timer Complete", "cook_timer_complete")])
-        async_add_devices([zProbe(client, grill["thingName"], "Probe Alarm Fired", "probe_alarm_fired")])
+        async_add_devices(
+            [
+                zTimer(
+                    client, grill["thingName"], "Cook Timer Complete",
+                    "cook_timer_complete"
+                )
+            ]
+        )
+        async_add_devices(
+            [
+                zProbe(
+                    client, grill["thingName"], "Probe Alarm Fired",
+                    "probe_alarm_fired"
+                )
+            ]
+        )
+
 
 class TraegerBaseSensor(TraegerBaseEntity):
-
     def __init__(self, client, grill_id, friendly_name, value):
         super().__init__(client, grill_id)
         self.value = value
@@ -51,6 +66,7 @@ class TraegerBaseSensor(TraegerBaseEntity):
     def state(self):
         return self.grill_state[self.value]
 
+
 class zTimer(TraegerBaseSensor):
     """Traeger Binary class."""
 
@@ -58,6 +74,7 @@ class zTimer(TraegerBaseSensor):
     @property
     def icon(self):
         return "mdi:timer"
+
 
 class zProbe(TraegerBaseSensor):
     """Traeger Binary class."""
