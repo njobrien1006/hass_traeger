@@ -26,14 +26,4 @@ jobs:
     - name: run YAPF to test if python code is correctly formatted
       uses: AlexanderMelde/yapf-action@master
       with:
-        args: --verbose --style google --COLUMN_LIMIT 120
-  style:
-    runs-on: "ubuntu-latest"
-    name: Check style formatting
-    steps:
-        - uses: "actions/checkout@v2"
-        - uses: "actions/setup-python@v1"
-          with:
-            python-version: "3.x"
-        - run: python3 -m pip install black
-        - run: black .
+        args: --verbose --style google
