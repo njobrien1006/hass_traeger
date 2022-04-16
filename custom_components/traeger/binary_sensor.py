@@ -2,8 +2,7 @@
 # from homeassistant.helpers.entity import Entity
 
 from .const import (
-    DOMAIN,
-)
+    DOMAIN,)
 
 from .entity import TraegerBaseEntity
 
@@ -19,8 +18,7 @@ async def async_setup_entry(hass, entry, async_add_devices):
                    "cook_timer_complete")
         ])
         async_add_devices([
-            zProbe(client, grill_id, "Probe Alarm Fired",
-                   "probe_alarm_fired")
+            zProbe(client, grill_id, "Probe Alarm Fired", "probe_alarm_fired")
         ])
 
 
