@@ -317,8 +317,10 @@ class traeger:
         _LOGGER.debug(
             f"Sock.UnRg.Write....Client: {client} UserData: {userdata} Sock: {sock}"
         )
-        
+
+
 # ===========================/Paho MQTT Functions=======================================================
+
     def get_state_for_device(self, thingName):
         if thingName not in self.grill_status:
             return None
