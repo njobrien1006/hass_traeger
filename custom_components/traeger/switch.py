@@ -25,10 +25,8 @@ async def async_setup_entry(hass, entry, async_add_devices):
             TraegerSwitchEntity(client, grill_id, "keepwarm",
                                 "Keep Warm Enabled", "mdi:beach", 18, 19)
         ])
-        async_add_devices([
-            TraegerConnectEntity(client, grill_id, "connect",
-                                 "Connect")
-        ])
+        async_add_devices(
+            [TraegerConnectEntity(client, grill_id, "connect", "Connect")])
 
 
 class TraegerBaseSwitch(SwitchEntity, TraegerBaseEntity):
