@@ -10,9 +10,7 @@ import logging
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import Config, HomeAssistant, Event
-from homeassistant.exceptions import ConfigEntryNotReady
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
-from homeassistant.helpers.update_coordinator import DataUpdateCoordinator, UpdateFailed
 
 from .traeger import traeger
 
@@ -26,9 +24,6 @@ from .const import (
 
 from homeassistant.const import (
     EVENT_HOMEASSISTANT_STOP,
-    EVENT_STATE_CHANGED,
-    STATE_UNAVAILABLE,
-    STATE_UNKNOWN,
 )
 
 SCAN_INTERVAL = timedelta(seconds=30)
