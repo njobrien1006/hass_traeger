@@ -1,9 +1,8 @@
 """Sensor platform for Traeger."""
-from homeassistant.helpers.entity import Entity
-from homeassistant.const import ATTR_TEMPERATURE, TEMP_CELSIUS, TEMP_FAHRENHEIT
+# from homeassistant.helpers.entity import Entity
+from homeassistant.const import TEMP_CELSIUS
 
 from .const import (
-    DEFAULT_NAME,
     DOMAIN,
     GRILL_MODE_OFFLINE,
     GRILL_MODE_COOL_DOWN,
