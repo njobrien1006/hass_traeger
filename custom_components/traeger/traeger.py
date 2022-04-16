@@ -431,7 +431,6 @@ class traeger:
 
                 if method == "post_raw":
                     await self.request.post(url, headers=headers, json=data)
-                    return None
 
                 elif method == "post":
                     response = await self.request.post(url,
@@ -446,21 +445,17 @@ class traeger:
                 url,
                 exception,
             )
-            return None
         except (KeyError, TypeError) as exception:
             _LOGGER.error(
                 "Error parsing information from %s - %s",
                 url,
                 exception,
             )
-            return None
         except (aiohttp.ClientError, socket.gaierror) as exception:
             _LOGGER.error(
                 "Error fetching information from %s - %s",
                 url,
                 exception,
             )
-            return None
         except Exception as exception:  # pylint: disable=broad-except
             _LOGGER.error("Something really wrong happend! - %s", exception)
-            return None
