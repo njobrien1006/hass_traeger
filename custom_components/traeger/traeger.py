@@ -10,7 +10,6 @@ Please see the LICENSE file that should have been included as part of this packa
 import time
 import ssl
 import paho.mqtt.client as mqtt
-import requests
 import uuid
 import urllib
 import json
@@ -61,7 +60,7 @@ class traeger:
         amzdate = t.strftime('%Y%m%dT%H%M%SZ')
         _LOGGER.info(f"do_cognito t:{t}")
         _LOGGER.info(f"do_cognito amzdate:{amzdate}")
-        #_LOGGER.info(f"do_cognito self.password:{self.password}")
+        # _LOGGER.info(f"do_cognito self.password:{self.password}")
         _LOGGER.info(f"do_cognito self.username:{self.username}")
         _LOGGER.info(f"do_cognito CLIENT_ID:{CLIENT_ID}")
         return await self.api_wrapper(
@@ -178,32 +177,31 @@ class traeger:
             f"MQTT URL:{self.mqtt_url} Expires @:{self.mqtt_url_expires}")
 
     def _mqtt_connect_func(self):
-        if self.mqtt_client != None:
-            _LOGGER.debug(f"Start MQTT Loop Forever")
+        if self.mqtt_client is not None:
+            _LOGGER.debug("Start MQTT Loop Forever")
             while self.mqtt_thread_running:
                 self.mqtt_client_inloop = True
                 self.mqtt_client.loop_forever()
                 self.mqtt_client_inloop = False
                 while (self.mqtt_url_remaining() < 60 or
-                       self.mqtt_thread_refreshing
-                      ) and self.mqtt_thread_running:
+                       self.mqtt_thread_refreshing) and self.mqtt_thread_running:
                     time.sleep(1)
-        _LOGGER.debug(f"Should be the end of the thread.")
+        _LOGGER.debug("Should be the end of the thread.")
 
     async def get_mqtt_client(self):
         await self.refresh_mqtt_url()
-        if self.mqtt_client != None:
-            _LOGGER.debug(f"ReInit Client")
+        if self.mqtt_client is not None:
+            _LOGGER.debug("ReInit Client")
         else:
             self.mqtt_client = mqtt.Client(transport="websockets")
-            #self.mqtt_client.on_log = self.mqtt_onlog                  #logging passed via enable_logger this would be redundant.
+            #self.mqtt_client.on_log = self.mqtt_onlog                  # logging passed via enable_logger this would be redundant.
             self.mqtt_client.on_connect = self.mqtt_onconnect
             self.mqtt_client.on_connect_fail = self.mqtt_onconnectfail
             self.mqtt_client.on_subscribe = self.mqtt_onsubscribe
             self.mqtt_client.on_message = self.mqtt_onmessage
-            if _LOGGER.level <= 10:  #Add these callbacks only if our logging is Debug or less.
+            if _LOGGER.level <= 10:  # Add these callbacks only if our logging is Debug or less.
                 self.mqtt_client.enable_logger(_LOGGER)
-                self.mqtt_client.on_publish = self.mqtt_onpublish  #We dont Publish to MQTT
+                self.mqtt_client.on_publish = self.mqtt_onpublish  # We dont Publish to MQTT
                 self.mqtt_client.on_unsubscribe = self.mqtt_onunsubscribe
                 self.mqtt_client.on_disconnect = self.mqtt_ondisconnect
                 self.mqtt_client.on_socket_open = self.mqtt_onsocketopen
@@ -220,16 +218,16 @@ class traeger:
             "Host": "{0:s}".format(mqtt_parts.netloc),
         }
         self.mqtt_client.ws_set_options(path="{}?{}".format(
-            mqtt_parts.path, mqtt_parts.query),
+                                        mqtt_parts.path, mqtt_parts.query),
                                         headers=headers)
         _LOGGER.info(f"Thread Active Count:{threading.active_count()}")
         self.mqtt_client.connect(mqtt_parts.netloc, 443, keepalive=300)
-        if self.mqtt_thread_running == False:
+        if self.mqtt_thread_running is False:
             self.mqtt_thread = threading.Thread(target=self._mqtt_connect_func)
             self.mqtt_thread_running = True
             self.mqtt_thread.start()
 
-#===========================Paho MQTT Functions=======================================================
+# ===========================Paho MQTT Functions=======================================================
 
     def mqtt_onlog(self, client, userdata, level, buf):
         _LOGGER.debug(
@@ -249,7 +247,7 @@ class traeger:
             f"Connect Fail Callback. Client:{client} userdata:{userdata}")
         _LOGGER.warning("Grill Connect Failed! MQTT Client Kill.")
         self.hass.async_create_task(
-            self.kill())  #Shutdown if we arn't getting anywhere.
+            self.kill())  # Shutdown if we arn't getting anywhere.
 
     def mqtt_onsubscribe(self, client, userdata, mid, granted_qos):
         _LOGGER.debug(
@@ -259,7 +257,7 @@ class traeger:
             grill_id = grill["thingName"]
             if grill_id in self.grill_status:
                 del self.grill_status[grill_id]
-            #self.update_state(grill_id)
+            # self.update_state(grill_id)
             self.hass.async_create_task(self.update_state(grill_id))
 
     def mqtt_onmessage(self, client, userdata, message):
@@ -274,11 +272,11 @@ class traeger:
             if grill_id in self.grill_callbacks:
                 for callback in self.grill_callbacks[grill_id]:
                     callback()
-            if self.grills_active == False:  #Go see if any grills are doing work.
-                for grill in self.grills:  #If nobody is working next MQTT refresh
-                    grill_id = grill["thingName"]  #It'll call kill.
+            if self.grills_active == False:  # Go see if any grills are doing work.
+                for grill in self.grills:  # If nobody is working next MQTT refresh
+                    grill_id = grill["thingName"]  # It'll call kill.
                     state = self.get_state_for_device(grill_id)
-                    if state == None:
+                    if state is None:
                         return
                     if state["connected"]:
                         if 4 <= state["system_status"] <= 8:
@@ -319,9 +317,7 @@ class traeger:
             f"Sock.UnRg.Write....Client: {client} UserData: {userdata} Sock: {sock}"
         )
 
-
-#===========================/Paho MQTT Functions=======================================================
-
+# ===========================/Paho MQTT Functions=======================================================
     def get_state_for_device(self, thingName):
         if thingName not in self.grill_status:
             return None
@@ -377,7 +373,7 @@ class traeger:
         self.task = self.loop.call_later(delay, self.syncmain)
 
     def syncmain(self):
-        _LOGGER.debug(f"@Call_Later SyncMain CreatingTask for async Main.")
+        _LOGGER.debug("@Call_Later SyncMain CreatingTask for async Main.")
         self.hass.async_create_task(self.main())
 
     async def main(self):
@@ -400,7 +396,7 @@ class traeger:
 
     async def kill(self):
         if self.mqtt_thread_running:
-            _LOGGER.info(f"Killing Task")
+            _LOGGER.info("Killing Task")
             _LOGGER.debug(f"Task Info: {self.task}")
             self.task.cancel()
             _LOGGER.debug(
@@ -409,17 +405,17 @@ class traeger:
             self.task = None
             self.mqtt_thread_running = False
             self.mqtt_client.disconnect()
-            while self.mqtt_client_inloop:  #Wait for disconnect to finish
+            while self.mqtt_client_inloop:  # Wait for disconnect to finish
                 await asyncio.sleep(0.25)
             self.mqtt_url_expires = time.time()
-            for grill in self.grills:  #Mark the grill(s) disconnected so they report unavail.
+            for grill in self.grills:  # Mark the grill(s) disconnected so they report unavail.
                 grill_id = grill[
-                    "thingName"]  #Also hit the callbacks to update HA
+                    "thingName"]  # Also hit the callbacks to update HA
                 self.grill_status[grill_id]["status"]["connected"] = False
                 for callback in self.grill_callbacks[grill_id]:
                     callback()
         else:
-            _LOGGER.info(f"Task Already Dead")
+            _LOGGER.info("Task Already Dead")
 
     async def api_wrapper(self,
                           method: str,
