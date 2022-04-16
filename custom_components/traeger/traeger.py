@@ -445,18 +445,21 @@ class traeger:
                 url,
                 exception,
             )
-
+            return
         except (KeyError, TypeError) as exception:
             _LOGGER.error(
                 "Error parsing information from %s - %s",
                 url,
                 exception,
             )
+            return
         except (aiohttp.ClientError, socket.gaierror) as exception:
             _LOGGER.error(
                 "Error fetching information from %s - %s",
                 url,
                 exception,
             )
+            return
         except Exception as exception:  # pylint: disable=broad-except
             _LOGGER.error("Something really wrong happend! - %s", exception)
+            return
