@@ -183,11 +183,9 @@ class traeger:
                 self.mqtt_client_inloop = True
                 self.mqtt_client.loop_forever()
                 self.mqtt_client_inloop = False
-                while (
-                          (self.mqtt_url_remaining() < 60 or
-                          self.mqtt_thread_refreshing
-                          ) 
-                    and self.mqtt_thread_running):
+                while ((self.mqtt_url_remaining() < 60 or
+                        self.mqtt_thread_refreshing) and
+                       self.mqtt_thread_running):
                     time.sleep(1)
         _LOGGER.debug("Should be the end of the thread.")
 
@@ -222,7 +220,7 @@ class traeger:
         }
         self.mqtt_client.ws_set_options(path="{}?{}".format(
             mqtt_parts.path, mqtt_parts.query),
-            headers=headers)
+                                        headers=headers)
         _LOGGER.info(f"Thread Active Count:{threading.active_count()}")
         self.mqtt_client.connect(mqtt_parts.netloc, 443, keepalive=300)
         if self.mqtt_thread_running is False:
@@ -323,7 +321,6 @@ class traeger:
 
 # ===========================/Paho MQTT Functions=======================================================
 
-    
     def get_state_for_device(self, thingName):
         if thingName not in self.grill_status:
             return None
