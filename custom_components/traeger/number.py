@@ -4,6 +4,9 @@ from homeassistant.components.number import NumberEntity
 from homeassistant.helpers import entity_platform
 from homeassistant.helpers import config_validation as cv
 import logging
+from .const import (
+    DOMAIN,)
+from .entity import TraegerBaseEntity
 
 SERVICE_CUSTOMCOOK = "set_custom_cook"
 ENTITY_ID = "entity_id"
@@ -12,13 +15,7 @@ SCHEMA_CUSTOMCOOK = {
     vol.Required("steps", default=dict): list
 }
 
-from .const import (
-    DOMAIN,)
-
 _LOGGER: logging.Logger = logging.getLogger(__package__)
-
-from .entity import TraegerBaseEntity
-
 
 async def async_setup_entry(hass, entry, async_add_devices):
     """Setup Service platform."""
@@ -31,9 +28,9 @@ async def async_setup_entry(hass, entry, async_add_devices):
     for grill in grills:
         grill_id = grill["thingName"]
         async_add_devices(
-            [TraegerNumberEntity(client, grill["thingName"], "cook_timer")])
+            [TraegerNumberEntity(client, grill_id, "cook_timer")])
         async_add_devices([
-            CookCycNumberEntity(client, grill["thingName"], "cook_cycle", hass)
+            CookCycNumberEntity(client, grill_id, "cook_cycle", hass)
         ])
 
 
@@ -72,14 +69,14 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         if self.grill_state is None:
             return 0
         if self.num_value > len(self.cook_cycle):
-            _LOGGER.info(f"B.Cook Cycles out of indexes.")
+            _LOGGER.info("B.Cook Cycles out of indexes.")
             self.num_value = 0
         if self.num_value > 0 and not (4 <= self.grill_state["system_status"] <=
                                        6):
-            _LOGGER.info(f"Steps not available when not cooking. Revert to 0.")
+            _LOGGER.info("Steps not available when not cooking. Revert to 0.")
             self.num_value = 0
         ########################################################################
-        #Scan for next step advance
+        # Scan for next step advance
         if self.num_value > 0 and self.num_value == self.old_num_value:
             curstep = self.cook_cycle[self.num_value - 1]
             if "use_timer" in curstep:
@@ -95,7 +92,7 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                 if self.grill_state["probe"] > curstep["probe_act_temp_adv"]:
                     self.num_value = self.num_value + 1
             ####################################################################
-            #In step change
+            # In step change
             if "min_delta" in curstep and "max_grill_delta_temp" in curstep:
                 if curstep["max_grill_delta_temp"] > self.grill_limits[
                         "max_grill_temp"]:
@@ -109,8 +106,8 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                             self.client.set_temperature(self.grill_id,
                                                         round(set_temp)))
         ########################################################################
-        #Implement next step
-        if self.num_value > 0 and self.num_value != self.old_num_value:  #Only hit once per step.
+        # Implement next step
+        if self.num_value > 0 and self.num_value != self.old_num_value:  # Only hit once per step.
             curstep = self.cook_cycle[self.num_value - 1]
             if "time_set" in curstep:
                 self.hass.async_create_task(
@@ -152,7 +149,7 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
             self.old_num_value = self.num_value
         _LOGGER.debug(f"CookCycle Steps:{self.cook_cycle}")
         if self.num_value > len(self.cook_cycle):
-            _LOGGER.info(f"A.Cook Cycles out of indexes.")
+            _LOGGER.info("A.Cook Cycles out of indexes.")
             self.num_value = 0
         return self.num_value
 
@@ -167,7 +164,7 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
     @property
     def state_attributes(self):
         """Return the optional state attributes."""
-        #default_attributes = super().state_attributes
+        # default_attributes = super().state_attributes
         prev_step = {}
         curr_step = {}
         next_step = {}
@@ -192,14 +189,14 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
     async def async_set_value(self, value: float):
         """Set new Val and callback to update value above."""
         self.num_value = round(value)
-        #Need to call callback now so that it fires step #1 or commanded step immediatlly.
+        # Need to call callback now so that it fires step #1 or commanded step immediatlly.
         await self.client.grill_callback(self.grill_id)
 
     # Recieve Custom Cook Command
     def set_custom_cook(self, **kwargs):
         self.cook_cycle = kwargs["steps"]
         _LOGGER.info(f"Traeger: Set Cook Cycle:{self.cook_cycle}")
-        #Need to call callback now so that it fires state cust atrib update.
+        # Need to call callback now so that it fires state cust atrib update.
         self.hass.async_create_task(self.client.grill_callback(self.grill_id))
 
 
