@@ -54,7 +54,7 @@ jobs:
         mypy-flags: '--ignore-missing-imports --no-warn-no-return'
     - name: Check for modified files
       id: git-check
-      run: echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
+      run: echo ::set-output name=modified::$(if git diff-index --cached --quiet HEAD --; then echo "false"; else echo "true"; fi)
     - name: Push changes
       if: steps.git-check.outputs.modified == 'true'
       run: |
