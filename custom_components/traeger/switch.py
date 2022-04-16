@@ -17,16 +17,16 @@ async def async_setup_entry(hass, entry, async_add_devices):
     for grill in grills:
         grill_id = grill["thingName"]
         async_add_devices([
-            TraegerSuperSmokeEntity(client, grill["thingName"], "smoke",
+            TraegerSuperSmokeEntity(client, grill_id, "smoke",
                                     "Super Smoke Enabled", "mdi:weather-fog",
                                     20, 21)
         ])
         async_add_devices([
-            TraegerSwitchEntity(client, grill["thingName"], "keepwarm",
+            TraegerSwitchEntity(client, grill_id, "keepwarm",
                                 "Keep Warm Enabled", "mdi:beach", 18, 19)
         ])
         async_add_devices([
-            TraegerConnectEntity(client, grill["thingName"], "connect",
+            TraegerConnectEntity(client, grill_id, "connect",
                                  "Connect")
         ])
 
@@ -44,13 +44,13 @@ class TraegerBaseSwitch(SwitchEntity, TraegerBaseEntity):
     def name(self):
         """Return the name of the grill"""
         if self.grill_details is None:
-            return f"{self.grill_id}_{self.devname}"  #Returns EntID
+            return f"{self.grill_id}_{self.devname}"  # Returns EntID
         name = self.grill_details["friendlyName"]
-        return f"{name} {self.friendly_name}"  #Returns Friendly Name
+        return f"{name} {self.friendly_name}"  # Returns Friendly Name
 
     @property
     def unique_id(self):
-        return f"{self.grill_id}_{self.devname}"  #SeeminglyDoes Nothing?
+        return f"{self.grill_id}_{self.devname}"  # SeeminglyDoes Nothing?
 
 
 class TraegerConnectEntity(TraegerBaseSwitch):
