@@ -50,4 +50,4 @@ jobs:
     - name: linting
       uses: programmingwithalex/pylinter@v1.4.3  
       with:
-        mypy-flags: '--ignore-missing-imports'
+        mypy-flags: '--ignore-missing-imports --skip-mypy'
