@@ -228,7 +228,8 @@ class traeger:
             self.mqtt_thread_running = True
             self.mqtt_thread.start()
 
-    def mqtt_onlog(self, client, userdata, level, buf):  # Paho MQTT Functions==========================
+    def mqtt_onlog(self, client, userdata, level,
+                   buf):  # Paho MQTT Functions==========================
         _LOGGER.debug(
             f"OnLog Callback. Client:{client} userdata:{userdata} level:{level} buf:{buf}"
         )
