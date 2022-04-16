@@ -220,7 +220,7 @@ class traeger:
         }
         self.mqtt_client.ws_set_options(path="{}?{}".format(
             mqtt_parts.path, mqtt_parts.query),
-                                        headers=headers)
+                                        headers=headers)  # noqa: E126
         _LOGGER.info(f"Thread Active Count:{threading.active_count()}")
         self.mqtt_client.connect(mqtt_parts.netloc, 443, keepalive=300)
         if self.mqtt_thread_running is False:
