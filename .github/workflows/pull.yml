@@ -52,3 +52,14 @@ jobs:
       with:
         skip-mypy: true
         mypy-flags: '--ignore-missing-imports --no-warn-no-return'
+    - name: commit isort changes
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add -A && git diff-index --cached --quiet HEAD || git commit -m 'isort'
+
+    - name: push isort changes
+      uses: ad-m/github-push-action@v0.5.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.ref }}    
