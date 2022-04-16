@@ -1,7 +1,7 @@
 """TraegerBaseEntity class"""
 from homeassistant.helpers.entity import Entity
 
-from .const import DOMAIN, NAME, VERSION, ATTRIBUTION
+from .const import DOMAIN, NAME, ATTRIBUTION
 
 
 class TraegerBaseEntity(Entity):
