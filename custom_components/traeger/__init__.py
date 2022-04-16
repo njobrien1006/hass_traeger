@@ -23,8 +23,7 @@ from .const import (
 )
 
 from homeassistant.const import (
-    EVENT_HOMEASSISTANT_STOP,
-)
+    EVENT_HOMEASSISTANT_STOP,)
 
 SCAN_INTERVAL = timedelta(seconds=30)
 
