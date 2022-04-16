@@ -17,6 +17,7 @@ SCHEMA_CUSTOMCOOK = {
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
+
 async def async_setup_entry(hass, entry, async_add_devices):
     """Setup Service platform."""
     platform = entity_platform.current_platform.get()
@@ -27,11 +28,9 @@ async def async_setup_entry(hass, entry, async_add_devices):
     grills = client.get_grills()
     for grill in grills:
         grill_id = grill["thingName"]
+        async_add_devices([TraegerNumberEntity(client, grill_id, "cook_timer")])
         async_add_devices(
-            [TraegerNumberEntity(client, grill_id, "cook_timer")])
-        async_add_devices([
-            CookCycNumberEntity(client, grill_id, "cook_cycle", hass)
-        ])
+            [CookCycNumberEntity(client, grill_id, "cook_cycle", hass)])
 
 
 class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
