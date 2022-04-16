@@ -183,9 +183,11 @@ class traeger:
                 self.mqtt_client_inloop = True
                 self.mqtt_client.loop_forever()
                 self.mqtt_client_inloop = False
-                while (self.mqtt_url_remaining() < 60 or
-                       self.mqtt_thread_refreshing
-                      ) and self.mqtt_thread_running:
+                while (
+                          (self.mqtt_url_remaining() < 60 or
+                          self.mqtt_thread_refreshing
+                          ) 
+                    and self.mqtt_thread_running):
                     time.sleep(1)
         _LOGGER.debug("Should be the end of the thread.")
 
@@ -195,7 +197,7 @@ class traeger:
             _LOGGER.debug("ReInit Client")
         else:
             self.mqtt_client = mqtt.Client(transport="websockets")
-            #self.mqtt_client.on_log = self.mqtt_onlog                  # logging passed via enable_logger this would be redundant.
+            # self.mqtt_client.on_log = self.mqtt_onlog                  # logging passed via enable_logger this would be redundant.
             self.mqtt_client.on_connect = self.mqtt_onconnect
             self.mqtt_client.on_connect_fail = self.mqtt_onconnectfail
             self.mqtt_client.on_subscribe = self.mqtt_onsubscribe
@@ -220,7 +222,7 @@ class traeger:
         }
         self.mqtt_client.ws_set_options(path="{}?{}".format(
             mqtt_parts.path, mqtt_parts.query),
-                                        headers=headers)
+            headers=headers)
         _LOGGER.info(f"Thread Active Count:{threading.active_count()}")
         self.mqtt_client.connect(mqtt_parts.netloc, 443, keepalive=300)
         if self.mqtt_thread_running is False:
@@ -273,7 +275,7 @@ class traeger:
             if grill_id in self.grill_callbacks:
                 for callback in self.grill_callbacks[grill_id]:
                     callback()
-            if self.grills_active == False:  # Go see if any grills are doing work.
+            if self.grills_active is False:  # Go see if any grills are doing work.
                 for grill in self.grills:  # If nobody is working next MQTT refresh
                     grill_id = grill["thingName"]  # It'll call kill.
                     state = self.get_state_for_device(grill_id)
@@ -321,6 +323,7 @@ class traeger:
 
 # ===========================/Paho MQTT Functions=======================================================
 
+    
     def get_state_for_device(self, thingName):
         if thingName not in self.grill_status:
             return None
