@@ -219,7 +219,7 @@ class traeger:
             "Host": "{0:s}".format(mqtt_parts.netloc),
         }
         self.mqtt_client.ws_set_options(path="{}?{}".format(
-            mqtt_parts.path, mqtt_parts.query),
+                                                            mqtt_parts.path, mqtt_parts.query),
                                         headers=headers)
         _LOGGER.info(f"Thread Active Count:{threading.active_count()}")
         self.mqtt_client.connect(mqtt_parts.netloc, 443, keepalive=300)
@@ -316,12 +316,9 @@ class traeger:
     def mqtt_onsocketunregisterwrite(self, client, userdata, sock):
         _LOGGER.debug(
             f"Sock.UnRg.Write....Client: {client} UserData: {userdata} Sock: {sock}"
-        )
+        ) #==================/Paho MQTT Functions=======================================================
 
-
-# ===========================/Paho MQTT Functions=======================================================
-
-    def get_state_for_device(self, thingName):
+    def get_state_for_device(self, thingName): #
         if thingName not in self.grill_status:
             return None
         return self.grill_status[thingName]["status"]
