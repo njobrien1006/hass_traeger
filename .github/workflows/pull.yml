@@ -46,20 +46,20 @@ jobs:
     steps:
     - name: checkout source repo
       uses: actions/checkout@v2
-
+      with:
+          ref: ${{ github.head_ref }}
     - name: linting
       uses: programmingwithalex/pylinter@v1.4.3  
       with:
         skip-mypy: true
         mypy-flags: '--ignore-missing-imports --no-warn-no-return'
-    - name: Check for modified files
-      id: git-check
-      run: echo ::set-output name=modified::$(if git diff-index --cached --quiet HEAD --; then echo "false"; else echo "true"; fi)
-    - name: Push changes
-      if: steps.git-check.outputs.modified == 'true'
+    - name: commit isort changes
       run: |
         git config --global user.name 'github-actions' 
         git config --global user.email 'github-actions@github.com' 
-        git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-        git commit -am "Automated isort fixes"
-        git push
+        git add -A && git diff-index --cached --quiet HEAD || git commit -m 'isort'
+    - name: push isort changes
+      uses: ad-m/github-push-action@v0.5.0
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: ${{ github.repository }}
