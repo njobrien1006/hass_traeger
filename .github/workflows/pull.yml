@@ -48,4 +48,6 @@ jobs:
       uses: actions/checkout@v2
 
     - name: linting
-      uses: programmingwithalex/pylinter@v1.4.3          
+      uses: programmingwithalex/pylinter@v1.4.3  
+      with:
+        mypy-flags: '--ignore-missing-imports'
