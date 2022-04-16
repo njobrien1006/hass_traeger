@@ -1,8 +1,7 @@
 """Binary Sensor platform for Traeger."""
-from homeassistant.helpers.entity import Entity
+# from homeassistant.helpers.entity import Entity
 
 from .const import (
-    DEFAULT_NAME,
     DOMAIN,
 )
 
@@ -16,11 +15,11 @@ async def async_setup_entry(hass, entry, async_add_devices):
     for grill in grills:
         grill_id = grill["thingName"]
         async_add_devices([
-            zTimer(client, grill["thingName"], "Cook Timer Complete",
+            zTimer(client, grill_id, "Cook Timer Complete",
                    "cook_timer_complete")
         ])
         async_add_devices([
-            zProbe(client, grill["thingName"], "Probe Alarm Fired",
+            zProbe(client, grill_id, "Probe Alarm Fired",
                    "probe_alarm_fired")
         ])
 
