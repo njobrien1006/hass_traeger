@@ -20,7 +20,7 @@ jobs:
           uses: "home-assistant/actions/hassfest@master"
   lint:
     runs-on: ubuntu-latest
-    name: pyLint
+    name: pyLint Check
     steps:
       - uses: actions/checkout@v2
       - uses: dmamontov/hass-py-lint@main
@@ -36,17 +36,7 @@ jobs:
           use-hass-branch: false
   black:
     runs-on: ubuntu-latest
-    name: Black
+    name: Black Check
     steps:
       - uses: actions/checkout@v2
-      - uses: dmamontov/hass-py-lint@main
-        with:
-          hass-version: ">=2022.3.0"
-          path: "custom_components/traeger"
-          use-pylint: false
-          use-black: true
-          use-mypy: false
-          extra-pylint-options: ""
-          extra-black-options: ""
-          extra-mypy-options: ""
-          use-hass-branch: false        
+      - uses: psf/black@stable     
