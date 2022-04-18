@@ -27,5 +27,5 @@ jobs:
           python-root-list: "python_alelo tests"
           use-pylint: true
           use-black: true
-          extra-pylint-options: --disable import-error --disable C0103
+          extra-pylint-options: ""
           extra-black-options: ""
