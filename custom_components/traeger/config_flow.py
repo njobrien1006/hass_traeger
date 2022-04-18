@@ -16,6 +16,7 @@ from .const import (
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
+
 class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
     """Config flow for Blueprint."""
 
@@ -81,8 +82,8 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             return True
         except Exception as exception:  # pylint: disable=broad-except
             _LOGGER.error(
-                 "Failed to login %s",
-                 exception,
+                "Failed to login %s",
+                exception,
             )
             pass
         return False

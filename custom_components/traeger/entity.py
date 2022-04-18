@@ -3,8 +3,8 @@ from homeassistant.helpers.entity import Entity
 
 from .const import DOMAIN, NAME, VERSION, ATTRIBUTION
 
-class TraegerBaseEntity(Entity):
 
+class TraegerBaseEntity(Entity):
     def __init__(self, client, grill_id):
         super().__init__()
         self.grill_id = grill_id
@@ -49,7 +49,7 @@ class TraegerBaseEntity(Entity):
             return {
                 "identifiers": {(DOMAIN, self.grill_id)},
                 "name": NAME,
-                "manufacturer": NAME
+                "manufacturer": NAME,
             }
 
         return {
@@ -57,7 +57,7 @@ class TraegerBaseEntity(Entity):
             "name": self.grill_details["friendlyName"],
             "model": self.grill_settings["device_type_id"],
             "sw_version": self.grill_settings["fw_version"],
-            "manufacturer": NAME
+            "manufacturer": NAME,
         }
 
     @property
@@ -68,8 +68,9 @@ class TraegerBaseEntity(Entity):
             "integration": DOMAIN,
         }
 
+
 class TraegerGrillMonitor:
-    def __init__(self, client, grill_id, async_add_devices, probe_entity = None):
+    def __init__(self, client, grill_id, async_add_devices, probe_entity=None):
         self.client = client
         self.grill_id = grill_id
         self.async_add_devices = async_add_devices
@@ -91,5 +92,11 @@ class TraegerGrillMonitor:
             if accessory["type"] == "probe":
                 if accessory["uuid"] not in self.accessory_status:
                     if self.probe_entity:
-                        self.async_add_devices([self.probe_entity(self.client, self.grill_id, accessory["uuid"])])
+                        self.async_add_devices(
+                            [
+                                self.probe_entity(
+                                    self.client, self.grill_id, accessory["uuid"]
+                                )
+                            ]
+                        )
                         self.accessory_status[accessory["uuid"]] = True
