@@ -20,12 +20,12 @@ jobs:
           uses: "home-assistant/actions/hassfest@master"
   autoyapf:
     runs-on: ubuntu-latest
-steps:
-  - uses: actions/checkout@v1
-  - uses: ricardochaves/python-lint@v1.4.0
-    with:
-      python-root-list: "python_alelo tests"
-      use-pylint: true
-      use-black: true
-      extra-pylint-options: --disable import-error --disable C0103
-      extra-black-options: ""
+    steps:
+      - uses: actions/checkout@v1
+      - uses: ricardochaves/python-lint@v1.4.0
+        with:
+          python-root-list: "python_alelo tests"
+          use-pylint: true
+          use-black: true
+          extra-pylint-options: --disable import-error --disable C0103
+          extra-black-options: ""
