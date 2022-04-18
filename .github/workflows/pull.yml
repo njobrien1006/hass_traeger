@@ -30,7 +30,7 @@ jobs:
           use-pylint: true
           use-black: false
           use-mypy: false
-          extra-pylint-options: ""
+          extra-pylint-options: "--disable=import-error,C0103"
           extra-black-options: ""
           extra-mypy-options: ""
           use-hass-branch: false
