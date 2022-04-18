@@ -20,46 +20,12 @@ jobs:
           uses: "home-assistant/actions/hassfest@master"
   autoyapf:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@master
-        with:
-          ref: ${{ github.head_ref }}
-      - name: autoyapf
-        id: autoyapf
-        uses: mritunjaysharma394/autoyapf@v2
-        with:
-          args: --style google --recursive --in-place .
-      - name: Check for modified files
-        id: git-check
-        run: echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
-      - name: Push changes
-        if: steps.git-check.outputs.modified == 'true'
-        run: |
-          git config --global user.name 'github-actions' 
-          git config --global user.email 'github-actions@github.com' 
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
-          git commit -am "Automated autoyapf fixes"
-          git push
-  python-lint:
-    runs-on: ubuntu-latest
-    name: CI workflow
-    steps:
-    - name: checkout source repo
-      uses: actions/checkout@v2
-      with:
-          ref: ${{ github.head_ref }}
-    - name: linting
-      uses: programmingwithalex/pylinter@v1.4.3  
-      with:
-        skip-mypy: true
-        mypy-flags: '--ignore-missing-imports --no-warn-no-return'
-    - name: commit isort changes
-      run: |
-        git config --global user.name 'github-actions' 
-        git config --global user.email 'github-actions@github.com' 
-        git add -A && git diff-index --cached --quiet HEAD || git commit -m 'isort'
-    - name: push isort changes
-      uses: ad-m/github-push-action@v0.5.0
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: ${{ github.repository }}
+steps:
+  - uses: actions/checkout@v1
+  - uses: ricardochaves/python-lint@v1.4.0
+    with:
+      python-root-list: "python_alelo tests"
+      use-pylint: true
+      use-black: true
+      extra-pylint-options: --disable import-error --disable C0103
+      extra-black-options: ""
