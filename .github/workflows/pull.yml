@@ -19,8 +19,9 @@ jobs:
         - name: Hassfest validation
           uses: "home-assistant/actions/hassfest@master"
           
-  build:
+  black:
     runs-on: ubuntu-latest
+    name: AutoBlack
     steps:
       - uses: actions/checkout@v1
       - name: Set up Python 3.7
