@@ -21,11 +21,15 @@ jobs:
   autoyapf:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
-      - uses: ricardochaves/python-lint@v1.4.0
+      - uses: actions/checkout@v2
+      - uses: dmamontov/hass-py-lint@main
         with:
-          python-root-list: "python_alelo tests"
+          hass-version: ">=2022.3.0"
+          path: "custom_components/my_component"
           use-pylint: true
           use-black: true
+          use-mypy: false
           extra-pylint-options: ""
           extra-black-options: ""
+          extra-mypy-options: ""
+          use-hass-branch: false
