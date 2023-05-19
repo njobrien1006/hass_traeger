@@ -8,7 +8,7 @@ from homeassistant.const import (
 NAME = "Traeger"
 DOMAIN = "traeger"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 ATTRIBUTION = ""
 ISSUE_URL = "https://github.com/sebirdman/hass_traeger/issues"
 
