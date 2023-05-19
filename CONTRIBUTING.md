@@ -15,7 +15,7 @@ Pull requests are the best way to propose changes to the codebase.
 
 1. Fork the repo and create your branch from `master`.
 2. If you've changed something, update the documentation.
-3. Make sure your code lints (using black).
+3. Make sure your code lints (using YAPF, it is built into PR).
 4. Test you contribution.
 5. Issue that pull request!
 
@@ -44,7 +44,7 @@ People *love* thorough bug reports. I'm not even kidding.
 
 ## Use a Consistent Coding Style
 
-Use [black](https://github.com/ambv/black) to make sure the code follows the style.
+Use [yapf](https://github.com/google/yapf) to make sure the code follows the style.
 
 ## Test your code modification
 

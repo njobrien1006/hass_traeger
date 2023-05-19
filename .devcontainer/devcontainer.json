@@ -21,7 +21,7 @@
 		"python.analysis.autoSearchPaths": false,
 		"python.linting.pylintEnabled": true,
 		"python.linting.enabled": true,
-		"python.formatting.provider": "black",
+		"python.formatting.provider": "yapf",
 		"editor.formatOnPaste": false,
 		"editor.formatOnSave": true,
 		"editor.formatOnType": true,
