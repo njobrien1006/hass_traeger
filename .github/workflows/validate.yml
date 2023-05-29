@@ -73,9 +73,9 @@ jobs:
               pip install pylint-fail-under
       - name: Analysing the code with pylint
         run: find . -name '*.py' -print -exec pylint --disable=E0401 {} \;
-      - name: Fails if pylint score is less than 6.0
+      - name: Fails if pylint score is less than 9.5
         run: |
               for file in $(find -name '*.py')
               do
-                pylint --disable=E0401 "$file" --fail-under=6.0;    
-              done          
+                pylint --disable=E0401 "$file" --fail-under=9.5;
+              done
