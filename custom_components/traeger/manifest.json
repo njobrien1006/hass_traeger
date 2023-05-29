@@ -8,7 +8,7 @@
     "@sebirdman",
     "@stephenpapierski",
     "@Velines"
-    ],  
+  ],
   "config_flow": true,
   "documentation": "https://github.com/njobrien1006/hass_traeger",
   "iot_class": "cloud_push",

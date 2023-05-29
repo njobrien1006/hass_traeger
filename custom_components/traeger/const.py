@@ -1,8 +1,6 @@
-from homeassistant.const import (
-    TEMP_CELSIUS,
-    TEMP_FAHRENHEIT,
-)
 """Constants for traeger."""
+from homeassistant.const import TEMP_CELSIUS, TEMP_FAHRENHEIT
+
 # Base component constants
 NAME = "Traeger"
 DOMAIN = "traeger"

@@ -1,10 +1,15 @@
 """Number/Timer platform for Traeger."""
+import logging
 import re
+
 import voluptuous as vol
 from homeassistant.components.number import NumberEntity
-from homeassistant.helpers import entity_platform
 from homeassistant.helpers import config_validation as cv
-import logging
+from homeassistant.helpers import entity_platform
+
+from .const import (DOMAIN, GRILL_MODE_COOL_DOWN, GRILL_MODE_IDLE,
+                    GRILL_MODE_SHUTDOWN, GRILL_MODE_SLEEPING)
+from .entity import TraegerBaseEntity
 
 SERVICE_CUSTOMCOOK = "set_custom_cook"
 ENTITY_ID = "entity_id"
@@ -13,39 +18,27 @@ SCHEMA_CUSTOMCOOK = {
     vol.Required("steps", default=dict): list
 }
 
-from .const import (
-    DOMAIN,
-    GRILL_MODE_COOL_DOWN,
-    GRILL_MODE_SLEEPING,
-    GRILL_MODE_SHUTDOWN,
-    GRILL_MODE_IDLE,
-)
-
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
-from .entity import TraegerBaseEntity
-
-
 async def async_setup_entry(hass, entry, async_add_devices):
-    """Setup Service platform."""
+    """
+    Setup Number/Timer platform.
+    Setup Service platform.
+    """
     platform = entity_platform.current_platform.get()
     platform.async_register_entity_service(SERVICE_CUSTOMCOOK,
                                            SCHEMA_CUSTOMCOOK, "set_custom_cook")
-    """Setup Number/Timer platform."""
     client = hass.data[DOMAIN][entry.entry_id]
     grills = client.get_grills()
     for grill in grills:
-        grill_id = grill["thingName"]
         async_add_devices(
             [TraegerNumberEntity(client, grill["thingName"], "cook_timer")])
         async_add_devices([
             CookCycNumberEntity(client, grill["thingName"], "cook_cycle", hass)
         ])
 
-
 class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
     """Traeger Number/Timer Value class."""
-
     def __init__(self, client, grill_id, devname, hass):
         super().__init__(client, grill_id)
         self.devname = devname
@@ -66,33 +59,40 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
 
     @property
     def unique_id(self):
+        """Return the unique id."""
         return f"{self.grill_id}_{self.devname}"
 
     @property
     def icon(self):
+        """Set the default MDI Icon"""
         return "mdi:chef-hat"
 
     @property
     def native_native_step(self):
+        """Return the supported step."""
         return 1
 
     # Value Properties
     @property
     def native_value(self):
+        """
+        Return the value reported by the number.
+        This also serves the cook cycle.
+        """
         if self.grill_state is None:
             self.num_value = 0
             return self.num_value
         if self.num_value > len(self.cook_cycle):
-            _LOGGER.info(f"B.Cook Cycles out of indexes.")
+            _LOGGER.info("B.Cook Cycles out of indexes.")
             self.num_value = 0
             return self.num_value
         name = re.sub('[^A-Za-z0-9]+', '', self.grill_details["friendlyName"])
-        _LOGGER.info(f"Name: {name}")
+        _LOGGER.info("Name: %s", name)
         if self.num_value > 0 and self.grill_state["system_status"] in [
                 GRILL_MODE_COOL_DOWN, GRILL_MODE_SLEEPING, GRILL_MODE_SHUTDOWN,
                 GRILL_MODE_IDLE
         ]:
-            _LOGGER.info(f"Steps not available when not cooking. Revert to 0.")
+            _LOGGER.info("Steps not available when not cooking. Revert to 0.")
             self.num_value = 0
             return self.num_value
         ########################################################################
@@ -200,18 +200,20 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                             }, False))
                     self.num_value = 0
             self.old_num_value = self.num_value
-        _LOGGER.debug(f"CookCycle Steps:{self.cook_cycle}")
+        _LOGGER.debug("CookCycle Steps:%s",self.cook_cycle)
         if self.num_value > len(self.cook_cycle):
-            _LOGGER.info(f"A.Cook Cycles out of indexes.")
+            _LOGGER.info("A.Cook Cycles out of indexes.")
             self.num_value = 0
         return self.num_value
 
     @property
     def native_min_value(self):
+        """Return the minimum value."""
         return 0
 
     @property
     def native_max_value(self):
+        """Return the maximum value."""
         return 999
 
     @property
@@ -247,15 +249,14 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
 
     # Recieve Custom Cook Command
     def set_custom_cook(self, **kwargs):
+        """From Service, Update the number's cook cycle steps."""
         self.cook_cycle = kwargs["steps"]
-        _LOGGER.info(f"Traeger: Set Cook Cycle:{self.cook_cycle}")
+        _LOGGER.info("Traeger: Set Cook Cycle:%s",self.cook_cycle)
         #Need to call callback now so that it fires state cust atrib update.
         self.hass.async_create_task(self.client.grill_callback(self.grill_id))
 
-
 class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
     """Traeger Number/Timer Value class."""
-
     def __init__(self, client, grill_id, devname):
         super().__init__(client, grill_id)
         self.devname = devname
@@ -272,15 +273,18 @@ class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
 
     @property
     def unique_id(self):
+        """Return the unique id."""
         return f"{self.grill_id}_{self.devname}"
 
     @property
     def icon(self):
+        """Set the default MDI Icon"""
         return "mdi:timer"
 
     # Timer Properties
     @property
     def native_value(self):
+        """Return the value reported by the number."""
         if self.grill_state is None:
             return 0
         end_time = self.grill_state[f"{self.devname}_end"]
@@ -290,14 +294,17 @@ class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
 
     @property
     def native_min_value(self):
+        """Return the minimum value."""
         return 1
 
     @property
     def native_max_value(self):
+        """Return the maximum value."""
         return 1440
 
     @property
     def native_unit_of_measurement(self):
+        """Return the unit of measurement of the entity, if any."""
         return "min"
 
     # Timer Methods
