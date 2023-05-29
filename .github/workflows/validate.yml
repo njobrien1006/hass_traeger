@@ -72,10 +72,10 @@ jobs:
               pip install pylint
               pip install pylint-fail-under
       - name: Analysing the code with pylint
-        run: find . -name '*.py' -print -exec pylint --disable=E0401,W0611 {} \;
+        run: find . -name '*.py' -print -exec pylint --disable=E0401 {} \;
       - name: Fails if pylint score is less than 6.0
         run: |
               for file in $(find -name '*.py')
               do
-                pylint --disable=E0401,W0611"$file" --fail-under=6.0;    
+                pylint --disable=E0401"$file" --fail-under=6.0;    
               done          
