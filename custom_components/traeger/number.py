@@ -128,7 +128,7 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                                     "entity_id":
                                         f"climate.{self.grill_id}_climate",
                                     "temperature":
-                                        round(curstep["set_temp"])
+                                        round(set_temp)
                                 }, False))
         ########################################################################
         #Implement next step
