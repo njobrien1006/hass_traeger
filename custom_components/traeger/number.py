@@ -20,6 +20,7 @@ SCHEMA_CUSTOMCOOK = {
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
+
 async def async_setup_entry(hass, entry, async_add_devices):
     """
     Setup Number/Timer platform.
@@ -37,8 +38,10 @@ async def async_setup_entry(hass, entry, async_add_devices):
             CookCycNumberEntity(client, grill["thingName"], "cook_cycle", hass)
         ])
 
+
 class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
     """Traeger Number/Timer Value class."""
+
     def __init__(self, client, grill_id, devname, hass):
         super().__init__(client, grill_id)
         self.devname = devname
@@ -200,7 +203,7 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                             }, False))
                     self.num_value = 0
             self.old_num_value = self.num_value
-        _LOGGER.debug("CookCycle Steps:%s",self.cook_cycle)
+        _LOGGER.debug("CookCycle Steps:%s", self.cook_cycle)
         if self.num_value > len(self.cook_cycle):
             _LOGGER.info("A.Cook Cycles out of indexes.")
             self.num_value = 0
@@ -251,12 +254,14 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
     def set_custom_cook(self, **kwargs):
         """From Service, Update the number's cook cycle steps."""
         self.cook_cycle = kwargs["steps"]
-        _LOGGER.info("Traeger: Set Cook Cycle:%s",self.cook_cycle)
+        _LOGGER.info("Traeger: Set Cook Cycle:%s", self.cook_cycle)
         #Need to call callback now so that it fires state cust atrib update.
         self.hass.async_create_task(self.client.grill_callback(self.grill_id))
 
+
 class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
     """Traeger Number/Timer Value class."""
+
     def __init__(self, client, grill_id, devname):
         super().__init__(client, grill_id)
         self.devname = devname

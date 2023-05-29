@@ -29,8 +29,9 @@ TIMEOUT = 60
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-class traeger: # pylint: disable=invalid-name, too-many-instance-attributes
+class traeger:  # pylint: disable=invalid-name, too-many-instance-attributes
     """Traeger API Wrapper"""
+
     def __init__(self, username, password, hass, request_library):
         self.username = username
         self.password = password
@@ -63,7 +64,7 @@ class traeger: # pylint: disable=invalid-name, too-many-instance-attributes
         """Intial API Login for MQTT Token GEN"""
         t = datetime.datetime.utcnow()
         amzdate = t.strftime('%Y%m%dT%H%M%SZ')
-        _LOGGER.info("do_cognito t:%s",t)
+        _LOGGER.info("do_cognito t:%s", t)
         _LOGGER.info("do_cognito amzdate:%s", amzdate)
         _LOGGER.info("do_cognito self.username:%s", self.username)
         _LOGGER.info("do_cognito CLIENT_ID:%s", CLIENT_ID)
@@ -107,8 +108,7 @@ class traeger: # pylint: disable=invalid-name, too-many-instance-attributes
         Send Grill Commands to API.
         Command are via API and not MQTT.
         """
-        _LOGGER.debug("Send Command Topic: %s, Send Command: %s",
-                      thingName,
+        _LOGGER.debug("Send Command Topic: %s, Send Command: %s", thingName,
                       command)
         await self.refresh_token()
         api_url = "https://1ywgyc65d1.execute-api.us-west-2.amazonaws.com"
@@ -129,11 +129,11 @@ class traeger: # pylint: disable=invalid-name, too-many-instance-attributes
 
     async def set_temperature(self, thingName, temp):
         """Set Grill Temp Setpoint"""
-        await self.send_command(thingName, f"11,%s".format(temp)) # pylint: disable=consider-using-f-string
+        await self.send_command(thingName, f"11,%s".format(temp))  # pylint: disable=consider-using-f-string
 
     async def set_probe_temperature(self, thingName, temp):
         """Set Probe Temp Setpoint"""
-        await self.send_command(thingName, "14,{}".format(temp)) # pylint: disable=consider-using-f-string
+        await self.send_command(thingName, "14,{}".format(temp))  # pylint: disable=consider-using-f-string
 
     async def set_switch(self, thingName, switchval):
         """Set Binary Switch"""
@@ -145,7 +145,7 @@ class traeger: # pylint: disable=invalid-name, too-many-instance-attributes
 
     async def set_timer_sec(self, thingName, time_s):
         """Set Timer in Seconds"""
-        await self.send_command(thingName, "12,{}".format(time_s)) # pylint: disable=consider-using-f-string
+        await self.send_command(thingName, "12,{}".format(time_s))  # pylint: disable=consider-using-f-string
 
     async def update_grills(self):
         """Get an update of available grills"""
@@ -188,11 +188,11 @@ class traeger: # pylint: disable=invalid-name, too-many-instance-attributes
             except KeyError as exception:
                 _LOGGER.error("Key Error Failed to Parse MQTT URL %s - %s",
                               myjson, exception)
-            except Exception as exception: # pylint: disable=broad-except
+            except Exception as exception:  # pylint: disable=broad-except
                 _LOGGER.error("Other Error Failed to Parse MQTT URL %s - %s",
                               myjson, exception)
-        _LOGGER.debug("MQTT URL:%s Expires @:%s",
-                      self.mqtt_url, self.mqtt_url_expires)
+        _LOGGER.debug("MQTT URL:%s Expires @:%s", self.mqtt_url,
+                      self.mqtt_url_expires)
 
     def _mqtt_connect_func(self):
         """
@@ -219,7 +219,7 @@ class traeger: # pylint: disable=invalid-name, too-many-instance-attributes
         else:
             self.mqtt_client = mqtt.Client(transport="websockets")
             #self.mqtt_client.on_log = self.mqtt_onlog
-                #logging passed via enable_logger this would be redundant.
+            #logging passed via enable_logger this would be redundant.
             self.mqtt_client.on_connect = self.mqtt_onconnect
             self.mqtt_client.on_connect_fail = self.mqtt_onconnectfail
             self.mqtt_client.on_subscribe = self.mqtt_onsubscribe
@@ -240,12 +240,11 @@ class traeger: # pylint: disable=invalid-name, too-many-instance-attributes
             self.mqtt_client.reconnect_delay_set(min_delay=10, max_delay=160)
         mqtt_parts = urllib.parse.urlparse(self.mqtt_url)
         headers = {
-            "Host": "{0:s}".format(mqtt_parts.netloc), # pylint: disable=consider-using-f-string
+            "Host": "{0:s}".format(mqtt_parts.netloc),  # pylint: disable=consider-using-f-string
         }
         self.mqtt_client.ws_set_options(
-            path=f"{mqtt_parts.path}?{mqtt_parts.query}",
-            headers=headers)
-        _LOGGER.info("Thread Active Count:%s",threading.active_count())
+            path=f"{mqtt_parts.path}?{mqtt_parts.query}", headers=headers)
+        _LOGGER.info("Thread Active Count:%s", threading.active_count())
         self.mqtt_client.connect(mqtt_parts.netloc, 443, keepalive=300)
         if self.mqtt_thread_running is False:
             self.mqtt_thread = threading.Thread(target=self._mqtt_connect_func)
@@ -253,6 +252,7 @@ class traeger: # pylint: disable=invalid-name, too-many-instance-attributes
             self.mqtt_thread.start()
 
 #===========================Paho MQTT Functions=====================================================
+
     def mqtt_onlog(self, client, userdata, level, buf):
         """MQTT Thread on_log"""
         _LOGGER.debug("OnLog Callback. Client:%s userdata:%s level:%s buf:%s",
@@ -269,16 +269,17 @@ class traeger: # pylint: disable=invalid-name, too-many-instance-attributes
 
     def mqtt_onconnectfail(self, client, userdata):
         """MQTT Thread on_connect_fail"""
-        _LOGGER.debug("Connect Fail Callback. Client:%s userdata:%s",
-                      client, userdata)
+        _LOGGER.debug("Connect Fail Callback. Client:%s userdata:%s", client,
+                      userdata)
         _LOGGER.warning("Grill Connect Failed! MQTT Client Kill.")
         asyncio.run_coroutine_threadsafe(
             self.kill(), self.loop)  #Shutdown if we arn't getting anywhere.
 
     def mqtt_onsubscribe(self, client, userdata, mid, granted_qos):
         """MQTT Thread on_subscribe"""
-        _LOGGER.debug("OnSubscribe Callback. Client:%s userdata:%s mid:%s granted_qos:%s",
-                      client, userdata, mid, granted_qos)
+        _LOGGER.debug(
+            "OnSubscribe Callback. Client:%s userdata:%s mid:%s granted_qos:%s",
+            client, userdata, mid, granted_qos)
 
         for grill in self.grills:
             grill_id = grill["thingName"]
@@ -287,12 +288,12 @@ class traeger: # pylint: disable=invalid-name, too-many-instance-attributes
             asyncio.run_coroutine_threadsafe(self.update_state(grill_id),
                                              self.loop)
 
-    def mqtt_onmessage(self, client, userdata, message): # pylint: disable=unused-argument
+    def mqtt_onmessage(self, client, userdata, message):  # pylint: disable=unused-argument
         """MQTT Thread on_message"""
         _LOGGER.debug("grill_message: message.topic = %s, message.payload = %s",
                       message.topic, message.payload)
         _LOGGER.info("Token Time Remaining:%s MQTT Time Remaining:%s",
-                     self.token_remaining(),self.mqtt_url_remaining())
+                     self.token_remaining(), self.mqtt_url_remaining())
         if message.topic.startswith("prod/thing/update/"):
             grill_id = message.topic[len("prod/thing/update/"):]
             self.grill_status[grill_id] = json.loads(message.payload)
@@ -342,6 +343,8 @@ class traeger: # pylint: disable=invalid-name, too-many-instance-attributes
         """MQTT Thread on_socketunregwrite"""
         _LOGGER.debug("Sock.UnRg.Write....Client: %s UserData: %s Sock: %s",
                       client, userdata, sock)
+
+
 #===========================/Paho MQTT Functions===================================================
 
     def get_state_for_device(self, thingName):
@@ -421,8 +424,9 @@ class traeger: # pylint: disable=invalid-name, too-many-instance-attributes
     async def main(self):
         """This is the loop that keeps the tokens updated."""
         _LOGGER.debug("Current Main Loop Time: %s", time.time())
-        _LOGGER.debug("MQTT Logger Token Time Remaining:%s MQTT Time Remaining:%s",
-                      self.token_remaining(), self.mqtt_url_remaining())
+        _LOGGER.debug(
+            "MQTT Logger Token Time Remaining:%s MQTT Time Remaining:%s",
+            self.token_remaining(), self.mqtt_url_remaining())
         if self.mqtt_url_remaining() < 60:
             self.mqtt_thread_refreshing = True
             if self.mqtt_thread_running:
@@ -431,7 +435,7 @@ class traeger: # pylint: disable=invalid-name, too-many-instance-attributes
             await self.get_mqtt_client()
             self.mqtt_thread_refreshing = False
         _LOGGER.debug("Call_Later @: %s", self.mqtt_url_expires)
-        delay = max(self.mqtt_url_remaining(),30)
+        delay = max(self.mqtt_url_remaining(), 30)
         self.task = self.loop.call_later(delay, self.syncmain)
 
     async def kill(self):
@@ -440,8 +444,8 @@ class traeger: # pylint: disable=invalid-name, too-many-instance-attributes
             _LOGGER.info("Killing Task")
             _LOGGER.debug("Task Info: %s", self.task)
             self.task.cancel()
-            _LOGGER.debug("Task Info: %s TaskCancelled Status: %s",
-                          self.task, self.task.cancelled())
+            _LOGGER.debug("Task Info: %s TaskCancelled Status: %s", self.task,
+                          self.task.cancelled())
             self.task = None
             self.mqtt_thread_running = False
             self.mqtt_client.disconnect()
@@ -485,11 +489,10 @@ class traeger: # pylint: disable=invalid-name, too-many-instance-attributes
                           url, exception)
 
         except (KeyError, TypeError) as exception:
-            _LOGGER.error("Error parsing information from %s - %s",
-                          url, exception
-            )
+            _LOGGER.error("Error parsing information from %s - %s", url,
+                          exception)
         except (aiohttp.ClientError, socket.gaierror) as exception:
-            _LOGGER.error("Error fetching information from %s - %s",
-                          url, exception)
+            _LOGGER.error("Error fetching information from %s - %s", url,
+                          exception)
         except Exception as exception:  # pylint: disable=broad-except
             _LOGGER.error("Something really wrong happend! - %s", exception)

@@ -44,6 +44,7 @@ async def async_setup_entry(hass, entry, async_add_devices):
 
 class TraegerBaseSensor(TraegerBaseEntity):
     """Base Sensor Class Common to All"""
+
     def __init__(self, client, grill_id, friendly_name, value):
         super().__init__(client, grill_id)
         self.value = value
@@ -116,6 +117,7 @@ class PelletSensor(TraegerBaseSensor):
         """Return the unit the value is expressed in."""
         return "%"
 
+
 class GrillTimer(TraegerBaseSensor):
     """Traeger Timer class."""
 
@@ -170,8 +172,10 @@ class GrillState(TraegerBaseSensor):
             returnval = "shutdown"
         return returnval
 
+
 class HeatingState(TraegerBaseSensor):
     """Traeger Heating State class."""
+
     def __init__(self, client, grill_id, friendly_name, value):
         super().__init__(client, grill_id, friendly_name, value)
         self.previous_target_temp = None
@@ -189,7 +193,7 @@ class HeatingState(TraegerBaseSensor):
 
     # Sensor Properties
     @property
-    def state(self): # pylint: disable=too-many-branches,too-many-statements
+    def state(self):  # pylint: disable=too-many-branches,too-many-statements
         """Return the state of the sensor."""
         if self.grill_state is None:
             return "idle"
@@ -255,8 +259,10 @@ class HeatingState(TraegerBaseSensor):
         self.previous_state = state
         return state
 
+
 class ProbeState(TraegerBaseSensor):
     """Traeger Probe Heating State class."""
+
     def __init__(self, client, grill_id, sensor_id):
         super().__init__(client, grill_id, f"Probe State {sensor_id}",
                          f"probe_state_{sensor_id}")

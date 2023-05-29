@@ -11,15 +11,17 @@ async def async_setup_entry(hass, entry, async_add_devices):
     for grill in grills:
         async_add_devices([
             TraegerTimer(client, grill["thingName"], "Cook Timer Complete",
-                   "cook_timer_complete")
+                         "cook_timer_complete")
         ])
         async_add_devices([
             TraegerProbe(client, grill["thingName"], "Probe Alarm Fired",
-                   "probe_alarm_fired")
+                         "probe_alarm_fired")
         ])
+
 
 class TraegerBaseSensor(TraegerBaseEntity):
     """Base Binary Sensor Class Common to All"""
+
     def __init__(self, client, grill_id, friendly_name, value):
         super().__init__(client, grill_id)
         self.value = value
@@ -54,6 +56,7 @@ class TraegerBaseSensor(TraegerBaseEntity):
         """Return the state of the binary sensor."""
         return self.grill_state[self.value]
 
+
 class TraegerTimer(TraegerBaseSensor):
     """Binary Sensor Specific to Timer"""
     # Generic Properties
@@ -61,6 +64,7 @@ class TraegerTimer(TraegerBaseSensor):
     def icon(self):
         """Set the default MDI Icon"""
         return "mdi:timer"
+
 
 class TraegerProbe(TraegerBaseSensor):
     """Binary Sensor Specific to Probe"""

@@ -26,8 +26,10 @@ async def async_setup_entry(hass, entry, async_add_devices):
                                  "Connect")
         ])
 
+
 class TraegerBaseSwitch(SwitchEntity, TraegerBaseEntity):
     """Base Switch Class Common to All"""
+
     def __init__(self, client, grill_id, devname, friendly_name):
         TraegerBaseEntity.__init__(self, client, grill_id)
         self.devname = devname
@@ -77,6 +79,7 @@ class TraegerConnectEntity(TraegerBaseSwitch):
 
 class TraegerSwitchEntity(TraegerBaseSwitch):
     """Traeger Switch class."""
+
     # pylint: disable=too-many-arguments
     def __init__(self, client, grill_id, devname, friendly_name, iconinp,
                  on_cmd, off_cmd):
@@ -112,13 +115,13 @@ class TraegerSwitchEntity(TraegerBaseSwitch):
         return self.grill_state[self.devname]
 
     # Switch Methods
-    async def async_turn_on(self, **kwargs): # pylint: disable=unused-argument
+    async def async_turn_on(self, **kwargs):  # pylint: disable=unused-argument
         """Set new Switch Val."""
         if GRILL_MODE_IGNITING <= self.grill_state[
                 'system_status'] <= GRILL_MODE_CUSTOM_COOK:
             await self.client.set_switch(self.grill_id, self.on_cmd)
 
-    async def async_turn_off(self, **kwargs): # pylint: disable=unused-argument
+    async def async_turn_off(self, **kwargs):  # pylint: disable=unused-argument
         """Set new Switch Val."""
         if GRILL_MODE_IGNITING <= self.grill_state[
                 'system_status'] <= GRILL_MODE_CUSTOM_COOK:
@@ -127,17 +130,20 @@ class TraegerSwitchEntity(TraegerBaseSwitch):
 
 class TraegerSuperSmokeEntity(TraegerSwitchEntity):
     """Traeger Super Smoke Switch class."""
+
     @property
     def available(self):
         if self.grill_state is None:
             return False
-        if GRILL_MODE_IGNITING <= self.grill_state['system_status'] <= GRILL_MODE_CUSTOM_COOK:
+        if GRILL_MODE_IGNITING <= self.grill_state[
+                'system_status'] <= GRILL_MODE_CUSTOM_COOK:
             if self.grill_features["super_smoke_enabled"] == 1:
                 super_smoke_supported = 1
             if self.grill_units == TEMP_CELSIUS:
                 super_smoke_max_temp = SUPER_SMOKE_MAX_TEMP_C
             else:
                 super_smoke_max_temp = SUPER_SMOKE_MAX_TEMP_F
-            super_smoke_within_temp = self.grill_state["set"] <= super_smoke_max_temp
+            super_smoke_within_temp = self.grill_state[
+                "set"] <= super_smoke_max_temp
             return super_smoke_supported and super_smoke_within_temp
         return False

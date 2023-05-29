@@ -29,6 +29,7 @@ async def async_setup_entry(hass, entry, async_add_devices):
 
 class TraegerBaseClimate(ClimateEntity, TraegerBaseEntity):
     """Base Climate Class Common to All"""
+
     def __init__(self, client, grill_id, friendly_name):
         super().__init__(client, grill_id)
         self.friendly_name = friendly_name
@@ -64,6 +65,7 @@ class TraegerBaseClimate(ClimateEntity, TraegerBaseEntity):
 
 class TraegerClimateEntity(TraegerBaseClimate):
     """Climate entity for Traeger grills"""
+
     def __init__(self, client, grill_id, friendly_name):
         super().__init__(client, grill_id, friendly_name)
         self.grill_register_callback()
@@ -164,8 +166,10 @@ class TraegerClimateEntity(TraegerBaseClimate):
         if hvac_mode in (HVAC_MODE_OFF, HVAC_MODE_COOL):
             await self.client.shutdown_grill(self.grill_id)
 
+
 class AccessoryTraegerClimateEntity(TraegerBaseClimate):
     """Climate entity for Traeger grills"""
+
     def __init__(self, client, grill_id, sensor_id):
         super().__init__(client, grill_id, f"Probe {sensor_id}")
         self.sensor_id = sensor_id
@@ -295,7 +299,7 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
     async def async_set_hvac_mode(self, hvac_mode):
         """Start grill shutdown sequence"""
         if hvac_mode == HVAC_MODE_OFF or hvac_mode == HVAC_MODE_COOL:
-            hvac_mode = hvac_mode # pylint: disable=self-assigning-variable
+            hvac_mode = hvac_mode  # pylint: disable=self-assigning-variable
             #await self.client.shutdown_grill(self.grill_id)
 
     async def async_set_preset_mode(self, preset_mode):

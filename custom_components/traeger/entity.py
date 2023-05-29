@@ -4,8 +4,9 @@ from homeassistant.helpers.entity import Entity
 from .const import ATTRIBUTION, DOMAIN, NAME
 
 
-class TraegerBaseEntity(Entity): # pylint: disable=too-many-instance-attributes
+class TraegerBaseEntity(Entity):  # pylint: disable=too-many-instance-attributes
     """Traeger BaseEntity Class."""
+
     def __init__(self, client, grill_id):
         super().__init__()
         self.grill_id = grill_id
@@ -76,6 +77,7 @@ class TraegerBaseEntity(Entity): # pylint: disable=too-many-instance-attributes
 
 class TraegerGrillMonitor:
     """TraegerGrillMonitor Class."""
+
     def __init__(self, client, grill_id, async_add_devices, probe_entity=None):
         self.client = client
         self.grill_id = grill_id
