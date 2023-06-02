@@ -34,8 +34,7 @@ class TraegerBaseSensor(TraegerBaseEntity):
         """Reports unavailable when the grill is powered off"""
         if self.grill_state is None:
             return False
-        else:
-            return self.grill_state["connected"]
+        return self.grill_state["connected"]
 
     @property
     def name(self):
