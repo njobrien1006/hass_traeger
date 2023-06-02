@@ -102,9 +102,7 @@ class PelletSensor(TraegerBaseSensor):
         """Reports unavailable when the pellet sensor is not connected"""
         if self.grill_features is None:
             return False
-        else:
-            return True if self.grill_features[
-                "pellet_sensor_connected"] == 1 else False
+        return self.grill_features["pellet_sensor_connected"] == 1
 
     @property
     def icon(self):
@@ -201,7 +199,7 @@ class HeatingState(TraegerBaseSensor):
         target_temp = self.grill_state["set"]
         grill_mode = self.grill_state["system_status"]
         current_temp = self.grill_state["grill"]
-        target_changed = True if target_temp != self.previous_target_temp else False
+        target_changed = target_temp != self.previous_target_temp
         min_cook_temp = (GRILL_MIN_TEMP_C if self.grill_units == TEMP_CELSIUS
                          else GRILL_MIN_TEMP_F)
         temp_swing = 11 if self.grill_units == TEMP_CELSIUS else 20
@@ -214,7 +212,7 @@ class HeatingState(TraegerBaseSensor):
             else:
                 state = "heating"
         elif grill_mode in self.cook_modes:
-            if self.previous_state == "heating" or self.previous_state == "preheating":
+            if self.previous_state in ('heating', 'preheating'):
                 if current_temp >= target_temp:
                     state = "at_temp"
                 else:
