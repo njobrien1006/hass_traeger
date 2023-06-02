@@ -1,0 +1,16 @@
+{
+    "python.linting.enabled": true,
+    "python.linting.lintOnSave": true,
+    "python.linting.pylintEnabled": true,
+    "python.linting.pylintArgs": [
+        "--disable=E0401"
+    ],
+    "isort.check": true,
+    "python.formatting.provider": "yapf",
+    "editor.formatOnSave": true,
+    "python.analysis.diagnosticSeverityOverrides": {
+        "reportMissingImports": "none",
+        "reportUndefinedVariable": "none",
+        "reportMissingModuleSource": "none"
+    }
+}
