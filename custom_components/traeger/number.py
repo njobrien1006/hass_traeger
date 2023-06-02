@@ -91,7 +91,6 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
             self.num_value = 0
             return self.num_value
         name = re.sub('[^A-Za-z0-9]+', '', self.grill_details["friendlyName"])
-        _LOGGER.info("Name: %s", name)
         if self.num_value > 0 and self.grill_state["system_status"] in [
                 GRILL_MODE_COOL_DOWN, GRILL_MODE_SLEEPING, GRILL_MODE_SHUTDOWN,
                 GRILL_MODE_IDLE
