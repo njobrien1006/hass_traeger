@@ -486,10 +486,10 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
             _LOGGER.error("Timeout error fetching information from %s - %s",
                           url, exception)
         except (KeyError, TypeError) as exception:
-            _LOGGER.error("Error parsing information from %s - %s", 
-                          url, exception)
+            _LOGGER.error("Error parsing information from %s - %s", url,
+                          exception)
         except (aiohttp.ClientError, socket.gaierror) as exception:
-            _LOGGER.error("Error fetching information from %s - %s", 
-                          url, exception)
+            _LOGGER.error("Error fetching information from %s - %s", url,
+                          exception)
         except Exception as exception:  # pylint: disable=broad-except
             _LOGGER.error("Something really wrong happend! - %s", exception)
