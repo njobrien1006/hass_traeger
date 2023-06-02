@@ -82,6 +82,7 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         Return the value reported by the number.
         This also serves the cook cycle.
         """
+        # pylint: disable=too-many-branches,too-many-statements
         if self.grill_state is None:
             self.num_value = 0
             return self.num_value

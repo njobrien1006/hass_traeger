@@ -29,7 +29,7 @@ TIMEOUT = 60
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-class traeger:  # pylint: disable=invalid-name, too-many-instance-attributes
+class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-many-public-methods
     """Traeger API Wrapper"""
 
     def __init__(self, username, password, hass, request_library):
@@ -129,11 +129,11 @@ class traeger:  # pylint: disable=invalid-name, too-many-instance-attributes
 
     async def set_temperature(self, thingName, temp):
         """Set Grill Temp Setpoint"""
-        await self.send_command(thingName, f"11,%s".format(temp))  # pylint: disable=consider-using-f-string
+        await self.send_command(thingName, f"11,{temp}")
 
     async def set_probe_temperature(self, thingName, temp):
         """Set Probe Temp Setpoint"""
-        await self.send_command(thingName, "14,{}".format(temp))  # pylint: disable=consider-using-f-string
+        await self.send_command(thingName, f"14,{temp}")
 
     async def set_switch(self, thingName, switchval):
         """Set Binary Switch"""
@@ -145,7 +145,7 @@ class traeger:  # pylint: disable=invalid-name, too-many-instance-attributes
 
     async def set_timer_sec(self, thingName, time_s):
         """Set Timer in Seconds"""
-        await self.send_command(thingName, "12,{}".format(time_s))  # pylint: disable=consider-using-f-string
+        await self.send_command(thingName, f"12,{time_s}")
 
     async def update_grills(self):
         """Get an update of available grills"""
@@ -390,8 +390,7 @@ class traeger:  # pylint: disable=invalid-name, too-many-instance-attributes
             return homeassistant.const.TEMP_FAHRENHEIT
         if state["units"] == 0:
             return homeassistant.const.TEMP_CELSIUS
-        else:
-            return homeassistant.const.TEMP_FAHRENHEIT
+        return homeassistant.const.TEMP_FAHRENHEIT
 
     def get_details_for_accessory(self, thingName, accessory_id):
         """Get Details for Probes"""

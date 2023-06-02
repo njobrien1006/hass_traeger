@@ -100,10 +100,9 @@ class TraegerSwitchEntity(TraegerBaseSwitch):
         """Reports unavailable when the grill is powered off"""
         if self.grill_state is None:
             return False
-        else:
-            if GRILL_MODE_IGNITING <= self.grill_state[
-                    'system_status'] <= GRILL_MODE_CUSTOM_COOK:
-                return True
+        if GRILL_MODE_IGNITING <= self.grill_state[
+                'system_status'] <= GRILL_MODE_CUSTOM_COOK:
+            return True
         return False
 
     # Switch Properties

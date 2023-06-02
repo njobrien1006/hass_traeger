@@ -49,8 +49,7 @@ class TraegerBaseClimate(ClimateEntity, TraegerBaseEntity):
         """Return the unit of measurement used by the grill."""
         if self.grill_units == TEMP_CELSIUS:
             return TEMP_CELSIUS
-        else:
-            return TEMP_FAHRENHEIT
+        return TEMP_FAHRENHEIT
 
     @property
     def target_temperature_step(self):
@@ -234,8 +233,7 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
         # this was the max the traeger would let me set
         if self.grill_units == TEMP_CELSIUS:
             return 100
-        else:
-            return 215
+        return 215
 
     @property
     def min_temp(self):
@@ -298,7 +296,7 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
 
     async def async_set_hvac_mode(self, hvac_mode):
         """Start grill shutdown sequence"""
-        if hvac_mode == HVAC_MODE_OFF or hvac_mode == HVAC_MODE_COOL:
+        if hvac_mode in (HVAC_MODE_OFF, HVAC_MODE_COOL):
             hvac_mode = hvac_mode  # pylint: disable=self-assigning-variable
             #await self.client.shutdown_grill(self.grill_id)
 
