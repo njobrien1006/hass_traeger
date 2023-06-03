@@ -315,4 +315,7 @@ class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
     # Timer Methods
     async def async_set_native_value(self, value: float):
         """Set new Timer Val."""
-        await self.client.set_timer_sec(self.grill_id, (round(value) * 60))
+        if value > 0:
+            await self.client.set_timer_sec(self.grill_id, (round(value) * 60))
+        else:
+            await self.client.reset_timer(self.grill_id)

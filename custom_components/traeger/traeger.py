@@ -95,7 +95,7 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
                 "ExpiresIn"] + request_time
             self.token = response["AuthenticationResult"]["IdToken"]
 
-    async def __get_user_data(self):
+    async def get_user_data(self):
         """Get User Data."""
         await self.__refresh_token()
         return await self.__api_wrapper(
@@ -145,11 +145,15 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
 
     async def set_timer_sec(self, thingName, time_s):
         """Set Timer in Seconds"""
-        await self.__send_command(thingName, f"12,{time_s}")
+        await self.__send_command(thingName, f"12,{time_s:05d}")
+
+    async def reset_timer(self, thingName):
+        """Reset Timer"""
+        await self.__send_command(thingName, "13")        
 
     async def __update_grills(self):
         """Get an update of available grills"""
-        myjson = await self.__get_user_data()
+        myjson = await self.get_user_data()
         self.grills = myjson["things"]
 
     def get_grills(self):

@@ -73,10 +73,8 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             await client.get_user_data()
             return True
         except Exception as exception:  # pylint: disable=broad-except
-            _LOGGER.error(
-                "Failed to login %s",
-                exception,
-            )
+            _LOGGER.error("Failed to login %s",
+                exception)
         return False
 
 
