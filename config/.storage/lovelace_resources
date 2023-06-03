@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "minor_version": 1,
+  "key": "lovelace_resources",
+  "data": {
+    "items": [
+      {
+        "id": "a39f9ddfcba7488e8db9a6f6aaacaea5",
+        "url": "/local/entity-attributes-card.js",
+        "type": "module"
+      }
+    ]
+  }
+}
