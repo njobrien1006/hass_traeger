@@ -257,8 +257,8 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         self.cook_cycle = kwargs["steps"]
         _LOGGER.info("Traeger: Set Cook Cycle:%s", self.cook_cycle)
         #Need to call callback now so that it fires state cust atrib update.
-        asyncio.run_coroutine_threadsafe(self.client.grill_callback(self.grill_id),
-                                        self.hass.loop)
+        asyncio.run_coroutine_threadsafe(
+            self.client.grill_callback(self.grill_id), self.hass.loop)
 
 
 class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):

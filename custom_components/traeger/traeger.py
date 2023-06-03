@@ -149,7 +149,7 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
 
     async def reset_timer(self, thingName):
         """Reset Timer"""
-        await self.__send_command(thingName, "13")        
+        await self.__send_command(thingName, "13")
 
     async def __update_grills(self):
         """Get an update of available grills"""
@@ -347,6 +347,8 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
         """MQTT Thread on_socketunregwrite"""
         _LOGGER.debug("Sock.UnRg.Write....Client: %s UserData: %s Sock: %s",
                       client, userdata, sock)
+
+
 #===========================/Paho MQTT Functions===================================================
 
     def get_state_for_device(self, thingName):
