@@ -1,4 +1,5 @@
 """Number/Timer platform for Traeger."""
+import asyncio
 import logging
 import re
 
@@ -71,7 +72,7 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         return "mdi:chef-hat"
 
     @property
-    def native_native_step(self):
+    def native_step(self):
         """Return the supported step."""
         return 1
 
@@ -202,7 +203,7 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                                 "hvac_mode": "cool"
                             }, False))
                     self.num_value = 0
-            self.old_num_value = self.num_value
+        self.old_num_value = self.num_value
         _LOGGER.debug("CookCycle Steps:%s", self.cook_cycle)
         if self.num_value > len(self.cook_cycle):
             _LOGGER.info("A.Cook Cycles out of indexes.")
@@ -256,7 +257,8 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         self.cook_cycle = kwargs["steps"]
         _LOGGER.info("Traeger: Set Cook Cycle:%s", self.cook_cycle)
         #Need to call callback now so that it fires state cust atrib update.
-        self.hass.async_create_task(self.client.grill_callback(self.grill_id))
+        asyncio.run_coroutine_threadsafe(self.client.grill_callback(self.grill_id),
+                                        self.hass.loop)
 
 
 class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
@@ -268,6 +270,13 @@ class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
         self.grill_register_callback()
 
     # Generic Properties
+    @property
+    def available(self):
+        """Reports unavailable when the grill is powered off"""
+        if self.grill_state is None:
+            return False
+        return self.grill_state["connected"]
+
     @property
     def name(self):
         """Return the name of the grill"""
@@ -286,6 +295,11 @@ class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
         """Set the default MDI Icon"""
         return "mdi:timer"
 
+    @property
+    def native_step(self):
+        """Return the supported step."""
+        return 1
+
     # Timer Properties
     @property
     def native_value(self):
@@ -300,7 +314,7 @@ class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
     @property
     def native_min_value(self):
         """Return the minimum value."""
-        return 1
+        return 0
 
     @property
     def native_max_value(self):
@@ -315,7 +329,7 @@ class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
     # Timer Methods
     async def async_set_native_value(self, value: float):
         """Set new Timer Val."""
-        if value > 0:
+        if value >= 1:
             await self.client.set_timer_sec(self.grill_id, (round(value) * 60))
         else:
             await self.client.reset_timer(self.grill_id)

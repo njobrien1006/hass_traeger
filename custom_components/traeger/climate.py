@@ -297,8 +297,8 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
     async def async_set_hvac_mode(self, hvac_mode):
         """Start grill shutdown sequence"""
         if hvac_mode in (HVAC_MODE_OFF, HVAC_MODE_COOL):
-            hvac_mode = hvac_mode  # pylint: disable=self-assigning-variable
-            #await self.client.shutdown_grill(self.grill_id)
+            raise NotImplementedError(
+                "HVAC Mode is determined based on the probe being plugged in.")
 
     async def async_set_preset_mode(self, preset_mode):
         """Set new target preset mode"""

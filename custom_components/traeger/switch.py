@@ -98,7 +98,7 @@ class TraegerSwitchEntity(TraegerBaseSwitch):
     @property
     def available(self):
         """Reports unavailable when the grill is powered off"""
-        if self.grill_state is None:
+        if self.grill_state is None or not self.grill_state["connected"]:
             return False
         if GRILL_MODE_IGNITING <= self.grill_state[
                 'system_status'] <= GRILL_MODE_CUSTOM_COOK:
@@ -132,7 +132,7 @@ class TraegerSuperSmokeEntity(TraegerSwitchEntity):
 
     @property
     def available(self):
-        if self.grill_state is None:
+        if self.grill_state is None or not self.grill_state["connected"]:
             return False
         if GRILL_MODE_IGNITING <= self.grill_state[
                 'system_status'] <= GRILL_MODE_CUSTOM_COOK:
