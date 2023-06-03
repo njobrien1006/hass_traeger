@@ -56,11 +56,11 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
         self.mqtt_client_inloop = False
         self.autodisconnect = False
 
-    def token_remaining(self):
+    def __token_remaining(self):
         """Report remaining token time."""
         return self.token_expires - time.time()
 
-    async def do_cognito(self):
+    async def __do_cognito(self):
         """Intial API Login for MQTT Token GEN"""
         t = datetime.datetime.utcnow()
         amzdate = t.strftime('%Y%m%dT%H%M%SZ')
@@ -68,7 +68,7 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
         _LOGGER.info("do_cognito amzdate:%s", amzdate)
         _LOGGER.info("do_cognito self.username:%s", self.username)
         _LOGGER.info("do_cognito CLIENT_ID:%s", CLIENT_ID)
-        return await self.api_wrapper(
+        return await self.__api_wrapper(
             "post",
             "https://cognito-idp.us-west-2.amazonaws.com/",
             data={
@@ -86,33 +86,33 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
                 'X-Amz-Target': 'AWSCognitoIdentityProviderService.InitiateAuth'
             })
 
-    async def refresh_token(self):
+    async def __refresh_token(self):
         """Refresh Token if expiration is soon."""
-        if self.token_remaining() < 60:
+        if self.__token_remaining() < 60:
             request_time = time.time()
-            response = await self.do_cognito()
+            response = await self.__do_cognito()
             self.token_expires = response["AuthenticationResult"][
                 "ExpiresIn"] + request_time
             self.token = response["AuthenticationResult"]["IdToken"]
 
-    async def get_user_data(self):
+    async def __get_user_data(self):
         """Get User Data."""
-        await self.refresh_token()
-        return await self.api_wrapper(
+        await self.__refresh_token()
+        return await self.__api_wrapper(
             "get",
             "https://1ywgyc65d1.execute-api.us-west-2.amazonaws.com/prod/users/self",
             headers={'authorization': self.token})
 
-    async def send_command(self, thingName, command):
+    async def __send_command(self, thingName, command):
         """
         Send Grill Commands to API.
         Command are via API and not MQTT.
         """
         _LOGGER.debug("Send Command Topic: %s, Send Command: %s", thingName,
                       command)
-        await self.refresh_token()
+        await self.__refresh_token()
         api_url = "https://1ywgyc65d1.execute-api.us-west-2.amazonaws.com"
-        await self.api_wrapper(
+        await self.__api_wrapper(
             "post_raw",
             f"{api_url}/prod/things/{thingName}/commands",
             data={'command': command},
@@ -123,33 +123,33 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
                 "User-Agent": "Traeger/11 CFNetwork/1209 Darwin/20.2.0",
             })
 
-    async def update_state(self, thingName):
+    async def __update_state(self, thingName):
         """Update State"""
-        await self.send_command(thingName, "90")
+        await self.__send_command(thingName, "90")
 
     async def set_temperature(self, thingName, temp):
         """Set Grill Temp Setpoint"""
-        await self.send_command(thingName, f"11,{temp}")
+        await self.__send_command(thingName, f"11,{temp}")
 
     async def set_probe_temperature(self, thingName, temp):
         """Set Probe Temp Setpoint"""
-        await self.send_command(thingName, f"14,{temp}")
+        await self.__send_command(thingName, f"14,{temp}")
 
     async def set_switch(self, thingName, switchval):
         """Set Binary Switch"""
-        await self.send_command(thingName, str(switchval))
+        await self.__send_command(thingName, str(switchval))
 
     async def shutdown_grill(self, thingName):
         """Request Grill Shutdown"""
-        await self.send_command(thingName, "17")
+        await self.__send_command(thingName, "17")
 
     async def set_timer_sec(self, thingName, time_s):
         """Set Timer in Seconds"""
-        await self.send_command(thingName, f"12,{time_s}")
+        await self.__send_command(thingName, f"12,{time_s}")
 
-    async def update_grills(self):
+    async def __update_grills(self):
         """Get an update of available grills"""
-        myjson = await self.get_user_data()
+        myjson = await self.__get_user_data()
         self.grills = myjson["things"]
 
     def get_grills(self):
@@ -168,17 +168,17 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
             for callback in self.grill_callbacks[grill_id]:
                 callback()
 
-    def mqtt_url_remaining(self):
+    def __mqtt_url_remaining(self):
         """Available MQTT time left."""
         return self.mqtt_url_expires - time.time()
 
-    async def refresh_mqtt_url(self):
+    async def __refresh_mqtt_url(self):
         """Update MQTT Token"""
-        await self.refresh_token()
-        if self.mqtt_url_remaining() < 60:
+        await self.__refresh_token()
+        if self.__mqtt_url_remaining() < 60:
             try:
                 mqtt_request_time = time.time()
-                myjson = await self.api_wrapper(
+                myjson = await self.__api_wrapper(
                     "post",
                     "https://1ywgyc65d1.execute-api.us-west-2.amazonaws.com/prod/mqtt-connections",
                     headers={'Authorization': self.token})
@@ -194,7 +194,7 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
         _LOGGER.debug("MQTT URL:%s Expires @:%s", self.mqtt_url,
                       self.mqtt_url_expires)
 
-    def _mqtt_connect_func(self):
+    def mqtt_connect_func(self):
         """
         MQTT Thread Function.
         Anything called from self.mqtt_client is not async and needs to be thread safe.
@@ -205,15 +205,15 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
                 self.mqtt_client_inloop = True
                 self.mqtt_client.loop_forever()
                 self.mqtt_client_inloop = False
-                while (self.mqtt_url_remaining() < 60 or
+                while (self.__mqtt_url_remaining() < 60 or
                        self.mqtt_thread_refreshing
                       ) and self.mqtt_thread_running:
                     time.sleep(1)
         _LOGGER.debug("Should be the end of the thread.")
 
-    async def get_mqtt_client(self):
+    async def __get_mqtt_client(self):
         """Setup the MQTT Client and run in a thread."""
-        await self.refresh_mqtt_url()
+        await self.__refresh_mqtt_url()
         if self.mqtt_client is not None:
             _LOGGER.debug("ReInit Client")
         else:
@@ -247,7 +247,7 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
         _LOGGER.info("Thread Active Count:%s", threading.active_count())
         self.mqtt_client.connect(mqtt_parts.netloc, 443, keepalive=300)
         if self.mqtt_thread_running is False:
-            self.mqtt_thread = threading.Thread(target=self._mqtt_connect_func)
+            self.mqtt_thread = threading.Thread(target=self.mqtt_connect_func)
             self.mqtt_thread_running = True
             self.mqtt_thread.start()
 
@@ -285,7 +285,7 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
             grill_id = grill["thingName"]
             if grill_id in self.grill_status:
                 del self.grill_status[grill_id]
-            asyncio.run_coroutine_threadsafe(self.update_state(grill_id),
+            asyncio.run_coroutine_threadsafe(self.__update_state(grill_id),
                                              self.loop)
 
     def mqtt_onmessage(self, client, userdata, message):  # pylint: disable=unused-argument
@@ -293,7 +293,7 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
         _LOGGER.debug("grill_message: message.topic = %s, message.payload = %s",
                       message.topic, message.payload)
         _LOGGER.info("Token Time Remaining:%s MQTT Time Remaining:%s",
-                     self.token_remaining(), self.mqtt_url_remaining())
+                     self.__token_remaining(), self.__mqtt_url_remaining())
         if message.topic.startswith("prod/thing/update/"):
             grill_id = message.topic[len("prod/thing/update/"):]
             self.grill_status[grill_id] = json.loads(message.payload)
@@ -343,8 +343,6 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
         """MQTT Thread on_socketunregwrite"""
         _LOGGER.debug("Sock.UnRg.Write....Client: %s UserData: %s Sock: %s",
                       client, userdata, sock)
-
-
 #===========================/Paho MQTT Functions===================================================
 
     def get_state_for_device(self, thingName):
@@ -408,34 +406,34 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
         It does have a delay before doing MQTT connect to
         allow HA to finish starting up before lauching threads.
         """
-        await self.update_grills()
+        await self.__update_grills()
         self.grills_active = True
         _LOGGER.info("Call_Later in: %s seconds.", delay)
-        self.task = self.loop.call_later(delay, self.syncmain)
+        self.task = self.loop.call_later(delay, self.__syncmain)
 
-    def syncmain(self):
+    def __syncmain(self):
         """
         Small wrapper to switch from the call_later def back to the async loop
         """
         _LOGGER.debug("@Call_Later SyncMain CreatingTask for async Main.")
-        self.hass.async_create_task(self.main())
+        self.hass.async_create_task(self.__main())
 
-    async def main(self):
+    async def __main(self):
         """This is the loop that keeps the tokens updated."""
         _LOGGER.debug("Current Main Loop Time: %s", time.time())
         _LOGGER.debug(
             "MQTT Logger Token Time Remaining:%s MQTT Time Remaining:%s",
-            self.token_remaining(), self.mqtt_url_remaining())
-        if self.mqtt_url_remaining() < 60:
+            self.__token_remaining(), self.__mqtt_url_remaining())
+        if self.__mqtt_url_remaining() < 60:
             self.mqtt_thread_refreshing = True
             if self.mqtt_thread_running:
                 self.mqtt_client.disconnect()
                 self.mqtt_client = None
-            await self.get_mqtt_client()
+            await self.__get_mqtt_client()
             self.mqtt_thread_refreshing = False
         _LOGGER.debug("Call_Later @: %s", self.mqtt_url_expires)
-        delay = max(self.mqtt_url_remaining(), 30)
-        self.task = self.loop.call_later(delay, self.syncmain)
+        delay = max(self.__mqtt_url_remaining(), 30)
+        self.task = self.loop.call_later(delay, self.__syncmain)
 
     async def kill(self):
         """This terminates the main loop and shutsdown the thread."""
@@ -460,11 +458,11 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
             _LOGGER.info("Task Already Dead")
 
     # pylint: disable=dangerous-default-value
-    async def api_wrapper(self,
-                          method: str,
-                          url: str,
-                          data: dict = {},
-                          headers: dict = {}) -> dict:
+    async def __api_wrapper(self,
+                            method: str,
+                            url: str,
+                            data: dict = {},
+                            headers: dict = {}) -> dict:
         """Get information from the API."""
         try:
             async with async_timeout.timeout(TIMEOUT):
