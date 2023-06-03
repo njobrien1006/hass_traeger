@@ -16,7 +16,7 @@ fi
 ## without resulting to symlinks.
 export PYTHONPATH="${PYTHONPATH}:${PWD}/custom_components"
 
-wget -P config/www https://raw.githubusercontent.com/custom-cards/entity-attributes-card/master/entity-attributes-card.js
+wget -P config/www/entity-attributes-card https://raw.githubusercontent.com/custom-cards/entity-attributes-card/master/entity-attributes-card.js
 
 # Start Home Assistant
 hass --config "${PWD}/config" --debug
