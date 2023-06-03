@@ -490,6 +490,11 @@
                         {
                             "type": "thermostat",
                             "entity": "climate.friendlynme_probe_p0"
+                        },
+                        {
+                          "type": "markdown",
+                          "content": "In order to use this CodeSpace, you must:\n1. Login to Traeger via Settings/Devices/Add Integrations/Traeger.\n2. Update the entities in this page to match your grill.\n   a. Three Dots top right. Edit Dashboard.\n   b. Three Dots top right. Raw Config Editor.\n   c. Ctrl-F\n   d. replace `0123456789ab` with your grill id.\n   e. replace `friendlynme` with your grill's friendly name.",
+                          "title": "Instructions"
                         }
                     ]
                 }
