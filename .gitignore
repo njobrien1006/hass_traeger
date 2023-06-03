@@ -13,6 +13,6 @@ coverage.xml
 
 
 # Home Assistant configuration
-config/
-!config/configuration.yaml
-!config/.storage/lovelace_resources
+# config/
+# !config/configuration.yaml
+# !config/.storage/lovelace_resources
