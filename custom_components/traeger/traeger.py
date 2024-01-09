@@ -391,10 +391,10 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
         """Parse what units the grill is operating in."""
         state = self.get_state_for_device(thingName)
         if state is None:
-            return homeassistant.const.TEMP_FAHRENHEIT
+            return homeassistant.const.UnitOfTemperature.FAHRENHEIT
         if state["units"] == 0:
-            return homeassistant.const.TEMP_CELSIUS
-        return homeassistant.const.TEMP_FAHRENHEIT
+            return homeassistant.const.UnitOfTemperature.CELSIUS
+        return homeassistant.const.UnitOfTemperature.FAHRENHEIT
 
     def get_details_for_accessory(self, thingName, accessory_id):
         """Get Details for Probes"""
