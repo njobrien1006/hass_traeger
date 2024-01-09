@@ -13,5 +13,5 @@
   "documentation": "https://github.com/njobrien1006/hass_traeger",
   "iot_class": "cloud_push",
   "issue_tracker": "https://github.com/njobrien1006/hass_traeger/issues",
-  "version": "2024.01.05"
+  "version": "2024.01.08"
 }
