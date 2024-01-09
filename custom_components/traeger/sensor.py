@@ -200,8 +200,8 @@ class HeatingState(TraegerBaseSensor):
         grill_mode = self.grill_state["system_status"]
         current_temp = self.grill_state["grill"]
         target_changed = target_temp != self.previous_target_temp
-        min_cook_temp = (GRILL_MIN_TEMP_C if self.grill_units == UnitOfTemperature.CELSIUS
-                         else GRILL_MIN_TEMP_F)
+        min_cook_temp = (GRILL_MIN_TEMP_C if self.grill_units
+                         == UnitOfTemperature.CELSIUS else GRILL_MIN_TEMP_F)
         temp_swing = 11 if self.grill_units == UnitOfTemperature.CELSIUS else 20
         low_temp = target_temp - temp_swing
         high_temp = target_temp + temp_swing
