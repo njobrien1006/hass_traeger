@@ -39,6 +39,8 @@ async def async_setup_entry(hass, entry, async_add_devices):
 class TraegerBaseClimate(ClimateEntity, TraegerBaseEntity):
     """Base Climate Class Common to All"""
 
+    _enable_turn_on_off_backwards_compatibility = False
+
     def __init__(self, client, grill_id, friendly_name):
         super().__init__(client, grill_id)
         self.friendly_name = friendly_name
@@ -68,7 +70,8 @@ class TraegerBaseClimate(ClimateEntity, TraegerBaseEntity):
     @property
     def supported_features(self):
         """Return the list of supported features for the grill"""
-        return ClimateEntityFeature.TARGET_TEMPERATURE
+        return (ClimateEntityFeature.TARGET_TEMPERATURE
+                | ClimateEntityFeature.TURN_OFF | ClimateEntityFeature.TURN_ON)
 
 
 class TraegerClimateEntity(TraegerBaseClimate):
@@ -308,7 +311,8 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
     @property
     def supported_features(self):
         """Return the list of supported features for the grill"""
-        return ClimateEntityFeature.TARGET_TEMPERATURE | ClimateEntityFeature.PRESET_MODE
+        return (ClimateEntityFeature.TARGET_TEMPERATURE | ClimateEntityFeature.PRESET_MODE
+                | ClimateEntityFeature.TURN_OFF | ClimateEntityFeature.TURN_ON)
 
     # Climate Methods
     async def async_set_temperature(self, **kwargs):
