@@ -70,8 +70,8 @@ class TraegerBaseClimate(ClimateEntity, TraegerBaseEntity):
     @property
     def supported_features(self):
         """Return the list of supported features for the grill"""
-        return (ClimateEntityFeature.TARGET_TEMPERATURE
-                | ClimateEntityFeature.TURN_OFF | ClimateEntityFeature.TURN_ON)
+        return (ClimateEntityFeature.TARGET_TEMPERATURE |
+                ClimateEntityFeature.TURN_OFF | ClimateEntityFeature.TURN_ON)
 
 
 class TraegerClimateEntity(TraegerBaseClimate):
@@ -311,8 +311,9 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
     @property
     def supported_features(self):
         """Return the list of supported features for the grill"""
-        return (ClimateEntityFeature.TARGET_TEMPERATURE | ClimateEntityFeature.PRESET_MODE
-                | ClimateEntityFeature.TURN_OFF | ClimateEntityFeature.TURN_ON)
+        return (ClimateEntityFeature.TARGET_TEMPERATURE |
+                ClimateEntityFeature.PRESET_MODE |
+                ClimateEntityFeature.TURN_OFF | ClimateEntityFeature.TURN_ON)
 
     # Climate Methods
     async def async_set_temperature(self, **kwargs):
