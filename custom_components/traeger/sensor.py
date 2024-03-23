@@ -1,6 +1,8 @@
 """Sensor platform for Traeger."""
 from homeassistant.const import UnitOfTemperature
 
+from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
+
 from .const import (DOMAIN, GRILL_MIN_TEMP_C, GRILL_MIN_TEMP_F,
                     GRILL_MODE_COOL_DOWN, GRILL_MODE_CUSTOM_COOK,
                     GRILL_MODE_IDLE, GRILL_MODE_IGNITING,
@@ -42,7 +44,7 @@ async def async_setup_entry(hass, entry, async_add_devices):
         TraegerGrillMonitor(client, grill_id, async_add_devices, ProbeState)
 
 
-class TraegerBaseSensor(TraegerBaseEntity):
+class TraegerBaseSensor(TraegerBaseEntity, SensorEntity):
     """Base Sensor Class Common to All"""
 
     def __init__(self, client, grill_id, friendly_name, value):
@@ -74,7 +76,7 @@ class TraegerBaseSensor(TraegerBaseEntity):
 
     # Sensor Properties
     @property
-    def state(self):
+    def native_value(self):
         """Return the current state of entity."""
         return self.grill_state[self.value]
 
@@ -89,8 +91,20 @@ class ValueTemperature(TraegerBaseSensor):
 
     # Sensor Properties
     @property
-    def unit_of_measurement(self):
+    def native_unit_of_measurement(self):
         """Return the unit the value is expressed in."""
+        return self.grill_units
+
+    # Sensor Properties
+    @property
+    def device_class(self):
+        """Return the class of the sensor"""
+        return SensorDeviceClass.TEMPERATURE
+
+    # Sensor Properties
+    @property
+    def suggested_unit_of_measurement(self):
+        """Return the suggested UOM"""
         return self.grill_units
 
 
@@ -111,7 +125,7 @@ class PelletSensor(TraegerBaseSensor):
 
     # Sensor Properties
     @property
-    def unit_of_measurement(self):
+    def native_unit_of_measurement(self):
         """Return the unit the value is expressed in."""
         return "%"
 
@@ -127,7 +141,7 @@ class GrillTimer(TraegerBaseSensor):
 
     # Sensor Properties
     @property
-    def unit_of_measurement(self):
+    def native_unit_of_measurement(self):
         """Return the unit the value is expressed in."""
         return "sec"
 
