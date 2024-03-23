@@ -112,6 +112,17 @@ class TraegerClimateEntity(TraegerBaseClimate):
         if self.grill_state is None:
             return 0
         return self.grill_state["set"]
+    
+    @property
+    def extra_state_attributes(self):
+        """Return the extra state attributes."""
+        custom_attributes = {
+            "grill_native_cur_val": self.grill_state["grill"],
+            "grill_native_set_val": self.grill_state["set"],
+        }
+        attributes = {}
+        attributes.update(custom_attributes)
+        return attributes    
 
     @property
     def max_temp(self):
@@ -253,6 +264,20 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
             return 0
         acc_type = self.grill_accessory["type"]
         return self.grill_accessory[acc_type]["set_temp"]
+    
+    @property
+    def extra_state_attributes(self):
+        """Return the extra state attributes."""
+        if self.grill_accessory is None:
+            return 0
+        acc_type = self.grill_accessory["type"]
+        custom_attributes = {
+            "grill_native_cur_val": self.grill_accessory[acc_type]["get_temp"],
+            "grill_native_set_val": self.grill_accessory[acc_type]["set_temp"],
+        }
+        attributes = {}
+        attributes.update(custom_attributes)
+        return attributes    
 
     @property
     def max_temp(self):
