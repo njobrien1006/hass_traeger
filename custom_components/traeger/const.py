@@ -5,7 +5,7 @@ from homeassistant.const import UnitOfTemperature
 NAME = "Traeger"
 DOMAIN = "traeger"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "2024.03.23"
+VERSION = "2024.03.29"
 ATTRIBUTION = ""
 ISSUE_URL = "https://github.com/njobrien1006/hass_traeger/issues"
 
