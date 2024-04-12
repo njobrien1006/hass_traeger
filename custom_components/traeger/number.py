@@ -263,7 +263,7 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         return 999
 
     @property
-    def state_attributes(self):
+    def extra_state_attributes(self):
         """Return the optional state attributes."""
         # default_attributes = super().state_attributes
         prev_step = {}
