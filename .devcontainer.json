@@ -1,7 +1,7 @@
 {
     "name": "njobrien1006/hass_traeger",
     //Change Me for different CodeSpace Python Version
-    "image": "mcr.microsoft.com/vscode/devcontainers/python:0-3.11-bullseye",
+    "image": "mcr.microsoft.com/devcontainers/python:0-3.11-bullseye",
     "postCreateCommand": "scripts/setup",
     "forwardPorts": [
         8123
