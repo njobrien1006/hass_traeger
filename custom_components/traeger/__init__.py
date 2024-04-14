@@ -45,7 +45,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     for platform in PLATFORMS:
         if entry.options.get(platform, True):
-            hass.async_add_job(
+            hass.async_create_task(
                 hass.config_entries.async_forward_entry_setup(entry, platform))
 
     async def async_shutdown(event: Event):  # pylint: disable=unused-argument
