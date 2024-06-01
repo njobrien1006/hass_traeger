@@ -264,7 +264,7 @@ class HeatingState(TraegerBaseSensor):
                 else:
                     state = "cooling"
         elif grill_mode == GRILL_MODE_COOL_DOWN:
-            state = "cool_down"           
+            state = "cool_down"
 
         self.previous_target_temp = target_temp
         self.previous_state = state
@@ -351,7 +351,7 @@ class ProbeState(TraegerBaseSensor):
         elif ((target_changed and target_temp != 0) or
               (grill_mode not in self.active_modes)):
             self.probe_alarm = False
-        
+
         state = "idle"
         if probe_temp >= fell_out_temp:
             state = "fell_out"
