@@ -136,6 +136,7 @@ class TraegerSuperSmokeEntity(TraegerSwitchEntity):
             return False
         if GRILL_MODE_IGNITING <= self.grill_state[
                 'system_status'] <= GRILL_MODE_CUSTOM_COOK:
+            super_smoke_supported = 0
             if self.grill_features["super_smoke_enabled"] == 1:
                 super_smoke_supported = 1
             if self.grill_units == UnitOfTemperature.CELSIUS:
