@@ -220,6 +220,7 @@ class HeatingState(TraegerBaseSensor):
         low_temp = target_temp - temp_swing
         high_temp = target_temp + temp_swing
 
+        state = "idle"
         if grill_mode in self.preheat_modes:
             if current_temp < min_cook_temp:
                 state = "preheating"
@@ -264,8 +265,6 @@ class HeatingState(TraegerBaseSensor):
                     state = "cooling"
         elif grill_mode == GRILL_MODE_COOL_DOWN:
             state = "cool_down"
-        else:
-            state = "idle"
 
         self.previous_target_temp = target_temp
         self.previous_state = state
@@ -353,6 +352,7 @@ class ProbeState(TraegerBaseSensor):
               (grill_mode not in self.active_modes)):
             self.probe_alarm = False
 
+        state = "idle"
         if probe_temp >= fell_out_temp:
             state = "fell_out"
         elif self.probe_alarm:
@@ -365,7 +365,6 @@ class ProbeState(TraegerBaseSensor):
                 state = "set"
         else:
             self.probe_alarm = False
-            state = "idle"
 
         self.previous_target_temp = target_temp
         return state
