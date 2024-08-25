@@ -43,10 +43,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     await client.start(30)
     hass.data[DOMAIN][entry.entry_id] = client
 
-    for platform in PLATFORMS:
-        if entry.options.get(platform, True):
-            hass.async_create_task(
-                hass.config_entries.async_forward_entry_setup(entry, platform))
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     async def async_shutdown(event: Event):  # pylint: disable=unused-argument
         """Shut down the client."""
@@ -60,13 +57,10 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Handle removal of an entry."""
     client = hass.data[DOMAIN][entry.entry_id]
-    unloaded = all(await asyncio.gather(*[
-        hass.config_entries.async_forward_entry_unload(entry, platform)
-        for platform in PLATFORMS
-    ]))
-    await client.kill()
-    if unloaded:
+    if unloaded := await hass.config_entries.async_unload_platforms(
+            entry, PLATFORMS):
         hass.data[DOMAIN].pop(entry.entry_id)
+    await client.kill()
 
     return unloaded
 
