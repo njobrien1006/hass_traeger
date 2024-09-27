@@ -81,6 +81,7 @@ class TraegerSwitchEntity(TraegerBaseSwitch):
     """Traeger Switch class."""
 
     # pylint: disable=too-many-arguments
+    # pylint: disable=too-many-positional-arguments
     def __init__(self, client, grill_id, devname, friendly_name, iconinp,
                  on_cmd, off_cmd):
         super().__init__(client, grill_id, devname, friendly_name)
