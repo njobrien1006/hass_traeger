@@ -8,6 +8,12 @@ body:
     value: Before you open a new issue, search through the existing issues to see if others have had the same problem.
 - type: textarea
   attributes:
+    label: "Integration Version"
+    description: "The current version integration you are running (ex: 2024.01.01)"
+  validations:
+    required: true
+- type: textarea
+  attributes:
     label: "System Health details"
     description: "Paste the data from the System Health card in Home Assistant Settings/System/Repairs/3Dots/SystemInfo/Copy (https://www.home-assistant.io//more-info/system-health#github-issues)"
   validations:
