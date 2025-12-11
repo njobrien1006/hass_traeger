@@ -71,9 +71,7 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
                 "password": self.password,
                 "username": self.username
             },
-            headers={
-                'content-type': 'application/json'
-            })
+            headers={'content-type': 'application/json'})
 
     async def __refresh_token(self):
         """Refresh Token if expiration is soon."""
@@ -85,9 +83,9 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
                 self.token_expires = response["expiresIn"] + request_time
                 self.token = response["idToken"]
             except Exception as exception:  # pylint: disable=broad-except
-                _LOGGER.error("We had an exception: %s \n \
+                _LOGGER.error(
+                    "We had an exception: %s \n \
                 Do Cognito Response: %s", exception, response)
-
 
     async def get_user_data(self):
         """Get User Data."""
