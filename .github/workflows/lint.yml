@@ -1,0 +1,55 @@
+name: "Lint"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "master"
+      - "dev"
+  pull_request:
+    branches:
+      - "master"
+      - "dev"
+
+jobs:
+  autoyapf:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+        with:
+          ref: ${{ github.head_ref }}
+      - name: autoyapf
+        id: autoyapf
+        uses: mritunjaysharma394/autoyapf@v2
+        with:
+          args: --style google --recursive --in-place .
+      - name: Check for modified files
+        id: git-check
+        run: echo ::set-output name=modified::$(if git diff-index --quiet HEAD --; then echo "false"; else echo "true"; fi)
+      - name: Push changes
+        if: steps.git-check.outputs.modified == 'true'
+        run: |
+          git config --global user.name 'github-actions' 
+          git config --global user.email 'github-actions@github.com' 
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}
+          git commit -am "Automated autoyapf fixes"
+          git push
+          
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v2
+      - name: Install dependencies
+        run: |
+              python -m pip install --upgrade pip
+              pip install pylint
+              pip install pylint-fail-under
+      - name: Analysing the code with pylint
+        run: find . -name '*.py' -print -exec pylint --disable=E0401 {} \;
+      - name: Fails if pylint score is less than 10.0
+        run: |
+              for file in $(find -name '*.py')
+              do
+                pylint --disable=E0401 "$file" --fail-under=10.0;
+              done

@@ -23,7 +23,6 @@ import async_timeout
 import homeassistant.const
 import paho.mqtt.client as mqtt
 
-CLIENT_ID = "2fuohjtqv1e63dckp5v84rau0j"
 TIMEOUT = 60
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -63,45 +62,41 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
     async def __do_cognito(self):
         """Intial API Login for MQTT Token GEN"""
         t = datetime.datetime.utcnow()
-        amzdate = t.strftime('%Y%m%dT%H%M%SZ')
         _LOGGER.info("do_cognito t:%s", t)
-        _LOGGER.info("do_cognito amzdate:%s", amzdate)
         _LOGGER.info("do_cognito self.username:%s", self.username)
-        _LOGGER.info("do_cognito CLIENT_ID:%s", CLIENT_ID)
         return await self.__api_wrapper(
             "post",
-            "https://cognito-idp.us-west-2.amazonaws.com/",
+            "https://auth-api.iot.traegergrills.io/tokens",
             data={
-                "ClientMetadata": {},
-                "AuthParameters": {
-                    "PASSWORD": self.password,
-                    "USERNAME": self.username,
-                },
-                "AuthFlow": "USER_PASSWORD_AUTH",
-                "ClientId": CLIENT_ID
+                "password": self.password,
+                "username": self.username
             },
-            headers={
-                'Content-Type': 'application/x-amz-json-1.1',
-                'X-Amz-Date': amzdate,
-                'X-Amz-Target': 'AWSCognitoIdentityProviderService.InitiateAuth'
-            })
+            headers={'content-type': 'application/json'})
 
     async def __refresh_token(self):
         """Refresh Token if expiration is soon."""
         if self.__token_remaining() < 60:
             request_time = time.time()
             response = await self.__do_cognito()
-            self.token_expires = response["AuthenticationResult"][
-                "ExpiresIn"] + request_time
-            self.token = response["AuthenticationResult"]["IdToken"]
+            _LOGGER.debug("Do Cognito Response: %s", response)
+            try:
+                self.token_expires = response["expiresIn"] + request_time
+                self.token = response["idToken"]
+            except Exception as exception:  # pylint: disable=broad-except
+                _LOGGER.error(
+                    "We had an exception: %s \n \
+                Do Cognito Response: %s", exception, response)
 
     async def get_user_data(self):
         """Get User Data."""
         await self.__refresh_token()
         return await self.__api_wrapper(
             "get",
-            "https://1ywgyc65d1.execute-api.us-west-2.amazonaws.com/prod/users/self",
-            headers={'authorization': self.token})
+            "https://mobile-iot-api.iot.traegergrills.io/users/self",
+            headers={
+                'authorization': self.token,
+                'content-type': 'application/json'
+            })
 
     async def __send_command(self, thingName, command):
         """
@@ -111,16 +106,16 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
         _LOGGER.debug("Send Command Topic: %s, Send Command: %s", thingName,
                       command)
         await self.__refresh_token()
-        api_url = "https://1ywgyc65d1.execute-api.us-west-2.amazonaws.com"
+        api_url = "https://mobile-iot-api.iot.traegergrills.io"
         await self.__api_wrapper(
             "post_raw",
-            f"{api_url}/prod/things/{thingName}/commands",
+            f"{api_url}/things/{thingName}/commands",
             data={'command': command},
             headers={
-                'Authorization': self.token,
-                "Content-Type": "application/json",
-                "Accept-Language": "en-us",
-                "User-Agent": "Traeger/11 CFNetwork/1209 Darwin/20.2.0",
+                'authorization': self.token,
+                "content-type": "application/json",
+                "accept-language": "en-US",
+                "user-agent": "Traeger/11 CFNetwork/1209 Darwin/20.2.0",
             })
 
     async def __update_state(self, thingName):
@@ -184,7 +179,7 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
                 mqtt_request_time = time.time()
                 myjson = await self.__api_wrapper(
                     "post",
-                    "https://1ywgyc65d1.execute-api.us-west-2.amazonaws.com/prod/mqtt-connections",
+                    "https://mobile-iot-api.iot.traegergrills.io/mqtt-connections",
                     headers={'Authorization': self.token})
                 self.mqtt_url_expires = myjson["expirationSeconds"] + \
                     mqtt_request_time
