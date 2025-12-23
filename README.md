@@ -134,11 +134,11 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 [traeger]: https://www.traegergrills.com/
 [hacs]: https://github.com/custom-components/hacs
 [hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=flat
-[deviceimg]: images/device.png
-[lovelaceimg]: images/lovelace.png
-[probeimg]: images/probe.png
-[grillimg]: images/grill.png
-[inaction]: images/CodeSpace_CooksCycle.gif
+[deviceimg]: https://github.com/njobrien1006/hass_traeger/blob/master/images/device.png?raw=true
+[lovelaceimg]: https://github.com/njobrien1006/hass_traeger/blob/master/images/lovelace.png?raw=true
+[probeimg]: https://github.com/njobrien1006/hass_traeger/blob/master/images/probe.png?raw=true
+[grillimg]: https://github.com/njobrien1006/hass_traeger/blob/master/images/grill.png?raw=true
+[inaction]: https://github.com/njobrien1006/hass_traeger/blob/master/images/CodeSpace_CooksCycle.gif?raw=true
 [license-shield]: https://img.shields.io/github/license/custom-components/blueprint.svg?style=flat
 [releases-shield]: https://img.shields.io/github/v/release/njobrien1006/hass_traeger.svg?style=flat
 [releases]: https://github.com/njobrien1006/hass_traeger/releases
