@@ -1,4 +1,4 @@
-# Traeger HASS component
+# HomeAssistant(hass) Traeger Component
 
 [![GitHub Release][releases-shield]][releases]
 [![License][license-shield]](LICENSE)
