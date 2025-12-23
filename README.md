@@ -16,10 +16,20 @@ Platform | Description
 `switch` | Allow SuperSmoke, Keepwarm, and connectivity switch
 `binary sensor ` | Show values of boolean entities
 
-![device][deviceimg]
-![lovelace][lovelaceimg]
-![grill][grillimg]
-![probe][probeimg]
+## Examples
+
+| Native Devices           |
+| ------------------------ |
+| ![device][deviceimg]     |
+
+| Grill Climate      | Probe Climate      |
+| ------------------ | ------------------ |
+| ![grill][grillimg] | ![probe][probeimg] |
+
+| Example Lovelace         |
+| ------------------------ |
+| ![lovelace][lovelaceimg] |
+
 
 ## Installation (HACS)
 
