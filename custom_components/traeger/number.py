@@ -3,10 +3,7 @@ import asyncio
 import logging
 import re
 
-import voluptuous as vol
 from homeassistant.components.number import NumberEntity
-from homeassistant.helpers import config_validation as cv
-from homeassistant.helpers import entity_platform
 
 from .const import (
     DOMAIN,
@@ -20,24 +17,12 @@ from .const import (
 
 from .entity import TraegerBaseEntity
 
-SERVICE_CUSTOMCOOK = "set_custom_cook"
-ENTITY_ID = "entity_id"
-SCHEMA_CUSTOMCOOK = {
-    vol.Required(ENTITY_ID): cv.string,
-    vol.Required("steps", default=dict): list,
-}
-
 _LOGGER: logging.Logger = logging.getLogger(__package__)
-
 
 async def async_setup_entry(hass, entry, async_add_devices):
     """
     Setup Number/Timer platform.
-    Setup Service platform.
     """
-    platform = entity_platform.current_platform.get()
-    platform.async_register_entity_service(SERVICE_CUSTOMCOOK,
-                                           SCHEMA_CUSTOMCOOK, "set_custom_cook")
     client = hass.data[DOMAIN][entry.entry_id]
     grills = client.get_grills()
     for grill in grills:
