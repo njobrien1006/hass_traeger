@@ -4,8 +4,8 @@
 [![License][license-shield]](LICENSE)
 [![hacs][hacsbadge]][hacs]
 
-[![HACS](https://github.com/njobrien1006/hass_traeger/actions/workflows/validate.yml/badge.svg)](https://github.com/njobrien1006/hass_traeger/actions/workflows/validate.yml)
-[![LINT](https://github.com/njobrien1006/hass_traeger/actions/workflows/lint.yml/badge.svg)](https://github.com/njobrien1006/hass_traeger/actions/workflows/lint.yml)
+[![HACS](./actions/workflows/validate.yml/badge.svg)](./actions/workflows/validate.yml)
+[![LINT](./actions/workflows/lint.yml/badge.svg)](./actions/workflows/lint.yml)
 
 _Component to integrate with [Traeger WiFire Grills][traeger]._
 
