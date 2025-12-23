@@ -35,9 +35,7 @@ async def async_setup(hass: HomeAssistant, config: ConfigType):  # pylint: disab
         DOMAIN,
         "set_custom_cook",
         entity_domain=NUMBER_DOMAIN,
-        schema={
-            vol.Required("steps", default=dict): list
-        },
+        schema={vol.Required("steps", default=dict): list},
         func="set_custom_cook",
     )
     return True
