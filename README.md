@@ -4,6 +4,9 @@
 [![License][license-shield]](LICENSE)
 [![hacs][hacsbadge]][hacs]
 
+[![HACS](https://github.com/njobrien1006/hass_traeger/actions/workflows/validate.yml/badge.svg)](https://github.com/njobrien1006/hass_traeger/actions/workflows/validate.yml)
+[![LINT](https://github.com/njobrien1006/hass_traeger/actions/workflows/lint.yml/badge.svg)](https://github.com/njobrien1006/hass_traeger/actions/workflows/lint.yml)
+
 _Component to integrate with [Traeger WiFire Grills][traeger]._
 
 [![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=njobrien1006&repository=hass_traeger&category=integration)
