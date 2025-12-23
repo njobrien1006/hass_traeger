@@ -4,7 +4,12 @@
 [![License][license-shield]](LICENSE)
 [![hacs][hacsbadge]][hacs]
 
+[![HACS](https://github.com/njobrien1006/hass_traeger/actions/workflows/validate.yml/badge.svg)](https://github.com/njobrien1006/hass_traeger/actions/workflows/validate.yml)
+[![LINT](https://github.com/njobrien1006/hass_traeger/actions/workflows/lint.yml/badge.svg)](https://github.com/njobrien1006/hass_traeger/actions/workflows/lint.yml)
+
 _Component to integrate with [Traeger WiFire Grills][traeger]._
+
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=njobrien1006&repository=hass_traeger&category=integration)
 
 **This component will set up the following platforms.**
 
@@ -16,10 +21,20 @@ Platform | Description
 `switch` | Allow SuperSmoke, Keepwarm, and connectivity switch
 `binary sensor ` | Show values of boolean entities
 
-![device][deviceimg]
-![lovelace][lovelaceimg]
-![grill][grillimg]
-![probe][probeimg]
+## Examples
+
+| Native Devices           |
+| ------------------------ |
+| ![device][deviceimg]     |
+
+| Grill Climate      | Probe Climate      |
+| ------------------ | ------------------ |
+| ![grill][grillimg] | ![probe][probeimg] |
+
+| Example Lovelace         |
+| ------------------------ |
+| ![lovelace][lovelaceimg] |
+
 
 ## Installation (HACS)
 
@@ -118,12 +133,12 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 
 [traeger]: https://www.traegergrills.com/
 [hacs]: https://github.com/custom-components/hacs
-[hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge
+[hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=flat
 [deviceimg]: images/device.png
 [lovelaceimg]: images/lovelace.png
 [probeimg]: images/probe.png
 [grillimg]: images/grill.png
 [inaction]: images/CodeSpace_CooksCycle.gif
-[license-shield]: https://img.shields.io/github/license/custom-components/blueprint.svg?style=for-the-badge
-[releases-shield]: https://img.shields.io/github/v/release/njobrien1006/hass_traeger.svg?style=for-the-badge
+[license-shield]: https://img.shields.io/github/license/custom-components/blueprint.svg?style=flat
+[releases-shield]: https://img.shields.io/github/v/release/njobrien1006/hass_traeger.svg?style=flat
 [releases]: https://github.com/njobrien1006/hass_traeger/releases
