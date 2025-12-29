@@ -172,21 +172,27 @@ async def async_setup_entry(hass, entry, async_add_devices):
         for friendly, info in SENSOR_ENTITIES.items():
             if info["unit"] == "temp":
                 async_add_devices([
-                    ValueTemperature(client, grill["thingName"], friendly,
-                                     info["json_loca"], info["unit"],
-                                     info["icon"],
-                                     info.get("enabledbydflt", True),
-                                     info.get("entity_category", None),
-                                     info.get("device_class", None))
+                    ValueTemperature(client=client,
+                        thingName=grill["thingName"],
+                        friendly=friendly,
+                        json_loca=info["json_loca"],
+                        unit=info["unit"],
+                        mdi=info["icon"],
+                        enabledbydflt=info.get("enabledbydflt", True),
+                        entity_category=info.get("entity_category", None),
+                        device_class=info.get("device_class", None))
                 ])
             else:
                 async_add_devices([
-                    TraegerFlexSensor(client, grill["thingName"], friendly,
-                                      info["json_loca"], info["unit"],
-                                      info["icon"],
-                                      info.get("enabledbydflt", True),
-                                      info.get("entity_category", None),
-                                      info.get("device_class", None))
+                    TraegerFlexSensor(client=client,
+                        thingName=grill["thingName"],
+                        friendly=friendly,
+                        json_loca=info["json_loca"],
+                        unit=info["unit"],
+                        mdi=info["icon"],
+                        enabledbydflt=info.get("enabledbydflt", True),
+                        entity_category=info.get("entity_category", None),
+                        device_class=info.get("device_class", None))
                 ])
         async_add_devices([
             GrillState(client, grill["thingName"], "Grill State", "grill_state")
@@ -201,16 +207,15 @@ async def async_setup_entry(hass, entry, async_add_devices):
 class TraegerFlexSensor(TraegerBaseEntity, SensorEntity):
     """Flex Sensor Class Common to All"""
 
-    def __init__(self, client, grill_id, friendly_name, jsonloca, unit, mdi,
-                 enabledbydflt, entity_category, device_class):
-        super().__init__(client, grill_id)
-        self.value = jsonloca.split(";")
-        self.unit = unit
-        self.mdi = mdi
-        self.dev_class = device_class
-        self.friendly_name = friendly_name
-        self._attr_entity_category = entity_category
-        self._attr_entity_registry_enabled_default = enabledbydflt
+    def __init__(self, **kwargs):
+        super().__init__(kwargs.get('client'), kwargs.get('thingName'))
+        self.value = kwargs.get('json_loca').split(";")
+        self.unit = kwargs.get('unit')
+        self.mdi = kwargs.get('mdi')
+        self.dev_class = kwargs.get('device_class')
+        self.friendly_name = kwargs.get('friendly')
+        self._attr_entity_category = kwargs.get('entity_category')
+        self._attr_entity_registry_enabled_default = kwargs.get('enabledbydflt')
         self.grill_register_callback()
 
     # Generic Properties
