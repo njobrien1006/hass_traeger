@@ -165,6 +165,7 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
         """Do Grill Callbacks"""
         if grill_id in self.grill_callbacks:
             for callback in self.grill_callbacks[grill_id]:
+                #_LOGGER.debug(f"Print: {callback}")
                 callback()
 
     def __mqtt_url_remaining(self):
@@ -345,36 +346,17 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
 
 
 #===========================/Paho MQTT Functions===================================================
+    def get_mqtt_msg_for_grill(self, thingName):
+        """Get specifics of status"""
+        if thingName not in self.grill_status:
+            return {}
+        return self.grill_status[thingName]
 
     def get_state_for_device(self, thingName):
         """Get specifics of status"""
         if thingName not in self.grill_status:
             return None
         return self.grill_status[thingName]["status"]
-
-    def get_details_for_device(self, thingName):
-        """Get specifics of details"""
-        if thingName not in self.grill_status:
-            return None
-        return self.grill_status[thingName]["details"]
-
-    def get_limits_for_device(self, thingName):
-        """Get specifics of limits"""
-        if thingName not in self.grill_status:
-            return None
-        return self.grill_status[thingName]["limits"]
-
-    def get_settings_for_device(self, thingName):
-        """Get specifics of settings"""
-        if thingName not in self.grill_status:
-            return None
-        return self.grill_status[thingName]["settings"]
-
-    def get_features_for_device(self, thingName):
-        """Get specifics of features"""
-        if thingName not in self.grill_status:
-            return None
-        return self.grill_status[thingName]["features"]
 
     def get_cloudconnect(self, thingName):
         """Indicate wheather MQTT is connected."""
@@ -384,10 +366,9 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
 
     def get_units_for_device(self, thingName):
         """Parse what units the grill is operating in."""
-        state = self.get_state_for_device(thingName)
-        if state is None:
+        if thingName not in self.grill_status:
             return homeassistant.const.UnitOfTemperature.FAHRENHEIT
-        if state["units"] == 0:
+        if self.grill_status[thingName]["status"]["units"] == 0:
             return homeassistant.const.UnitOfTemperature.CELSIUS
         return homeassistant.const.UnitOfTemperature.FAHRENHEIT
 

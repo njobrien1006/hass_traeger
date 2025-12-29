@@ -50,9 +50,9 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
     @property
     def name(self):
         """Return the name of the grill"""
-        if self.grill_details is None:
+        if self.grill_mqtt_msg.get("details",None) is None:
             return f"{self.grill_id}_{self.devname}"
-        name = self.grill_details["friendlyName"]
+        name = self.grill_mqtt_msg["details"]["friendlyName"]
         return f"{name} {self.devname.capitalize()}"
 
     @property
@@ -78,15 +78,15 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         This also serves the cook cycle.
         """
         # pylint: disable=too-many-branches,too-many-statements
-        if self.grill_state is None:
+        if self.grill_mqtt_msg.get("status",None) is None:
             self.num_value = 0
             return self.num_value
         if self.num_value > len(self.cook_cycle):
             _LOGGER.info("B.Cook Cycles out of indexes.")
             self.num_value = 0
             return self.num_value
-        name = re.sub("[^A-Za-z0-9]+", "", self.grill_details["friendlyName"])
-        if self.num_value > 0 and self.grill_state["system_status"] in [
+        name = re.sub("[^A-Za-z0-9]+", "", self.grill_mqtt_msg["details"]["friendlyName"])
+        if self.num_value > 0 and self.grill_mqtt_msg["status"]["system_status"] in [
                 GRILL_MODE_COOL_DOWN,
                 GRILL_MODE_SLEEPING,
                 GRILL_MODE_SHUTDOWN,
@@ -101,27 +101,27 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
             curstep = self.cook_cycle[self.num_value - 1]
             if "use_timer" in curstep:
                 if curstep["use_timer"]:
-                    if self.grill_state["cook_timer_complete"]:
+                    if self.grill_mqtt_msg["status"]["cook_timer_complete"]:
                         self.num_value = self.num_value + 1
-            elif self.grill_state["probe_alarm_fired"]:
+            elif self.grill_mqtt_msg["status"]["probe_alarm_fired"]:
                 self.num_value = self.num_value + 1
             elif "act_temp_adv" in curstep:
-                if self.grill_state["grill"] > curstep["act_temp_adv"]:
+                if self.grill_mqtt_msg["status"]["grill"] > curstep["act_temp_adv"]:
                     self.num_value = self.num_value + 1
             elif "probe_act_temp_adv" in curstep:
-                if self.grill_state["probe"] > curstep["probe_act_temp_adv"]:
+                if self.grill_mqtt_msg["status"]["probe"] > curstep["probe_act_temp_adv"]:
                     self.num_value = self.num_value + 1
             ####################################################################
             # In step change
             if "min_delta" in curstep and "max_grill_delta_temp" in curstep:
                 if (curstep["max_grill_delta_temp"]
-                        > self.grill_limits["max_grill_temp"]):
-                    curstep["max_grill_delta_temp"] = self.grill_limits[
+                        > self.grill_mqtt_msg["limits"]["max_grill_temp"]):
+                    curstep["max_grill_delta_temp"] = self.grill_mqtt_msg["limits"][
                         "max_grill_temp"]
-                if self.grill_state["set"] < curstep["max_grill_delta_temp"]:
-                    if (self.grill_state["probe"]
-                            > self.grill_state["set"] - curstep["min_delta"]):
-                        set_temp = self.grill_state["set"] + 5
+                if self.grill_mqtt_msg["status"]["set"] < curstep["max_grill_delta_temp"]:
+                    if (self.grill_mqtt_msg["status"]["probe"]
+                            > self.grill_mqtt_msg["status"]["set"] - curstep["min_delta"]):
+                        set_temp = self.grill_mqtt_msg["status"]["set"] + 5
                         self.hass.async_create_task(
                             self.hass.services.async_call(
                                 "climate",
@@ -152,7 +152,7 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                     ))
             if "probe_set_temp" in curstep:
                 name = re.sub("[^A-Za-z0-9]+", "",
-                              self.grill_details["friendlyName"])
+                              self.grill_mqtt_msg["details"]["friendlyName"])
                 self.hass.async_create_task(
                     self.hass.services.async_call(
                         "climate",
@@ -175,9 +175,9 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                         False,
                     ))
             if "smoke" in curstep:
-                if (self.grill_features["super_smoke_enabled"] == 1 and
-                        self.grill_state["smoke"] != curstep["smoke"] and
-                        self.grill_state["set"] <= 225):
+                if (self.grill_mqtt_msg["features"]["super_smoke_enabled"] == 1 and
+                        self.grill_mqtt_msg["status"]["smoke"] != curstep["smoke"] and
+                        self.grill_mqtt_msg["status"]["set"] <= 225):
                     if curstep["smoke"] == 1:
                         self.hass.async_create_task(
                             self.hass.services.async_call(
@@ -195,7 +195,7 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                                 False,
                             ))
             if "keepwarm" in curstep:
-                if self.grill_state["keepwarm"] != curstep["keepwarm"]:
+                if self.grill_mqtt_msg["status"]["keepwarm"] != curstep["keepwarm"]:
                     if curstep["keepwarm"] == 1:
                         self.hass.async_create_task(
                             self.hass.services.async_call(
@@ -303,16 +303,16 @@ class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
     @property
     def available(self):
         """Reports unavailable when the grill is powered off"""
-        if self.grill_state is None:
+        if self.grill_mqtt_msg.get("status",None) is None:
             return False
-        return self.grill_state["connected"]
+        return self.grill_mqtt_msg["status"]["connected"]
 
     @property
     def name(self):
         """Return the name of the grill"""
-        if self.grill_details is None:
+        if self.grill_mqtt_msg.get("details",None) is None:
             return f"{self.grill_id}_{self.devname}"
-        name = self.grill_details["friendlyName"]
+        name = self.grill_mqtt_msg["details"]["friendlyName"]
         return f"{name} {self.devname.capitalize()}"
 
     @property
@@ -334,10 +334,10 @@ class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
     @property
     def native_value(self):
         """Return the value reported by the number."""
-        if self.grill_state is None:
+        if self.grill_mqtt_msg.get("status",None) is None:
             return 0
-        end_time = self.grill_state[f"{self.devname}_end"]
-        start_time = self.grill_state[f"{self.devname}_start"]
+        end_time = self.grill_mqtt_msg["status"][f"{self.devname}_end"]
+        start_time = self.grill_mqtt_msg["status"][f"{self.devname}_start"]
         tot_time = (end_time - start_time) / 60
         return tot_time
 
@@ -359,9 +359,9 @@ class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
     # Timer Methods
     async def async_set_native_value(self, value: float):
         """Set new Timer Val."""
-        if self.grill_state is None:
+        if self.grill_mqtt_msg.get("status",None) is None:
             return
-        state = self.grill_state["system_status"]
+        state = self.grill_mqtt_msg["status"]["system_status"]
         if GRILL_MODE_IGNITING <= state <= GRILL_MODE_CUSTOM_COOK:
             if value >= 1:
                 await self.client.set_timer_sec(self.grill_id,
