@@ -47,7 +47,7 @@ class TraegerBaseEntity(Entity):  # pylint: disable=too-many-instance-attributes
     @property
     def device_info(self):
         """Return a device description for device registry."""
-        if self.grill_mqtt_msg.get("settings",None) is None:
+        if self.grill_mqtt_msg.get("settings", None) is None:
             return {
                 "identifiers": {(DOMAIN, self.grill_id)},
                 "name": NAME,

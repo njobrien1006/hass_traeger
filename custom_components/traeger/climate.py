@@ -49,7 +49,7 @@ class TraegerBaseClimate(ClimateEntity, TraegerBaseEntity):
     @property
     def name(self):
         """Return the name of the grill"""
-        if self.grill_mqtt_msg.get("details",None) is None:
+        if self.grill_mqtt_msg.get("details", None) is None:
             return f"{self.grill_id} {self.friendly_name}"
         name = self.grill_mqtt_msg["details"]["friendlyName"]
         return f"{name} {self.friendly_name}"
@@ -94,7 +94,7 @@ class TraegerClimateEntity(TraegerBaseClimate):
     @property
     def available(self):
         """Reports unavailable when the grill is powered off"""
-        if self.grill_mqtt_msg.get("status",None) is None:
+        if self.grill_mqtt_msg.get("status", None) is None:
             return False
         return self.grill_mqtt_msg["status"]["connected"]
 
@@ -102,14 +102,14 @@ class TraegerClimateEntity(TraegerBaseClimate):
     @property
     def current_temperature(self):
         """Return the current temperature."""
-        if self.grill_mqtt_msg.get("status",None) is None:
+        if self.grill_mqtt_msg.get("status", None) is None:
             return 0
         return self.grill_mqtt_msg["status"]["grill"]
 
     @property
     def target_temperature(self):
         """Return the temperature we try to reach."""
-        if self.grill_mqtt_msg.get("status",None) is None:
+        if self.grill_mqtt_msg.get("status", None) is None:
             return 0
         return self.grill_mqtt_msg["status"]["set"]
 
@@ -127,7 +127,7 @@ class TraegerClimateEntity(TraegerBaseClimate):
     @property
     def max_temp(self):
         """Return the maximum temperature."""
-        if self.grill_mqtt_msg.get("limits",None) is None:
+        if self.grill_mqtt_msg.get("limits", None) is None:
             return self.min_temp
         return self.grill_mqtt_msg["limits"]["max_grill_temp"]
 
@@ -144,7 +144,7 @@ class TraegerClimateEntity(TraegerBaseClimate):
         Need to be one of HVAC_MODE_*.
         """
         returnval = HVACMode.OFF
-        if self.grill_mqtt_msg.get("status",None) is None:
+        if self.grill_mqtt_msg.get("status", None) is None:
             return returnval
 
         state = self.grill_mqtt_msg["status"]["system_status"]
@@ -180,7 +180,7 @@ class TraegerClimateEntity(TraegerBaseClimate):
     # Climate Methods
     async def async_set_temperature(self, **kwargs):
         """Set new target temperature."""
-        if self.grill_mqtt_msg.get("status",None) is None:
+        if self.grill_mqtt_msg.get("status", None) is None:
             return
         state = self.grill_mqtt_msg["status"]["system_status"]
         if GRILL_MODE_IGNITING <= state <= GRILL_MODE_CUSTOM_COOK:
@@ -191,7 +191,7 @@ class TraegerClimateEntity(TraegerBaseClimate):
 
     async def async_set_hvac_mode(self, hvac_mode):
         """Start grill shutdown sequence"""
-        if self.grill_mqtt_msg.get("status",None) is None:
+        if self.grill_mqtt_msg.get("status", None) is None:
             return
         state = self.grill_mqtt_msg["status"]["system_status"]
         if (hvac_mode in (HVACMode.OFF, HVACMode.COOL) and
@@ -232,7 +232,7 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
     @property
     def available(self):
         """Reports unavailable when the grill is powered off"""
-        if (self.grill_mqtt_msg.get("status",None) is None or
+        if (self.grill_mqtt_msg.get("status", None) is None or
                 self.grill_mqtt_msg["status"]["connected"] is False or
                 self.grill_accessory is None):
             return False
@@ -301,7 +301,7 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
         Return hvac operation ie. heat, cool mode.
         Need to be one of HVAC_MODE_*.
         """
-        if self.grill_mqtt_msg.get("status",None) is None:
+        if self.grill_mqtt_msg.get("status", None) is None:
             return HVACMode.OFF
 
         state = self.grill_accessory["con"]
@@ -321,7 +321,7 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
     @property
     def preset_mode(self):
         """Return the current preset mode, e.g., home, away, temp."""
-        if (self.grill_mqtt_msg.get("status",None) is None or
+        if (self.grill_mqtt_msg.get("status", None) is None or
                 self.grill_mqtt_msg["status"]["probe_con"] == 0 or
                 self.target_temperature == 0):
             # Reset current preset mode

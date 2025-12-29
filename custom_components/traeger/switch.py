@@ -40,7 +40,7 @@ class TraegerBaseSwitch(SwitchEntity, TraegerBaseEntity):
     @property
     def name(self):
         """Return the name of the grill"""
-        if self.grill_mqtt_msg.get("details",None) is None:
+        if self.grill_mqtt_msg.get("details", None) is None:
             return f"{self.grill_id}_{self.devname}"  #Returns EntID
         name = self.grill_mqtt_msg["details"]["friendlyName"]
         return f"{name} {self.friendly_name}"  #Returns Friendly Name
@@ -63,7 +63,7 @@ class TraegerConnectEntity(TraegerBaseSwitch):
     @property
     def is_on(self):
         """Return true if device is on."""
-        if self.grill_mqtt_msg.get("status",None) is None:
+        if self.grill_mqtt_msg.get("status", None) is None:
             return 0
         return self.grill_cloudconnect
 
@@ -111,7 +111,7 @@ class TraegerSwitchEntity(TraegerBaseSwitch):
     @property
     def is_on(self):
         """Return true if device is on."""
-        if self.grill_mqtt_msg.get("status",None) is None:
+        if self.grill_mqtt_msg.get("status", None) is None:
             return 0
         return self.grill_mqtt_msg["status"][self.devname]
 

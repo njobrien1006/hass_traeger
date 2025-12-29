@@ -346,6 +346,7 @@ class traeger:  # pylint: disable=invalid-name,too-many-instance-attributes,too-
 
 
 #===========================/Paho MQTT Functions===================================================
+
     def get_mqtt_msg_for_grill(self, thingName):
         """Get specifics of status"""
         if thingName not in self.grill_status:
