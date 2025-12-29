@@ -172,7 +172,8 @@ async def async_setup_entry(hass, entry, async_add_devices):
         for friendly, info in SENSOR_ENTITIES.items():
             if info["unit"] == "temp":
                 async_add_devices([
-                    ValueTemperature(client=client,
+                    ValueTemperature(
+                        client=client,
                         thingName=grill["thingName"],
                         friendly=friendly,
                         json_loca=info["json_loca"],
@@ -184,7 +185,8 @@ async def async_setup_entry(hass, entry, async_add_devices):
                 ])
             else:
                 async_add_devices([
-                    TraegerFlexSensor(client=client,
+                    TraegerFlexSensor(
+                        client=client,
                         thingName=grill["thingName"],
                         friendly=friendly,
                         json_loca=info["json_loca"],
