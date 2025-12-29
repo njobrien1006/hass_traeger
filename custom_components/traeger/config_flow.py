@@ -22,7 +22,6 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 
     def __init__(self):
         """Initialize."""
-       
 
     async def async_step_user(
         self,
@@ -37,8 +36,7 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
             )
             if rtrn:
                 await self.async_set_unique_id(
-                    unique_id=slugify(user_input[CONF_USERNAME])
-                )
+                    unique_id=slugify(user_input[CONF_USERNAME]))
                 self._abort_if_unique_id_configured()
                 return self.async_create_entry(
                     title=user_input[CONF_USERNAME],
@@ -53,18 +51,15 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     vol.Required(
                         CONF_USERNAME,
                         default=(user_input or {}).get(CONF_USERNAME, vol.UNDEFINED),
-                    ): selector.TextSelector(
-                        selector.TextSelectorConfig(
-                            type=selector.TextSelectorType.TEXT,
-                        ),
-                    ),
-                    vol.Required(CONF_PASSWORD): selector.TextSelector(
-                        selector.TextSelectorConfig(
-                            type=selector.TextSelectorType.PASSWORD,
-                        ),
-                    ),
-                },
-            ),
+                    ):
+                        selector.TextSelector(
+                            selector.TextSelectorConfig(
+                                type=selector.TextSelectorType.TEXT,),),
+                    vol.Required(CONF_PASSWORD):
+                        selector.TextSelector(
+                            selector.TextSelectorConfig(
+                                type=selector.TextSelectorType.PASSWORD,),),
+                },),
             errors=_errors,
         )
 
@@ -78,7 +73,9 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 _LOGGER.error("Login failed with: %s", response)
                 return False
             _LOGGER.debug("Full Login Response %s", response)
-            _LOGGER.debug("Hello %s", response.get("fullName", "That was Null...Failed Login?"))
+            _LOGGER.debug(
+                "Hello %s",
+                response.get("fullName", "That was Null...Failed Login?"))
             return True
         except Exception as exception:  # pylint: disable=broad-except
             _LOGGER.error("Failed to login %s", exception)
