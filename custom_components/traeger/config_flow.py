@@ -13,7 +13,7 @@ from .traeger import traeger
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
+class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):  # pylint: disable=too-few-public-methods
     """Config flow for Blueprint."""
 
     VERSION = 1
