@@ -38,8 +38,11 @@ Platform | Description
 
 ## Installation (HACS)
 
-1. Add this repository to HACS
-2. Search for Traeger in HACS
+Search for `Traeger` in HACS
+
+## Native HA / HACS link
+
+[![Open your Home Assistant instance and open a repository inside the Home Assistant Community Store.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=njobrien1006&repository=hass_traeger&category=integration)
 
 ## Installation (Manual)
 
@@ -120,6 +123,9 @@ Step Type | Description
 ## InAction DEMO
 ![inaction][inaction]
 
+## Dashboard Quick Start / Example
+
+Example Lovelace view of exposed entities [LovelaceUI](README_LovelaceUI.md) like [InAction DEMO](README.md#inaction-demo) above.
 
 ## Configuration is done in the UI
 
@@ -133,7 +139,7 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 
 [traeger]: https://www.traegergrills.com/
 [hacs]: https://github.com/custom-components/hacs
-[hacsbadge]: https://img.shields.io/badge/HACS-Custom-orange.svg?style=flat
+[hacsbadge]: https://img.shields.io/badge/HACS-Default-orange.svg?style=flat
 [deviceimg]: https://github.com/njobrien1006/hass_traeger/blob/master/images/device.png?raw=true
 [lovelaceimg]: https://github.com/njobrien1006/hass_traeger/blob/master/images/lovelace.png?raw=true
 [probeimg]: https://github.com/njobrien1006/hass_traeger/blob/master/images/probe.png?raw=true
@@ -142,3 +148,4 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 [license-shield]: https://img.shields.io/github/license/custom-components/blueprint.svg?style=flat
 [releases-shield]: https://img.shields.io/github/v/release/njobrien1006/hass_traeger.svg?style=flat
 [releases]: https://github.com/njobrien1006/hass_traeger/releases
+
