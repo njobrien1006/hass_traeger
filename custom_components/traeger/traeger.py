@@ -47,8 +47,8 @@ class Traeger:
 
         self.grills = None
         self.mqtt_client = TraegerMQTTClient(self.hass,
-                                        self.sync_grill_callback,
-                                        self.sync_update_state)
+                                             self.sync_grill_callback,
+                                             self.sync_update_state)
 
     def __token_remaining(self):
         """Report remaining token time."""
@@ -115,8 +115,8 @@ class Traeger:
 
     def sync_update_state(self, thingname):
         """Update State"""
-        asyncio.run_coroutine_threadsafe(
-            self.__update_state(thingname), self.hass.loop)
+        asyncio.run_coroutine_threadsafe(self.__update_state(thingname),
+                                         self.hass.loop)
 
     async def __update_state(self, thingname):
         """Update State"""
@@ -168,8 +168,8 @@ class Traeger:
 
     def sync_grill_callback(self, grill_id):
         """Do Grill Callbacks"""
-        asyncio.run_coroutine_threadsafe(
-            self.grill_callback(grill_id), self.hass.loop)
+        asyncio.run_coroutine_threadsafe(self.grill_callback(grill_id),
+                                         self.hass.loop)
 
     async def grill_callback(self, grill_id):
         """Do Grill Callbacks"""
@@ -283,8 +283,8 @@ class Traeger:
             _LOGGER.info("Killing Task")
             _LOGGER.debug("Task Info: %s", self.loop_task)
             self.loop_task.cancel()
-            _LOGGER.debug("Task Info: %s TaskCancelled Status: %s", self.loop_task,
-                        self.loop_task.cancelled())
+            _LOGGER.debug("Task Info: %s TaskCancelled Status: %s",
+                          self.loop_task, self.loop_task.cancelled())
             self.loop_task = None
             self.mqtt_client.disconnect()
             while self.mqtt_client.isconnected:  #Wait for disconnect to finish
@@ -293,7 +293,8 @@ class Traeger:
             for grill in self.grills:  #Mark the grill(s) disconnected so they report unavail.
                 grill_id = grill[
                     "thingName"]  #Also hit the callbacks to update HA
-                self.mqtt_client.grills_status[grill_id]["status"]["connected"] = False
+                self.mqtt_client.grills_status[grill_id]["status"][
+                    "connected"] = False
                 await self.grill_callback(grill_id)
         else:
             _LOGGER.info("Client Was not Connected?")
@@ -333,8 +334,10 @@ class Traeger:
         except Exception as exception:  # pylint: disable=broad-except
             _LOGGER.error("Something really wrong happend! - %s", exception)
 
+
 class TraegerMQTTClient:
     """Traeger MQTT Wrapper"""
+
     def __init__(self, hass, callback, update_state):
         self.isconnected = False
         self.grills_status = {}
@@ -397,12 +400,12 @@ class TraegerMQTTClient:
         """MQTT on_undisconnect"""
         self.isconnected = False
         _LOGGER.debug("OnDisconnect Callback. Client:%s userdata:%s rc:%s",
-                    client, userdata, rc)
+                      client, userdata, rc)
 
     def _mqtt_onmessage(self, client, userdata, message):  # pylint: disable=unused-argument
         """MQTT on_message"""
         _LOGGER.debug("grill_message: message.topic = %s, message.payload = %s",
-                    message.topic, message.payload)
+                      message.topic, message.payload)
         if message.topic.startswith("prod/thing/update/"):
             grill_id = message.topic[len("prod/thing/update/"):]
             self.grills_status[grill_id] = json.loads(message.payload)
@@ -411,7 +414,7 @@ class TraegerMQTTClient:
     def _mqtt_onpublish(self, client, userdata, mid):
         """MQTT on_publish"""
         _LOGGER.debug("OnPublish Callback. Client:%s userdata:%s mid:%s",
-                    client, userdata, mid)
+                      client, userdata, mid)
 
     def _mqtt_onsubscribe(self, client, userdata, mid, granted_qos):
         """MQTT on_subscribe"""
@@ -427,14 +430,14 @@ class TraegerMQTTClient:
     def _mqtt_onunsubscribe(self, client, userdata, mid):
         """MQTT on_unsubscribe"""
         _LOGGER.debug("OnUnsubscribe Callback. Client:%s userdata:%s mid:%s",
-                    client, userdata, mid)
+                      client, userdata, mid)
 
     def _mqtt_onsocketclose(self, client, userdata, sock):
         """MQTT on_socketclose"""
         _LOGGER.debug("Sock.Clse.Report...Client: %s UserData: %s Sock: %s",
-                    client, userdata, sock)
+                      client, userdata, sock)
 
     def _mqtt_onsocketunregisterwrite(self, client, userdata, sock):
         """MQTT on_socketunregwrite"""
         _LOGGER.debug("Sock.UnRg.Write....Client: %s UserData: %s Sock: %s",
-                    client, userdata, sock)
+                      client, userdata, sock)

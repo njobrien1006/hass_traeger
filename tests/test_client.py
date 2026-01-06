@@ -13,7 +13,8 @@ class TestMessageParsing:
         message = MQTTMessage(topic=b"unknown")
         message.payload = b"whatever"
         # Don't throw on this:
-        traeger_client.mqtt_client._mqtt_onmessage(traeger_client.mqtt_client, None, message)
+        traeger_client.mqtt_client._mqtt_onmessage(traeger_client.mqtt_client,
+                                                   None, message)
         #traeger_client.hass.block_till_done()
         assert traeger_client.mqtt_client.grills_status['unkown'] == "whatever"
 
