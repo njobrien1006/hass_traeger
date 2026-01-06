@@ -20,7 +20,7 @@ from homeassistant.helpers.typing import ConfigType
 
 from .const import (CONF_PASSWORD, CONF_USERNAME, DOMAIN, PLATFORMS,
                     STARTUP_MESSAGE)
-from .traeger import traeger
+from .traeger import Traeger
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -52,7 +52,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     session = async_get_clientsession(hass)
 
-    client = traeger(username, password, hass, session)
+    client = Traeger(username, password, hass, session)
 
     await client.start(15)
     hass.data[DOMAIN][entry.entry_id] = client

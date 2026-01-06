@@ -32,13 +32,13 @@ SENSOR_ENTITIES = {
     },
     "Cook Timer End": {
         "json_loca": "status;cook_timer_end",
-        "unit": "",
+        "unit": None,
         "icon": "mdi:timer",
         "device_class": SensorDeviceClass.TIMESTAMP
     },
     "Cook Timer Start": {
         "json_loca": "status;cook_timer_start",
-        "unit": "",
+        "unit": None,
         "icon": "mdi:timer",
         "device_class": SensorDeviceClass.TIMESTAMP
     },
@@ -87,7 +87,7 @@ SENSOR_ENTITIES = {
     },
     "Grill Time": {
         "json_loca": "status;time",
-        "unit": "",
+        "unit": None,
         "icon": "mdi:clock-time-twelve-outline",
         "enabledbydflt": False,
         "device_class": SensorDeviceClass.TIMESTAMP

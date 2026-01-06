@@ -8,7 +8,7 @@ from homeassistant.helpers.aiohttp_client import async_create_clientsession
 from slugify import slugify
 
 from .const import CONF_PASSWORD, CONF_USERNAME, DOMAIN
-from .traeger import traeger
+from .traeger import Traeger
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -66,7 +66,7 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):  # pylint:
         """Return true if credentials is valid."""
         try:
             session = async_create_clientsession(self.hass)
-            client = traeger(username, password, self.hass, session)
+            client = Traeger(username, password, self.hass, session)
             response = await client.get_user_data()
             if response is None:
                 _LOGGER.error("Login failed with: %s", response)
