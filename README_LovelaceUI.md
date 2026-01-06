@@ -3,7 +3,7 @@
 ## Dependencies
 1. [Entity Attributes Card](https://raw.githubusercontent.com/custom-cards/entity-attributes-card/master/entity-attributes-card.js
 )
-2. [Custom Timer Card](https://github.com/njobrien1006/hass_traeger/blob/master/config/www/epoch-clock-card/timer-clock-card.js)   [{Ex: Epoch}](https://github.com/njobrien1006/hass_traeger/blob/master/config/www/epoch-clock-card/epoch-clock-card.js)
+2. [Custom Timer Card](https://github.com/njobrien1006/hass_traeger/blob/master/config/www/timer-clock-card/timer-clock-card.js)   [{Ex: Epoch}](https://github.com/njobrien1006/hass_traeger/blob/master/config/www/epoch-clock-card/epoch-clock-card.js)
 
 
 
