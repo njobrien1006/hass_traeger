@@ -1,6 +1,13 @@
 # LovelaceUI Example
 
-The below can be copied & pasted into a code editor to find/replace some values to match your grill.
+## Dependencies
+1. [Entity Attributes Card](https://raw.githubusercontent.com/custom-cards/entity-attributes-card/master/entity-attributes-card.js
+)
+2. [Custom Timer Card](https://github.com/njobrien1006/hass_traeger/blob/master/config/www/epoch-clock-card/timer-clock-card.js)   [{Ex: Epoch}](https://github.com/njobrien1006/hass_traeger/blob/master/config/www/epoch-clock-card/epoch-clock-card.js)
+
+
+
+## The below example(s) can be copied & pasted into a code editor to find/replace some values to match your grill. Then ultimatly copied/pasted to your HA instance.
 
 1. replace `0123456789ab` with your grill id.
 2. replace `friendlyname` with your grill's friendly name.
