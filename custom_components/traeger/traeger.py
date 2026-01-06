@@ -351,7 +351,7 @@ class TraegerMQTTClient:
         self.mqtt_client = AsyncMQTTClient(transport="websockets")
         self.mqtt_client.on_connect = self._mqtt_onconnect
         self.mqtt_client.on_subscribe = self._mqtt_onsubscribe
-        self.mqtt_client.on_message = self._mqtt_onmessage
+        self.mqtt_client.on_message = self.mqtt_onmessage
         if _LOGGER.level <= 10:  #Add these callbacks only if our logging is Debug or less.
             self.mqtt_client.enable_logger(_LOGGER)
             #self.mqtt_client.on_publish = self._mqtt_onpublish  #We dont Publish to MQTT
@@ -402,7 +402,7 @@ class TraegerMQTTClient:
         _LOGGER.debug("OnDisconnect Callback. Client:%s userdata:%s rc:%s",
                       client, userdata, rc)
 
-    def _mqtt_onmessage(self, client, userdata, message):  # pylint: disable=unused-argument
+    def mqtt_onmessage(self, client, userdata, message):  # pylint: disable=unused-argument
         """MQTT on_message"""
         _LOGGER.debug("grill_message: message.topic = %s, message.payload = %s",
                       message.topic, message.payload)

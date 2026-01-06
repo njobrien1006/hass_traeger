@@ -1,6 +1,6 @@
 """Fixtures for testing."""
 
-from typing import Any
+#from typing import Any
 
 import pytest
 from homeassistant.core import HomeAssistant
@@ -14,29 +14,34 @@ from custom_components.traeger.traeger import (
 
 
 @pytest.fixture(autouse=True)
-def auto_enable_custom_integrations(enable_custom_integrations):
+def auto_enable_custom_integrations(enable_custom_integrations):  # pylint: disable=unused-argument
+    '''Enable Custom Integrations'''
     yield
 
 
 class TraegerTestClient(Traeger):
+    """Override Native Test Client for testing."""
 
     def __init__(self, username, password, hass: HomeAssistant,
-                 request_library) -> None:
+                 request_library) -> None:  # pylint: disable=unused-argument
         super().__init__("johnytraeger@traeger.com", "johnytraeger'spassword",
                          hass, request_library)
         self.published_messages: list[MQTTMessage] = []
 
-    # pylint: disable=dangerous-default-value
+    # pylint: disable=dangerous-default-value,unused-private-member,unused-argument
     async def __api_wrapper(self,
                             method: str,
                             url: str,
                             data: dict = {},
                             headers: dict = {}) -> dict:
-        url = url
+        """Get information from the API.
+           OVerride API wrapper. We dont actualy want to send REQs."""
+        assert True
 
 
 @pytest.fixture
 async def traeger_client(hass: HomeAssistant) -> TraegerTestClient:
+    """Traeger Test Client"""
     session = async_get_clientsession(hass)
     client = TraegerTestClient("johnytraeger@traeger.com",
                                "johnytraeger'spassword", hass, session)
@@ -47,7 +52,8 @@ async def traeger_client(hass: HomeAssistant) -> TraegerTestClient:
 @pytest.fixture
 async def mock_config_entry(
         hass: HomeAssistant,
-        Traeger_client: TraegerTestClient) -> MockConfigEntry:
+        traeger_client_entry: TraegerTestClient) -> MockConfigEntry:
+    """Mock Config"""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={
@@ -55,7 +61,7 @@ async def mock_config_entry(
             CONF_PASSWORD: "johnytraeger'spassword"
         },
     )
-    hass.data[DOMAIN] = {entry.entry_id: Traeger_client}
+    hass.data[DOMAIN] = {entry.entry_id: traeger_client_entry}
     entry.add_to_hass(hass)
     await hass.config_entries.async_setup(entry.entry_id)
     return entry
