@@ -24,6 +24,9 @@ from .traeger import Traeger
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
+# Define CONFIG_SCHEMA as config entry only
+CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+
 
 async def async_setup(hass: HomeAssistant, config: ConfigType):  # pylint: disable=unused-argument
     """
