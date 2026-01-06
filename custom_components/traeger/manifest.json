@@ -10,6 +10,7 @@
     "@Velines"
   ],
   "config_flow": true,
+  "dependencies": ["mqtt"],
   "documentation": "https://github.com/njobrien1006/hass_traeger",
   "iot_class": "cloud_push",
   "issue_tracker": "https://github.com/njobrien1006/hass_traeger/issues",
