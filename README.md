@@ -125,7 +125,7 @@ Step Type | Description
 
 ## Dashboard Quick Start / Example
 
-Example Lovelace view of exposed entities [LovelaceUI](README_LovelaceUI.md) like [InAction DEMO](README.md#inaction-demo) above.
+Example Lovelace view of exposed entities [LovelaceUI](README_LovelaceUI.md) like [InAction DEMO](https://github.com/njobrien1006/hass_traeger/tree/master#inaction-demo) above.
 
 ## Configuration is done in the UI
 
@@ -148,4 +148,5 @@ If you want to contribute to this please read the [Contribution guidelines](CONT
 [license-shield]: https://img.shields.io/github/license/custom-components/blueprint.svg?style=flat
 [releases-shield]: https://img.shields.io/github/v/release/njobrien1006/hass_traeger.svg?style=flat
 [releases]: https://github.com/njobrien1006/hass_traeger/releases
+
 
