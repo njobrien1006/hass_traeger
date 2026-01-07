@@ -13,7 +13,5 @@ coverage.xml
 
 
 # Home Assistant configuration
-config/*
-!config/configuration.yaml
-config/.storage/*
+config/.storage/
 !config/.storage/lovelave_resources
