@@ -6,6 +6,30 @@
             "type": "shell",
             "command": "scripts/develop",
             "problemMatcher": []
+        },
+        {
+            "label": "Pytest + Debug Logging",
+            "type": "shell",
+            "command": "pytest --log-cli-level=DEBUG",
+            "problemMatcher": []
+        },
+        {
+            "label": "Pytest + Logging + Test Matching",
+            "type": "shell",
+            "command": "pytest --log-cli-level=INFO -k 'test_",
+            "problemMatcher": []
+        },
+        {
+            "label": "Pytest + Logging + Test Matching + Snapshot Update",
+            "type": "shell",
+            "command": "pytest --log-cli-level=INFO -k 'test_climate_platform' --snapshot-update" ,
+            "problemMatcher": []
+        },
+        {
+            "label": "Pytest",
+            "type": "shell",
+            "command": "pytest",
+            "problemMatcher": []
         }
     ]
 }
