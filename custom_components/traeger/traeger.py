@@ -8,7 +8,6 @@ Please see the LICENSE file that should have been included as part of this packa
 """
 
 import asyncio
-import datetime
 import json
 import logging
 import socket
@@ -19,6 +18,8 @@ import urllib
 import aiohttp
 import async_timeout
 import homeassistant.const
+
+from paho.mqtt import client as mqtt
 
 from homeassistant.components.mqtt.async_client import AsyncMQTTClient
 
@@ -54,12 +55,10 @@ class Traeger:
         """Report remaining token time."""
         return self._api['api_expires'] - time.time()
 
-    async def __do_cognito(self):
+    async def do_cognito(self):
         """Intial API Login"""
-        t = datetime.datetime.utcnow()
-        _LOGGER.info("do_cognito t:%s", t)
         _LOGGER.info("do_cognito self.username:%s", self._api['username'])
-        return await self.__api_wrapper(
+        return await self.api_wrapper(
             "post",
             "https://auth-api.iot.traegergrills.io/tokens",
             data={
@@ -72,7 +71,7 @@ class Traeger:
         """Refresh Token if expiration is soon."""
         if self.__token_remaining() < 60:
             request_time = time.time()
-            response = await self.__do_cognito()
+            response = await self.do_cognito()
             _LOGGER.debug("Do Cognito Response: %s", response)
             try:
                 self._api['api_expires'] = response["expiresIn"] + request_time
@@ -85,7 +84,7 @@ class Traeger:
     async def get_user_data(self):
         """Get User Data."""
         await self.__refresh_token()
-        return await self.__api_wrapper(
+        return await self.api_wrapper(
             "get",
             "https://mobile-iot-api.iot.traegergrills.io/users/self",
             headers={
@@ -102,7 +101,7 @@ class Traeger:
                       command)
         await self.__refresh_token()
         api_url = "https://mobile-iot-api.iot.traegergrills.io"
-        await self.__api_wrapper(
+        await self.api_wrapper(
             "post_raw",
             f"{api_url}/things/{thingname}/commands",
             data={'command': command},
@@ -113,12 +112,12 @@ class Traeger:
                 "user-agent": "Traeger/11 CFNetwork/1209 Darwin/20.2.0",
             })
 
-    def sync_update_state(self, thingname):
+    def sync_update_state(self, thingname: str):
         """Update State"""
-        asyncio.run_coroutine_threadsafe(self.__update_state(thingname),
+        asyncio.run_coroutine_threadsafe(self.update_state(thingname),
                                          self.hass.loop)
 
-    async def __update_state(self, thingname):
+    async def update_state(self, thingname):
         """Update State"""
         await self.__send_command(thingname, "90")
 
@@ -146,7 +145,7 @@ class Traeger:
         """Reset Timer"""
         await self.__send_command(thingname, "13")
 
-    async def __update_grills(self):
+    async def update_grills(self):
         """Get an update of available grills"""
         myjson = await self.get_user_data()
         try:
@@ -166,7 +165,7 @@ class Traeger:
             self.grill_callbacks[grill_id] = []
         self.grill_callbacks[grill_id].append(callback)
 
-    def sync_grill_callback(self, grill_id):
+    def sync_grill_callback(self, grill_id: str):
         """Do Grill Callbacks"""
         asyncio.run_coroutine_threadsafe(self.grill_callback(grill_id),
                                          self.hass.loop)
@@ -182,13 +181,13 @@ class Traeger:
         """Available MQTT time left."""
         return self._api['mqtt_url_expires'] - time.time()
 
-    async def __refresh_mqtt_url(self):
+    async def refresh_mqtt_url(self):
         """Update MQTT Token"""
         await self.__refresh_token()
         if self.__mqtt_url_remaining() < 60:
             try:
                 mqtt_request_time = time.time()
-                myjson = await self.__api_wrapper(
+                myjson = await self.api_wrapper(
                     "post",
                     "https://mobile-iot-api.iot.traegergrills.io/mqtt-connections",
                     headers={'Authorization': self._api['api_token']})
@@ -206,7 +205,7 @@ class Traeger:
 
     async def __get_mqtt_client(self):
         """Setup the MQTT Client and let HA deal with it."""
-        await self.__refresh_mqtt_url()
+        await self.refresh_mqtt_url()
         _LOGGER.debug("Connect Client")
         await self.mqtt_client.connect(self.grills, self._api['mqtt_url'])
 
@@ -252,7 +251,7 @@ class Traeger:
         It does have a delay before doing MQTT connect to
         allow HA to finish starting up before lauching MQTT.
         """
-        await self.__update_grills()
+        await self.update_grills()
         _LOGGER.info("Call_Later in: %s seconds.", delay)
         self.loop_task = self.hass.loop.call_later(delay, self.__syncmain)
 
@@ -300,7 +299,7 @@ class Traeger:
             _LOGGER.info("Client Was not Connected?")
 
     # pylint: disable=dangerous-default-value
-    async def __api_wrapper(self,
+    async def api_wrapper(self,
                             method: str,
                             url: str,
                             data: dict = {},
@@ -337,7 +336,7 @@ class Traeger:
 
 class TraegerMQTTClient:
     """Traeger MQTT Wrapper"""
-
+    # pylint: disable=unused-argument
     def __init__(self, hass, callback, update_state):
         self.isconnected = False
         self.grills_status = {}
@@ -347,34 +346,37 @@ class TraegerMQTTClient:
 
         self.grill_callback = callback
         self.update_state = update_state
+        self.port = 443
 
-        self.mqtt_client = AsyncMQTTClient(transport="websockets")
+        self.mqtt_client = AsyncMQTTClient(mqtt.CallbackAPIVersion.VERSION1, transport="websockets")
         self.mqtt_client.on_connect = self._mqtt_onconnect
         self.mqtt_client.on_subscribe = self._mqtt_onsubscribe
         self.mqtt_client.on_message = self.mqtt_onmessage
+        self.mqtt_client.on_publish = self._mqtt_onpublish  #Only Tests uses this.
         if _LOGGER.level <= 10:  #Add these callbacks only if our logging is Debug or less.
             self.mqtt_client.enable_logger(_LOGGER)
-            #self.mqtt_client.on_publish = self._mqtt_onpublish  #We dont Publish to MQTT
             self.mqtt_client.on_unsubscribe = self._mqtt_onunsubscribe
             self.mqtt_client.on_disconnect = self._mqtt_ondisconnect
             self.mqtt_client.on_socket_close = self._mqtt_onsocketclose
             self.mqtt_client.on_socket_unregister_write = self._mqtt_onsocketunregisterwrite
-        context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
-        context.check_hostname = False
-        context.verify_mode = ssl.CERT_NONE
-        self.mqtt_client.tls_set_context(context)
+
         self.mqtt_client.reconnect_delay_set(min_delay=10, max_delay=160)
 
-    async def connect(self, grills, mqtt_url) -> None:
+    async def connect(self, grills, mqtt_url, setssl : bool = True) -> None:
         """Call Connect"""
         self._grills = grills
+        if setssl and self.port==443:
+            context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+            context.check_hostname = False
+            context.verify_mode = ssl.CERT_NONE
+            self.mqtt_client.tls_set_context(context)
         mqtt_parts = urllib.parse.urlparse(mqtt_url)
         headers = {
             "Host": "{0:s}".format(mqtt_parts.netloc),  # pylint: disable=consider-using-f-string
         }
         self.mqtt_client.ws_set_options(
             path=f"{mqtt_parts.path}?{mqtt_parts.query}", headers=headers)
-        self.mqtt_client.connect_async(mqtt_parts.netloc, 443, keepalive=300)
+        self.mqtt_client.connect_async(mqtt_parts.netloc, self.port, keepalive=300)
         _LOGGER.debug("Starting Traeger MQTT Class")
         self.mqtt_client.loop_start()
         _LOGGER.debug("Started Traeger MQTT Class")
@@ -385,7 +387,7 @@ class TraegerMQTTClient:
         self._hass.async_add_executor_job(self.mqtt_client.disconnect)
         _LOGGER.debug("Stopped Traeger MQTT Class")
 
-    def _mqtt_onconnect(self, client, userdata, flags, rc):  # pylint: disable=unused-argument
+    def _mqtt_onconnect(self, client, userdata, flags, rc):
         """MQTT on_connect"""
         self.isconnected = True
         _LOGGER.info("Grill Connected")
@@ -402,13 +404,18 @@ class TraegerMQTTClient:
         _LOGGER.debug("OnDisconnect Callback. Client:%s userdata:%s rc:%s",
                       client, userdata, rc)
 
-    def mqtt_onmessage(self, client, userdata, message):  # pylint: disable=unused-argument
+    def mqtt_onmessage(self, client, userdata, message):
         """MQTT on_message"""
         _LOGGER.debug("grill_message: message.topic = %s, message.payload = %s",
                       message.topic, message.payload)
         if message.topic.startswith("prod/thing/update/"):
             grill_id = message.topic[len("prod/thing/update/"):]
-            self.grills_status[grill_id] = json.loads(message.payload)
+            try:
+                self.grills_status[grill_id] = json.loads(message.payload)
+            except ValueError as e:
+                _LOGGER.error("json.loads = %s = grill_message: message.topic = %s, message.payload = %s",
+                      e, message.topic, message.payload)
+                return
             self.grill_callback(grill_id)
 
     def _mqtt_onpublish(self, client, userdata, mid):
@@ -416,18 +423,18 @@ class TraegerMQTTClient:
         _LOGGER.debug("OnPublish Callback. Client:%s userdata:%s mid:%s",
                       client, userdata, mid)
 
-    def _mqtt_onsubscribe(self, client, userdata, mid, granted_qos):
+    def _mqtt_onsubscribe(self, client, userdata, mid, rc):
         """MQTT on_subscribe"""
         _LOGGER.debug(
-            "OnSubscribe Callback. Client:%s userdata:%s mid:%s granted_qos:%s",
-            client, userdata, mid, granted_qos)
+            "OnSubscribe Callback. Client:%s userdata:%s mid:%s",
+            client, userdata, mid)
         for grill in self._grills:
             grill_id = grill["thingName"]
             if grill_id in self.grills_status:
                 del self.grills_status[grill_id]
             self.update_state(grill_id)
 
-    def _mqtt_onunsubscribe(self, client, userdata, mid):
+    def _mqtt_onunsubscribe(self, client, userdata, mid, prop, rc):
         """MQTT on_unsubscribe"""
         _LOGGER.debug("OnUnsubscribe Callback. Client:%s userdata:%s mid:%s",
                       client, userdata, mid)

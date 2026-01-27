@@ -268,8 +268,7 @@ class TraegerFlexSensor(TraegerBaseEntity, SensorEntity):
         if len(self.value) == 1:
             rtrn = self.grill_mqtt_msg[self.value[0]]
         if self.dev_class == SensorDeviceClass.TIMESTAMP:
-            rtrn = datetime.utcfromtimestamp(rtrn)
-            rtrn = rtrn.replace(tzinfo=timezone.utc)
+            rtrn = datetime.fromtimestamp(rtrn, timezone.utc)
         return rtrn
 
 
@@ -456,6 +455,7 @@ class ProbeState(TraegerBaseSensor):
         super().__init__(client, grill_id, f"Probe State {sensor_id}",
                          f"probe_state_{sensor_id}")
         self.sensor_id = sensor_id
+        self.entity_id = f"sensor.{self.grill_id.lower()}_probe_state_{self.sensor_id.lower()}"
         self.grill_accessory = self.client.get_details_for_accessory(
             self.grill_id, self.sensor_id)
         self.previous_target_temp = None

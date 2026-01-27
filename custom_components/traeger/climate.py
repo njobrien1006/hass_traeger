@@ -208,6 +208,7 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
     def __init__(self, client, grill_id, sensor_id):
         super().__init__(client, grill_id, f"Probe {sensor_id}")
         self.sensor_id = sensor_id
+        self.entity_id = f"sensor.{self.grill_id.lower()}_probe_{self.sensor_id.lower()}"
         self.grill_accessory = self.client.get_details_for_accessory(
             self.grill_id, self.sensor_id)
         self.current_preset_mode = PRESET_NONE
