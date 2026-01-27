@@ -1,15 +1,21 @@
 api_commands = {
-    "url": "https://mobile-iot-api.iot.traegergrills.io/things/0123456789ab/commands",
-    "urlg2": "https://mobile-iot-api.iot.traegergrills.io/things/cd0123456789/commands",
+    "url":
+        "https://mobile-iot-api.iot.traegergrills.io/things/0123456789ab/commands",
+    "urlg2":
+        "https://mobile-iot-api.iot.traegergrills.io/things/cd0123456789/commands",
     "resp": {},
 }
 api_mqtt = {
     "url": "https://mobile-iot-api.iot.traegergrills.io/mqtt-connections",
     "resp": {
-        "expirationSeconds": 3600,
-        "expiresAt": 0,
-        "signedUrl": "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
-        "signedUrlActual": "wss://aqmix2am7g1w-ats.iot.us-west-2.amazonaws.com/mqtt?1391charsWORTHofCreds",
+        "expirationSeconds":
+            3600,
+        "expiresAt":
+            0,
+        "signedUrl":
+            "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
+        "signedUrlActual":
+            "wss://aqmix2am7g1w-ats.iot.us-west-2.amazonaws.com/mqtt?1391charsWORTHofCreds",
     },
 }
 api_token = {
@@ -25,121 +31,179 @@ api_token = {
 api_user_self = {
     "url": "https://mobile-iot-api.iot.traegergrills.io/users/self",
     "resp": {
-        "userId": "someUUID",
-        "givenName": "Johny",
-        "familyName": "Traeger",
-        "fullName": "Johny Traeger",
-        "email": "JohnyTraeger@traeger.com",
-        "username": "JohnyTraeger@traeger.com",
-        "cognito": "some36charuuid",
-        "customerId": "some26charid",
-        "teams": [
-            {
-                "thingName": "0123456789ab",
-                "teamRowId": "86charID",
-                "teamName": "36charID",
-                "userId": "36charID",
-                "joinDate": "2020-01-01T00:00:00.000Z",
-                "isAdmin": True,
-                "teamId": "36charID",
-            }
-        ],
-        "things": [
-            {
-                "thingName": "0123456789ab",
-                "friendlyName": "friendlyName",
-                "deviceTypeId": "2108",
-                "userId": "36charID",
-                "status": "CONFIRMED",
-                "productId": "36charID",
-                "grillModel": {
-                    "colors": None,
-                    "controller": "LINK_AC",
-                    "description": "",
-                    "deviceTypeId": "2108",
-                    "group": "Wifire-Enabled Grills",
-                    "image": {
-                        "defaultHost": "i8.amplience.net",
-                        "endpoint": "traeger",
-                        "name": "timberline_850_image",
-                    },
-                    "iotCapable": True,
-                    "isTraegerBrand": True,
-                    "make": "Traeger",
-                    "modelNumber": "8charMDL",
-                    "name": "Timberline 850",
-                    "ownersManualUrl": "https://s3.us-west-2.amazonaws.com/traeger-web-public-prod/manuals/grills/timberline-d2/en/Timberline%20OM%20-%20English%20-%20USA.pdf",
-                    "referenceProductId": "36charID",
+        "userId":
+            "someUUID",
+        "givenName":
+            "Johny",
+        "familyName":
+            "Traeger",
+        "fullName":
+            "Johny Traeger",
+        "email":
+            "JohnyTraeger@traeger.com",
+        "username":
+            "JohnyTraeger@traeger.com",
+        "cognito":
+            "some36charuuid",
+        "customerId":
+            "some26charid",
+        "teams": [{
+            "thingName": "0123456789ab",
+            "teamRowId": "86charID",
+            "teamName": "36charID",
+            "userId": "36charID",
+            "joinDate": "2020-01-01T00:00:00.000Z",
+            "isAdmin": True,
+            "teamId": "36charID",
+        }],
+        "things": [{
+            "thingName": "0123456789ab",
+            "friendlyName": "friendlyName",
+            "deviceTypeId": "2108",
+            "userId": "36charID",
+            "status": "CONFIRMED",
+            "productId": "36charID",
+            "grillModel": {
+                "colors":
+                    None,
+                "controller":
+                    "LINK_AC",
+                "description":
+                    "",
+                "deviceTypeId":
+                    "2108",
+                "group":
+                    "Wifire-Enabled Grills",
+                "image": {
+                    "defaultHost": "i8.amplience.net",
+                    "endpoint": "traeger",
+                    "name": "timberline_850_image",
                 },
+                "iotCapable":
+                    True,
+                "isTraegerBrand":
+                    True,
+                "make":
+                    "Traeger",
+                "modelNumber":
+                    "8charMDL",
+                "name":
+                    "Timberline 850",
+                "ownersManualUrl":
+                    "https://s3.us-west-2.amazonaws.com/traeger-web-public-prod/manuals/grills/timberline-d2/en/Timberline%20OM%20-%20English%20-%20USA.pdf",
+                "referenceProductId":
+                    "36charID",
             },
-            {
-                "thingName": "cd0123456789",
-                "friendlyName": "JohnysOtherOfflineGrill",
-                "deviceTypeId": "2108",
-                "userId": "36charID",
-                "status": "CONFIRMED",
-                "productId": "36charID",
-                "grillModel": {
-                    "colors": None,
-                    "controller": "LINK_AC",
-                    "description": "",
-                    "deviceTypeId": "2108",
-                    "group": "Wifire-Enabled Grills",
-                    "image": {
-                        "defaultHost": "i8.amplience.net",
-                        "endpoint": "traeger",
-                        "name": "timberline_850_image",
-                    },
-                    "iotCapable": True,
-                    "isTraegerBrand": True,
-                    "make": "Traeger",
-                    "modelNumber": "8charMDL",
-                    "name": "Timberline 850",
-                    "ownersManualUrl": "https://s3.us-west-2.amazonaws.com/traeger-web-public-prod/manuals/grills/timberline-d2/en/Timberline%20OM%20-%20English%20-%20USA.pdf",
-                    "referenceProductId": "36charID",
+        }, {
+            "thingName": "cd0123456789",
+            "friendlyName": "JohnysOtherOfflineGrill",
+            "deviceTypeId": "2108",
+            "userId": "36charID",
+            "status": "CONFIRMED",
+            "productId": "36charID",
+            "grillModel": {
+                "colors":
+                    None,
+                "controller":
+                    "LINK_AC",
+                "description":
+                    "",
+                "deviceTypeId":
+                    "2108",
+                "group":
+                    "Wifire-Enabled Grills",
+                "image": {
+                    "defaultHost": "i8.amplience.net",
+                    "endpoint": "traeger",
+                    "name": "timberline_850_image",
                 },
-            }
-        ],
+                "iotCapable":
+                    True,
+                "isTraegerBrand":
+                    True,
+                "make":
+                    "Traeger",
+                "modelNumber":
+                    "8charMDL",
+                "name":
+                    "Timberline 850",
+                "ownersManualUrl":
+                    "https://s3.us-west-2.amazonaws.com/traeger-web-public-prod/manuals/grills/timberline-d2/en/Timberline%20OM%20-%20English%20-%20USA.pdf",
+                "referenceProductId":
+                    "36charID",
+            },
+        }],
     },
 }
 mqtt_msg = {
     "thingName": "0123456789ab",
     "jobs": [],
     "status": {
-        "pellet_level": 50,
-        "real_time": 0,
-        "time": 0,
-        "errors": 0,
-        "sys_timer_start": 0,
-        "cook_id": "",
-        "probe": 0,
-        "server_status": 0,
-        "units": 1,
-        "grill": 43,
-        "probe_set": 0,
-        "current_step": 0,
-        "system_status": 2,
-        "sys_timer_end": 0,
-        "set": 165,
-        "in_custom": 0,
-        "smoke": 0,
-        "cook_timer_complete": 0,
-        "current_cycle": 0,
-        "probe_alarm_fired": 0,
-        "ambient": 60,
-        "probe_con": 0,
-        "sys_timer_complete": 1,
-        "cook_timer_start": 0,
-        "cook_timer_end": 0,
-        "keepwarm": 0,
-        "connected": True,
+        "pellet_level":
+            50,
+        "real_time":
+            0,
+        "time":
+            0,
+        "errors":
+            0,
+        "sys_timer_start":
+            0,
+        "cook_id":
+            "",
+        "probe":
+            0,
+        "server_status":
+            0,
+        "units":
+            1,
+        "grill":
+            43,
+        "probe_set":
+            0,
+        "current_step":
+            0,
+        "system_status":
+            2,
+        "sys_timer_end":
+            0,
+        "set":
+            165,
+        "in_custom":
+            0,
+        "smoke":
+            0,
+        "cook_timer_complete":
+            0,
+        "current_cycle":
+            0,
+        "probe_alarm_fired":
+            0,
+        "ambient":
+            60,
+        "probe_con":
+            0,
+        "sys_timer_complete":
+            1,
+        "cook_timer_start":
+            0,
+        "cook_timer_end":
+            0,
+        "keepwarm":
+            0,
+        "connected":
+            True,
         "acc": [
             {
                 "channel": "p0",
                 "con": 0,
                 "type": "probe",
                 "uuid": "p0",
-                "probe": {"alarm_fired": 0, "get_temp": 0, "set_temp": 0},
+                "probe": {
+                    "alarm_fired": 0,
+                    "get_temp": 0,
+                    "set_temp": 0
+                },
             },
             {
                 "channel": "BT1",
@@ -178,9 +242,13 @@ mqtt_msg = {
         "grill_mode_enabled": 0,
         "time": 0,
         "super_smoke_enabled": 1,
-        "limits": {"max_grill_temp": 500},
+        "limits": {
+            "max_grill_temp": 500
+        },
     },
-    "limits": {"max_grill_temp": 500},
+    "limits": {
+        "max_grill_temp": 500
+    },
     "settings": {
         "rssi": -71,
         "units": 1,
@@ -215,7 +283,9 @@ mqtt_msg = {
         "grease_trap_clean_countdown": 0,
         "cook_cycles": 1000,
     },
-    "custom_cook": {"cook_cycles": []},
+    "custom_cook": {
+        "cook_cycles": []
+    },
     "stateIndex": 111111,
     "schemaVersion": "1.0",
     "details": {

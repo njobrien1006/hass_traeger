@@ -17,127 +17,134 @@ from custom_components.traeger.const import DOMAIN
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
+
 async def test_number_platform(
-  hass: HomeAssistant,
-  mock_config_entry: MockConfigEntry,
-  snapshot: SnapshotAssertion,
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    snapshot: SnapshotAssertion,
 ) -> None:
-  """Test the number platform setup."""
-  registry = entity_registry.async_get(hass)
+    """Test the number platform setup."""
+    registry = entity_registry.async_get(hass)
 
-  # Map registry entries to a simplified dict for the snapshot
-  entries = sorted(
-    [
-      {
-        'entity_id': entry.entity_id,
-        'unique_id': entry.unique_id,
-        'translation_key': entry.translation_key,
-        'device_class': entry.device_class,
-        'original_name': entry.original_name,
-      }
-      for entry in registry.entities.values()
-      if entry.config_entry_id == mock_config_entry.entry_id
-      and entry.domain == 'number'
-    ],
-    key=lambda entry: entry['entity_id'],
-  )
+    # Map registry entries to a simplified dict for the snapshot
+    entries = sorted(
+        [{
+            'entity_id': entry.entity_id,
+            'unique_id': entry.unique_id,
+            'translation_key': entry.translation_key,
+            'device_class': entry.device_class,
+            'original_name': entry.original_name,
+        }
+         for entry in registry.entities.values()
+         if entry.config_entry_id == mock_config_entry.entry_id and
+         entry.domain == 'number'],
+        key=lambda entry: entry['entity_id'],
+    )
 
-  assert entries == snapshot
+    assert entries == snapshot
+
 
 def cmd_callback(url, **kwargs):
     _LOGGER.warning("Was at callback....")
     return None
 
+
 @pytest.mark.enable_socket
-@pytest.mark.parametrize("platform, entity_id, mqtt_loca", [
-    ('number', '0123456789ab_cook_timer', 'cook_timer_start'),
-    ('number', '0123456789ab_cook_timer', 'cook_timer_end')
-])
-async def test_number(platform, entity_id, mqtt_loca,
+@pytest.mark.parametrize(
+    "platform, entity_id, mqtt_loca",
+    [('number', '0123456789ab_cook_timer', 'cook_timer_start'),
+     ('number', '0123456789ab_cook_timer', 'cook_timer_end')])
+async def test_number(
+    platform,
+    entity_id,
+    mqtt_loca,
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
     mock_broker: Broker,
     snapshot: SnapshotAssertion,
     http: aioresponses,
 ) -> None:
-  """Test Binary Sensor"""
+    """Test Binary Sensor"""
 
-  #Setup API
-  http.post(api_token['url'], payload=api_token['resp'])
-  http.get(api_user_self['url'], payload=api_user_self['resp'])
-  http.post(api_mqtt['url'], payload=api_mqtt['resp'])
-  http.post(api_commands['url'], payload=api_commands['resp'])
-  http.post(api_commands['urlg2'], payload=api_commands['resp'])
-  traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    #Setup API
+    http.post(api_token['url'], payload=api_token['resp'])
+    http.get(api_user_self['url'], payload=api_user_self['resp'])
+    http.post(api_mqtt['url'], payload=api_mqtt['resp'])
+    http.post(api_commands['url'], payload=api_commands['resp'])
+    http.post(api_commands['urlg2'], payload=api_commands['resp'])
+    traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
 
-  #Start Broker
-  await mock_broker.start()
-  traeger_client.mqtt_client.port = 4443
-  await asyncio.sleep(0.1)
+    #Start Broker
+    await mock_broker.start()
+    traeger_client.mqtt_client.port = 4443
+    await asyncio.sleep(0.1)
 
-  #Get Entity Init Check
-  entity = hass.states.get(f'{platform}.{entity_id}')
+    #Get Entity Init Check
+    entity = hass.states.get(f'{platform}.{entity_id}')
 
-  #Check Entity
-  assert isinstance(entity, State)
-  assert entity == snapshot
+    #Check Entity
+    assert isinstance(entity, State)
+    assert entity == snapshot
 
-  #Change Entity
-  await asyncio.sleep(0.1)
-  await traeger_client.mqtt_client.connect(   #Need to connect
-      api_user_self["resp"]["things"],
-      "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
-      False,
-  )
-  await asyncio.sleep(1)    #Sleep on it
-  traeger_client.mqtt_client.mqtt_client.publish(     #The actual change
-      "prod/thing/update/0123456789ab", json.dumps(mqtt_msg).encode("utf-8"), qos=1
-  )
-  await asyncio.sleep(0.1)
-  await hass.async_block_till_done()
+    #Change Entity
+    await asyncio.sleep(0.1)
+    await traeger_client.mqtt_client.connect(  #Need to connect
+        api_user_self["resp"]["things"],
+        "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
+        False,
+    )
+    await asyncio.sleep(1)  #Sleep on it
+    traeger_client.mqtt_client.mqtt_client.publish(  #The actual change
+        "prod/thing/update/0123456789ab",
+        json.dumps(mqtt_msg).encode("utf-8"),
+        qos=1)
+    await asyncio.sleep(0.1)
+    await hass.async_block_till_done()
 
-  #Get Entity Happy Check
-  entity = hass.states.get(f'{platform}.{entity_id}')
-  #Check Enttity
-  assert isinstance(entity, State)
-  assert entity == snapshot
+    #Get Entity Happy Check
+    entity = hass.states.get(f'{platform}.{entity_id}')
+    #Check Enttity
+    assert isinstance(entity, State)
+    assert entity == snapshot
 
-  #Change Entity
-  await asyncio.sleep(0.1)
-  mqtt_msg_change = mqtt_msg
-  mqtt_msg_change['status'][mqtt_loca] = 60
-  traeger_client.mqtt_client.mqtt_client.publish(     #The actual change
-      "prod/thing/update/0123456789ab", json.dumps(mqtt_msg_change).encode("utf-8"), qos=1
-  )
-  await asyncio.sleep(0.1)
-  await hass.async_block_till_done()
+    #Change Entity
+    await asyncio.sleep(0.1)
+    mqtt_msg_change = mqtt_msg
+    mqtt_msg_change['status'][mqtt_loca] = 60
+    traeger_client.mqtt_client.mqtt_client.publish(  #The actual change
+        "prod/thing/update/0123456789ab",
+        json.dumps(mqtt_msg_change).encode("utf-8"),
+        qos=1)
+    await asyncio.sleep(0.1)
+    await hass.async_block_till_done()
 
-  #Get Entity Trig Check
-  entity = hass.states.get(f'{platform}.{entity_id}')
+    #Get Entity Trig Check
+    entity = hass.states.get(f'{platform}.{entity_id}')
 
-  #Check Enttity
-  assert isinstance(entity, State)
-  assert entity == snapshot
+    #Check Enttity
+    assert isinstance(entity, State)
+    assert entity == snapshot
 
-  #Change Entity
-  await asyncio.sleep(0.1)
-  mqtt_msg_change = mqtt_msg
-  mqtt_msg_change['status']['connected'] = False
-  traeger_client.mqtt_client.mqtt_client.publish(     #The actual change
-      "prod/thing/update/0123456789ab", json.dumps(mqtt_msg_change).encode("utf-8"), qos=1
-  )
-  await asyncio.sleep(0.1)
-  await hass.async_block_till_done()
+    #Change Entity
+    await asyncio.sleep(0.1)
+    mqtt_msg_change = mqtt_msg
+    mqtt_msg_change['status']['connected'] = False
+    traeger_client.mqtt_client.mqtt_client.publish(  #The actual change
+        "prod/thing/update/0123456789ab",
+        json.dumps(mqtt_msg_change).encode("utf-8"),
+        qos=1)
+    await asyncio.sleep(0.1)
+    await hass.async_block_till_done()
 
-  #Get Entity Offline
-  entity = hass.states.get(f'{platform}.{entity_id}')
+    #Get Entity Offline
+    entity = hass.states.get(f'{platform}.{entity_id}')
 
-  #Check Enttity
-  assert isinstance(entity, State)
-  assert entity == snapshot
+    #Check Enttity
+    assert isinstance(entity, State)
+    assert entity == snapshot
 
-  #Shutdown MQTT
-  await asyncio.sleep(0.1)
-  traeger_client.mqtt_client.disconnect()
-  await asyncio.sleep(0.1)
-  await mock_broker.shutdown()
+    #Shutdown MQTT
+    await asyncio.sleep(0.1)
+    traeger_client.mqtt_client.disconnect()
+    await asyncio.sleep(0.1)
+    await mock_broker.shutdown()

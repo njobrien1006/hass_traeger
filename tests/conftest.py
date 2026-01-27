@@ -23,17 +23,20 @@ def auto_enable_custom_integrations(enable_custom_integrations):  # pylint: disa
     '''Enable Custom Integrations'''
     yield
 
+
 @pytest.fixture
 def http() -> Generator[aioresponses, Any]:
-  """Fixture to mock `aiohttp` requests."""
-  with aioresponses() as mock:
-    mock.post(api_token['url'], payload=api_token['resp'], repeat=True)
-    mock.get(api_user_self['url'], payload=api_user_self['resp'], repeat=True)
-    mock.post(api_mqtt['url'], payload=api_mqtt['resp'], repeat=True)
-    #cmd API handled in tests as they are variable.
-    #mock.post(api_commands['url'], payload=api_commands['resp'], repeat=True)
-    #mock.post(api_commands['urlg2'], payload=api_commands['resp'], repeat=True)
-    yield mock
+    """Fixture to mock `aiohttp` requests."""
+    with aioresponses() as mock:
+        mock.post(api_token['url'], payload=api_token['resp'], repeat=True)
+        mock.get(api_user_self['url'],
+                 payload=api_user_self['resp'],
+                 repeat=True)
+        mock.post(api_mqtt['url'], payload=api_mqtt['resp'], repeat=True)
+        #cmd API handled in tests as they are variable.
+        #mock.post(api_commands['url'], payload=api_commands['resp'], repeat=True)
+        #mock.post(api_commands['urlg2'], payload=api_commands['resp'], repeat=True)
+        yield mock
 
 
 @pytest.fixture
@@ -53,25 +56,29 @@ async def mock_broker(hass: HomeAssistant) -> Broker:
                 "amqtt.plugins.authentication.AnonymousAuthPlugin": {
                     "allow_anonymous": True
                 },
-                "amqtt.plugins.sys.broker.BrokerSysPlugin": {"sys_interval": 30},
+                "amqtt.plugins.sys.broker.BrokerSysPlugin": {
+                    "sys_interval": 30
+                },
             },
-        }, loop=hass.loop
-    )
+        },
+        loop=hass.loop)
     return mBroker
 
 
 @pytest.fixture
-async def traeger_client(hass: HomeAssistant, http: aioresponses) -> TraegerTestClient:
+async def traeger_client(hass: HomeAssistant,
+                         http: aioresponses) -> TraegerTestClient:
     """Traeger Test Client"""
     session = async_get_clientsession(hass)
-    client = TraegerTestClient("johnytraeger@traeger.com", "johnytraeger'spassword", hass, session)
+    client = TraegerTestClient("johnytraeger@traeger.com",
+                               "johnytraeger'spassword", hass, session)
     return client
 
 
 @pytest.fixture
-async def mock_config_entry(
-    hass: HomeAssistant, traeger_client: TraegerTestClient, http: aioresponses
-) -> MockConfigEntry:
+async def mock_config_entry(hass: HomeAssistant,
+                            traeger_client: TraegerTestClient,
+                            http: aioresponses) -> MockConfigEntry:
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={

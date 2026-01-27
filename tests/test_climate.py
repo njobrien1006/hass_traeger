@@ -21,6 +21,7 @@ from custom_components.traeger.const import DOMAIN
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
+
 async def test_climate_platform(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
@@ -31,18 +32,16 @@ async def test_climate_platform(
 
     # Map registry entries to a simplified dict for the snapshot
     entries = sorted(
-        [
-            {
-                "entity_id": entry.entity_id,
-                "unique_id": entry.unique_id,
-                "translation_key": entry.translation_key,
-                "device_class": entry.device_class,
-                "original_name": entry.original_name,
-            }
-            for entry in registry.entities.values()
-            if entry.config_entry_id == mock_config_entry.entry_id
-            and entry.domain == "climate"
-        ],
+        [{
+            "entity_id": entry.entity_id,
+            "unique_id": entry.unique_id,
+            "translation_key": entry.translation_key,
+            "device_class": entry.device_class,
+            "original_name": entry.original_name,
+        }
+         for entry in registry.entities.values()
+         if entry.config_entry_id == mock_config_entry.entry_id and
+         entry.domain == "climate"],
         key=lambda entry: entry["entity_id"],
     )
 
@@ -74,36 +73,36 @@ async def test_climate_platform_asyncadd(
     _LOGGER.warning("Wait for onConnect to Subscribe")
     await asyncio.sleep(1)
     traeger_client.mqtt_client.mqtt_client.publish(
-        "prod/thing/update/0123456789ab", json.dumps(mqtt_msg).encode("utf-8"), qos=1
-    )
+        "prod/thing/update/0123456789ab",
+        json.dumps(mqtt_msg).encode("utf-8"),
+        qos=1)
     await asyncio.sleep(0.1)
-    assert traeger_client.mqtt_client.grills_status.get("0123456789ab", {}) == mqtt_msg
+    assert traeger_client.mqtt_client.grills_status.get("0123456789ab",
+                                                        {}) == mqtt_msg
     await asyncio.sleep(0.1)
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)
     await mock_broker.shutdown()
-
     """Test the climate platform setup."""
     registry = entity_registry.async_get(hass)
 
     # Map registry entries to a simplified dict for the snapshot
     entries = sorted(
-        [
-            {
-                "entity_id": entry.entity_id,
-                "unique_id": entry.unique_id,
-                "translation_key": entry.translation_key,
-                "device_class": entry.device_class,
-                "original_name": entry.original_name,
-            }
-            for entry in registry.entities.values()
-            if entry.config_entry_id == mock_config_entry.entry_id
-            and entry.domain == "climate"
-        ],
+        [{
+            "entity_id": entry.entity_id,
+            "unique_id": entry.unique_id,
+            "translation_key": entry.translation_key,
+            "device_class": entry.device_class,
+            "original_name": entry.original_name,
+        }
+         for entry in registry.entities.values()
+         if entry.config_entry_id == mock_config_entry.entry_id and
+         entry.domain == "climate"],
         key=lambda entry: entry["entity_id"],
     )
 
     assert entries == snapshot
+
 
 @pytest.mark.enable_socket
 @pytest.mark.parametrize(
@@ -122,6 +121,7 @@ async def test_climate_probe_cmds(
     snapshot: SnapshotAssertion,
     http: aioresponses,
 ) -> None:
+
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
@@ -217,4 +217,3 @@ async def test_climate_probe_cmds(
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)
     await mock_broker.shutdown()
-

@@ -300,10 +300,10 @@ class Traeger:
 
     # pylint: disable=dangerous-default-value
     async def api_wrapper(self,
-                            method: str,
-                            url: str,
-                            data: dict = {},
-                            headers: dict = {}) -> dict:
+                          method: str,
+                          url: str,
+                          data: dict = {},
+                          headers: dict = {}) -> dict:
         """Get information from the API."""
         try:
             async with async_timeout.timeout(TIMEOUT):
@@ -336,6 +336,7 @@ class Traeger:
 
 class TraegerMQTTClient:
     """Traeger MQTT Wrapper"""
+
     # pylint: disable=unused-argument
     def __init__(self, hass, callback, update_state):
         self.isconnected = False
@@ -348,7 +349,8 @@ class TraegerMQTTClient:
         self.update_state = update_state
         self.port = 443
 
-        self.mqtt_client = AsyncMQTTClient(mqtt.CallbackAPIVersion.VERSION1, transport="websockets")
+        self.mqtt_client = AsyncMQTTClient(mqtt.CallbackAPIVersion.VERSION1,
+                                           transport="websockets")
         self.mqtt_client.on_connect = self._mqtt_onconnect
         self.mqtt_client.on_subscribe = self._mqtt_onsubscribe
         self.mqtt_client.on_message = self.mqtt_onmessage
@@ -362,10 +364,10 @@ class TraegerMQTTClient:
 
         self.mqtt_client.reconnect_delay_set(min_delay=10, max_delay=160)
 
-    async def connect(self, grills, mqtt_url, setssl : bool = True) -> None:
+    async def connect(self, grills, mqtt_url, setssl: bool = True) -> None:
         """Call Connect"""
         self._grills = grills
-        if setssl and self.port==443:
+        if setssl and self.port == 443:
             context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
             context.check_hostname = False
             context.verify_mode = ssl.CERT_NONE
@@ -376,7 +378,9 @@ class TraegerMQTTClient:
         }
         self.mqtt_client.ws_set_options(
             path=f"{mqtt_parts.path}?{mqtt_parts.query}", headers=headers)
-        self.mqtt_client.connect_async(mqtt_parts.netloc, self.port, keepalive=300)
+        self.mqtt_client.connect_async(mqtt_parts.netloc,
+                                       self.port,
+                                       keepalive=300)
         _LOGGER.debug("Starting Traeger MQTT Class")
         self.mqtt_client.loop_start()
         _LOGGER.debug("Started Traeger MQTT Class")
@@ -413,8 +417,9 @@ class TraegerMQTTClient:
             try:
                 self.grills_status[grill_id] = json.loads(message.payload)
             except ValueError as e:
-                _LOGGER.error("json.loads = %s = grill_message: message.topic = %s, message.payload = %s",
-                      e, message.topic, message.payload)
+                _LOGGER.error(
+                    "json.loads = %s = grill_message: message.topic = %s, message.payload = %s",
+                    e, message.topic, message.payload)
                 return
             self.grill_callback(grill_id)
 
@@ -425,9 +430,8 @@ class TraegerMQTTClient:
 
     def _mqtt_onsubscribe(self, client, userdata, mid, rc):
         """MQTT on_subscribe"""
-        _LOGGER.debug(
-            "OnSubscribe Callback. Client:%s userdata:%s mid:%s",
-            client, userdata, mid)
+        _LOGGER.debug("OnSubscribe Callback. Client:%s userdata:%s mid:%s",
+                      client, userdata, mid)
         for grill in self._grills:
             grill_id = grill["thingName"]
             if grill_id in self.grills_status:
