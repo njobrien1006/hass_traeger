@@ -2,7 +2,7 @@
     "config": {
       "step": {
         "user": {
-          "description": "If you need help with the configuration have a look here: [njobrien1006/hass_traeger](https://github.com/njobrien1006/hass_traeger)",
+          "description": "If you need help with the configuration have a look here: {github_url}",
           "data": {
             "username": "Username",
             "password": "Password"
