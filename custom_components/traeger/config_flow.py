@@ -63,7 +63,10 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     str,
             }),
             errors=self._errors,
-            description_placeholders={"github_url": "[njobrien1006/hass_traeger](https://github.com/njobrien1006/hass_traeger)"},
+            description_placeholders={
+                "github_url":
+                    "[njobrien1006/hass_traeger](https://github.com/njobrien1006/hass_traeger)"
+            },
         )
 
     async def _test_credentials(self, username, password):
