@@ -36,6 +36,7 @@ async def test_connect_pub(traeger_client: TraegerTestClient,
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)
     await mock_broker.shutdown()
+    await asyncio.sleep(0.1)
 
 
 @pytest.mark.enable_socket
@@ -60,6 +61,7 @@ async def test_connect_bad_pub(traeger_client: TraegerTestClient,
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)
     await mock_broker.shutdown()
+    await asyncio.sleep(0.1)
 
 
 @pytest.mark.enable_socket
@@ -87,6 +89,7 @@ async def test_connect_grillmsg(traeger_client: TraegerTestClient,
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)
     await mock_broker.shutdown()
+    await asyncio.sleep(0.1)
 
 
 def test_handle_bad_topic(traeger_client: TraegerTestClient) -> None:

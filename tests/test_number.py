@@ -5,11 +5,14 @@ import json
 import logging
 import pytest
 
+from aioresponses import CallbackResult
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry
 
+from homeassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_ON, SERVICE_TURN_OFF
+
 from pytest_homeassistant_custom_component.common import MockConfigEntry
-from syrupy import SnapshotAssertion
+from syrupy.assertion import SnapshotAssertion
 
 from .conftest import Broker, aioresponses
 from .zzMockResp import api_commands, api_token, api_mqtt, api_user_self, mqtt_msg
@@ -44,11 +47,6 @@ async def test_number_platform(
     assert entries == snapshot
 
 
-def cmd_callback(url, **kwargs):
-    _LOGGER.warning("Was at callback....")
-    return None
-
-
 @pytest.mark.enable_socket
 @pytest.mark.parametrize(
     "platform, entity_id, mqtt_loca",
@@ -64,14 +62,22 @@ async def test_number(
     snapshot: SnapshotAssertion,
     http: aioresponses,
 ) -> None:
-    """Test Binary Sensor"""
-
-    #Setup API
-    http.post(api_token['url'], payload=api_token['resp'])
-    http.get(api_user_self['url'], payload=api_user_self['resp'])
-    http.post(api_mqtt['url'], payload=api_mqtt['resp'])
-    http.post(api_commands['url'], payload=api_commands['resp'])
-    http.post(api_commands['urlg2'], payload=api_commands['resp'])
+    """Test Numbers"""
+    def callback(url, **kwargs):
+        """Setup API Callbacks"""
+        _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
+        mqtt_msg_change = mqtt_msg
+        if kwargs["json"]["command"] == "90":
+            traeger_client.mqtt_client.mqtt_client.publish(
+                "prod/thing/update/0123456789ab",
+                json.dumps(mqtt_msg_change).encode("utf-8"),
+                qos=1,
+            )
+            return CallbackResult(status=400, payload=None)
+        return CallbackResult(status=404, payload=None)
+    # Register Callbacks
+    http.post(api_commands["url"], callback=callback, repeat=True)
+    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
 
     #Start Broker
@@ -148,3 +154,4 @@ async def test_number(
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)
     await mock_broker.shutdown()
+    await asyncio.sleep(0.1)

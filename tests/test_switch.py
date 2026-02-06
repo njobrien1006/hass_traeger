@@ -10,7 +10,6 @@ from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry
 
 from homeassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_ON, SERVICE_TURN_OFF
-from homeassistant.components.switch.const import DOMAIN
 
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
@@ -71,7 +70,6 @@ async def test_switch_cmds(
         _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
         mqtt_msg_change = mqtt_msg
         if kwargs["json"]["command"] == "18":
-            _LOGGER.error("Command18")
             mqtt_msg_change["status"]["keepwarm"] = 1
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",
@@ -80,7 +78,6 @@ async def test_switch_cmds(
             )
             return CallbackResult(status=400, payload=None)
         if kwargs["json"]["command"] == "19":
-            _LOGGER.error("Command18")
             mqtt_msg_change["status"]["keepwarm"] = 0
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",
@@ -89,7 +86,6 @@ async def test_switch_cmds(
             )
             return CallbackResult(status=400, payload=None)
         if kwargs["json"]["command"] == "20":
-            _LOGGER.error("Command18")
             mqtt_msg_change["status"]["smoke"] = 1
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",
@@ -98,8 +94,13 @@ async def test_switch_cmds(
             )
             return CallbackResult(status=400, payload=None)
         if kwargs["json"]["command"] == "21":
-            _LOGGER.error("Command18")
             mqtt_msg_change["status"]["smoke"] = 0
+            traeger_client.mqtt_client.mqtt_client.publish(
+                "prod/thing/update/0123456789ab",
+                json.dumps(mqtt_msg_change).encode("utf-8"),
+                qos=1,
+            )
+        if kwargs["json"]["command"] == "90":
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",
                 json.dumps(mqtt_msg_change).encode("utf-8"),
@@ -188,3 +189,4 @@ async def test_switch_cmds(
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)
     await mock_broker.shutdown()
+    await asyncio.sleep(0.1)
