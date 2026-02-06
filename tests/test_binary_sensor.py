@@ -64,6 +64,7 @@ async def test_binary_sensor(
     http: aioresponses,
 ) -> None:
     """Test Binary Sensor"""
+
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
@@ -76,6 +77,7 @@ async def test_binary_sensor(
             )
             return CallbackResult(status=400, payload=None)
         return CallbackResult(status=404, payload=None)
+
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)

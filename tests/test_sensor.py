@@ -57,6 +57,7 @@ async def test_sensor_platform_asyncadd(
     snapshot: SnapshotAssertion,
     http: aioresponses,
 ) -> None:
+
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
@@ -69,6 +70,7 @@ async def test_sensor_platform_asyncadd(
             )
             return CallbackResult(status=400, payload=None)
         return CallbackResult(status=404, payload=None)
+
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
@@ -131,6 +133,7 @@ async def test_sensor(
     http: aioresponses,
 ) -> None:
     """Test Sensor"""
+
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
@@ -143,6 +146,7 @@ async def test_sensor(
             )
             return CallbackResult(status=400, payload=None)
         return CallbackResult(status=404, payload=None)
+
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
