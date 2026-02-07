@@ -46,13 +46,11 @@ async def test_binary_sensor_platform(
 
 
 @pytest.mark.enable_socket
-@pytest.mark.parametrize(
-    "platform, entity_id, mqtt_loca",
-    [
+@pytest.mark.parametrize("platform, entity_id, mqtt_loca", [
     ('binary_sensor', '0123456789ab_probe_alarm_fired', 'probe_alarm_fired'),
-    ('binary_sensor', '0123456789ab_cook_timer_complete', 'cook_timer_complete'),
-
-     ])
+    ('binary_sensor', '0123456789ab_cook_timer_complete',
+     'cook_timer_complete'),
+])
 async def test_binary_sensor_par(
     platform,
     entity_id,
@@ -85,10 +83,10 @@ async def test_binary_sensor_par(
     await traeger_client.mqtt_client.connect(  #Need to connect
         api_user_self["resp"]["things"],
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
-        False, mqttport,
+        False,
+        mqttport,
     )
     await asyncio.sleep(0.2)  #Sleep on it
-
 
     #Get Entity Init Check
     entity = hass.states.get(f'{platform}.{entity_id}')
@@ -96,7 +94,6 @@ async def test_binary_sensor_par(
     assert isinstance(entity, State)
     _LOGGER.error(entity.state)
     assert entity == snapshot
-
 
     #Change Entity
     await asyncio.sleep(0.1)  #Sleep on it
@@ -117,7 +114,6 @@ async def test_binary_sensor_par(
     traeger_client.mqtt_client
     assert entity == snapshot
 
-
     #Change Entity
     await asyncio.sleep(0.1)
     mqtt_msg_change = mqtt_msg
@@ -135,7 +131,6 @@ async def test_binary_sensor_par(
     _LOGGER.error(entity.state)
     assert entity == snapshot
 
-
     #Change Entity
     await asyncio.sleep(0.1)
     mqtt_msg_change = mqtt_msg
@@ -151,7 +146,6 @@ async def test_binary_sensor_par(
     #Check Enttity
     assert isinstance(entity, State)
     assert entity == snapshot
-
 
     #Shutdown MQTT
     await asyncio.sleep(0.1)

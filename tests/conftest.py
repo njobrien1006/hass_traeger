@@ -67,6 +67,7 @@ async def mock_broker(hass: HomeAssistant) -> Broker:
         loop=hass.loop)
     return mBroker
 
+
 @pytest.fixture
 async def connected_amqtt(mock_broker: Broker):
     """Fixture to connect & gracefull disc amqtt patricularily on fail"""
@@ -74,7 +75,7 @@ async def connected_amqtt(mock_broker: Broker):
     _LOGGER.error("Start Broker")
     await mock_broker.start()
 
-    yield # this is where the testing happens
+    yield  # this is where the testing happens
 
     #Shutdown MQTT
     _LOGGER.error("Stop Broker")

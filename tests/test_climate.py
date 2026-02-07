@@ -54,6 +54,7 @@ async def test_climate_platform_asyncadd(
     http: aioresponses,
 ) -> None:
     """Check async add for the post init additions"""
+
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
@@ -74,14 +75,13 @@ async def test_climate_platform_asyncadd(
     await traeger_client.mqtt_client.connect(  #Need to connect
         api_user_self["resp"]["things"],
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
-        False, mqttport,
+        False,
+        mqttport,
     )
     await asyncio.sleep(0.2)  #Sleep on it
 
-
     assert traeger_client.mqtt_client.grills_status.get("0123456789ab",
                                                         {}) == mqtt_msg
-
 
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)
