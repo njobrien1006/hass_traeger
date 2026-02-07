@@ -1,0 +1,35 @@
+name: Pylint
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron:  "0 0 * * 6"
+  push:
+    branches:
+      - "master"
+      - "dev"
+  pull_request:
+    branches:
+      - "master"
+      - "dev"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.x' # Or a specific version like '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Pylint
+      run: pylint
