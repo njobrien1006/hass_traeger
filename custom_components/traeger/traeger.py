@@ -347,7 +347,6 @@ class TraegerMQTTClient:
 
         self.grill_callback = callback
         self.update_state = update_state
-        self.port = 443
 
         self.mqtt_client = AsyncMQTTClient(mqtt.CallbackAPIVersion.VERSION1,
                                            transport="websockets")
@@ -364,10 +363,10 @@ class TraegerMQTTClient:
 
         self.mqtt_client.reconnect_delay_set(min_delay=10, max_delay=160)
 
-    async def connect(self, grills, mqtt_url, setssl: bool = True) -> None:
+    async def connect(self, grills, mqtt_url, setssl: bool = True, port: int = 443) -> None:
         """Call Connect"""
         self._grills = grills
-        if setssl and self.port == 443:
+        if setssl:
             context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
             context.check_hostname = False
             context.verify_mode = ssl.CERT_NONE
@@ -379,7 +378,7 @@ class TraegerMQTTClient:
         self.mqtt_client.ws_set_options(
             path=f"{mqtt_parts.path}?{mqtt_parts.query}", headers=headers)
         self.mqtt_client.connect_async(mqtt_parts.netloc,
-                                       self.port,
+                                       port,
                                        keepalive=300)
         _LOGGER.debug("Starting Traeger MQTT Class")
         self.mqtt_client.loop_start()

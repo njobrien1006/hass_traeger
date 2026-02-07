@@ -1,0 +1,193 @@
+# serializer version: 1
+# name: test_number[number-0123456789ab_cook_timer-cook_timer_end]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Cook_timer",
+      'icon': 'mdi:timer',
+      'max': 1440,
+      'min': 0,
+      'mode': <NumberMode.AUTO: 'auto'>,
+      'step': 1,
+      'unit_of_measurement': 'min',
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.0123456789ab_cook_timer',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_number[number-0123456789ab_cook_timer-cook_timer_end].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Cook_timer",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+      'max': 1440,
+      'min': 0,
+      'mode': <NumberMode.AUTO: 'auto'>,
+      'step': 1,
+      'unit_of_measurement': 'min',
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.0123456789ab_cook_timer',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '-1.0',
+  })
+# ---
+# name: test_number[number-0123456789ab_cook_timer-cook_timer_end].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Cook_timer",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+      'max': 1440,
+      'min': 0,
+      'mode': <NumberMode.AUTO: 'auto'>,
+      'step': 1,
+      'unit_of_measurement': 'min',
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.0123456789ab_cook_timer',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0.0',
+  })
+# ---
+# name: test_number[number-0123456789ab_cook_timer-cook_timer_end].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Cook_timer",
+      'icon': 'mdi:timer',
+      'max': 1440,
+      'min': 0,
+      'mode': <NumberMode.AUTO: 'auto'>,
+      'step': 1,
+      'unit_of_measurement': 'min',
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.0123456789ab_cook_timer',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_number[number-0123456789ab_cook_timer-cook_timer_start]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Cook_timer",
+      'icon': 'mdi:timer',
+      'max': 1440,
+      'min': 0,
+      'mode': <NumberMode.AUTO: 'auto'>,
+      'step': 1,
+      'unit_of_measurement': 'min',
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.0123456789ab_cook_timer',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_number[number-0123456789ab_cook_timer-cook_timer_start].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Cook_timer",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+      'max': 1440,
+      'min': 0,
+      'mode': <NumberMode.AUTO: 'auto'>,
+      'step': 1,
+      'unit_of_measurement': 'min',
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.0123456789ab_cook_timer',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0.0',
+  })
+# ---
+# name: test_number[number-0123456789ab_cook_timer-cook_timer_start].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Cook_timer",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+      'max': 1440,
+      'min': 0,
+      'mode': <NumberMode.AUTO: 'auto'>,
+      'step': 1,
+      'unit_of_measurement': 'min',
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.0123456789ab_cook_timer',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '-1.0',
+  })
+# ---
+# name: test_number[number-0123456789ab_cook_timer-cook_timer_start].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Cook_timer",
+      'icon': 'mdi:timer',
+      'max': 1440,
+      'min': 0,
+      'mode': <NumberMode.AUTO: 'auto'>,
+      'step': 1,
+      'unit_of_measurement': 'min',
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.0123456789ab_cook_timer',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_number_platform
+  list([
+    dict({
+      'device_class': None,
+      'entity_id': 'number.0123456789ab_cook_cycle',
+      'original_name': '0123456789ab_cook_cycle',
+      'translation_key': None,
+      'unique_id': '0123456789ab_cook_cycle',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'number.0123456789ab_cook_timer',
+      'original_name': '0123456789ab_cook_timer',
+      'translation_key': None,
+      'unique_id': '0123456789ab_cook_timer',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'number.cd0123456789_cook_cycle',
+      'original_name': 'cd0123456789_cook_cycle',
+      'translation_key': None,
+      'unique_id': 'cd0123456789_cook_cycle',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'number.cd0123456789_cook_timer',
+      'original_name': 'cd0123456789_cook_timer',
+      'translation_key': None,
+      'unique_id': 'cd0123456789_cook_timer',
+    }),
+  ])
+# ---

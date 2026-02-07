@@ -11,11 +11,14 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 from typing import Any
 from amqtt.broker import Broker
 
-from .zzMockResp import api_commands, api_token, api_mqtt, api_user_self
+from .zzMockResp import api_token, api_mqtt, api_user_self
 from custom_components.traeger.const import CONF_PASSWORD, CONF_USERNAME, DOMAIN
 from custom_components.traeger.traeger import Traeger as TraegerTestClient
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
+
+#The MQTT port we will use instead of 443
+mqttport = 4447
 
 
 @pytest.fixture(autouse=True)
@@ -46,7 +49,7 @@ async def mock_broker(hass: HomeAssistant) -> Broker:
         {
             "listeners": {
                 "default": {
-                    "bind": "127.0.0.1:4443",
+                    "bind": f"127.0.0.1:{mqttport}",
                     "type": "ws",
                     "ssl": False,
                     "max_connections": 10,
@@ -64,6 +67,19 @@ async def mock_broker(hass: HomeAssistant) -> Broker:
         loop=hass.loop)
     return mBroker
 
+@pytest.fixture
+async def connected_amqtt(mock_broker: Broker):
+    """Fixture to connect & gracefull disc amqtt patricularily on fail"""
+    #Start Broker
+    _LOGGER.error("Start Broker")
+    await mock_broker.start()
+
+    yield # this is where the testing happens
+
+    #Shutdown MQTT
+    _LOGGER.error("Stop Broker")
+    await mock_broker.shutdown()
+
 
 @pytest.fixture
 async def traeger_client(hass: HomeAssistant,
@@ -79,6 +95,7 @@ async def traeger_client(hass: HomeAssistant,
 async def mock_config_entry(hass: HomeAssistant,
                             traeger_client: TraegerTestClient,
                             http: aioresponses) -> MockConfigEntry:
+    """HASS Mock Config Entry"""
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={

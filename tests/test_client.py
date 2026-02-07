@@ -1,7 +1,6 @@
 """Test the Traeger Client."""
 
 import logging
-import pytest
 from aioresponses import aioresponses
 
 from .conftest import TraegerTestClient

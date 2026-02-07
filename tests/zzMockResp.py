@@ -192,7 +192,7 @@ mqtt_msg = {
         "keepwarm":
             0,
         "connected":
-            True,
+            False,
         "acc": [
             {
                 "channel": "p0",

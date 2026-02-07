@@ -1,0 +1,153 @@
+# serializer version: 1
+# name: test_binary_sensor_par[binary_sensor-0123456789ab_cook_timer_complete-cook_timer_complete]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Cook Timer Complete",
+      'icon': 'mdi:timer',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.0123456789ab_cook_timer_complete',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_binary_sensor_par[binary_sensor-0123456789ab_cook_timer_complete-cook_timer_complete].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Cook Timer Complete",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.0123456789ab_cook_timer_complete',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0',
+  })
+# ---
+# name: test_binary_sensor_par[binary_sensor-0123456789ab_cook_timer_complete-cook_timer_complete].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Cook Timer Complete",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.0123456789ab_cook_timer_complete',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '1',
+  })
+# ---
+# name: test_binary_sensor_par[binary_sensor-0123456789ab_cook_timer_complete-cook_timer_complete].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Cook Timer Complete",
+      'icon': 'mdi:timer',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.0123456789ab_cook_timer_complete',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_binary_sensor_par[binary_sensor-0123456789ab_probe_alarm_fired-probe_alarm_fired]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Probe Alarm Fired",
+      'icon': 'mdi:thermometer',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.0123456789ab_probe_alarm_fired',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_binary_sensor_par[binary_sensor-0123456789ab_probe_alarm_fired-probe_alarm_fired].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Probe Alarm Fired",
+      'icon': 'mdi:thermometer',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.0123456789ab_probe_alarm_fired',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0',
+  })
+# ---
+# name: test_binary_sensor_par[binary_sensor-0123456789ab_probe_alarm_fired-probe_alarm_fired].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Probe Alarm Fired",
+      'icon': 'mdi:thermometer',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.0123456789ab_probe_alarm_fired',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '1',
+  })
+# ---
+# name: test_binary_sensor_par[binary_sensor-0123456789ab_probe_alarm_fired-probe_alarm_fired].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Probe Alarm Fired",
+      'icon': 'mdi:thermometer',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.0123456789ab_probe_alarm_fired',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_binary_sensor_platform
+  list([
+    dict({
+      'device_class': None,
+      'entity_id': 'binary_sensor.0123456789ab_cook_timer_complete',
+      'original_name': '0123456789ab Cook Timer Complete',
+      'translation_key': None,
+      'unique_id': '0123456789ab_cook_timer_complete',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'binary_sensor.0123456789ab_probe_alarm_fired',
+      'original_name': '0123456789ab Probe Alarm Fired',
+      'translation_key': None,
+      'unique_id': '0123456789ab_probe_alarm_fired',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'binary_sensor.cd0123456789_cook_timer_complete',
+      'original_name': 'cd0123456789 Cook Timer Complete',
+      'translation_key': None,
+      'unique_id': 'cd0123456789_cook_timer_complete',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'binary_sensor.cd0123456789_probe_alarm_fired',
+      'original_name': 'cd0123456789 Probe Alarm Fired',
+      'translation_key': None,
+      'unique_id': 'cd0123456789_probe_alarm_fired',
+    }),
+  ])
+# ---
