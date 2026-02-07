@@ -64,13 +64,15 @@ async def test_switch_cmds(
     snapshot: SnapshotAssertion,
     http: aioresponses,
 ) -> None:
+
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
         if traeger_client.mqtt_client.grills_status == {}:
             mqtt_msg_change = mqtt_msg
         else:
-            mqtt_msg_change = traeger_client.mqtt_client.grills_status['0123456789ab']
+            mqtt_msg_change = traeger_client.mqtt_client.grills_status[
+                '0123456789ab']
         if kwargs["json"]["command"] == "18":
             mqtt_msg_change["status"]["keepwarm"] = 1
             traeger_client.mqtt_client.mqtt_client.publish(
@@ -118,17 +120,16 @@ async def test_switch_cmds(
     await traeger_client.mqtt_client.connect(  #Need to connect
         api_user_self["resp"]["things"],
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
-        False, mqttport,
+        False,
+        mqttport,
     )
     await asyncio.sleep(0.2)  #Sleep on it
-
 
     #Get Entity Init Check
     entity = hass.states.get(f'{platform}.{entity_id}')
     #Check Entity
     assert isinstance(entity, State)
     assert entity == snapshot
-
 
     #Change Entity
     await asyncio.sleep(0.1)
@@ -162,7 +163,6 @@ async def test_switch_cmds(
     # Check Enttity
     assert entity == snapshot
 
-
     await asyncio.sleep(0.1)
     await hass.services.async_call(
         "switch",
@@ -176,7 +176,6 @@ async def test_switch_cmds(
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
     assert entity == snapshot
-
 
     # Put Grill back out of cook mode to make unavailable.
     mqtt_msg_change = mqtt_msg
@@ -192,7 +191,6 @@ async def test_switch_cmds(
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
     assert entity == snapshot
-
 
     # Shut it down
     await asyncio.sleep(0.1)

@@ -363,7 +363,11 @@ class TraegerMQTTClient:
 
         self.mqtt_client.reconnect_delay_set(min_delay=10, max_delay=160)
 
-    async def connect(self, grills, mqtt_url, setssl: bool = True, port: int = 443) -> None:
+    async def connect(self,
+                      grills,
+                      mqtt_url,
+                      setssl: bool = True,
+                      port: int = 443) -> None:
         """Call Connect"""
         self._grills = grills
         if setssl:
@@ -377,9 +381,7 @@ class TraegerMQTTClient:
         }
         self.mqtt_client.ws_set_options(
             path=f"{mqtt_parts.path}?{mqtt_parts.query}", headers=headers)
-        self.mqtt_client.connect_async(mqtt_parts.netloc,
-                                       port,
-                                       keepalive=300)
+        self.mqtt_client.connect_async(mqtt_parts.netloc, port, keepalive=300)
         _LOGGER.debug("Starting Traeger MQTT Class")
         self.mqtt_client.loop_start()
         _LOGGER.debug("Started Traeger MQTT Class")

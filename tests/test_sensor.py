@@ -56,6 +56,7 @@ async def test_sensor_platform_asyncadd(
     http: aioresponses,
 ) -> None:
     """Check async add for the post init additions"""
+
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
@@ -77,7 +78,8 @@ async def test_sensor_platform_asyncadd(
     await traeger_client.mqtt_client.connect(
         api_user_self["resp"]["things"],
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
-        False, mqttport,
+        False,
+        mqttport,
     )
     _LOGGER.warning("Wait for onConnect to Subscribe")
     await asyncio.sleep(0.2)
@@ -114,10 +116,8 @@ async def test_sensor_platform_asyncadd(
 @pytest.mark.enable_socket
 @pytest.mark.parametrize(
     "platform, entity_id, mqtt_loca",
-    [
-        ('sensor', '0123456789ab_ambient_temperature',
-            SENSOR_ENTITIES['Ambient Temperature']['json_loca'])
-    ])
+    [('sensor', '0123456789ab_ambient_temperature',
+      SENSOR_ENTITIES['Ambient Temperature']['json_loca'])])
 async def test_sensor(
     platform,
     entity_id,
@@ -150,17 +150,16 @@ async def test_sensor(
     await traeger_client.mqtt_client.connect(  #Need to connect
         api_user_self["resp"]["things"],
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
-        False, mqttport,
+        False,
+        mqttport,
     )
     await asyncio.sleep(0.2)  #Sleep on it
-
 
     #Get Entity Init Check
     entity = hass.states.get(f'{platform}.{entity_id}')
     #Check Entity
     assert isinstance(entity, State)
     assert entity == snapshot
-
 
     #Change Entity
     await asyncio.sleep(0.1)
@@ -177,7 +176,6 @@ async def test_sensor(
     #Check Enttity
     assert isinstance(entity, State)
     assert entity == snapshot
-
 
     #Change Entity
     await asyncio.sleep(0.1)
@@ -202,7 +200,6 @@ async def test_sensor(
     assert isinstance(entity, State)
     assert entity == snapshot
 
-
     #Change Entity
     await asyncio.sleep(0.1)
     mqtt_msg_change = mqtt_msg
@@ -218,7 +215,6 @@ async def test_sensor(
     #Check Enttity
     assert isinstance(entity, State)
     assert entity == snapshot
-
 
     #Shutdown MQTT
     await asyncio.sleep(0.1)
