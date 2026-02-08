@@ -20,6 +20,7 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 #The MQTT port we will use instead of 443
 MQTTPORT = 4447
 
+
 #pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments,redefined-outer-name,invalid-name
 @pytest.fixture(autouse=True)
 def auto_enable_custom_integrations(enable_custom_integrations):  # pylint: disable=unused-argument
