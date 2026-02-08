@@ -1,0 +1,58 @@
+# serializer version: 1
+# name: test_climate_platform
+  list([
+    dict({
+      'device_class': None,
+      'entity_id': 'climate.0123456789ab_climate',
+      'original_name': '0123456789ab Climate',
+      'translation_key': None,
+      'unique_id': '0123456789ab_climate',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'climate.cd0123456789_climate',
+      'original_name': 'cd0123456789 Climate',
+      'translation_key': None,
+      'unique_id': 'cd0123456789_climate',
+    }),
+  ])
+# ---
+# name: test_climate_platform_asyncadd
+  list([
+    dict({
+      'device_class': None,
+      'entity_id': 'climate.0123456789ab_climate',
+      'original_name': '0123456789ab Climate',
+      'translation_key': None,
+      'unique_id': '0123456789ab_climate',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'climate.0123456789ab_probe_12charid1',
+      'original_name': "Johny's Traeger Probe 12charId1",
+      'translation_key': None,
+      'unique_id': '0123456789ab_probe_12charId1',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'climate.0123456789ab_probe_12charid2',
+      'original_name': "Johny's Traeger Probe 12charId2",
+      'translation_key': None,
+      'unique_id': '0123456789ab_probe_12charId2',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'climate.0123456789ab_probe_p0',
+      'original_name': "Johny's Traeger Probe p0",
+      'translation_key': None,
+      'unique_id': '0123456789ab_probe_p0',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'climate.cd0123456789_climate',
+      'original_name': 'cd0123456789 Climate',
+      'translation_key': None,
+      'unique_id': 'cd0123456789_climate',
+    }),
+  ])
+# ---
