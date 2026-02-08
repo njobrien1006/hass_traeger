@@ -13,10 +13,11 @@ from .zzMockResp import api_user_self, mqtt_msg
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 """Test Traeger MQTT"""
 
-
+#pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
 @pytest.mark.enable_socket
 async def test_connect_pub(traeger_client: TraegerTestClient,
                            connected_amqtt: Broker, http: aioresponses) -> None:
+    '''Test connect and publish'''
     await asyncio.sleep(0.1)
     await traeger_client.mqtt_client.connect(
         api_user_self["resp"]["things"],
@@ -38,6 +39,7 @@ async def test_connect_pub(traeger_client: TraegerTestClient,
 async def test_connect_bad_pub(traeger_client: TraegerTestClient,
                                connected_amqtt: Broker,
                                http: aioresponses) -> None:
+    '''Test connect and bad publish'''
     await asyncio.sleep(0.1)
     await traeger_client.mqtt_client.connect(
         api_user_self["resp"]["things"],
@@ -61,6 +63,7 @@ async def test_connect_bad_pub(traeger_client: TraegerTestClient,
 async def test_connect_grillmsg(traeger_client: TraegerTestClient,
                                 connected_amqtt: Broker,
                                 http: aioresponses) -> None:
+    '''Test connect and send grill mqtt msg'''
     await asyncio.sleep(0.1)
     await traeger_client.mqtt_client.connect(
         api_user_self["resp"]["things"],
