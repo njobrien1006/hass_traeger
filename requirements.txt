@@ -1,4 +1,7 @@
 colorlog==6.7.0
 homeassistant>=2024.1.2
 pip>=21.0
-paho.mqtt==1.6.1
+pytest-homeassistant-custom-component>=0.13.109
+aioresponses>=0.7.8
+amqtt>=0.11.3
+pycares<5.0.0  # Pin to <5.0.0 for Python 3.13 compatibility (5.x has type hint issues with aiodns)
