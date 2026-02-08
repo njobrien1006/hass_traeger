@@ -32,16 +32,16 @@ class TraegerBaseSensor(TraegerBaseEntity):
     @property
     def available(self):
         """Reports unavailable when the grill is powered off"""
-        if self.grill_state is None:
+        if self.grill_mqtt_msg.get("status", None) is None:
             return False
-        return self.grill_state["connected"]
+        return self.grill_mqtt_msg["status"]["connected"]
 
     @property
     def name(self):
         """Return the name of the grill"""
-        if self.grill_details is None:
+        if self.grill_mqtt_msg.get("details", None) is None:
             return f"{self.grill_id} {self.friendly_name}"
-        name = self.grill_details["friendlyName"]
+        name = self.grill_mqtt_msg["details"]["friendlyName"]
         return f"{name} {self.friendly_name}"
 
     @property
@@ -53,7 +53,7 @@ class TraegerBaseSensor(TraegerBaseEntity):
     @property
     def state(self):
         """Return the state of the binary sensor."""
-        return self.grill_state[self.value]
+        return self.grill_mqtt_msg["status"][self.value]
 
 
 class TraegerTimer(TraegerBaseSensor):

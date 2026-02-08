@@ -40,9 +40,9 @@ class TraegerBaseSwitch(SwitchEntity, TraegerBaseEntity):
     @property
     def name(self):
         """Return the name of the grill"""
-        if self.grill_details is None:
+        if self.grill_mqtt_msg.get("details", None) is None:
             return f"{self.grill_id}_{self.devname}"  #Returns EntID
-        name = self.grill_details["friendlyName"]
+        name = self.grill_mqtt_msg["details"]["friendlyName"]
         return f"{name} {self.friendly_name}"  #Returns Friendly Name
 
     @property
@@ -63,7 +63,7 @@ class TraegerConnectEntity(TraegerBaseSwitch):
     @property
     def is_on(self):
         """Return true if device is on."""
-        if self.grill_state is None:
+        if self.grill_mqtt_msg.get("status", None) is None:
             return 0
         return self.grill_cloudconnect
 
@@ -99,9 +99,10 @@ class TraegerSwitchEntity(TraegerBaseSwitch):
     @property
     def available(self):
         """Reports unavailable when the grill is powered off"""
-        if self.grill_state is None or not self.grill_state["connected"]:
+        if self.grill_mqtt_msg.get("status",None) is None or \
+            not self.grill_mqtt_msg.get("status",{}).get("connected",False):
             return False
-        if GRILL_MODE_IGNITING <= self.grill_state[
+        if GRILL_MODE_IGNITING <= self.grill_mqtt_msg["status"][
                 'system_status'] <= GRILL_MODE_CUSTOM_COOK:
             return True
         return False
@@ -110,20 +111,20 @@ class TraegerSwitchEntity(TraegerBaseSwitch):
     @property
     def is_on(self):
         """Return true if device is on."""
-        if self.grill_state is None:
+        if self.grill_mqtt_msg.get("status", None) is None:
             return 0
-        return self.grill_state[self.devname]
+        return self.grill_mqtt_msg["status"][self.devname]
 
     # Switch Methods
     async def async_turn_on(self, **kwargs):  # pylint: disable=unused-argument
         """Set new Switch Val."""
-        if GRILL_MODE_IGNITING <= self.grill_state[
+        if GRILL_MODE_IGNITING <= self.grill_mqtt_msg["status"][
                 'system_status'] <= GRILL_MODE_CUSTOM_COOK:
             await self.client.set_switch(self.grill_id, self.on_cmd)
 
     async def async_turn_off(self, **kwargs):  # pylint: disable=unused-argument
         """Set new Switch Val."""
-        if GRILL_MODE_IGNITING <= self.grill_state[
+        if GRILL_MODE_IGNITING <= self.grill_mqtt_msg["status"][
                 'system_status'] <= GRILL_MODE_CUSTOM_COOK:
             await self.client.set_switch(self.grill_id, self.off_cmd)
 
@@ -133,18 +134,19 @@ class TraegerSuperSmokeEntity(TraegerSwitchEntity):
 
     @property
     def available(self):
-        if self.grill_state is None or not self.grill_state["connected"]:
+        if self.grill_mqtt_msg.get("status",None) is None or \
+            not self.grill_mqtt_msg.get("status",{}).get("connected",False):
             return False
-        if GRILL_MODE_IGNITING <= self.grill_state[
+        if GRILL_MODE_IGNITING <= self.grill_mqtt_msg["status"][
                 'system_status'] <= GRILL_MODE_CUSTOM_COOK:
             super_smoke_supported = 0
-            if self.grill_features["super_smoke_enabled"] == 1:
+            if self.grill_mqtt_msg["features"]["super_smoke_enabled"] == 1:
                 super_smoke_supported = 1
             if self.grill_units == UnitOfTemperature.CELSIUS:
                 super_smoke_max_temp = SUPER_SMOKE_MAX_TEMP_C
             else:
                 super_smoke_max_temp = SUPER_SMOKE_MAX_TEMP_F
-            super_smoke_within_temp = self.grill_state[
+            super_smoke_within_temp = self.grill_mqtt_msg["status"][
                 "set"] <= super_smoke_max_temp
             return super_smoke_supported and super_smoke_within_temp
         return False

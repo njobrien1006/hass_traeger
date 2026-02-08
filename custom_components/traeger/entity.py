@@ -14,13 +14,9 @@ class TraegerBaseEntity(Entity):  # pylint: disable=too-many-instance-attributes
         self.grill_refresh_state()
 
     def grill_refresh_state(self):
-        """Wrapper to parse different parse of Grill MQTT Response"""
-        self.grill_state = self.client.get_state_for_device(self.grill_id)
+        """Wrapper to parse different parts of Grill MQTT Response"""
+        self.grill_mqtt_msg = self.client.get_mqtt_msg_for_grill(self.grill_id)
         self.grill_units = self.client.get_units_for_device(self.grill_id)
-        self.grill_details = self.client.get_details_for_device(self.grill_id)
-        self.grill_features = self.client.get_features_for_device(self.grill_id)
-        self.grill_settings = self.client.get_settings_for_device(self.grill_id)
-        self.grill_limits = self.client.get_limits_for_device(self.grill_id)
         self.grill_cloudconnect = self.client.get_cloudconnect(self.grill_id)
 
     def grill_register_callback(self):
@@ -51,7 +47,7 @@ class TraegerBaseEntity(Entity):  # pylint: disable=too-many-instance-attributes
     @property
     def device_info(self):
         """Return a device description for device registry."""
-        if self.grill_settings is None:
+        if self.grill_mqtt_msg.get("settings", None) is None:
             return {
                 "identifiers": {(DOMAIN, self.grill_id)},
                 "name": NAME,
@@ -60,9 +56,9 @@ class TraegerBaseEntity(Entity):  # pylint: disable=too-many-instance-attributes
 
         return {
             "identifiers": {(DOMAIN, self.grill_id)},
-            "name": self.grill_details["friendlyName"],
-            "model": self.grill_settings["device_type_id"],
-            "sw_version": self.grill_settings["fw_version"],
+            "name": self.grill_mqtt_msg["details"]["friendlyName"],
+            "model": self.grill_mqtt_msg["settings"]["device_type_id"],
+            "sw_version": self.grill_mqtt_msg["settings"]["fw_version"],
             "manufacturer": NAME
         }
 
