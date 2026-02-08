@@ -1,3 +1,5 @@
+'''File for mock responses.'''
+#pylint: disable=line-too-long,invalid-name
 api_commands = {
     "url":
         "https://mobile-iot-api.iot.traegergrills.io/things/0123456789ab/commands",
