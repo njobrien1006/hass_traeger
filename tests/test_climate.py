@@ -6,13 +6,13 @@ import logging
 import pytest
 
 from aioresponses import CallbackResult
-from custom_components.traeger.const import DOMAIN
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import entity_registry
 
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
+from custom_components.traeger.const import DOMAIN
 from .conftest import Broker, aioresponses, mqttport
 from .zzMockResp import api_commands, api_user_self, mqtt_msg
 
