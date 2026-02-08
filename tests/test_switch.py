@@ -21,7 +21,7 @@ from .zzMockResp import api_commands, api_user_self, mqtt_msg
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-#pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
+#pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments,too-many-statements
 async def test_switch_platform(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
@@ -65,7 +65,7 @@ async def test_switch_cmds(
     snapshot: SnapshotAssertion,
     http: aioresponses,
 ) -> None:
-
+    '''test switch cmds'''
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
