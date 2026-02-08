@@ -1,5 +1,5 @@
 colorlog==6.7.0
-homeassistant>=2024.1.2
+homeassistant>=2026.2.1
 pip>=21.0
 pytest-homeassistant-custom-component>=0.13.109
 aioresponses>=0.7.8
