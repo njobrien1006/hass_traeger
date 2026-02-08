@@ -93,7 +93,6 @@ async def test_binary_sensor_par(
     entity = hass.states.get(f'{platform}.{entity_id}')
     #Check Entity
     assert isinstance(entity, State)
-    _LOGGER.error(entity.state)
     assert entity == snapshot
 
     #Change Entity
@@ -110,9 +109,6 @@ async def test_binary_sensor_par(
     entity = hass.states.get(f'{platform}.{entity_id}')
     #Check Enttity
     assert isinstance(entity, State)
-    _LOGGER.error(entity.state)
-    _LOGGER.error(traeger_client.mqtt_client.grills_status)
-    traeger_client.mqtt_client
     assert entity == snapshot
 
     #Change Entity
@@ -129,7 +125,6 @@ async def test_binary_sensor_par(
     entity = hass.states.get(f'{platform}.{entity_id}')
     #Check Enttity
     assert isinstance(entity, State)
-    _LOGGER.error(entity.state)
     assert entity == snapshot
 
     #Change Entity
