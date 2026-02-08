@@ -94,7 +94,6 @@ async def test_sensor_platform_asyncadd(
     await asyncio.sleep(0.1)
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)
-    """Test the climate platform setup."""
     registry = entity_registry.async_get(hass)
 
     # Map registry entries to a simplified dict for the snapshot
