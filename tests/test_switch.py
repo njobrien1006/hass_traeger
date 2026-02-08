@@ -14,13 +14,14 @@ from homeassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_ON, SERVICE_TURN_OF
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
+from custom_components.traeger.const import DOMAIN
 from .conftest import Broker, aioresponses, mqttport
 from .zzMockResp import api_commands, api_user_self, mqtt_msg
-from custom_components.traeger.const import DOMAIN
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
+#pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
 async def test_switch_platform(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
