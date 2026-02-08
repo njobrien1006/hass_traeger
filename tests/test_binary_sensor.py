@@ -13,7 +13,7 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import DOMAIN
-from .conftest import Broker, aioresponses, mqttport
+from .conftest import Broker, aioresponses, MQTTPORT
 from .zzMockResp import api_commands, api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -85,7 +85,7 @@ async def test_binary_sensor_par(
         api_user_self["resp"]["things"],
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
         False,
-        mqttport,
+        MQTTPORT,
     )
     await asyncio.sleep(0.2)  #Sleep on it
 

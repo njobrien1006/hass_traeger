@@ -14,7 +14,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import DOMAIN
 from custom_components.traeger.sensor import SENSOR_ENTITIES
-from .conftest import Broker, aioresponses, mqttport
+from .conftest import Broker, aioresponses, MQTTPORT
 from .zzMockResp import api_commands, api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -80,7 +80,7 @@ async def test_sensor_platform_asyncadd(
         api_user_self["resp"]["things"],
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
         False,
-        mqttport,
+        MQTTPORT,
     )
     _LOGGER.warning("Wait for onConnect to Subscribe")
     await asyncio.sleep(0.2)
@@ -151,7 +151,7 @@ async def test_sensor(
         api_user_self["resp"]["things"],
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
         False,
-        mqttport,
+        MQTTPORT,
     )
     await asyncio.sleep(0.2)  #Sleep on it
 

@@ -11,16 +11,17 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 from typing import Any
 from amqtt.broker import Broker
 
-from .zzMockResp import api_token, api_mqtt, api_user_self
 from custom_components.traeger.const import CONF_PASSWORD, CONF_USERNAME, DOMAIN
 from custom_components.traeger.traeger import Traeger as TraegerTestClient
+from .zzMockResp import api_token, api_mqtt, api_user_self
+
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 #The MQTT port we will use instead of 443
-mqttport = 4447
+MQTTPORT = 4447
 
-
+#pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments,redefined-outer-name
 @pytest.fixture(autouse=True)
 def auto_enable_custom_integrations(enable_custom_integrations):  # pylint: disable=unused-argument
     '''Enable Custom Integrations'''
@@ -49,7 +50,7 @@ async def mock_broker(hass: HomeAssistant) -> Broker:
         {
             "listeners": {
                 "default": {
-                    "bind": f"127.0.0.1:{mqttport}",
+                    "bind": f"127.0.0.1:{MQTTPORT}",
                     "type": "ws",
                     "ssl": False,
                     "max_connections": 10,
