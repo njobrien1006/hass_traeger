@@ -66,6 +66,7 @@ async def test_switch_cmds(
     http: aioresponses,
 ) -> None:
     '''test switch cmds'''
+
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
