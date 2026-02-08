@@ -32,7 +32,7 @@ class Traeger:  #pylint: disable=too-many-public-methods
     """Traeger API Wrapper"""
 
     def __init__(self, username, password, hass, request_library):
-        self._api = {
+        self.api = {
             "username": username,
             "password": password,
             "api_token": "",
@@ -53,17 +53,17 @@ class Traeger:  #pylint: disable=too-many-public-methods
 
     def __token_remaining(self):
         """Report remaining token time."""
-        return self._api['api_expires'] - time.time()
+        return self.api['api_expires'] - time.time()
 
     async def do_cognito(self):
         """Intial API Login"""
-        _LOGGER.info("do_cognito self.username:%s", self._api['username'])
+        _LOGGER.info("do_cognito self.username:%s", self.api['username'])
         return await self.api_wrapper(
             "post",
             "https://auth-api.iot.traegergrills.io/tokens",
             data={
-                "password": self._api['password'],
-                "username": self._api['username']
+                "password": self.api['password'],
+                "username": self.api['username']
             },
             headers={'content-type': 'application/json'})
 
@@ -74,8 +74,8 @@ class Traeger:  #pylint: disable=too-many-public-methods
             response = await self.do_cognito()
             _LOGGER.debug("Do Cognito Response: %s", response)
             try:
-                self._api['api_expires'] = response["expiresIn"] + request_time
-                self._api['api_token'] = response["idToken"]
+                self.api['api_expires'] = response["expiresIn"] + request_time
+                self.api['api_token'] = response["idToken"]
             except Exception as exception:  # pylint: disable=broad-except
                 _LOGGER.error(
                     "We had an exception: %s \n \
@@ -88,7 +88,7 @@ class Traeger:  #pylint: disable=too-many-public-methods
             "get",
             "https://mobile-iot-api.iot.traegergrills.io/users/self",
             headers={
-                'authorization': self._api['api_token'],
+                'authorization': self.api['api_token'],
                 'content-type': 'application/json'
             })
 
@@ -106,7 +106,7 @@ class Traeger:  #pylint: disable=too-many-public-methods
             f"{api_url}/things/{thingname}/commands",
             data={'command': command},
             headers={
-                'authorization': self._api['api_token'],
+                'authorization': self.api['api_token'],
                 "content-type": "application/json",
                 "accept-language": "en-US",
                 "user-agent": "Traeger/11 CFNetwork/1209 Darwin/20.2.0",
@@ -179,7 +179,7 @@ class Traeger:  #pylint: disable=too-many-public-methods
 
     def __mqtt_url_remaining(self):
         """Available MQTT time left."""
-        return self._api['mqtt_url_expires'] - time.time()
+        return self.api['mqtt_url_expires'] - time.time()
 
     async def refresh_mqtt_url(self):
         """Update MQTT Token"""
@@ -190,24 +190,24 @@ class Traeger:  #pylint: disable=too-many-public-methods
                 myjson = await self.api_wrapper(
                     "post",
                     "https://mobile-iot-api.iot.traegergrills.io/mqtt-connections",
-                    headers={'Authorization': self._api['api_token']})
-                self._api['mqtt_url_expires'] = myjson["expirationSeconds"] + \
+                    headers={'Authorization': self.api['api_token']})
+                self.api['mqtt_url_expires'] = myjson["expirationSeconds"] + \
                     mqtt_request_time
-                self._api['mqtt_url'] = myjson["signedUrl"]
+                self.api['mqtt_url'] = myjson["signedUrl"]
             except KeyError as exception:
                 _LOGGER.error("Key Error Failed to Parse MQTT URL %s - %s",
                               myjson, exception)
             except Exception as exception:  # pylint: disable=broad-except
                 _LOGGER.error("Other Error Failed to Parse MQTT URL %s - %s",
                               myjson, exception)
-        _LOGGER.debug("MQTT URL:%s Expires @:%s", self._api['mqtt_url'],
-                      self._api['mqtt_url_expires'])
+        _LOGGER.debug("MQTT URL:%s Expires @:%s", self.api['mqtt_url'],
+                      self.api['mqtt_url_expires'])
 
     async def __get_mqtt_client(self):
         """Setup the MQTT Client and let HA deal with it."""
         await self.refresh_mqtt_url()
         _LOGGER.debug("Connect Client")
-        await self.mqtt_client.connect(self.grills, self._api['mqtt_url'])
+        await self.mqtt_client.connect(self.grills, self.api['mqtt_url'])
 
     def get_mqtt_msg_for_grill(self, thingname):
         """Get specifics of status"""
@@ -272,7 +272,7 @@ class Traeger:  #pylint: disable=too-many-public-methods
             if self.mqtt_client.isconnected:
                 self.mqtt_client.disconnect()
             await self.__get_mqtt_client()
-        _LOGGER.debug("Call_Later @: %s", self._api['mqtt_url_expires'])
+        _LOGGER.debug("Call_Later @: %s", self.api['mqtt_url_expires'])
         delay = max(self.__mqtt_url_remaining(), 30)
         self.loop_task = self.hass.loop.call_later(delay, self.__syncmain)
 
@@ -288,7 +288,7 @@ class Traeger:  #pylint: disable=too-many-public-methods
             self.mqtt_client.disconnect()
             while self.mqtt_client.isconnected:  #Wait for disconnect to finish
                 await asyncio.sleep(0.1)
-            self._api['mqtt_url_expires'] = time.time()
+            self.api['mqtt_url_expires'] = time.time()
             for grill in self.grills:  #Mark the grill(s) disconnected so they report unavail.
                 grill_id = grill[
                     "thingName"]  #Also hit the callbacks to update HA
