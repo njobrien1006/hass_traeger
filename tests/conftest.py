@@ -1,14 +1,14 @@
 """Fixtures for testing."""
 
 import logging
+from collections.abc import Generator
+from typing import Any
 import pytest
 
 from aioresponses import aioresponses
-from collections.abc import Generator
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from pytest_homeassistant_custom_component.common import MockConfigEntry
-from typing import Any
 from amqtt.broker import Broker
 
 from custom_components.traeger.const import CONF_PASSWORD, CONF_USERNAME, DOMAIN
@@ -21,7 +21,7 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 #The MQTT port we will use instead of 443
 MQTTPORT = 4447
 
-#pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments,redefined-outer-name
+#pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments,redefined-outer-name,invalid-name
 @pytest.fixture(autouse=True)
 def auto_enable_custom_integrations(enable_custom_integrations):  # pylint: disable=unused-argument
     '''Enable Custom Integrations'''
