@@ -15,11 +15,11 @@ from custom_components.traeger.const import CONF_PASSWORD, CONF_USERNAME, DOMAIN
 from custom_components.traeger.traeger import Traeger as TraegerTestClient
 from .zzMockResp import api_token, api_mqtt, api_user_self
 
-
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 #The MQTT port we will use instead of 443
 MQTTPORT = 4447
+
 
 #pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments,redefined-outer-name
 @pytest.fixture(autouse=True)
