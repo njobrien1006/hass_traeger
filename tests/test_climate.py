@@ -18,8 +18,8 @@ from .zzMockResp import api_commands, api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
-#pylint: disable=unused-argument
 
+#pylint: disable=unused-argument
 async def test_climate_platform(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
