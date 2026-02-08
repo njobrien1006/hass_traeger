@@ -28,7 +28,7 @@ TIMEOUT = 60
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-class Traeger: #pylint: disable=too-many-public-methods
+class Traeger:  #pylint: disable=too-many-public-methods
     """Traeger API Wrapper"""
 
     def __init__(self, username, password, hass, request_library):
@@ -439,7 +439,7 @@ class TraegerMQTTClient:
                 del self.grills_status[grill_id]
             self.update_state(grill_id)
 
-    def _mqtt_onunsubscribe(self, client, userdata, mid, prop, rc): #pylint: disable=too-many-arguments,too-many-positional-arguments
+    def _mqtt_onunsubscribe(self, client, userdata, mid, prop, rc):  #pylint: disable=too-many-arguments,too-many-positional-arguments
         """MQTT on_unsubscribe"""
         _LOGGER.debug("OnUnsubscribe Callback. Client:%s userdata:%s mid:%s",
                       client, userdata, mid)
