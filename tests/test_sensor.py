@@ -17,7 +17,6 @@ from custom_components.traeger.sensor import SENSOR_ENTITIES
 from .conftest import Broker, aioresponses, mqttport
 from .zzMockResp import api_commands, api_user_self, mqtt_msg
 
-
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
