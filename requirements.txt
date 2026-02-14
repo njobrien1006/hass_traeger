@@ -1,7 +1,7 @@
-colorlog==6.7.0
-homeassistant==2025.10.1
-pip>=21.0
-pytest-homeassistant-custom-component>=0.13.109
 aioresponses>=0.7.8
 amqtt>=0.11.3
+colorlog==6.7.0
+homeassistant>=2025.10.1
+pip>=21.0
 pycares<5.0
+pytest-homeassistant-custom-component>=0.13.109
