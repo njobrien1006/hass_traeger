@@ -7,7 +7,7 @@ on:
   push:
     branches:
       - "master"
-      - "dev"
+      - "dev*"
   pull_request:
     branches:
       - "master"
@@ -15,20 +15,28 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.13"]
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Set up Python 3.13
-      uses: actions/setup-python@v3
+    - name: Checkout repository
+      uses: [actions/checkout](https://github.com)@v4
       with:
-        python-version: "3.13"
+        persist-credentials: false
+        fetch-depth: 0
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: [actions/setup-python](https://github.com)@v5
+      with:
+        python-version: ${{ matrix.python-version }}
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install --upgrade --requirement requirements.txt
-    - name: Test with pytest
+
+    - name: Run tests with pytest and syrupy
       run: |
-        export PYTHONPATH=$PYTHONPATH:$(pwd)
         pytest
