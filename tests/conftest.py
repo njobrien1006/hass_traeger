@@ -36,7 +36,6 @@ def snapshot(snapshot: SnapshotAssertion) -> SnapshotAssertion:
     return snapshot.use_extension(HomeAssistantSnapshotExtension)
 
 
-
 @pytest.fixture
 def http() -> Generator[aioresponses, Any]:
     """Fixture to mock `aiohttp` requests."""
