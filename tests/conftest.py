@@ -9,6 +9,8 @@ from aioresponses import aioresponses
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from pytest_homeassistant_custom_component.common import MockConfigEntry
+from pytest_homeassistant_custom_component.syrupy import HomeAssistantSnapshotExtension
+from syrupy.assertion import SnapshotAssertion
 from amqtt.broker import Broker
 
 from custom_components.traeger.const import CONF_PASSWORD, CONF_USERNAME, DOMAIN
@@ -26,6 +28,13 @@ MQTTPORT = 4447
 def auto_enable_custom_integrations(enable_custom_integrations):  # pylint: disable=unused-argument
     '''Enable Custom Integrations'''
     yield
+
+
+@pytest.fixture
+def snapshot(snapshot: SnapshotAssertion) -> SnapshotAssertion:
+    """Return snapshot assertion fixture with the Home Assistant extension."""
+    return snapshot.use_extension(HomeAssistantSnapshotExtension)
+
 
 
 @pytest.fixture
