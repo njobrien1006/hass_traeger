@@ -1,5 +1,6 @@
 """Fixtures for testing."""
 
+import asyncio
 import logging
 from collections.abc import Generator
 from typing import Any
@@ -83,12 +84,14 @@ async def connected_amqtt(mock_broker: Broker):
     #Start Broker
     _LOGGER.error("Start Broker")
     await mock_broker.start()
+    await asyncio.sleep(0.01)
 
     yield  # this is where the testing happens
 
     #Shutdown MQTT
     _LOGGER.error("Stop Broker")
     await mock_broker.shutdown()
+    await asyncio.sleep(0.01)
 
 
 @pytest.fixture

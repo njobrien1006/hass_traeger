@@ -1,5 +1,5 @@
 # serializer version: 1
-# name: test_sensor[sensor-0123456789ab_ambient_temperature-status;ambient]
+# name: test_sensor[sensor-0123456789ab_ambient_temperature-Ambient Temperature]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'temperature',
@@ -15,7 +15,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_ambient_temperature-status;ambient].1
+# name: test_sensor[sensor-0123456789ab_ambient_temperature-Ambient Temperature].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -33,7 +33,7 @@
     'state': '60',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_ambient_temperature-status;ambient].2
+# name: test_sensor[sensor-0123456789ab_ambient_temperature-Ambient Temperature].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -51,7 +51,7 @@
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_ambient_temperature-status;ambient].3
+# name: test_sensor[sensor-0123456789ab_ambient_temperature-Ambient Temperature].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'temperature',
@@ -61,6 +61,1286 @@
     }),
     'context': <ANY>,
     'entity_id': 'sensor.0123456789ab_ambient_temperature',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_auger_runtime-Auger Runtime]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Auger Runtime",
+      'icon': 'mdi:timer',
+      'unit_of_measurement': 'sec',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_auger_runtime',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_auger_runtime-Auger Runtime].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Auger Runtime",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+      'unit_of_measurement': 'sec',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_auger_runtime',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '1111111',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_auger_runtime-Auger Runtime].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Auger Runtime",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+      'unit_of_measurement': 'sec',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_auger_runtime',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '22',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_auger_runtime-Auger Runtime].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Auger Runtime",
+      'icon': 'mdi:timer',
+      'unit_of_measurement': 'sec',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_auger_runtime',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_cook_cycle-Cook Cycle]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Cook Cycle",
+      'icon': 'mdi:counter',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_cook_cycle',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_cook_cycle-Cook Cycle].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Cook Cycle",
+      'icon': 'mdi:counter',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_cook_cycle',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '1000',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_cook_cycle-Cook Cycle].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Cook Cycle",
+      'icon': 'mdi:counter',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_cook_cycle',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '22',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_cook_cycle-Cook Cycle].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Cook Cycle",
+      'icon': 'mdi:counter',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_cook_cycle',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_cook_id-Cook ID]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Cook ID",
+      'icon': 'mdi:food',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_cook_id',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_cook_id-Cook ID].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Cook ID",
+      'icon': 'mdi:food',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_cook_id',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_cook_id-Cook ID].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Cook ID",
+      'icon': 'mdi:food',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_cook_id',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '22',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_cook_id-Cook ID].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Cook ID",
+      'icon': 'mdi:food',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_cook_id',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_cook_timer_end-Cook Timer End]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Cook Timer End",
+      'icon': 'mdi:timer',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_cook_timer_end',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_cook_timer_end-Cook Timer End].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Cook Timer End",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_cook_timer_end',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '1970-01-01T00:01:00+00:00',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_cook_timer_end-Cook Timer End].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Cook Timer End",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_cook_timer_end',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '1970-01-01T00:00:22+00:00',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_cook_timer_end-Cook Timer End].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Cook Timer End",
+      'icon': 'mdi:timer',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_cook_timer_end',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_cook_timer_start-Cook Timer Start]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Cook Timer Start",
+      'icon': 'mdi:timer',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_cook_timer_start',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_cook_timer_start-Cook Timer Start].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Cook Timer Start",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_cook_timer_start',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '1970-01-01T00:01:00+00:00',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_cook_timer_start-Cook Timer Start].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Cook Timer Start",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_cook_timer_start',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '1970-01-01T00:00:22+00:00',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_cook_timer_start-Cook Timer Start].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Cook Timer Start",
+      'icon': 'mdi:timer',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_cook_timer_start',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_current_cycle-Current Cycle]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Current Cycle",
+      'icon': 'mdi:food',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_current_cycle',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_current_cycle-Current Cycle].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Current Cycle",
+      'icon': 'mdi:food',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_current_cycle',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_current_cycle-Current Cycle].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Current Cycle",
+      'icon': 'mdi:food',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_current_cycle',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '22',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_current_cycle-Current Cycle].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Current Cycle",
+      'icon': 'mdi:food',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_current_cycle',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_current_step-Current Step]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Current Step",
+      'icon': 'mdi:food',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_current_step',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_current_step-Current Step].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Current Step",
+      'icon': 'mdi:food',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_current_step',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_current_step-Current Step].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Current Step",
+      'icon': 'mdi:food',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_current_step',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '22',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_current_step-Current Step].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Current Step",
+      'icon': 'mdi:food',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_current_step',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_errors-Errors]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Errors",
+      'icon': 'mdi:alert-circle',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_errors',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_errors-Errors].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Errors",
+      'icon': 'mdi:alert-circle',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_errors',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_errors-Errors].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Errors",
+      'icon': 'mdi:alert-circle',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_errors',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '22',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_errors-Errors].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Errors",
+      'icon': 'mdi:alert-circle',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_errors',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_fan_runtime-Fan Runtime]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Fan Runtime",
+      'icon': 'mdi:timer',
+      'unit_of_measurement': 'sec',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_fan_runtime',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_fan_runtime-Fan Runtime].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Fan Runtime",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+      'unit_of_measurement': 'sec',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_fan_runtime',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '11111111',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_fan_runtime-Fan Runtime].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Fan Runtime",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+      'unit_of_measurement': 'sec',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_fan_runtime',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '22',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_fan_runtime-Fan Runtime].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Fan Runtime",
+      'icon': 'mdi:timer',
+      'unit_of_measurement': 'sec',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_fan_runtime',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_grill_time-Grill Time]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Grill Time",
+      'icon': 'mdi:clock-time-twelve-outline',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_grill_time',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_grill_time-Grill Time].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Grill Time",
+      'icon': 'mdi:clock-time-twelve-outline',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_grill_time',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '1970-01-01T00:00:00+00:00',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_grill_time-Grill Time].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Grill Time",
+      'icon': 'mdi:clock-time-twelve-outline',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_grill_time',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '1970-01-01T00:00:22+00:00',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_grill_time-Grill Time].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Grill Time",
+      'icon': 'mdi:clock-time-twelve-outline',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_grill_time',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_ignite_fail_count-Ignite Fail Count]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Ignite Fail Count",
+      'icon': 'mdi:counter',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_ignite_fail_count',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_ignite_fail_count-Ignite Fail Count].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Ignite Fail Count",
+      'icon': 'mdi:counter',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_ignite_fail_count',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '10',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_ignite_fail_count-Ignite Fail Count].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Ignite Fail Count",
+      'icon': 'mdi:counter',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_ignite_fail_count',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '33',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_ignite_fail_count-Ignite Fail Count].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Ignite Fail Count",
+      'icon': 'mdi:counter',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_ignite_fail_count',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_lowtemp_count-Lowtemp Count]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Lowtemp Count",
+      'icon': 'mdi:counter',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_lowtemp_count',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_lowtemp_count-Lowtemp Count].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Lowtemp Count",
+      'icon': 'mdi:counter',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_lowtemp_count',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '10',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_lowtemp_count-Lowtemp Count].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Lowtemp Count",
+      'icon': 'mdi:counter',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_lowtemp_count',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '33',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_lowtemp_count-Lowtemp Count].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Lowtemp Count",
+      'icon': 'mdi:counter',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_lowtemp_count',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_overheat_count-Overheat Count]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Overheat Count",
+      'icon': 'mdi:counter',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_overheat_count',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_overheat_count-Overheat Count].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Overheat Count",
+      'icon': 'mdi:counter',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_overheat_count',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '10',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_overheat_count-Overheat Count].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Overheat Count",
+      'icon': 'mdi:counter',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_overheat_count',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '33',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_overheat_count-Overheat Count].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Overheat Count",
+      'icon': 'mdi:counter',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_overheat_count',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_pellet_level-Pellet Level]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Pellet Level",
+      'icon': 'mdi:gauge',
+      'unit_of_measurement': '%',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_pellet_level',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_pellet_level-Pellet Level].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Pellet Level",
+      'icon': 'mdi:gauge',
+      'integration': 'traeger',
+      'unit_of_measurement': '%',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_pellet_level',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '50',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_pellet_level-Pellet Level].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Pellet Level",
+      'icon': 'mdi:gauge',
+      'integration': 'traeger',
+      'unit_of_measurement': '%',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_pellet_level',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '22',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_pellet_level-Pellet Level].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Pellet Level",
+      'icon': 'mdi:gauge',
+      'unit_of_measurement': '%',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_pellet_level',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_server_status-Server Status]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Server Status",
+      'icon': 'mdi:alert-circle',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_server_status',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_server_status-Server Status].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Server Status",
+      'icon': 'mdi:alert-circle',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_server_status',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_server_status-Server Status].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Server Status",
+      'icon': 'mdi:alert-circle',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_server_status',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '22',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_server_status-Server Status].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Server Status",
+      'icon': 'mdi:alert-circle',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_server_status',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_state_index_count-State Index Count]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger State Index Count",
+      'icon': 'mdi:counter',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_state_index_count',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_state_index_count-State Index Count].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger State Index Count",
+      'icon': 'mdi:counter',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_state_index_count',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '111111',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_state_index_count-State Index Count].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger State Index Count",
+      'icon': 'mdi:counter',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_state_index_count',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '11',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_state_index_count-State Index Count].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger State Index Count",
+      'icon': 'mdi:counter',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_state_index_count',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_sys_timer_end-Sys Timer End]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Sys Timer End",
+      'icon': 'mdi:timer',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_sys_timer_end',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_sys_timer_end-Sys Timer End].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Sys Timer End",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_sys_timer_end',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '1970-01-01T00:00:00+00:00',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_sys_timer_end-Sys Timer End].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Sys Timer End",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_sys_timer_end',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '1970-01-01T00:00:22+00:00',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_sys_timer_end-Sys Timer End].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Sys Timer End",
+      'icon': 'mdi:timer',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_sys_timer_end',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_sys_timer_start-Sys Timer Start]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Sys Timer Start",
+      'icon': 'mdi:timer',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_sys_timer_start',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_sys_timer_start-Sys Timer Start].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Sys Timer Start",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_sys_timer_start',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '1970-01-01T00:00:00+00:00',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_sys_timer_start-Sys Timer Start].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Sys Timer Start",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_sys_timer_start',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '1970-01-01T00:00:22+00:00',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_sys_timer_start-Sys Timer Start].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'device_class': 'timestamp',
+      'friendly_name': "Johny's Traeger Sys Timer Start",
+      'icon': 'mdi:timer',
+      'unit_of_measurement': '',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_sys_timer_start',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_wifi_rssi-WifI RSSI]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger WifI RSSI",
+      'icon': 'mdi:wifi-strength-2',
+      'unit_of_measurement': 'dBm',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_wifi_rssi',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_wifi_rssi-WifI RSSI].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger WifI RSSI",
+      'icon': 'mdi:wifi-strength-2',
+      'integration': 'traeger',
+      'unit_of_measurement': 'dBm',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_wifi_rssi',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '-71',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_wifi_rssi-WifI RSSI].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger WifI RSSI",
+      'icon': 'mdi:wifi-strength-2',
+      'integration': 'traeger',
+      'unit_of_measurement': 'dBm',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_wifi_rssi',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '22',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_wifi_rssi-WifI RSSI].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger WifI RSSI",
+      'icon': 'mdi:wifi-strength-2',
+      'unit_of_measurement': 'dBm',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_wifi_rssi',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_wifi_ssid-WifI SSID]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger WifI SSID",
+      'icon': 'mdi:wifi',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_wifi_ssid',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_wifi_ssid-WifI SSID].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger WifI SSID",
+      'icon': 'mdi:wifi',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_wifi_ssid',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'Guest',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_wifi_ssid-WifI SSID].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger WifI SSID",
+      'icon': 'mdi:wifi',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_wifi_ssid',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '22',
+  })
+# ---
+# name: test_sensor[sensor-0123456789ab_wifi_ssid-WifI SSID].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger WifI SSID",
+      'icon': 'mdi:wifi',
+    }),
+    'context': <ANY>,
+    'entity_id': 'sensor.0123456789ab_wifi_ssid',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,

@@ -341,6 +341,7 @@ class TraegerMQTTClient:
     def __init__(self, hass, callback, update_state):
         self.isconnected = False
         self.grills_status = {}
+        self.context = None
 
         self._hass = hass
         self._grills = {}
@@ -370,11 +371,11 @@ class TraegerMQTTClient:
                       port: int = 443) -> None:
         """Call Connect"""
         self._grills = grills
-        if setssl:
-            context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
-            context.check_hostname = False
-            context.verify_mode = ssl.CERT_NONE
-            self.mqtt_client.tls_set_context(context)
+        if setssl and self.context is None:
+            self.context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
+            self.context.check_hostname = False
+            self.context.verify_mode = ssl.CERT_NONE
+            self.mqtt_client.tls_set_context(self.context)
         mqtt_parts = urllib.parse.urlparse(mqtt_url)
         headers = {
             "Host": "{0:s}".format(mqtt_parts.netloc),  # pylint: disable=consider-using-f-string
