@@ -118,30 +118,27 @@ async def test_sensor_platform_asyncadd(
 @pytest.mark.enable_socket
 @pytest.mark.parametrize(
     "platform, entity_id, friendly_name",
-    [
-        ('sensor', '0123456789ab_ambient_temperature', 'Ambient Temperature'),
-        ('sensor', '0123456789ab_cook_id', 'Cook ID'),
-        ('sensor', '0123456789ab_cook_timer_end', 'Cook Timer End'),
-        ('sensor', '0123456789ab_cook_timer_start', 'Cook Timer Start'),
-        ('sensor', '0123456789ab_current_cycle', 'Current Cycle'),
-        ('sensor', '0123456789ab_current_step', 'Current Step'),
-        ('sensor', '0123456789ab_errors', 'Errors'),
-        ('sensor', '0123456789ab_pellet_level', 'Pellet Level'),
-        ('sensor', '0123456789ab_server_status', 'Server Status'),
-        ('sensor', '0123456789ab_sys_timer_end', 'Sys Timer End'),
-        ('sensor', '0123456789ab_sys_timer_start', 'Sys Timer Start'),
-        ('sensor', '0123456789ab_grill_time', 'Grill Time'),
-        ('sensor', '0123456789ab_auger_runtime', 'Auger Runtime'),
-        ('sensor', '0123456789ab_fan_runtime', 'Fan Runtime'),
-        ('sensor', '0123456789ab_cook_cycle', 'Cook Cycle'),
-        ('sensor', '0123456789ab_ignite_fail_count', 'Ignite Fail Count'),
-        ('sensor', '0123456789ab_overheat_count', 'Overheat Count'),
-        ('sensor', '0123456789ab_lowtemp_count', 'Lowtemp Count'),
-        ('sensor', '0123456789ab_state_index_count', 'State Index Count'),
-        ('sensor', '0123456789ab_wifi_rssi', 'WifI RSSI'),
-        ('sensor', '0123456789ab_wifi_ssid', 'WifI SSID')
-    ]
-)
+    [('sensor', '0123456789ab_ambient_temperature', 'Ambient Temperature'),
+     ('sensor', '0123456789ab_cook_id', 'Cook ID'),
+     ('sensor', '0123456789ab_cook_timer_end', 'Cook Timer End'),
+     ('sensor', '0123456789ab_cook_timer_start', 'Cook Timer Start'),
+     ('sensor', '0123456789ab_current_cycle', 'Current Cycle'),
+     ('sensor', '0123456789ab_current_step', 'Current Step'),
+     ('sensor', '0123456789ab_errors', 'Errors'),
+     ('sensor', '0123456789ab_pellet_level', 'Pellet Level'),
+     ('sensor', '0123456789ab_server_status', 'Server Status'),
+     ('sensor', '0123456789ab_sys_timer_end', 'Sys Timer End'),
+     ('sensor', '0123456789ab_sys_timer_start', 'Sys Timer Start'),
+     ('sensor', '0123456789ab_grill_time', 'Grill Time'),
+     ('sensor', '0123456789ab_auger_runtime', 'Auger Runtime'),
+     ('sensor', '0123456789ab_fan_runtime', 'Fan Runtime'),
+     ('sensor', '0123456789ab_cook_cycle', 'Cook Cycle'),
+     ('sensor', '0123456789ab_ignite_fail_count', 'Ignite Fail Count'),
+     ('sensor', '0123456789ab_overheat_count', 'Overheat Count'),
+     ('sensor', '0123456789ab_lowtemp_count', 'Lowtemp Count'),
+     ('sensor', '0123456789ab_state_index_count', 'State Index Count'),
+     ('sensor', '0123456789ab_wifi_rssi', 'WifI RSSI'),
+     ('sensor', '0123456789ab_wifi_ssid', 'WifI SSID')])
 async def test_sensor(
     platform,
     entity_id,
@@ -157,12 +154,15 @@ async def test_sensor(
     mqtt_loca = SENSOR_ENTITIES[friendly_name]['json_loca']
     if SENSOR_ENTITIES[friendly_name].get('enabledbydflt', True) is False:
         # Enable the entity
-        entity_registry.async_update_entity(f'{platform}.{entity_id}', disabled_by=None)
+        entity_registry.async_update_entity(f'{platform}.{entity_id}',
+                                            disabled_by=None)
         hass.config_entries.async_schedule_reload(mock_config_entry.entry_id)
         await hass.async_block_till_done()
-    if SENSOR_ENTITIES[friendly_name].get('entity_category', None) is EntityCategory.DIAGNOSTIC:
+    if SENSOR_ENTITIES[friendly_name].get('entity_category',
+                                          None) is EntityCategory.DIAGNOSTIC:
         # Enable the entity
-        entity_registry.async_update_entity(f'{platform}.{entity_id}', entity_category=None)
+        entity_registry.async_update_entity(f'{platform}.{entity_id}',
+                                            entity_category=None)
         hass.config_entries.async_schedule_reload(mock_config_entry.entry_id)
         await hass.async_block_till_done()
 
