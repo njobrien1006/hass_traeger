@@ -5,3 +5,4 @@ homeassistant>=2025.10.1
 pip>=21.0
 pycares<5.0
 pytest-homeassistant-custom-component>=0.13.109
+ruff>=0.15.2

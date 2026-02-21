@@ -337,7 +337,7 @@ class Traeger:  #pylint: disable=too-many-public-methods
 class TraegerMQTTClient:
     """Traeger MQTT Wrapper"""
 
-    # pylint: disable=unused-argument
+    # pylint: disable=unused-argument,too-many-instance-attributes
     def __init__(self, hass, callback, update_state):
         self.isconnected = False
         self.grills_status = {}

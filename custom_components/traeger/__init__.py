@@ -4,9 +4,7 @@ Custom integration to integrate traeger with Home Assistant.
 For more details about this integration, please refer to
 https://github.com/njobrien1006/hass_traeger
 """
-import asyncio
 import logging
-from datetime import timedelta
 
 import voluptuous as vol
 

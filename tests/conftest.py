@@ -9,6 +9,7 @@ import pytest
 from aioresponses import aioresponses
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
+from homeassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from pytest_homeassistant_custom_component.syrupy import HomeAssistantSnapshotExtension
 from syrupy.assertion import SnapshotAssertion
@@ -109,6 +110,7 @@ async def mock_config_entry(hass: HomeAssistant,
                             traeger_client: TraegerTestClient,
                             http: aioresponses) -> MockConfigEntry:
     """HASS Mock Config Entry"""
+    hass.config.units = US_CUSTOMARY_SYSTEM
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={

@@ -56,3 +56,134 @@
     }),
   ])
 # ---
+# name: test_climate_settemp_cmds[climate-0123456789ab_climate]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Climate",
+      'hvac_modes': tuple(
+        <HVACMode.HEAT: 'heat'>,
+        <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
+      ),
+      'icon': 'mdi:grill',
+      'max_temp': 500,
+      'min_temp': 165,
+      'supported_features': <ClimateEntityFeature: 385>,
+      'target_temp_step': 5,
+    }),
+    'context': <ANY>,
+    'entity_id': 'climate.0123456789ab_climate',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_climate_settemp_cmds[climate-0123456789ab_climate].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'current_temperature': 43,
+      'friendly_name': "Johny's Traeger Climate",
+      'grill_native_cur_val': 43,
+      'grill_native_set_val': 170,
+      'hvac_modes': tuple(
+        <HVACMode.HEAT: 'heat'>,
+        <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
+      ),
+      'icon': 'mdi:grill',
+      'max_temp': 500,
+      'min_temp': 165,
+      'supported_features': <ClimateEntityFeature: 385>,
+      'target_temp_step': 5,
+      'temperature': 170,
+    }),
+    'context': <ANY>,
+    'entity_id': 'climate.0123456789ab_climate',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'heat',
+  })
+# ---
+# name: test_climate_settemp_cmds[climate-0123456789ab_climate].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'current_temperature': 43,
+      'friendly_name': "Johny's Traeger Climate",
+      'grill_native_cur_val': 43,
+      'grill_native_set_val': 495,
+      'hvac_modes': tuple(
+        <HVACMode.HEAT: 'heat'>,
+        <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
+      ),
+      'icon': 'mdi:grill',
+      'max_temp': 500,
+      'min_temp': 165,
+      'supported_features': <ClimateEntityFeature: 385>,
+      'target_temp_step': 5,
+      'temperature': 495,
+    }),
+    'context': <ANY>,
+    'entity_id': 'climate.0123456789ab_climate',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'heat',
+  })
+# ---
+# name: test_climate_settemp_cmds[climate-0123456789ab_climate].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'current_temperature': 43,
+      'friendly_name': "Johny's Traeger Climate",
+      'grill_native_cur_val': 43,
+      'grill_native_set_val': 495,
+      'hvac_modes': tuple(
+        <HVACMode.HEAT: 'heat'>,
+        <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
+      ),
+      'icon': 'mdi:grill',
+      'max_temp': 500,
+      'min_temp': 165,
+      'supported_features': <ClimateEntityFeature: 385>,
+      'target_temp_step': 5,
+      'temperature': 495,
+    }),
+    'context': <ANY>,
+    'entity_id': 'climate.0123456789ab_climate',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'cool',
+  })
+# ---
+# name: test_climate_settemp_cmds[climate-0123456789ab_climate].4
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'current_temperature': 43,
+      'friendly_name': "Johny's Traeger Climate",
+      'grill_native_cur_val': 43,
+      'grill_native_set_val': 165,
+      'hvac_modes': tuple(
+        <HVACMode.HEAT: 'heat'>,
+        <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
+      ),
+      'icon': 'mdi:grill',
+      'max_temp': 500,
+      'min_temp': 165,
+      'supported_features': <ClimateEntityFeature: 385>,
+      'target_temp_step': 5,
+      'temperature': 165,
+    }),
+    'context': <ANY>,
+    'entity_id': 'climate.0123456789ab_climate',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---

@@ -82,8 +82,10 @@
 # name: test_number[number-0123456789ab_cook_timer-cook_timer_start]
   StateSnapshot({
     'attributes': ReadOnlyDict({
+      'attribution': '',
       'friendly_name': "Johny's Traeger Cook_timer",
       'icon': 'mdi:timer',
+      'integration': 'traeger',
       'max': 1440,
       'min': 0,
       'mode': <NumberMode.AUTO: 'auto'>,
@@ -95,7 +97,7 @@
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
-    'state': 'unavailable',
+    'state': '0.0',
   })
 # ---
 # name: test_number[number-0123456789ab_cook_timer-cook_timer_start].1
