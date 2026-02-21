@@ -139,13 +139,14 @@ async def test_sensor_platform_asyncadd(
      ('sensor', '0123456789ab_state_index_count', 'State Index Count'),
      ('sensor', '0123456789ab_wifi_rssi', 'WifI RSSI'),
      ('sensor', '0123456789ab_wifi_ssid', 'WifI SSID')])
+#pylint: disable=too-many-statements
 async def test_sensor(
     platform,
     entity_id,
     friendly_name,
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    entity_registry: EntityRegistry,
+    e_registry: EntityRegistry,
     connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aioresponses,
@@ -154,14 +155,14 @@ async def test_sensor(
     mqtt_loca = SENSOR_ENTITIES[friendly_name]['json_loca']
     if SENSOR_ENTITIES[friendly_name].get('enabledbydflt', True) is False:
         # Enable the entity
-        entity_registry.async_update_entity(f'{platform}.{entity_id}',
+        e_registry.async_update_entity(f'{platform}.{entity_id}',
                                             disabled_by=None)
         hass.config_entries.async_schedule_reload(mock_config_entry.entry_id)
         await hass.async_block_till_done()
     if SENSOR_ENTITIES[friendly_name].get('entity_category',
                                           None) is EntityCategory.DIAGNOSTIC:
         # Enable the entity
-        entity_registry.async_update_entity(f'{platform}.{entity_id}',
+        e_registry.async_update_entity(f'{platform}.{entity_id}',
                                             entity_category=None)
         hass.config_entries.async_schedule_reload(mock_config_entry.entry_id)
         await hass.async_block_till_done()
