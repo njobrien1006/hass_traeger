@@ -105,12 +105,11 @@ async def test_climate_platform_asyncadd(
 
     assert entries == snapshot
 
+
 @pytest.mark.enable_socket
 @pytest.mark.parametrize(
     "platform, entity_id",
-    [
-        ("climate", "0123456789ab_climate")
-    ],
+    [("climate", "0123456789ab_climate")],
 )
 async def test_climate_settemp_cmds(
     platform,
@@ -122,6 +121,7 @@ async def test_climate_settemp_cmds(
     http: aioresponses,
 ) -> None:
     '''test climate cmds'''
+
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
@@ -262,4 +262,3 @@ async def test_climate_settemp_cmds(
     await asyncio.sleep(0.1)
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)
-
