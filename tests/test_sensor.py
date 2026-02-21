@@ -156,14 +156,14 @@ async def test_sensor(
     if SENSOR_ENTITIES[friendly_name].get('enabledbydflt', True) is False:
         # Enable the entity
         e_registry.async_update_entity(f'{platform}.{entity_id}',
-                                            disabled_by=None)
+                                       disabled_by=None)
         hass.config_entries.async_schedule_reload(mock_config_entry.entry_id)
         await hass.async_block_till_done()
     if SENSOR_ENTITIES[friendly_name].get('entity_category',
                                           None) is EntityCategory.DIAGNOSTIC:
         # Enable the entity
         e_registry.async_update_entity(f'{platform}.{entity_id}',
-                                            entity_category=None)
+                                       entity_category=None)
         hass.config_entries.async_schedule_reload(mock_config_entry.entry_id)
         await hass.async_block_till_done()
 
