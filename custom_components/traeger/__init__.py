@@ -6,6 +6,8 @@ https://github.com/njobrien1006/hass_traeger
 """
 import logging
 
+from pathlib import Path
+
 import voluptuous as vol
 
 from homeassistant.components.number import DOMAIN as NUMBER_DOMAIN
@@ -19,6 +21,7 @@ from homeassistant.helpers.typing import ConfigType
 from .const import (CONF_PASSWORD, CONF_USERNAME, DOMAIN, PLATFORMS,
                     STARTUP_MESSAGE)
 from .traeger import Traeger
+from .utils import register_static_path, init_resource
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -47,6 +50,15 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     if hass.data.get(DOMAIN) is None:
         hass.data.setdefault(DOMAIN, {})
         _LOGGER.info(STARTUP_MESSAGE)
+
+    #www lovelace resource registation
+    version = getattr(hass.data["integrations"][DOMAIN], "version", 0)
+    path = Path(__file__).parent / "www"
+    for name in ("epoch-clock-card.js", "timer-clock-card.js"):
+        # 1. Serve lovelace card
+        await register_static_path(hass, "/traeger/" + name, str(path / name))
+        # 2. Add card to resources
+        await init_resource(hass, "/traeger/" + name, str(version))
 
     username = entry.data.get(CONF_USERNAME)
     password = entry.data.get(CONF_PASSWORD)
