@@ -11,6 +11,7 @@ from homeassistant.core import HomeAssistant
 _LOGGER = logging.getLogger(__name__)
 
 
+#pylint: disable=import-outside-toplevel
 async def register_static_path(hass: HomeAssistant, url_path: str, path: str):
     """Register Static Path with HA."""
     if (MAJOR_VERSION, MINOR_VERSION) >= (2024, 7):
