@@ -1,0 +1,167 @@
+# serializer version: 1
+# name: test_switch_cmds[switch-0123456789ab_keepwarm]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Keep Warm Enabled",
+      'icon': 'mdi:beach',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.0123456789ab_keepwarm',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_switch_cmds[switch-0123456789ab_keepwarm].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Keep Warm Enabled",
+      'icon': 'mdi:beach',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.0123456789ab_keepwarm',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'on',
+  })
+# ---
+# name: test_switch_cmds[switch-0123456789ab_keepwarm].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Keep Warm Enabled",
+      'icon': 'mdi:beach',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.0123456789ab_keepwarm',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_switch_cmds[switch-0123456789ab_keepwarm].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Keep Warm Enabled",
+      'icon': 'mdi:beach',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.0123456789ab_keepwarm',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_switch_cmds[switch-0123456789ab_smoke]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Super Smoke Enabled",
+      'icon': 'mdi:weather-fog',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.0123456789ab_smoke',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_switch_cmds[switch-0123456789ab_smoke].1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Super Smoke Enabled",
+      'icon': 'mdi:weather-fog',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.0123456789ab_smoke',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'on',
+  })
+# ---
+# name: test_switch_cmds[switch-0123456789ab_smoke].2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Super Smoke Enabled",
+      'icon': 'mdi:weather-fog',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.0123456789ab_smoke',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
+# name: test_switch_cmds[switch-0123456789ab_smoke].3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Super Smoke Enabled",
+      'icon': 'mdi:weather-fog',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.0123456789ab_smoke',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_switch_platform
+  list([
+    dict({
+      'device_class': None,
+      'entity_id': 'switch.0123456789ab_connect',
+      'original_name': '0123456789ab_connect',
+      'translation_key': None,
+      'unique_id': '0123456789ab_connect',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'switch.0123456789ab_keepwarm',
+      'original_name': '0123456789ab_keepwarm',
+      'translation_key': None,
+      'unique_id': '0123456789ab_keepwarm',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'switch.0123456789ab_smoke',
+      'original_name': '0123456789ab_smoke',
+      'translation_key': None,
+      'unique_id': '0123456789ab_smoke',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'switch.cd0123456789_connect',
+      'original_name': 'cd0123456789_connect',
+      'translation_key': None,
+      'unique_id': 'cd0123456789_connect',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'switch.cd0123456789_keepwarm',
+      'original_name': 'cd0123456789_keepwarm',
+      'translation_key': None,
+      'unique_id': 'cd0123456789_keepwarm',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'switch.cd0123456789_smoke',
+      'original_name': 'cd0123456789_smoke',
+      'translation_key': None,
+      'unique_id': 'cd0123456789_smoke',
+    }),
+  ])
+# ---

@@ -1,6 +1,6 @@
 """Sensor platform for Traeger."""
-from homeassistant.const import UnitOfTemperature
-
+from datetime import datetime, timezone
+from homeassistant.const import EntityCategory, UnitOfTemperature
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 
 from .const import (DOMAIN, GRILL_MIN_TEMP_C, GRILL_MIN_TEMP_F,
@@ -11,6 +11,157 @@ from .const import (DOMAIN, GRILL_MIN_TEMP_C, GRILL_MIN_TEMP_F,
                     GRILL_MODE_SLEEPING)
 from .entity import TraegerBaseEntity, TraegerGrillMonitor
 
+SENSOR_ENTITIES = {
+    "Ambient Temperature": {
+        "json_loca": "status;ambient",
+        "unit": "temp",
+        "icon": "mdi:thermometer",
+        "device_class": SensorDeviceClass.TEMPERATURE
+    },
+    "Grill Connected": {
+        "json_loca": "status;connected",
+        "unit": "",
+        "icon": "mdi:lan-connect",
+        "enabledbydflt": False
+    },
+    "Cook ID": {
+        "json_loca": "status;cook_id",
+        "unit": None,
+        "icon": "mdi:food",
+        "enabledbydflt": False
+    },
+    "Cook Timer End": {
+        "json_loca": "status;cook_timer_end",
+        "unit": None,
+        "icon": "mdi:timer",
+        "device_class": SensorDeviceClass.TIMESTAMP
+    },
+    "Cook Timer Start": {
+        "json_loca": "status;cook_timer_start",
+        "unit": None,
+        "icon": "mdi:timer",
+        "device_class": SensorDeviceClass.TIMESTAMP
+    },
+    "Current Cycle": {
+        "json_loca": "status;current_cycle",
+        "unit": "",
+        "icon": "mdi:food",
+        "enabledbydflt": False
+    },
+    "Current Step": {
+        "json_loca": "status;current_step",
+        "unit": "",
+        "icon": "mdi:food",
+        "enabledbydflt": False
+    },
+    "Errors": {
+        "json_loca": "status;errors",
+        "unit": "",
+        "icon": "mdi:alert-circle",
+        "enabledbydflt": False
+    },
+    "Pellet Level": {
+        "json_loca": "status;pellet_level",
+        "unit": "%",
+        "icon": "mdi:gauge"
+    },
+    "Server Status": {
+        "json_loca": "status;server_status",
+        "unit": "",
+        "icon": "mdi:alert-circle",
+        "enabledbydflt": False
+    },
+    "Sys Timer End": {
+        "json_loca": "status;sys_timer_end",
+        "unit": "",
+        "icon": "mdi:timer",
+        "enabledbydflt": False,
+        "device_class": SensorDeviceClass.TIMESTAMP
+    },
+    "Sys Timer Start": {
+        "json_loca": "status;sys_timer_start",
+        "unit": "",
+        "icon": "mdi:timer",
+        "enabledbydflt": False,
+        "device_class": SensorDeviceClass.TIMESTAMP
+    },
+    "Grill Time": {
+        "json_loca": "status;time",
+        "unit": None,
+        "icon": "mdi:clock-time-twelve-outline",
+        "enabledbydflt": False,
+        "device_class": SensorDeviceClass.TIMESTAMP
+    },
+    "Auger Runtime": {
+        "json_loca": "usage;auger",
+        "unit": "sec",
+        "icon": "mdi:timer",
+        "enabledbydflt": False
+    },
+    "Fan Runtime": {
+        "json_loca": "usage;fan",
+        "unit": "sec",
+        "icon": "mdi:timer",
+        "enabledbydflt": False
+    },
+    "Grill Runtime": {
+        "json_loca": "usage;runtime",
+        "unit": "sec",
+        "icon": "mdi:timer",
+        "enabledbydflt": False
+    },
+    "Hotrod Runtime": {
+        "json_loca": "usage;hotrod",
+        "unit": "sec",
+        "icon": "mdi:timer",
+        "enabledbydflt": False
+    },
+    "Cook Cycle": {
+        "json_loca": "usage;cook_cycles",
+        "unit": "",
+        "icon": "mdi:counter",
+        "enabledbydflt": False
+    },
+    "Ignite Fail Count": {
+        "json_loca": "usage;error_stats;ignite_fail",
+        "unit": "",
+        "icon": "mdi:counter",
+        "enabledbydflt": False
+    },
+    "Overheat Count": {
+        "json_loca": "usage;error_stats;overheat",
+        "unit": "",
+        "icon": "mdi:counter",
+        "enabledbydflt": False
+    },
+    "Lowtemp Count": {
+        "json_loca": "usage;error_stats;lowtemp",
+        "unit": "",
+        "icon": "mdi:counter",
+        "enabledbydflt": False
+    },
+    "State Index Count": {
+        "json_loca": "stateIndex",
+        "unit": "",
+        "icon": "mdi:counter",
+        "enabledbydflt": False
+    },
+    "WifI RSSI": {
+        "json_loca": "settings;rssi",
+        "unit": "dBm",
+        "icon": "mdi:wifi-strength-2",
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
+    },
+    "WifI SSID": {
+        "json_loca": "settings;ssid",
+        "unit": None,
+        "icon": "mdi:wifi",
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
+    }
+}
+
 
 async def async_setup_entry(hass, entry, async_add_devices):
     """Setup sensor platform."""
@@ -18,22 +169,33 @@ async def async_setup_entry(hass, entry, async_add_devices):
     grills = client.get_grills()
     for grill in grills:
         grill_id = grill["thingName"]
-        async_add_devices([
-            PelletSensor(client, grill["thingName"], "Pellet Level",
-                         "pellet_level")
-        ])
-        async_add_devices([
-            ValueTemperature(client, grill["thingName"], "Ambient Temperature",
-                             "ambient")
-        ])
-        async_add_devices([
-            GrillTimer(client, grill["thingName"], "Cook Timer Start",
-                       "cook_timer_start")
-        ])
-        async_add_devices([
-            GrillTimer(client, grill["thingName"], "Cook Timer End",
-                       "cook_timer_end")
-        ])
+        for friendly, info in SENSOR_ENTITIES.items():
+            if info["unit"] == "temp":
+                async_add_devices([
+                    ValueTemperature(
+                        client=client,
+                        thingName=grill["thingName"],
+                        friendly=friendly,
+                        json_loca=info["json_loca"],
+                        unit=info["unit"],
+                        mdi=info["icon"],
+                        enabledbydflt=info.get("enabledbydflt", True),
+                        entity_category=info.get("entity_category", None),
+                        device_class=info.get("device_class", None))
+                ])
+            else:
+                async_add_devices([
+                    TraegerFlexSensor(
+                        client=client,
+                        thingName=grill["thingName"],
+                        friendly=friendly,
+                        json_loca=info["json_loca"],
+                        unit=info["unit"],
+                        mdi=info["icon"],
+                        enabledbydflt=info.get("enabledbydflt", True),
+                        entity_category=info.get("entity_category", None),
+                        device_class=info.get("device_class", None))
+                ])
         async_add_devices([
             GrillState(client, grill["thingName"], "Grill State", "grill_state")
         ])
@@ -42,6 +204,86 @@ async def async_setup_entry(hass, entry, async_add_devices):
                          "heating_state")
         ])
         TraegerGrillMonitor(client, grill_id, async_add_devices, ProbeState)
+
+
+class TraegerFlexSensor(TraegerBaseEntity, SensorEntity):
+    """Flex Sensor Class Common to All"""
+
+    def __init__(self, **kwargs):
+        super().__init__(kwargs.get('client'), kwargs.get('thingName'))
+        self.value = kwargs.get('json_loca').split(";")
+        self.unit = kwargs.get('unit')
+        self.mdi = kwargs.get('mdi')
+        self.dev_class = kwargs.get('device_class')
+        self.friendly_name = kwargs.get('friendly')
+        self._attr_entity_category = kwargs.get('entity_category')
+        self._attr_entity_registry_enabled_default = kwargs.get('enabledbydflt')
+        self.grill_register_callback()
+
+    # Generic Properties
+    @property
+    def available(self):
+        """Reports unavailable when the grill is powered off"""
+        if self.grill_mqtt_msg.get("status", None) is None:
+            return False
+        return self.grill_mqtt_msg["status"]["connected"]
+
+    @property
+    def name(self):
+        """Return the name of the grill"""
+        if self.grill_mqtt_msg.get("details", None) is None:
+            return f"{self.grill_id} {self.friendly_name}"
+        name = self.grill_mqtt_msg["details"]["friendlyName"]
+        return f"{name} {self.friendly_name}"
+
+    @property
+    def unique_id(self):
+        """Return the unique id."""
+        return f"{self.grill_id}_{self.value[-1]}"
+
+    @property
+    def icon(self):
+        """Set the default MDI Icon"""
+        return self.mdi
+
+    @property
+    def device_class(self):
+        """Set the device class"""
+        return self.dev_class
+
+    # Sensor Properties
+    @property
+    def native_unit_of_measurement(self):
+        """Return the unit the value is expressed in."""
+        return self.unit
+
+    @property
+    def native_value(self):
+        """Return the current state of entity."""
+        if len(self.value) == 3:
+            rtrn = self.grill_mqtt_msg[self.value[0]][self.value[1]][
+                self.value[2]]
+        if len(self.value) == 2:
+            rtrn = self.grill_mqtt_msg[self.value[0]][self.value[1]]
+        if len(self.value) == 1:
+            rtrn = self.grill_mqtt_msg[self.value[0]]
+        if self.dev_class == SensorDeviceClass.TIMESTAMP:
+            rtrn = datetime.fromtimestamp(rtrn, timezone.utc)
+        return rtrn
+
+
+class ValueTemperature(TraegerFlexSensor):
+    """Traeger Temperature Value class."""
+    # Sensor Properties
+    @property
+    def native_unit_of_measurement(self):
+        """Return the unit the value is expressed in."""
+        return self.grill_units
+
+    @property
+    def suggested_unit_of_measurement(self):
+        """Return the suggested UOM"""
+        return self.grill_units
 
 
 class TraegerBaseSensor(TraegerBaseEntity, SensorEntity):
@@ -57,16 +299,16 @@ class TraegerBaseSensor(TraegerBaseEntity, SensorEntity):
     @property
     def available(self):
         """Reports unavailable when the grill is powered off"""
-        if self.grill_state is None:
+        if self.grill_mqtt_msg.get("status", None) is None:
             return False
-        return self.grill_state["connected"]
+        return self.grill_mqtt_msg["status"]["connected"]
 
     @property
     def name(self):
         """Return the name of the grill"""
-        if self.grill_details is None:
+        if self.grill_mqtt_msg.get("details", None) is None:
             return f"{self.grill_id} {self.friendly_name}"
-        name = self.grill_details["friendlyName"]
+        name = self.grill_mqtt_msg["details"]["friendlyName"]
         return f"{name} {self.friendly_name}"
 
     @property
@@ -78,72 +320,7 @@ class TraegerBaseSensor(TraegerBaseEntity, SensorEntity):
     @property
     def native_value(self):
         """Return the current state of entity."""
-        return self.grill_state[self.value]
-
-
-class ValueTemperature(TraegerBaseSensor):
-    """Traeger Temperature Value class."""
-    # Generic Properties
-    @property
-    def icon(self):
-        """Set the default MDI Icon"""
-        return "mdi:thermometer"
-
-    # Sensor Properties
-    @property
-    def native_unit_of_measurement(self):
-        """Return the unit the value is expressed in."""
-        return self.grill_units
-
-    # Sensor Properties
-    @property
-    def device_class(self):
-        """Return the class of the sensor"""
-        return SensorDeviceClass.TEMPERATURE
-
-    # Sensor Properties
-    @property
-    def suggested_unit_of_measurement(self):
-        """Return the suggested UOM"""
-        return self.grill_units
-
-
-class PelletSensor(TraegerBaseSensor):
-    """Traeger Pellet Sensor class."""
-    # Generic Properties
-    @property
-    def available(self):
-        """Reports unavailable when the pellet sensor is not connected"""
-        if self.grill_features is None:
-            return False
-        return self.grill_features["pellet_sensor_connected"] == 1
-
-    @property
-    def icon(self):
-        """Set the default MDI Icon"""
-        return "mdi:gauge"
-
-    # Sensor Properties
-    @property
-    def native_unit_of_measurement(self):
-        """Return the unit the value is expressed in."""
-        return "%"
-
-
-class GrillTimer(TraegerBaseSensor):
-    """Traeger Timer class."""
-
-    # Generic Properties
-    @property
-    def icon(self):
-        """Set the default MDI Icon"""
-        return "mdi:timer"
-
-    # Sensor Properties
-    @property
-    def native_unit_of_measurement(self):
-        """Return the unit the value is expressed in."""
-        return "sec"
+        return self.grill_mqtt_msg["status"][self.value]
 
 
 class GrillState(TraegerBaseSensor):
@@ -162,7 +339,7 @@ class GrillState(TraegerBaseSensor):
     def state(self):
         """Return the state of the sensor."""
         returnval = "unknown"  # Likely a new state we don't know about
-        state = self.grill_state["system_status"]
+        state = self.grill_mqtt_msg["status"]["system_status"]
 
         if state == GRILL_MODE_COOL_DOWN:
             returnval = "cool_down"
@@ -207,12 +384,12 @@ class HeatingState(TraegerBaseSensor):
     @property
     def state(self):  # pylint: disable=too-many-branches,too-many-statements
         """Return the state of the sensor."""
-        if self.grill_state is None:
+        if self.grill_mqtt_msg.get("status", None) is None:
             return "idle"
 
-        target_temp = self.grill_state["set"]
-        grill_mode = self.grill_state["system_status"]
-        current_temp = self.grill_state["grill"]
+        target_temp = self.grill_mqtt_msg["status"]["set"]
+        grill_mode = self.grill_mqtt_msg["status"]["system_status"]
+        current_temp = self.grill_mqtt_msg["status"]["grill"]
         target_changed = target_temp != self.previous_target_temp
         min_cook_temp = (GRILL_MIN_TEMP_C if self.grill_units
                          == UnitOfTemperature.CELSIUS else GRILL_MIN_TEMP_F)
@@ -278,6 +455,7 @@ class ProbeState(TraegerBaseSensor):
         super().__init__(client, grill_id, f"Probe State {sensor_id}",
                          f"probe_state_{sensor_id}")
         self.sensor_id = sensor_id
+        self.entity_id = f"sensor.{self.grill_id.lower()}_probe_state_{self.sensor_id.lower()}"
         self.grill_accessory = self.client.get_details_for_accessory(
             self.grill_id, self.sensor_id)
         self.previous_target_temp = None
@@ -307,8 +485,8 @@ class ProbeState(TraegerBaseSensor):
     @property
     def available(self):
         """Reports unavailable when the probe is not connected"""
-        if (self.grill_state is None or
-                self.grill_state["connected"] is False or
+        if (self.grill_mqtt_msg.get("status", None) is None or
+                self.grill_mqtt_msg["status"]["connected"] is False or
                 self.grill_accessory is None):
             # Reset probe alarm if accessory becomes unavailable
             self.probe_alarm = False
@@ -340,7 +518,7 @@ class ProbeState(TraegerBaseSensor):
         target_temp = self.grill_accessory[acc_type]["set_temp"]
         probe_temp = self.grill_accessory[acc_type]["get_temp"]
         target_changed = target_temp != self.previous_target_temp
-        grill_mode = self.grill_state["system_status"]
+        grill_mode = self.grill_mqtt_msg["status"]["system_status"]
         fell_out_temp = 102 if self.grill_units == UnitOfTemperature.CELSIUS else 215
 
         # Latch probe alarm, reset if target changed or grill leaves active modes
