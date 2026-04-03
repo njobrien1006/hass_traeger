@@ -15,7 +15,7 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
 #pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
-@pytest.mark.enable_socket
+@pytest.mark.usefixtures("socket_enabled")
 async def test_connect_pub(traeger_client: TraegerTestClient,
                            connected_amqtt: Broker, http: aioresponses) -> None:
     '''Test connect and publish'''
@@ -36,7 +36,7 @@ async def test_connect_pub(traeger_client: TraegerTestClient,
     await asyncio.sleep(0.1)
 
 
-@pytest.mark.enable_socket
+@pytest.mark.usefixtures("socket_enabled")
 async def test_connect_bad_pub(traeger_client: TraegerTestClient,
                                connected_amqtt: Broker,
                                http: aioresponses) -> None:
@@ -60,7 +60,7 @@ async def test_connect_bad_pub(traeger_client: TraegerTestClient,
     await asyncio.sleep(0.1)
 
 
-@pytest.mark.enable_socket
+@pytest.mark.usefixtures("socket_enabled")
 async def test_connect_grillmsg(traeger_client: TraegerTestClient,
                                 connected_amqtt: Broker,
                                 http: aioresponses) -> None:

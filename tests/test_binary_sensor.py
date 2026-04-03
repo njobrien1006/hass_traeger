@@ -46,7 +46,7 @@ async def test_binary_sensor_platform(
     assert entries == snapshot
 
 
-@pytest.mark.enable_socket
+@pytest.mark.usefixtures("socket_enabled")
 @pytest.mark.parametrize("platform, entity_id, mqtt_loca", [
     ('binary_sensor', '0123456789ab_probe_alarm_fired', 'probe_alarm_fired'),
     ('binary_sensor', '0123456789ab_cook_timer_complete',

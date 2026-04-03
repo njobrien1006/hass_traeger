@@ -46,7 +46,7 @@ async def test_number_platform(
     assert entries == snapshot
 
 
-@pytest.mark.enable_socket
+@pytest.mark.usefixtures("socket_enabled")
 @pytest.mark.parametrize(
     "platform, entity_id, mqtt_loca",
     [('number', '0123456789ab_cook_timer', 'cook_timer_start'),

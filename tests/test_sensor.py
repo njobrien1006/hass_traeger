@@ -23,7 +23,7 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
 #pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
-@pytest.mark.enable_socket
+@pytest.mark.usefixtures("socket_enabled")
 async def test_sensor_platform(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
@@ -50,7 +50,7 @@ async def test_sensor_platform(
     assert entries == snapshot
 
 
-@pytest.mark.enable_socket
+@pytest.mark.usefixtures("socket_enabled")
 async def test_sensor_platform_asyncadd(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
@@ -115,7 +115,7 @@ async def test_sensor_platform_asyncadd(
     assert entries == snapshot
 
 
-@pytest.mark.enable_socket
+@pytest.mark.usefixtures("socket_enabled")
 @pytest.mark.parametrize(
     "platform, entity_id, friendly_name",
     [('sensor', '0123456789ab_ambient_temperature', 'Ambient Temperature'),

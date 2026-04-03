@@ -46,7 +46,7 @@ async def test_climate_platform(
     assert entries == snapshot
 
 
-@pytest.mark.enable_socket
+@pytest.mark.usefixtures("socket_enabled")
 async def test_climate_platform_asyncadd(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
@@ -106,7 +106,7 @@ async def test_climate_platform_asyncadd(
     assert entries == snapshot
 
 
-@pytest.mark.enable_socket
+@pytest.mark.usefixtures("socket_enabled")
 @pytest.mark.parametrize(
     "platform, entity_id",
     [("climate", "0123456789ab_climate")],

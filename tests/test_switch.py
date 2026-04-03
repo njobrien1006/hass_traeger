@@ -48,7 +48,7 @@ async def test_switch_platform(
     assert entries == snapshot
 
 
-@pytest.mark.enable_socket
+@pytest.mark.usefixtures("socket_enabled")
 @pytest.mark.parametrize(
     "platform, entity_id",
     [
