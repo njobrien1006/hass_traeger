@@ -543,7 +543,7 @@
                     "hours_to_show": 6
                   },
                   {
-                    "type": "custom:epoch-clock-card",
+                    "type": "custom:timer-clock-card",
                     "disable_seconds": false,
                     "start_time": "sensor.0123456789ab_cook_timer_start",
                     "end_time": "sensor.0123456789ab_cook_timer_end",
