@@ -54,7 +54,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     #www lovelace resource registation
     version = getattr(hass.data["integrations"][DOMAIN], "version", 0)
     path = Path(__file__).parent / "www"
-    for name in ("epoch-clock-card.js", "timer-clock-card.js"):
+    for name in ("epoch-clock-card.js",
+                    "timer-clock-card.js",
+                    "traeger-strat.js",
+                    "traeger-yaml-view.js",
+                    "js-yaml.js"):
         # 1. Serve lovelace card
         await register_static_path(hass, "/traeger/" + name, str(path / name))
         # 2. Add card to resources

@@ -124,9 +124,49 @@ Step Type | Description
 ## InAction DEMO
 ![inaction][inaction]
 
+## Registered Resources
+Integration provided and registered resources.
+Name | Description
+-- | --
+`timer-clock-card` | FrontEnd Timer CountDown Card.
+`traeger-yaml-view` | FrontEnd View Strategy YAML Card.
+`epoch-clock-card` | FrontEnd epoch CountDown Card (Legacy).
+`traeger-strat` | View Strategy JS Module.
+`js-yaml` | Supporting JS Module for JSON->YAML.
+
+
+## Strategies
+
+A [custom strategy](https://developers.home-assistant.io/docs/frontend/custom-ui/custom-strategy/) is available for the integration like this:
+
+Full Lovelace `Raw configuration editor`
+```yaml
+  - max_columns: 4
+    title: Grill
+    path: grill
+    icon: mdi:grill-outline
+    strategy:
+      type: custom:traeger-strat
+    cards: []
+```
+
+View `Edit in YAML` addtion
+```yaml
+type: masonry
+path: grillyyy
+title: grillyyy
+icon: mdi:grill-outline
+strategy:
+  type: custom:traeger-strat
+```
+
+Note that the strategy can only be removed or modified in the Full Lovelace `Raw configuration editor`.
+
+As part of the strategy, it also has a custom card that displays the YAML if you would like customize.
+
 ## Dashboard Quick Start / Example
 
-Example Lovelace view of exposed entities [LovelaceUI](README_LovelaceUI.md) like [InAction DEMO](https://github.com/njobrien1006/hass_traeger/tree/master#inaction-demo) above.
+Example Lovelace view of exposed entities [LovelaceUI](README_LovelaceUI.md) like [LoveLace Ref](https://github.com/njobrien1006/hass_traeger/blob/master/images/lovelace.png) above.
 
 ## Configuration is done in the UI
 
