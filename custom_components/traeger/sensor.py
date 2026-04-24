@@ -22,13 +22,15 @@ SENSOR_ENTITIES = {
         "json_loca": "status;connected",
         "unit": "",
         "icon": "mdi:lan-connect",
-        "enabledbydflt": False
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "Cook ID": {
         "json_loca": "status;cook_id",
         "unit": None,
         "icon": "mdi:food",
-        "enabledbydflt": False
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "Cook Timer End": {
         "json_loca": "status;cook_timer_end",
@@ -46,19 +48,22 @@ SENSOR_ENTITIES = {
         "json_loca": "status;current_cycle",
         "unit": "",
         "icon": "mdi:food",
-        "enabledbydflt": False
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "Current Step": {
         "json_loca": "status;current_step",
         "unit": "",
         "icon": "mdi:food",
-        "enabledbydflt": False
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "Errors": {
         "json_loca": "status;errors",
         "unit": "",
         "icon": "mdi:alert-circle",
-        "enabledbydflt": False
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "Pellet Level": {
         "json_loca": "status;pellet_level",
@@ -69,82 +74,95 @@ SENSOR_ENTITIES = {
         "json_loca": "status;server_status",
         "unit": "",
         "icon": "mdi:alert-circle",
-        "enabledbydflt": False
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "Sys Timer End": {
         "json_loca": "status;sys_timer_end",
         "unit": "",
         "icon": "mdi:timer",
         "enabledbydflt": False,
-        "device_class": SensorDeviceClass.TIMESTAMP
+        "device_class": SensorDeviceClass.TIMESTAMP,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "Sys Timer Start": {
         "json_loca": "status;sys_timer_start",
         "unit": "",
         "icon": "mdi:timer",
         "enabledbydflt": False,
-        "device_class": SensorDeviceClass.TIMESTAMP
+        "device_class": SensorDeviceClass.TIMESTAMP,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "Grill Time": {
         "json_loca": "status;time",
         "unit": None,
         "icon": "mdi:clock-time-twelve-outline",
         "enabledbydflt": False,
-        "device_class": SensorDeviceClass.TIMESTAMP
+        "device_class": SensorDeviceClass.TIMESTAMP,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "Auger Runtime": {
         "json_loca": "usage;auger",
         "unit": "sec",
         "icon": "mdi:timer",
-        "enabledbydflt": False
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "Fan Runtime": {
         "json_loca": "usage;fan",
         "unit": "sec",
         "icon": "mdi:timer",
-        "enabledbydflt": False
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "Grill Runtime": {
         "json_loca": "usage;runtime",
         "unit": "sec",
         "icon": "mdi:timer",
-        "enabledbydflt": False
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "Hotrod Runtime": {
         "json_loca": "usage;hotrod",
         "unit": "sec",
         "icon": "mdi:timer",
-        "enabledbydflt": False
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "Cook Cycle": {
         "json_loca": "usage;cook_cycles",
         "unit": "",
         "icon": "mdi:counter",
-        "enabledbydflt": False
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "Ignite Fail Count": {
         "json_loca": "usage;error_stats;ignite_fail",
         "unit": "",
         "icon": "mdi:counter",
-        "enabledbydflt": False
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "Overheat Count": {
         "json_loca": "usage;error_stats;overheat",
         "unit": "",
         "icon": "mdi:counter",
-        "enabledbydflt": False
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "Lowtemp Count": {
         "json_loca": "usage;error_stats;lowtemp",
         "unit": "",
         "icon": "mdi:counter",
-        "enabledbydflt": False
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "State Index Count": {
         "json_loca": "stateIndex",
         "unit": "",
         "icon": "mdi:counter",
-        "enabledbydflt": False
+        "enabledbydflt": False,
+        "entity_category": EntityCategory.DIAGNOSTIC
     },
     "WifI RSSI": {
         "json_loca": "settings;rssi",
