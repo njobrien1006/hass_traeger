@@ -1,2 +1,2 @@
 * text=auto eol=lf
-js-yaml.js -linguist-vendored
+*.min.js linguist-vendored
