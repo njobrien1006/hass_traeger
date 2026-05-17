@@ -1,7 +1,6 @@
 """Number/Timer platform for Traeger."""
 import asyncio
 import logging
-import re
 
 from homeassistant.components.number import NumberEntity
 
@@ -85,8 +84,6 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
             _LOGGER.info("B.Cook Cycles out of indexes.")
             self.num_value = 0
             return self.num_value
-        name = re.sub("[^A-Za-z0-9]+", "",
-                      self.grill_mqtt_msg["details"]["friendlyName"])
         if self.num_value > 0 and self.grill_mqtt_msg["status"][
                 "system_status"] in [
                     GRILL_MODE_COOL_DOWN,
@@ -151,20 +148,20 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                         "number",
                         "set_value",
                         {
-                            "entity_id": f"number.{self.grill_id}_cook_timer",
+                            "entity_id": self.client.sync_grill_get_entity(
+                                f"{self.grill_id}_cook_timer"),
                             "value": round(curstep["time_set"]),
                         },
                         False,
                     ))
             if "probe_set_temp" in curstep:
-                name = re.sub("[^A-Za-z0-9]+", "",
-                              self.grill_mqtt_msg["details"]["friendlyName"])
                 self.hass.async_create_task(
                     self.hass.services.async_call(
                         "climate",
                         "set_temperature",
                         {
-                            "entity_id": f"climate.{name.lower()}_probe_p0",
+                            "entity_id": self.client.sync_grill_get_entity(
+                                f"{self.grill_id}_probe_p0"),
                             "temperature": round(curstep["probe_set_temp"]),
                         },
                         False,
@@ -175,7 +172,8 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                         "climate",
                         "set_temperature",
                         {
-                            "entity_id": f"climate.{self.grill_id}_climate",
+                            "entity_id": self.client.sync_grill_get_entity(
+                                f"{self.grill_id}_climate"),
                             "temperature": round(curstep["set_temp"]),
                         },
                         False,
@@ -190,7 +188,10 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                             self.hass.services.async_call(
                                 "switch",
                                 "turn_on",
-                                {"entity_id": f"switch.{self.grill_id}_smoke"},
+                                {
+                                    "entity_id": self.client.sync_grill_get_entity(
+                                    f"{self.grill_id}_smoke"),
+                                },
                                 False,
                             ))
                     else:
@@ -198,7 +199,10 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                             self.hass.services.async_call(
                                 "switch",
                                 "turn_off",
-                                {"entity_id": f"switch.{self.grill_id}_smoke"},
+                                {
+                                    "entity_id": self.client.sync_grill_get_entity(
+                                    f"{self.grill_id}_smoke"),
+                                },
                                 False,
                             ))
             if "keepwarm" in curstep:
@@ -210,8 +214,8 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                                 "switch",
                                 "turn_on",
                                 {
-                                    "entity_id":
-                                        f"switch.{self.grill_id}_keepwarm"
+                                    "entity_id": self.client.sync_grill_get_entity(
+                                    f"{self.grill_id}_keepwarm"),
                                 },
                                 False,
                             ))
@@ -221,8 +225,8 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                                 "switch",
                                 "turn_off",
                                 {
-                                    "entity_id":
-                                        f"switch.{self.grill_id}_keepwarm"
+                                    "entity_id": self.client.sync_grill_get_entity(
+                                    f"{self.grill_id}_keepwarm"),
                                 },
                                 False,
                             ))
@@ -233,7 +237,8 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                             "climate",
                             "set_hvac_mode",
                             {
-                                "entity_id": f"climate.{self.grill_id}_climate",
+                                "entity_id": self.client.sync_grill_get_entity(
+                                    f"{self.grill_id}_climate"),
                                 "hvac_mode": "cool",
                             },
                             False,
