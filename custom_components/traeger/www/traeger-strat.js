@@ -1,5 +1,3 @@
-import "./js-yaml.js";
-const jsyaml = globalThis.jsyaml;
 class TraegerStrategy {
   static async generate(config, hass) {
     var all_cards = [];

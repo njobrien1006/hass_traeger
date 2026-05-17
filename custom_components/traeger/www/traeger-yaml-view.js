@@ -1,4 +1,4 @@
-import "./js-yaml.js";
+import "./js-yaml.min.js";
 const jsyaml = globalThis.jsyaml;
 class ContentCardExample extends HTMLElement {
   // card is connected to the DOM
