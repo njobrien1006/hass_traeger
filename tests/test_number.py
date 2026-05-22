@@ -163,7 +163,7 @@ async def test_number_settimer(
     connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aioresponses,
-) -> None:
+) -> None:  # pylint: disable=too-many-statements
     """Test Set Timer"""
 
     def callback(url, **kwargs):
@@ -288,7 +288,7 @@ async def test_number_cookcycle(
     connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aioresponses,
-) -> None:
+) -> None:  # pylint: disable=too-many-return-statements,too-many-branches,too-many-branches,too-many-statements
     """Test Cook Cycles"""
 
     # Tracked entities for test.

@@ -184,6 +184,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         return self.entities.get(unique_id, unique_id)
 
     async def get_entities(self):
+        """Load current Entites Tags"""
         entity_registry = er.async_get(self.hass)
         for entity_id in self.hass.states.async_entity_ids():
             entity_entry = entity_registry.async_get(entity_id)
