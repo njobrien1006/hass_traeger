@@ -157,13 +157,14 @@ async def test_number(
 
 
 @pytest.mark.usefixtures("socket_enabled")
+# pylint: disable=too-many-statements
 async def test_number_settimer(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
     connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aioresponses,
-) -> None:  # pylint: disable=too-many-statements
+) -> None:
     """Test Set Timer"""
 
     def callback(url, **kwargs):
@@ -282,13 +283,14 @@ async def test_number_settimer(
 
 
 @pytest.mark.usefixtures("socket_enabled")
+# pylint: disable=too-many-branches,too-many-statements
 async def test_number_cookcycle(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
     connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aioresponses,
-) -> None:  # pylint: disable=too-many-return-statements,too-many-branches,too-many-branches,too-many-statements
+) -> None:
     """Test Cook Cycles"""
 
     # Tracked entities for test.
@@ -301,7 +303,7 @@ async def test_number_cookcycle(
         "climate.0123456789ab_probe_p0",
     ]
 
-    def callback(url, **kwargs):
+    def callback(url, **kwargs): # pylint: disable=too-many-return-statements,too-many-branches
         """Setup API Callbacks"""
         _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
         if traeger_client.mqtt_client.grills_status == {}:
