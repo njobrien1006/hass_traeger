@@ -181,7 +181,17 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
 
     def sync_grill_get_entity(self, unique_id):
         """Return Entity from fixed UniqueId"""
-        return self.entities[unique_id]
+        return self.entities.get(unique_id, unique_id)
+
+    async def get_entities(self):
+        entity_registry = er.async_get(self.hass)
+        for entity_id in self.hass.states.async_entity_ids():
+            entity_entry = entity_registry.async_get(entity_id)
+            if not entity_entry:
+                continue
+            if entity_entry.platform == "traeger":
+                self.entities[entity_entry.unique_id] = entity_id
+        _LOGGER.debug(json.dumps(self.entities))
 
     def __mqtt_url_remaining(self):
         """Available MQTT time left."""
@@ -281,17 +291,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         _LOGGER.debug("Call_Later @: %s", self.api['mqtt_url_expires'])
         delay = max(self.__mqtt_url_remaining(), 30)
         self.loop_task = self.hass.loop.call_later(delay, self.__syncmain)
-
-        entity_registry = er.async_get(self.hass)
-        for entity_id in self.hass.states.async_entity_ids():
-            entity_entry = entity_registry.async_get(entity_id)
-            if not entity_entry:
-                continue
-            if entity_entry.platform == "traeger":
-                self.entities[entity_entry.unique_id] = entity_id
-        _LOGGER.debug(json.dumps(self.entities))
-
-
+        await self.get_entities()
 
     async def kill(self):
         """This terminates the main loop and shutsdown the MQTT."""

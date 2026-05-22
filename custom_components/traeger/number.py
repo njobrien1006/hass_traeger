@@ -1,5 +1,6 @@
 """Number/Timer platform for Traeger."""
 import asyncio
+import json
 import logging
 
 from homeassistant.components.number import NumberEntity
@@ -99,17 +100,16 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         if self.num_value > 0 and self.num_value == self.old_num_value:
             curstep = self.cook_cycle[self.num_value - 1]
             if "use_timer" in curstep:
-                if curstep["use_timer"]:
-                    if self.grill_mqtt_msg["status"]["cook_timer_complete"]:
-                        self.num_value = self.num_value + 1
+                if self.grill_mqtt_msg["status"]["cook_timer_complete"]:
+                    self.num_value = self.num_value + 1
             elif self.grill_mqtt_msg["status"]["probe_alarm_fired"]:
                 self.num_value = self.num_value + 1
             elif "act_temp_adv" in curstep:
-                if self.grill_mqtt_msg["status"]["grill"] > curstep[
+                if self.grill_mqtt_msg["status"]["grill"] >= curstep[
                         "act_temp_adv"]:
                     self.num_value = self.num_value + 1
             elif "probe_act_temp_adv" in curstep:
-                if self.grill_mqtt_msg["status"]["probe"] > curstep[
+                if self.grill_mqtt_msg["status"]["probe"] >= curstep[
                         "probe_act_temp_adv"]:
                     self.num_value = self.num_value + 1
             ####################################################################
@@ -131,7 +131,8 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                                 "set_temperature",
                                 {
                                     "entity_id":
-                                        f"climate.{self.grill_id}_climate",
+                                        self.client.sync_grill_get_entity(
+                                            f"{self.grill_id}_climate"),
                                     "temperature":
                                         round(set_temp),
                                 },
@@ -141,6 +142,10 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         # Implement next step
         if (self.num_value > 0 and self.num_value
                 != self.old_num_value):  # Only hit once per step.
+            if self.num_value > len(self.cook_cycle):
+                _LOGGER.info("B.Cook Cycles out of indexes.")
+                self.num_value = 0
+                return self.num_value
             curstep = self.cook_cycle[self.num_value - 1]
             if "time_set" in curstep:
                 self.hass.async_create_task(
@@ -269,11 +274,11 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         curr_step = {}
         next_step = {}
         if self.num_value > 1:
-            prev_step = f"{self.num_value - 1}: {self.cook_cycle[self.num_value - 2]}"
+            prev_step = f"{self.num_value - 1}: {json.dumps(self.cook_cycle[self.num_value - 2])}"
         if self.num_value > 0:
-            curr_step = f"{self.num_value}: {self.cook_cycle[self.num_value - 1]}"
+            curr_step = f"{self.num_value}: {json.dumps(self.cook_cycle[self.num_value - 1])}"
         if self.num_value < len(self.cook_cycle):
-            next_step = f"{self.num_value + 1}: {self.cook_cycle[self.num_value]}"
+            next_step = f"{self.num_value + 1}: {json.dumps(self.cook_cycle[self.num_value])}"
         custom_attributes = {
             "prev_step": str(prev_step),
             "curr_step": str(curr_step),
@@ -281,7 +286,7 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         }
         intstep = 1
         for step in self.cook_cycle:
-            custom_attributes[f"_step{intstep:02d}"] = str(step)
+            custom_attributes[f"_step{intstep:02d}"] = str(json.dumps(step))
             intstep = intstep + 1
         attributes = {}
         attributes.update(custom_attributes)
