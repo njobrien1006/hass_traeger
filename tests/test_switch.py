@@ -106,6 +106,7 @@ async def test_switch_cmds(
                 json.dumps(mqtt_msg_change).encode("utf-8"),
                 qos=1,
             )
+            return CallbackResult(status=400, payload=None)
         if kwargs["json"]["command"] == "90":
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",

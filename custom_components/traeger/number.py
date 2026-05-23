@@ -1,7 +1,7 @@
 """Number/Timer platform for Traeger."""
 import asyncio
+import json
 import logging
-import re
 
 from homeassistant.components.number import NumberEntity
 
@@ -85,8 +85,6 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
             _LOGGER.info("B.Cook Cycles out of indexes.")
             self.num_value = 0
             return self.num_value
-        name = re.sub("[^A-Za-z0-9]+", "",
-                      self.grill_mqtt_msg["details"]["friendlyName"])
         if self.num_value > 0 and self.grill_mqtt_msg["status"][
                 "system_status"] in [
                     GRILL_MODE_COOL_DOWN,
@@ -102,17 +100,16 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         if self.num_value > 0 and self.num_value == self.old_num_value:
             curstep = self.cook_cycle[self.num_value - 1]
             if "use_timer" in curstep:
-                if curstep["use_timer"]:
-                    if self.grill_mqtt_msg["status"]["cook_timer_complete"]:
-                        self.num_value = self.num_value + 1
+                if self.grill_mqtt_msg["status"]["cook_timer_complete"]:
+                    self.num_value = self.num_value + 1
             elif self.grill_mqtt_msg["status"]["probe_alarm_fired"]:
                 self.num_value = self.num_value + 1
             elif "act_temp_adv" in curstep:
-                if self.grill_mqtt_msg["status"]["grill"] > curstep[
+                if self.grill_mqtt_msg["status"]["grill"] >= curstep[
                         "act_temp_adv"]:
                     self.num_value = self.num_value + 1
             elif "probe_act_temp_adv" in curstep:
-                if self.grill_mqtt_msg["status"]["probe"] > curstep[
+                if self.grill_mqtt_msg["status"]["probe"] >= curstep[
                         "probe_act_temp_adv"]:
                     self.num_value = self.num_value + 1
             ####################################################################
@@ -134,7 +131,8 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                                 "set_temperature",
                                 {
                                     "entity_id":
-                                        f"climate.{self.grill_id}_climate",
+                                        self.client.sync_grill_get_entity(
+                                            f"{self.grill_id}_climate"),
                                     "temperature":
                                         round(set_temp),
                                 },
@@ -144,6 +142,10 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         # Implement next step
         if (self.num_value > 0 and self.num_value
                 != self.old_num_value):  # Only hit once per step.
+            if self.num_value > len(self.cook_cycle):
+                _LOGGER.info("B.Cook Cycles out of indexes.")
+                self.num_value = 0
+                return self.num_value
             curstep = self.cook_cycle[self.num_value - 1]
             if "time_set" in curstep:
                 self.hass.async_create_task(
@@ -151,20 +153,20 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                         "number",
                         "set_value",
                         {
-                            "entity_id": f"number.{self.grill_id}_cook_timer",
+                            "entity_id": self.client.sync_grill_get_entity(
+                                f"{self.grill_id}_cook_timer"),
                             "value": round(curstep["time_set"]),
                         },
                         False,
                     ))
             if "probe_set_temp" in curstep:
-                name = re.sub("[^A-Za-z0-9]+", "",
-                              self.grill_mqtt_msg["details"]["friendlyName"])
                 self.hass.async_create_task(
                     self.hass.services.async_call(
                         "climate",
                         "set_temperature",
                         {
-                            "entity_id": f"climate.{name.lower()}_probe_p0",
+                            "entity_id": self.client.sync_grill_get_entity(
+                                f"{self.grill_id}_probe_p0"),
                             "temperature": round(curstep["probe_set_temp"]),
                         },
                         False,
@@ -175,7 +177,8 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                         "climate",
                         "set_temperature",
                         {
-                            "entity_id": f"climate.{self.grill_id}_climate",
+                            "entity_id": self.client.sync_grill_get_entity(
+                                f"{self.grill_id}_climate"),
                             "temperature": round(curstep["set_temp"]),
                         },
                         False,
@@ -190,7 +193,10 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                             self.hass.services.async_call(
                                 "switch",
                                 "turn_on",
-                                {"entity_id": f"switch.{self.grill_id}_smoke"},
+                                {
+                                    "entity_id": self.client.sync_grill_get_entity(
+                                    f"{self.grill_id}_smoke"),
+                                },
                                 False,
                             ))
                     else:
@@ -198,7 +204,10 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                             self.hass.services.async_call(
                                 "switch",
                                 "turn_off",
-                                {"entity_id": f"switch.{self.grill_id}_smoke"},
+                                {
+                                    "entity_id": self.client.sync_grill_get_entity(
+                                    f"{self.grill_id}_smoke"),
+                                },
                                 False,
                             ))
             if "keepwarm" in curstep:
@@ -210,8 +219,8 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                                 "switch",
                                 "turn_on",
                                 {
-                                    "entity_id":
-                                        f"switch.{self.grill_id}_keepwarm"
+                                    "entity_id": self.client.sync_grill_get_entity(
+                                    f"{self.grill_id}_keepwarm"),
                                 },
                                 False,
                             ))
@@ -221,8 +230,8 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                                 "switch",
                                 "turn_off",
                                 {
-                                    "entity_id":
-                                        f"switch.{self.grill_id}_keepwarm"
+                                    "entity_id": self.client.sync_grill_get_entity(
+                                    f"{self.grill_id}_keepwarm"),
                                 },
                                 False,
                             ))
@@ -233,7 +242,8 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
                             "climate",
                             "set_hvac_mode",
                             {
-                                "entity_id": f"climate.{self.grill_id}_climate",
+                                "entity_id": self.client.sync_grill_get_entity(
+                                    f"{self.grill_id}_climate"),
                                 "hvac_mode": "cool",
                             },
                             False,
@@ -264,11 +274,11 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         curr_step = {}
         next_step = {}
         if self.num_value > 1:
-            prev_step = f"{self.num_value - 1}: {self.cook_cycle[self.num_value - 2]}"
+            prev_step = f"{self.num_value - 1}: {json.dumps(self.cook_cycle[self.num_value - 2])}"
         if self.num_value > 0:
-            curr_step = f"{self.num_value}: {self.cook_cycle[self.num_value - 1]}"
+            curr_step = f"{self.num_value}: {json.dumps(self.cook_cycle[self.num_value - 1])}"
         if self.num_value < len(self.cook_cycle):
-            next_step = f"{self.num_value + 1}: {self.cook_cycle[self.num_value]}"
+            next_step = f"{self.num_value + 1}: {json.dumps(self.cook_cycle[self.num_value])}"
         custom_attributes = {
             "prev_step": str(prev_step),
             "curr_step": str(curr_step),
@@ -276,7 +286,7 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         }
         intstep = 1
         for step in self.cook_cycle:
-            custom_attributes[f"_step{intstep:02d}"] = str(step)
+            custom_attributes[f"_step{intstep:02d}"] = str(json.dumps(step))
             intstep = intstep + 1
         attributes = {}
         attributes.update(custom_attributes)

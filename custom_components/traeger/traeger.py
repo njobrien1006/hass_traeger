@@ -22,13 +22,14 @@ import homeassistant.const
 from paho.mqtt import client as mqtt
 
 from homeassistant.components.mqtt.async_client import AsyncMQTTClient
+from homeassistant.helpers import entity_registry as er
 
 TIMEOUT = 60
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-class Traeger:  #pylint: disable=too-many-public-methods
+class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attributes
     """Traeger API Wrapper"""
 
     def __init__(self, username, password, hass, request_library):
@@ -50,6 +51,7 @@ class Traeger:  #pylint: disable=too-many-public-methods
         self.mqtt_client = TraegerMQTTClient(self.hass,
                                              self.sync_grill_callback,
                                              self.sync_update_state)
+        self.entities = {}
 
     def __token_remaining(self):
         """Report remaining token time."""
@@ -177,6 +179,21 @@ class Traeger:  #pylint: disable=too-many-public-methods
                 #_LOGGER.debug(f"Print: {callback}")
                 callback()
 
+    def sync_grill_get_entity(self, unique_id):
+        """Return Entity from fixed UniqueId"""
+        return self.entities.get(unique_id, unique_id)
+
+    async def get_entities(self):
+        """Load current Entites Tags"""
+        entity_registry = er.async_get(self.hass)
+        for entity_id in self.hass.states.async_entity_ids():
+            entity_entry = entity_registry.async_get(entity_id)
+            if not entity_entry:
+                continue
+            if entity_entry.platform == "traeger":
+                self.entities[entity_entry.unique_id] = entity_id
+        _LOGGER.debug(json.dumps(self.entities))
+
     def __mqtt_url_remaining(self):
         """Available MQTT time left."""
         return self.api['mqtt_url_expires'] - time.time()
@@ -275,6 +292,7 @@ class Traeger:  #pylint: disable=too-many-public-methods
         _LOGGER.debug("Call_Later @: %s", self.api['mqtt_url_expires'])
         delay = max(self.__mqtt_url_remaining(), 30)
         self.loop_task = self.hass.loop.call_later(delay, self.__syncmain)
+        await self.get_entities()
 
     async def kill(self):
         """This terminates the main loop and shutsdown the MQTT."""

@@ -36,7 +36,7 @@
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
-    'state': '-1.0',
+    'state': '-10.0',
   })
 # ---
 # name: test_number[number-0123456789ab_cook_timer-cook_timer_end].2
@@ -139,7 +139,7 @@
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
-    'state': '-1.0',
+    'state': '-10.0',
   })
 # ---
 # name: test_number[number-0123456789ab_cook_timer-cook_timer_start].3
@@ -160,6 +160,848 @@
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
+# ---
+# name: test_number_cookcycle
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'curr_step': '{}',
+      'friendly_name': "Johny's Traeger Cook_cycle",
+      'icon': 'mdi:chef-hat',
+      'max': 999,
+      'min': 0,
+      'mode': <NumberMode.AUTO: 'auto'>,
+      'next_step': '{}',
+      'prev_step': '{}',
+      'step': 1,
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.0123456789ab_cook_cycle',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0',
+  })
+# ---
+# name: test_number_cookcycle.1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'curr_step': '{}',
+      'friendly_name': "Johny's Traeger Cook_cycle",
+      'icon': 'mdi:chef-hat',
+      'max': 999,
+      'min': 0,
+      'mode': <NumberMode.AUTO: 'auto'>,
+      'next_step': '{}',
+      'prev_step': '{}',
+      'step': 1,
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.0123456789ab_cook_cycle',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0',
+  })
+# ---
+# name: test_number_cookcycle.10
+  '4'
+# ---
+# name: test_number_cookcycle.11
+  '5'
+# ---
+# name: test_number_cookcycle.12
+  '5'
+# ---
+# name: test_number_cookcycle.13
+  '6'
+# ---
+# name: test_number_cookcycle.14
+  list([
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        '_step01': '{"set_temp": 225, "act_temp_adv": 220}',
+        '_step02': '{"use_timer": 1, "time_set": 10}',
+        '_step03': '{"set_temp": 375, "use_timer": 1, "time_set": 10}',
+        '_step04': '{"probe_set_temp": 165, "probe_act_temp_adv": 140}',
+        '_step05': '{"time_set": 10}',
+        '_step06': '{"use_timer": 1}',
+        '_step07': '{"time_set": 10, "use_timer": 1, "keepwarm": 1}',
+        '_step08': '{"time_set": 10, "use_timer": 1, "keepwarm": 0}',
+        '_step09': '{"set_temp": 170, "use_timer": 1, "time_set": 10}',
+        '_step10': '{"time_set": 10, "use_timer": 1, "smoke": 1}',
+        '_step11': '{"time_set": 10, "use_timer": 1, "smoke": 0}',
+        '_step12': '{"time_set": 15, "smoke": 1, "set_temp": 180, "use_timer": 1}',
+        '_step13': '{"probe_set_temp": 210, "time_set": 1080, "min_delta": 30, "max_grill_delta_temp": 225, "probe_act_temp_adv": 160}',
+        '_step14': '{"min_delta": 35, "max_grill_delta_temp": 230, "probe_act_temp_adv": 170}',
+        '_step15': '{"min_delta": 40, "max_grill_delta_temp": 250}',
+        '_step16': '{"time_set": 10, "set_temp": 210, "use_timer": 1}',
+        '_step17': '{"shutdown": 1}',
+        'curr_step': '6: {"use_timer": 1}',
+        'friendly_name': "Johny's Traeger Cook_cycle",
+        'icon': 'mdi:chef-hat',
+        'max': 999,
+        'min': 0,
+        'mode': <NumberMode.AUTO: 'auto'>,
+        'next_step': '7: {"time_set": 10, "use_timer": 1, "keepwarm": 1}',
+        'prev_step': '5: {"time_set": 10}',
+        'step': 1,
+      }),
+      'context': <ANY>,
+      'entity_id': 'number.0123456789ab_cook_cycle',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '6',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'friendly_name': "Johny's Traeger Cook_timer",
+        'icon': 'mdi:timer',
+        'integration': 'traeger',
+        'max': 1440,
+        'min': 0,
+        'mode': <NumberMode.AUTO: 'auto'>,
+        'step': 1,
+        'unit_of_measurement': 'min',
+      }),
+      'context': <ANY>,
+      'entity_id': 'number.0123456789ab_cook_timer',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '10.0',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'friendly_name': "Johny's Traeger Cook Timer Complete",
+        'icon': 'mdi:timer',
+        'integration': 'traeger',
+      }),
+      'context': <ANY>,
+      'entity_id': 'binary_sensor.0123456789ab_cook_timer_complete',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '0',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'friendly_name': "Johny's Traeger Probe Alarm Fired",
+        'icon': 'mdi:thermometer',
+        'integration': 'traeger',
+      }),
+      'context': <ANY>,
+      'entity_id': 'binary_sensor.0123456789ab_probe_alarm_fired',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '1',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'current_temperature': 188,
+        'friendly_name': "Johny's Traeger Climate",
+        'grill_native_cur_val': 187.5,
+        'grill_native_set_val': 375,
+        'hvac_modes': tuple(
+          <HVACMode.HEAT: 'heat'>,
+          <HVACMode.OFF: 'off'>,
+          <HVACMode.COOL: 'cool'>,
+        ),
+        'icon': 'mdi:grill',
+        'max_temp': 500,
+        'min_temp': 165,
+        'supported_features': <ClimateEntityFeature: 385>,
+        'target_temp_step': 5,
+        'temperature': 375,
+      }),
+      'context': <ANY>,
+      'entity_id': 'climate.0123456789ab_climate',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': 'heat',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'current_temperature': 82,
+        'friendly_name': "Johny's Traeger Probe p0",
+        'grill_native_cur_val': 82.5,
+        'grill_native_set_val': 165,
+        'hvac_modes': tuple(
+          <HVACMode.HEAT: 'heat'>,
+          <HVACMode.OFF: 'off'>,
+        ),
+        'icon': 'mdi:thermometer',
+        'max_temp': 215,
+        'min_temp': 80,
+        'preset_mode': 'none',
+        'preset_modes': list([
+          'Chicken',
+          'Turkey',
+          'Beef (Rare)',
+          'Beef (Medium Rare)',
+          'Beef (Medium)',
+          'Beef (Medium Well)',
+          'Beef (Well Done)',
+          'Beef (Ground)',
+          'Lamb (Rare)',
+          'Lamb (Medium Rare)',
+          'Lamb (Medium)',
+          'Lamb (Medium Well)',
+          'Lamb (Well Done)',
+          'Lamb (Ground)',
+          'Pork (Medium Rare)',
+          'Pork (Medium)',
+          'Pork (Well Done)',
+          'Fish',
+        ]),
+        'supported_features': <ClimateEntityFeature: 401>,
+        'target_temp_step': 5,
+        'temperature': 165,
+      }),
+      'context': <ANY>,
+      'entity_id': 'climate.0123456789ab_probe_p0',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': 'heat',
+    }),
+  ])
+# ---
+# name: test_number_cookcycle.15
+  '6'
+# ---
+# name: test_number_cookcycle.16
+  '7'
+# ---
+# name: test_number_cookcycle.17
+  '7'
+# ---
+# name: test_number_cookcycle.18
+  '7'
+# ---
+# name: test_number_cookcycle.19
+  list([
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        '_step01': '{"set_temp": 225, "act_temp_adv": 220}',
+        '_step02': '{"use_timer": 1, "time_set": 10}',
+        '_step03': '{"set_temp": 375, "use_timer": 1, "time_set": 10}',
+        '_step04': '{"probe_set_temp": 165, "probe_act_temp_adv": 140}',
+        '_step05': '{"time_set": 10}',
+        '_step06': '{"use_timer": 1}',
+        '_step07': '{"time_set": 10, "use_timer": 1, "keepwarm": 1}',
+        '_step08': '{"time_set": 10, "use_timer": 1, "keepwarm": 0}',
+        '_step09': '{"set_temp": 170, "use_timer": 1, "time_set": 10}',
+        '_step10': '{"time_set": 10, "use_timer": 1, "smoke": 1}',
+        '_step11': '{"time_set": 10, "use_timer": 1, "smoke": 0}',
+        '_step12': '{"time_set": 15, "smoke": 1, "set_temp": 180, "use_timer": 1}',
+        '_step13': '{"probe_set_temp": 210, "time_set": 1080, "min_delta": 30, "max_grill_delta_temp": 225, "probe_act_temp_adv": 160}',
+        '_step14': '{"min_delta": 35, "max_grill_delta_temp": 230, "probe_act_temp_adv": 170}',
+        '_step15': '{"min_delta": 40, "max_grill_delta_temp": 250}',
+        '_step16': '{"time_set": 10, "set_temp": 210, "use_timer": 1}',
+        '_step17': '{"shutdown": 1}',
+        'curr_step': '7: {"time_set": 10, "use_timer": 1, "keepwarm": 1}',
+        'friendly_name': "Johny's Traeger Cook_cycle",
+        'icon': 'mdi:chef-hat',
+        'max': 999,
+        'min': 0,
+        'mode': <NumberMode.AUTO: 'auto'>,
+        'next_step': '8: {"time_set": 10, "use_timer": 1, "keepwarm": 0}',
+        'prev_step': '6: {"use_timer": 1}',
+        'step': 1,
+      }),
+      'context': <ANY>,
+      'entity_id': 'number.0123456789ab_cook_cycle',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '7',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'friendly_name': "Johny's Traeger Cook_timer",
+        'icon': 'mdi:timer',
+        'integration': 'traeger',
+        'max': 1440,
+        'min': 0,
+        'mode': <NumberMode.AUTO: 'auto'>,
+        'step': 1,
+        'unit_of_measurement': 'min',
+      }),
+      'context': <ANY>,
+      'entity_id': 'number.0123456789ab_cook_timer',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '10.0',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'friendly_name': "Johny's Traeger Cook Timer Complete",
+        'icon': 'mdi:timer',
+        'integration': 'traeger',
+      }),
+      'context': <ANY>,
+      'entity_id': 'binary_sensor.0123456789ab_cook_timer_complete',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '0',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'friendly_name': "Johny's Traeger Probe Alarm Fired",
+        'icon': 'mdi:thermometer',
+        'integration': 'traeger',
+      }),
+      'context': <ANY>,
+      'entity_id': 'binary_sensor.0123456789ab_probe_alarm_fired',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '1',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'current_temperature': 188,
+        'friendly_name': "Johny's Traeger Climate",
+        'grill_native_cur_val': 187.5,
+        'grill_native_set_val': 375,
+        'hvac_modes': tuple(
+          <HVACMode.HEAT: 'heat'>,
+          <HVACMode.OFF: 'off'>,
+          <HVACMode.COOL: 'cool'>,
+        ),
+        'icon': 'mdi:grill',
+        'max_temp': 500,
+        'min_temp': 165,
+        'supported_features': <ClimateEntityFeature: 385>,
+        'target_temp_step': 5,
+        'temperature': 375,
+      }),
+      'context': <ANY>,
+      'entity_id': 'climate.0123456789ab_climate',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': 'heat',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'current_temperature': 82,
+        'friendly_name': "Johny's Traeger Probe p0",
+        'grill_native_cur_val': 82.5,
+        'grill_native_set_val': 0,
+        'hvac_modes': tuple(
+          <HVACMode.HEAT: 'heat'>,
+          <HVACMode.OFF: 'off'>,
+        ),
+        'icon': 'mdi:thermometer',
+        'max_temp': 215,
+        'min_temp': 80,
+        'preset_mode': 'none',
+        'preset_modes': list([
+          'Chicken',
+          'Turkey',
+          'Beef (Rare)',
+          'Beef (Medium Rare)',
+          'Beef (Medium)',
+          'Beef (Medium Well)',
+          'Beef (Well Done)',
+          'Beef (Ground)',
+          'Lamb (Rare)',
+          'Lamb (Medium Rare)',
+          'Lamb (Medium)',
+          'Lamb (Medium Well)',
+          'Lamb (Well Done)',
+          'Lamb (Ground)',
+          'Pork (Medium Rare)',
+          'Pork (Medium)',
+          'Pork (Well Done)',
+          'Fish',
+        ]),
+        'supported_features': <ClimateEntityFeature: 401>,
+        'target_temp_step': 5,
+        'temperature': 0,
+      }),
+      'context': <ANY>,
+      'entity_id': 'climate.0123456789ab_probe_p0',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': 'heat',
+    }),
+  ])
+# ---
+# name: test_number_cookcycle.2
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      '_step01': '{"set_temp": 225, "act_temp_adv": 220}',
+      '_step02': '{"use_timer": 1, "time_set": 10}',
+      '_step03': '{"set_temp": 375, "use_timer": 1, "time_set": 10}',
+      '_step04': '{"probe_set_temp": 165, "probe_act_temp_adv": 140}',
+      '_step05': '{"time_set": 10}',
+      '_step06': '{"use_timer": 1}',
+      '_step07': '{"time_set": 10, "use_timer": 1, "keepwarm": 1}',
+      '_step08': '{"time_set": 10, "use_timer": 1, "keepwarm": 0}',
+      '_step09': '{"set_temp": 170, "use_timer": 1, "time_set": 10}',
+      '_step10': '{"time_set": 10, "use_timer": 1, "smoke": 1}',
+      '_step11': '{"time_set": 10, "use_timer": 1, "smoke": 0}',
+      '_step12': '{"time_set": 15, "smoke": 1, "set_temp": 180, "use_timer": 1}',
+      '_step13': '{"probe_set_temp": 210, "time_set": 1080, "min_delta": 30, "max_grill_delta_temp": 225, "probe_act_temp_adv": 160}',
+      '_step14': '{"min_delta": 35, "max_grill_delta_temp": 230, "probe_act_temp_adv": 170}',
+      '_step15': '{"min_delta": 40, "max_grill_delta_temp": 250}',
+      '_step16': '{"time_set": 10, "set_temp": 210, "use_timer": 1}',
+      '_step17': '{"shutdown": 1}',
+      'curr_step': '{}',
+      'friendly_name': "Johny's Traeger Cook_cycle",
+      'icon': 'mdi:chef-hat',
+      'max': 999,
+      'min': 0,
+      'mode': <NumberMode.AUTO: 'auto'>,
+      'next_step': '1: {"set_temp": 225, "act_temp_adv": 220}',
+      'prev_step': '{}',
+      'step': 1,
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.0123456789ab_cook_cycle',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0',
+  })
+# ---
+# name: test_number_cookcycle.20
+  '7'
+# ---
+# name: test_number_cookcycle.21
+  '8'
+# ---
+# name: test_number_cookcycle.22
+  '8'
+# ---
+# name: test_number_cookcycle.23
+  '9'
+# ---
+# name: test_number_cookcycle.24
+  '9'
+# ---
+# name: test_number_cookcycle.25
+  '10'
+# ---
+# name: test_number_cookcycle.26
+  '10'
+# ---
+# name: test_number_cookcycle.27
+  '11'
+# ---
+# name: test_number_cookcycle.28
+  '11'
+# ---
+# name: test_number_cookcycle.29
+  '12'
+# ---
+# name: test_number_cookcycle.3
+  list([
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        '_step01': '{"set_temp": 225, "act_temp_adv": 220}',
+        '_step02': '{"use_timer": 1, "time_set": 10}',
+        '_step03': '{"set_temp": 375, "use_timer": 1, "time_set": 10}',
+        '_step04': '{"probe_set_temp": 165, "probe_act_temp_adv": 140}',
+        '_step05': '{"time_set": 10}',
+        '_step06': '{"use_timer": 1}',
+        '_step07': '{"time_set": 10, "use_timer": 1, "keepwarm": 1}',
+        '_step08': '{"time_set": 10, "use_timer": 1, "keepwarm": 0}',
+        '_step09': '{"set_temp": 170, "use_timer": 1, "time_set": 10}',
+        '_step10': '{"time_set": 10, "use_timer": 1, "smoke": 1}',
+        '_step11': '{"time_set": 10, "use_timer": 1, "smoke": 0}',
+        '_step12': '{"time_set": 15, "smoke": 1, "set_temp": 180, "use_timer": 1}',
+        '_step13': '{"probe_set_temp": 210, "time_set": 1080, "min_delta": 30, "max_grill_delta_temp": 225, "probe_act_temp_adv": 160}',
+        '_step14': '{"min_delta": 35, "max_grill_delta_temp": 230, "probe_act_temp_adv": 170}',
+        '_step15': '{"min_delta": 40, "max_grill_delta_temp": 250}',
+        '_step16': '{"time_set": 10, "set_temp": 210, "use_timer": 1}',
+        '_step17': '{"shutdown": 1}',
+        'curr_step': '1: {"set_temp": 225, "act_temp_adv": 220}',
+        'friendly_name': "Johny's Traeger Cook_cycle",
+        'icon': 'mdi:chef-hat',
+        'max': 999,
+        'min': 0,
+        'mode': <NumberMode.AUTO: 'auto'>,
+        'next_step': '2: {"use_timer": 1, "time_set": 10}',
+        'prev_step': '{}',
+        'step': 1,
+      }),
+      'context': <ANY>,
+      'entity_id': 'number.0123456789ab_cook_cycle',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '1',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'friendly_name': "Johny's Traeger Cook_timer",
+        'icon': 'mdi:timer',
+        'integration': 'traeger',
+        'max': 1440,
+        'min': 0,
+        'mode': <NumberMode.AUTO: 'auto'>,
+        'step': 1,
+        'unit_of_measurement': 'min',
+      }),
+      'context': <ANY>,
+      'entity_id': 'number.0123456789ab_cook_timer',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '0.0',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'friendly_name': "Johny's Traeger Cook Timer Complete",
+        'icon': 'mdi:timer',
+        'integration': 'traeger',
+      }),
+      'context': <ANY>,
+      'entity_id': 'binary_sensor.0123456789ab_cook_timer_complete',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '0',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'friendly_name': "Johny's Traeger Probe Alarm Fired",
+        'icon': 'mdi:thermometer',
+        'integration': 'traeger',
+      }),
+      'context': <ANY>,
+      'entity_id': 'binary_sensor.0123456789ab_probe_alarm_fired',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '0',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'current_temperature': 112,
+        'friendly_name': "Johny's Traeger Climate",
+        'grill_native_cur_val': 112.5,
+        'grill_native_set_val': 225,
+        'hvac_modes': tuple(
+          <HVACMode.HEAT: 'heat'>,
+          <HVACMode.OFF: 'off'>,
+          <HVACMode.COOL: 'cool'>,
+        ),
+        'icon': 'mdi:grill',
+        'max_temp': 500,
+        'min_temp': 165,
+        'supported_features': <ClimateEntityFeature: 385>,
+        'target_temp_step': 5,
+        'temperature': 225,
+      }),
+      'context': <ANY>,
+      'entity_id': 'climate.0123456789ab_climate',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': 'heat',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'current_temperature': 0,
+        'friendly_name': "Johny's Traeger Probe p0",
+        'grill_native_cur_val': 0,
+        'grill_native_set_val': 0,
+        'hvac_modes': tuple(
+          <HVACMode.HEAT: 'heat'>,
+          <HVACMode.OFF: 'off'>,
+        ),
+        'icon': 'mdi:thermometer',
+        'max_temp': 215,
+        'min_temp': 80,
+        'preset_mode': 'none',
+        'preset_modes': list([
+          'Chicken',
+          'Turkey',
+          'Beef (Rare)',
+          'Beef (Medium Rare)',
+          'Beef (Medium)',
+          'Beef (Medium Well)',
+          'Beef (Well Done)',
+          'Beef (Ground)',
+          'Lamb (Rare)',
+          'Lamb (Medium Rare)',
+          'Lamb (Medium)',
+          'Lamb (Medium Well)',
+          'Lamb (Well Done)',
+          'Lamb (Ground)',
+          'Pork (Medium Rare)',
+          'Pork (Medium)',
+          'Pork (Well Done)',
+          'Fish',
+        ]),
+        'supported_features': <ClimateEntityFeature: 401>,
+        'target_temp_step': 5,
+        'temperature': 0,
+      }),
+      'context': <ANY>,
+      'entity_id': 'climate.0123456789ab_probe_p0',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': 'heat',
+    }),
+  ])
+# ---
+# name: test_number_cookcycle.30
+  '12'
+# ---
+# name: test_number_cookcycle.31
+  '13'
+# ---
+# name: test_number_cookcycle.32
+  '15'
+# ---
+# name: test_number_cookcycle.33
+  '15'
+# ---
+# name: test_number_cookcycle.34
+  '15'
+# ---
+# name: test_number_cookcycle.35
+  '16'
+# ---
+# name: test_number_cookcycle.36
+  list([
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        '_step01': '{"set_temp": 225, "act_temp_adv": 220}',
+        '_step02': '{"use_timer": 1, "time_set": 10}',
+        '_step03': '{"set_temp": 375, "use_timer": 1, "time_set": 10}',
+        '_step04': '{"probe_set_temp": 165, "probe_act_temp_adv": 140}',
+        '_step05': '{"time_set": 10}',
+        '_step06': '{"use_timer": 1}',
+        '_step07': '{"time_set": 10, "use_timer": 1, "keepwarm": 1}',
+        '_step08': '{"time_set": 10, "use_timer": 1, "keepwarm": 0}',
+        '_step09': '{"set_temp": 170, "use_timer": 1, "time_set": 10}',
+        '_step10': '{"time_set": 10, "use_timer": 1, "smoke": 1}',
+        '_step11': '{"time_set": 10, "use_timer": 1, "smoke": 0}',
+        '_step12': '{"time_set": 15, "smoke": 1, "set_temp": 180, "use_timer": 1}',
+        '_step13': '{"probe_set_temp": 210, "time_set": 1080, "min_delta": 30, "max_grill_delta_temp": 225, "probe_act_temp_adv": 160}',
+        '_step14': '{"min_delta": 35, "max_grill_delta_temp": 230, "probe_act_temp_adv": 170}',
+        '_step15': '{"min_delta": 40, "max_grill_delta_temp": 250}',
+        '_step16': '{"time_set": 10, "set_temp": 210, "use_timer": 1}',
+        '_step17': '{"shutdown": 1}',
+        'curr_step': '16: {"time_set": 10, "set_temp": 210, "use_timer": 1}',
+        'friendly_name': "Johny's Traeger Cook_cycle",
+        'icon': 'mdi:chef-hat',
+        'max': 999,
+        'min': 0,
+        'mode': <NumberMode.AUTO: 'auto'>,
+        'next_step': '17: {"shutdown": 1}',
+        'prev_step': '15: {"min_delta": 40, "max_grill_delta_temp": 250}',
+        'step': 1,
+      }),
+      'context': <ANY>,
+      'entity_id': 'number.0123456789ab_cook_cycle',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '16',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'friendly_name': "Johny's Traeger Cook_timer",
+        'icon': 'mdi:timer',
+        'integration': 'traeger',
+        'max': 1440,
+        'min': 0,
+        'mode': <NumberMode.AUTO: 'auto'>,
+        'step': 1,
+        'unit_of_measurement': 'min',
+      }),
+      'context': <ANY>,
+      'entity_id': 'number.0123456789ab_cook_timer',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '10.0',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'friendly_name': "Johny's Traeger Cook Timer Complete",
+        'icon': 'mdi:timer',
+        'integration': 'traeger',
+      }),
+      'context': <ANY>,
+      'entity_id': 'binary_sensor.0123456789ab_cook_timer_complete',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '0',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'friendly_name': "Johny's Traeger Probe Alarm Fired",
+        'icon': 'mdi:thermometer',
+        'integration': 'traeger',
+      }),
+      'context': <ANY>,
+      'entity_id': 'binary_sensor.0123456789ab_probe_alarm_fired',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '0',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'current_temperature': 105,
+        'friendly_name': "Johny's Traeger Climate",
+        'grill_native_cur_val': 105.0,
+        'grill_native_set_val': 210,
+        'hvac_modes': tuple(
+          <HVACMode.HEAT: 'heat'>,
+          <HVACMode.OFF: 'off'>,
+          <HVACMode.COOL: 'cool'>,
+        ),
+        'icon': 'mdi:grill',
+        'max_temp': 500,
+        'min_temp': 165,
+        'supported_features': <ClimateEntityFeature: 385>,
+        'target_temp_step': 5,
+        'temperature': 210,
+      }),
+      'context': <ANY>,
+      'entity_id': 'climate.0123456789ab_climate',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': 'heat',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'current_temperature': 105,
+        'friendly_name': "Johny's Traeger Probe p0",
+        'grill_native_cur_val': 105.0,
+        'grill_native_set_val': 0,
+        'hvac_modes': tuple(
+          <HVACMode.HEAT: 'heat'>,
+          <HVACMode.OFF: 'off'>,
+        ),
+        'icon': 'mdi:thermometer',
+        'max_temp': 215,
+        'min_temp': 80,
+        'preset_mode': 'none',
+        'preset_modes': list([
+          'Chicken',
+          'Turkey',
+          'Beef (Rare)',
+          'Beef (Medium Rare)',
+          'Beef (Medium)',
+          'Beef (Medium Well)',
+          'Beef (Well Done)',
+          'Beef (Ground)',
+          'Lamb (Rare)',
+          'Lamb (Medium Rare)',
+          'Lamb (Medium)',
+          'Lamb (Medium Well)',
+          'Lamb (Well Done)',
+          'Lamb (Ground)',
+          'Pork (Medium Rare)',
+          'Pork (Medium)',
+          'Pork (Well Done)',
+          'Fish',
+        ]),
+        'supported_features': <ClimateEntityFeature: 401>,
+        'target_temp_step': 5,
+        'temperature': 0,
+      }),
+      'context': <ANY>,
+      'entity_id': 'climate.0123456789ab_probe_p0',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': 'heat',
+    }),
+  ])
+# ---
+# name: test_number_cookcycle.37
+  '16'
+# ---
+# name: test_number_cookcycle.38
+  '0'
+# ---
+# name: test_number_cookcycle.39
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      '_step01': '{"set_temp": 225, "act_temp_adv": 220}',
+      '_step02': '{"use_timer": 1, "time_set": 10}',
+      '_step03': '{"set_temp": 375, "use_timer": 1, "time_set": 10}',
+      '_step04': '{"probe_set_temp": 165, "probe_act_temp_adv": 140}',
+      '_step05': '{"time_set": 10}',
+      '_step06': '{"use_timer": 1}',
+      '_step07': '{"time_set": 10, "use_timer": 1, "keepwarm": 1}',
+      '_step08': '{"time_set": 10, "use_timer": 1, "keepwarm": 0}',
+      '_step09': '{"set_temp": 170, "use_timer": 1, "time_set": 10}',
+      '_step10': '{"time_set": 10, "use_timer": 1, "smoke": 1}',
+      '_step11': '{"time_set": 10, "use_timer": 1, "smoke": 0}',
+      '_step12': '{"time_set": 15, "smoke": 1, "set_temp": 180, "use_timer": 1}',
+      '_step13': '{"probe_set_temp": 210, "time_set": 1080, "min_delta": 30, "max_grill_delta_temp": 225, "probe_act_temp_adv": 160}',
+      '_step14': '{"min_delta": 35, "max_grill_delta_temp": 230, "probe_act_temp_adv": 170}',
+      '_step15': '{"min_delta": 40, "max_grill_delta_temp": 250}',
+      '_step16': '{"time_set": 10, "set_temp": 210, "use_timer": 1}',
+      '_step17': '{"shutdown": 1}',
+      'curr_step': '{}',
+      'friendly_name': "Johny's Traeger Cook_cycle",
+      'icon': 'mdi:chef-hat',
+      'max': 999,
+      'min': 0,
+      'mode': <NumberMode.AUTO: 'auto'>,
+      'next_step': '1: {"set_temp": 225, "act_temp_adv": 220}',
+      'prev_step': '{}',
+      'step': 1,
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.0123456789ab_cook_cycle',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0',
+  })
+# ---
+# name: test_number_cookcycle.4
+  '1'
+# ---
+# name: test_number_cookcycle.5
+  '2'
+# ---
+# name: test_number_cookcycle.6
+  '2'
+# ---
+# name: test_number_cookcycle.7
+  '3'
+# ---
+# name: test_number_cookcycle.8
+  '3'
+# ---
+# name: test_number_cookcycle.9
+  '4'
 # ---
 # name: test_number_platform
   list([
@@ -192,4 +1034,116 @@
       'unique_id': 'cd0123456789_cook_timer',
     }),
   ])
+# ---
+# name: test_number_settimer
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Cook_timer",
+      'icon': 'mdi:timer',
+      'max': 1440,
+      'min': 0,
+      'mode': <NumberMode.AUTO: 'auto'>,
+      'step': 1,
+      'unit_of_measurement': 'min',
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.0123456789ab_cook_timer',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
+# ---
+# name: test_number_settimer.1
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      'friendly_name': "Johny's Traeger Cook_timer",
+      'icon': 'mdi:timer',
+      'integration': 'traeger',
+      'max': 1440,
+      'min': 0,
+      'mode': <NumberMode.AUTO: 'auto'>,
+      'step': 1,
+      'unit_of_measurement': 'min',
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.0123456789ab_cook_timer',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0.0',
+  })
+# ---
+# name: test_number_settimer.2
+  list([
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'friendly_name': "Johny's Traeger Cook_timer",
+        'icon': 'mdi:timer',
+        'integration': 'traeger',
+        'max': 1440,
+        'min': 0,
+        'mode': <NumberMode.AUTO: 'auto'>,
+        'step': 1,
+        'unit_of_measurement': 'min',
+      }),
+      'context': <ANY>,
+      'entity_id': 'number.0123456789ab_cook_timer',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '60.0',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'device_class': 'timestamp',
+        'friendly_name': "Johny's Traeger Cook Timer Start",
+        'icon': 'mdi:timer',
+        'integration': 'traeger',
+      }),
+      'context': <ANY>,
+      'entity_id': 'sensor.0123456789ab_cook_timer_start',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '2020-01-01T00:00:00+00:00',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'device_class': 'timestamp',
+        'friendly_name': "Johny's Traeger Cook Timer End",
+        'icon': 'mdi:timer',
+        'integration': 'traeger',
+      }),
+      'context': <ANY>,
+      'entity_id': 'sensor.0123456789ab_cook_timer_end',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '2020-01-01T01:00:00+00:00',
+    }),
+  ])
+# ---
+# name: test_number_settimer.3
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'friendly_name': "Johny's Traeger Cook_timer",
+      'icon': 'mdi:timer',
+      'max': 1440,
+      'min': 0,
+      'mode': <NumberMode.AUTO: 'auto'>,
+      'step': 1,
+      'unit_of_measurement': 'min',
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.0123456789ab_cook_timer',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'unavailable',
+  })
 # ---
