@@ -409,7 +409,9 @@ class TraegerMQTTClient:
         """Call disconnect"""
         _LOGGER.debug("Stopping Traeger MQTT Class")
         self._hass.async_add_executor_job(self.mqtt_client.disconnect)
-        _LOGGER.debug("Stopped Traeger MQTT Class")
+        _LOGGER.debug("Added disconnect to executor job (thread)")
+        self.isconnected = False
+        _LOGGER.debug("We assume the Loop_Forever stopped.")
 
     def _mqtt_onconnect(self, client, userdata, flags, rc):
         """MQTT on_connect"""
