@@ -1720,7 +1720,7 @@
     dict({
       'device_class': None,
       'entity_id': 'sensor.0123456789ab_ambient_temperature',
-      'original_name': '0123456789ab Ambient Temperature',
+      'original_name': "Johny's Traeger Ambient Temperature",
       'translation_key': None,
       'unique_id': '0123456789ab_ambient',
     }),
@@ -1748,14 +1748,14 @@
     dict({
       'device_class': None,
       'entity_id': 'sensor.0123456789ab_cook_timer_end',
-      'original_name': '0123456789ab Cook Timer End',
+      'original_name': "Johny's Traeger Cook Timer End",
       'translation_key': None,
       'unique_id': '0123456789ab_cook_timer_end',
     }),
     dict({
       'device_class': None,
       'entity_id': 'sensor.0123456789ab_cook_timer_start',
-      'original_name': '0123456789ab Cook Timer Start',
+      'original_name': "Johny's Traeger Cook Timer Start",
       'translation_key': None,
       'unique_id': '0123456789ab_cook_timer_start',
     }),
@@ -1804,7 +1804,7 @@
     dict({
       'device_class': None,
       'entity_id': 'sensor.0123456789ab_grill_state',
-      'original_name': '0123456789ab Grill State',
+      'original_name': "Johny's Traeger Grill State",
       'translation_key': None,
       'unique_id': '0123456789ab_grill_state',
     }),
@@ -1818,7 +1818,7 @@
     dict({
       'device_class': None,
       'entity_id': 'sensor.0123456789ab_heating_state',
-      'original_name': '0123456789ab Heating State',
+      'original_name': "Johny's Traeger Heating State",
       'translation_key': None,
       'unique_id': '0123456789ab_heating_state',
     }),
@@ -1853,7 +1853,7 @@
     dict({
       'device_class': None,
       'entity_id': 'sensor.0123456789ab_pellet_level',
-      'original_name': '0123456789ab Pellet Level',
+      'original_name': "Johny's Traeger Pellet Level",
       'translation_key': None,
       'unique_id': '0123456789ab_pellet_level',
     }),

@@ -4,4 +4,5 @@ set -e
 
 cd "$(dirname "$0")/.."
 
-python3 -m pip install --upgrade --requirement requirements.txt
+python3 -m pip install --upgrade -r requirements.txt
+python3 -m pip install --upgrade --no-deps -r requirementsnodeps.txt

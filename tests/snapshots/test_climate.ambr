@@ -22,7 +22,7 @@
     dict({
       'device_class': None,
       'entity_id': 'climate.0123456789ab_climate',
-      'original_name': '0123456789ab Climate',
+      'original_name': "Johny's Traeger Climate",
       'translation_key': None,
       'unique_id': '0123456789ab_climate',
     }),
