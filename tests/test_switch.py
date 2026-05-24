@@ -52,8 +52,8 @@ async def test_switch_platform(
 @pytest.mark.parametrize(
     "platform, entity_id",
     [
-        ("switch", "0123456789ab_keepwarm"),
-        ("switch", "0123456789ab_smoke"),
+        ("switch", "traeger_0123456789ab_keepwarm"),
+        ("switch", "traeger_0123456789ab_smoke"),
     ],
 )
 async def test_switch_cmds(
@@ -110,7 +110,7 @@ async def test_switch_cmds(
         if kwargs["json"]["command"] == "90":
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
+                json.dumps(mqtt_msg).encode("utf-8"),
                 qos=1,
             )
             return CallbackResult(status=400, payload=None)

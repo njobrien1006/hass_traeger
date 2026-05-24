@@ -1,5 +1,5 @@
 # serializer version: 1
-# name: test_sensor[sensor-0123456789ab_ambient_temperature-Ambient Temperature]
+# name: test_sensor[sensor-traeger_0123456789ab_ambient_temperature-Ambient Temperature]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'temperature',
@@ -8,14 +8,14 @@
       'unit_of_measurement': <UnitOfTemperature.FAHRENHEIT: '°F'>,
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_ambient_temperature',
+    'entity_id': 'sensor.traeger_0123456789ab_ambient_temperature',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_ambient_temperature-Ambient Temperature].1
+# name: test_sensor[sensor-traeger_0123456789ab_ambient_temperature-Ambient Temperature].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -26,14 +26,14 @@
       'unit_of_measurement': <UnitOfTemperature.FAHRENHEIT: '°F'>,
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_ambient_temperature',
+    'entity_id': 'sensor.traeger_0123456789ab_ambient_temperature',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '60',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_ambient_temperature-Ambient Temperature].2
+# name: test_sensor[sensor-traeger_0123456789ab_ambient_temperature-Ambient Temperature].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -44,14 +44,14 @@
       'unit_of_measurement': <UnitOfTemperature.FAHRENHEIT: '°F'>,
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_ambient_temperature',
+    'entity_id': 'sensor.traeger_0123456789ab_ambient_temperature',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_ambient_temperature-Ambient Temperature].3
+# name: test_sensor[sensor-traeger_0123456789ab_ambient_temperature-Ambient Temperature].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'temperature',
@@ -60,14 +60,14 @@
       'unit_of_measurement': <UnitOfTemperature.FAHRENHEIT: '°F'>,
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_ambient_temperature',
+    'entity_id': 'sensor.traeger_0123456789ab_ambient_temperature',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_auger_runtime-Auger Runtime]
+# name: test_sensor[sensor-traeger_0123456789ab_auger_runtime-Auger Runtime]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Auger Runtime",
@@ -75,14 +75,14 @@
       'unit_of_measurement': 'sec',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_auger_runtime',
+    'entity_id': 'sensor.traeger_0123456789ab_auger_runtime',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_auger_runtime-Auger Runtime].1
+# name: test_sensor[sensor-traeger_0123456789ab_auger_runtime-Auger Runtime].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -92,14 +92,14 @@
       'unit_of_measurement': 'sec',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_auger_runtime',
+    'entity_id': 'sensor.traeger_0123456789ab_auger_runtime',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '1111111',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_auger_runtime-Auger Runtime].2
+# name: test_sensor[sensor-traeger_0123456789ab_auger_runtime-Auger Runtime].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -109,14 +109,14 @@
       'unit_of_measurement': 'sec',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_auger_runtime',
+    'entity_id': 'sensor.traeger_0123456789ab_auger_runtime',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_auger_runtime-Auger Runtime].3
+# name: test_sensor[sensor-traeger_0123456789ab_auger_runtime-Auger Runtime].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Auger Runtime",
@@ -124,14 +124,14 @@
       'unit_of_measurement': 'sec',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_auger_runtime',
+    'entity_id': 'sensor.traeger_0123456789ab_auger_runtime',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_cook_cycle-Cook Cycle]
+# name: test_sensor[sensor-traeger_0123456789ab_cook_cycle-Cook Cycle]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Cook Cycle",
@@ -139,14 +139,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_cook_cycle',
+    'entity_id': 'sensor.traeger_0123456789ab_cook_cycle',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_cook_cycle-Cook Cycle].1
+# name: test_sensor[sensor-traeger_0123456789ab_cook_cycle-Cook Cycle].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -156,14 +156,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_cook_cycle',
+    'entity_id': 'sensor.traeger_0123456789ab_cook_cycle',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '1000',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_cook_cycle-Cook Cycle].2
+# name: test_sensor[sensor-traeger_0123456789ab_cook_cycle-Cook Cycle].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -173,14 +173,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_cook_cycle',
+    'entity_id': 'sensor.traeger_0123456789ab_cook_cycle',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_cook_cycle-Cook Cycle].3
+# name: test_sensor[sensor-traeger_0123456789ab_cook_cycle-Cook Cycle].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Cook Cycle",
@@ -188,28 +188,28 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_cook_cycle',
+    'entity_id': 'sensor.traeger_0123456789ab_cook_cycle',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_cook_id-Cook ID]
+# name: test_sensor[sensor-traeger_0123456789ab_cook_id-Cook ID]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Cook ID",
       'icon': 'mdi:food',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_cook_id',
+    'entity_id': 'sensor.traeger_0123456789ab_cook_id',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_cook_id-Cook ID].1
+# name: test_sensor[sensor-traeger_0123456789ab_cook_id-Cook ID].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -218,14 +218,14 @@
       'integration': 'traeger',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_cook_id',
+    'entity_id': 'sensor.traeger_0123456789ab_cook_id',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_cook_id-Cook ID].2
+# name: test_sensor[sensor-traeger_0123456789ab_cook_id-Cook ID].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -234,28 +234,28 @@
       'integration': 'traeger',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_cook_id',
+    'entity_id': 'sensor.traeger_0123456789ab_cook_id',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_cook_id-Cook ID].3
+# name: test_sensor[sensor-traeger_0123456789ab_cook_id-Cook ID].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Cook ID",
       'icon': 'mdi:food',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_cook_id',
+    'entity_id': 'sensor.traeger_0123456789ab_cook_id',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_cook_timer_end-Cook Timer End]
+# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_end-Cook Timer End]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -263,14 +263,14 @@
       'icon': 'mdi:timer',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_cook_timer_end',
+    'entity_id': 'sensor.traeger_0123456789ab_cook_timer_end',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_cook_timer_end-Cook Timer End].1
+# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_end-Cook Timer End].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -280,14 +280,14 @@
       'integration': 'traeger',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_cook_timer_end',
+    'entity_id': 'sensor.traeger_0123456789ab_cook_timer_end',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
-    'state': '2020-01-01T01:00:00+00:00',
+    'state': '1970-01-01T00:00:00+00:00',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_cook_timer_end-Cook Timer End].2
+# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_end-Cook Timer End].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -297,14 +297,14 @@
       'integration': 'traeger',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_cook_timer_end',
+    'entity_id': 'sensor.traeger_0123456789ab_cook_timer_end',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '1970-01-01T00:00:22+00:00',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_cook_timer_end-Cook Timer End].3
+# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_end-Cook Timer End].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -312,14 +312,14 @@
       'icon': 'mdi:timer',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_cook_timer_end',
+    'entity_id': 'sensor.traeger_0123456789ab_cook_timer_end',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_cook_timer_start-Cook Timer Start]
+# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_start-Cook Timer Start]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -327,14 +327,14 @@
       'icon': 'mdi:timer',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_cook_timer_start',
+    'entity_id': 'sensor.traeger_0123456789ab_cook_timer_start',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_cook_timer_start-Cook Timer Start].1
+# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_start-Cook Timer Start].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -344,14 +344,14 @@
       'integration': 'traeger',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_cook_timer_start',
+    'entity_id': 'sensor.traeger_0123456789ab_cook_timer_start',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
-    'state': '2020-01-01T00:00:00+00:00',
+    'state': '1970-01-01T00:00:00+00:00',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_cook_timer_start-Cook Timer Start].2
+# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_start-Cook Timer Start].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -361,14 +361,14 @@
       'integration': 'traeger',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_cook_timer_start',
+    'entity_id': 'sensor.traeger_0123456789ab_cook_timer_start',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '1970-01-01T00:00:22+00:00',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_cook_timer_start-Cook Timer Start].3
+# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_start-Cook Timer Start].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -376,14 +376,14 @@
       'icon': 'mdi:timer',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_cook_timer_start',
+    'entity_id': 'sensor.traeger_0123456789ab_cook_timer_start',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_current_cycle-Current Cycle]
+# name: test_sensor[sensor-traeger_0123456789ab_current_cycle-Current Cycle]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Current Cycle",
@@ -391,14 +391,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_current_cycle',
+    'entity_id': 'sensor.traeger_0123456789ab_current_cycle',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_current_cycle-Current Cycle].1
+# name: test_sensor[sensor-traeger_0123456789ab_current_cycle-Current Cycle].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -408,14 +408,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_current_cycle',
+    'entity_id': 'sensor.traeger_0123456789ab_current_cycle',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '0',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_current_cycle-Current Cycle].2
+# name: test_sensor[sensor-traeger_0123456789ab_current_cycle-Current Cycle].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -425,14 +425,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_current_cycle',
+    'entity_id': 'sensor.traeger_0123456789ab_current_cycle',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_current_cycle-Current Cycle].3
+# name: test_sensor[sensor-traeger_0123456789ab_current_cycle-Current Cycle].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Current Cycle",
@@ -440,14 +440,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_current_cycle',
+    'entity_id': 'sensor.traeger_0123456789ab_current_cycle',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_current_step-Current Step]
+# name: test_sensor[sensor-traeger_0123456789ab_current_step-Current Step]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Current Step",
@@ -455,14 +455,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_current_step',
+    'entity_id': 'sensor.traeger_0123456789ab_current_step',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_current_step-Current Step].1
+# name: test_sensor[sensor-traeger_0123456789ab_current_step-Current Step].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -472,14 +472,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_current_step',
+    'entity_id': 'sensor.traeger_0123456789ab_current_step',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '0',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_current_step-Current Step].2
+# name: test_sensor[sensor-traeger_0123456789ab_current_step-Current Step].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -489,14 +489,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_current_step',
+    'entity_id': 'sensor.traeger_0123456789ab_current_step',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_current_step-Current Step].3
+# name: test_sensor[sensor-traeger_0123456789ab_current_step-Current Step].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Current Step",
@@ -504,14 +504,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_current_step',
+    'entity_id': 'sensor.traeger_0123456789ab_current_step',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_errors-Errors]
+# name: test_sensor[sensor-traeger_0123456789ab_errors-Errors]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Errors",
@@ -519,14 +519,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_errors',
+    'entity_id': 'sensor.traeger_0123456789ab_errors',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_errors-Errors].1
+# name: test_sensor[sensor-traeger_0123456789ab_errors-Errors].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -536,14 +536,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_errors',
+    'entity_id': 'sensor.traeger_0123456789ab_errors',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '0',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_errors-Errors].2
+# name: test_sensor[sensor-traeger_0123456789ab_errors-Errors].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -553,14 +553,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_errors',
+    'entity_id': 'sensor.traeger_0123456789ab_errors',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_errors-Errors].3
+# name: test_sensor[sensor-traeger_0123456789ab_errors-Errors].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Errors",
@@ -568,14 +568,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_errors',
+    'entity_id': 'sensor.traeger_0123456789ab_errors',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_fan_runtime-Fan Runtime]
+# name: test_sensor[sensor-traeger_0123456789ab_fan_runtime-Fan Runtime]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Fan Runtime",
@@ -583,14 +583,14 @@
       'unit_of_measurement': 'sec',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_fan_runtime',
+    'entity_id': 'sensor.traeger_0123456789ab_fan_runtime',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_fan_runtime-Fan Runtime].1
+# name: test_sensor[sensor-traeger_0123456789ab_fan_runtime-Fan Runtime].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -600,14 +600,14 @@
       'unit_of_measurement': 'sec',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_fan_runtime',
+    'entity_id': 'sensor.traeger_0123456789ab_fan_runtime',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '11111111',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_fan_runtime-Fan Runtime].2
+# name: test_sensor[sensor-traeger_0123456789ab_fan_runtime-Fan Runtime].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -617,14 +617,14 @@
       'unit_of_measurement': 'sec',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_fan_runtime',
+    'entity_id': 'sensor.traeger_0123456789ab_fan_runtime',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_fan_runtime-Fan Runtime].3
+# name: test_sensor[sensor-traeger_0123456789ab_fan_runtime-Fan Runtime].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Fan Runtime",
@@ -632,14 +632,14 @@
       'unit_of_measurement': 'sec',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_fan_runtime',
+    'entity_id': 'sensor.traeger_0123456789ab_fan_runtime',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_grill_time-Grill Time]
+# name: test_sensor[sensor-traeger_0123456789ab_grill_time-Grill Time]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -647,14 +647,14 @@
       'icon': 'mdi:clock-time-twelve-outline',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_grill_time',
+    'entity_id': 'sensor.traeger_0123456789ab_grill_time',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_grill_time-Grill Time].1
+# name: test_sensor[sensor-traeger_0123456789ab_grill_time-Grill Time].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -664,14 +664,14 @@
       'integration': 'traeger',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_grill_time',
+    'entity_id': 'sensor.traeger_0123456789ab_grill_time',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
-    'state': '2020-01-01T00:00:00+00:00',
+    'state': '1970-01-01T00:00:00+00:00',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_grill_time-Grill Time].2
+# name: test_sensor[sensor-traeger_0123456789ab_grill_time-Grill Time].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -681,14 +681,14 @@
       'integration': 'traeger',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_grill_time',
+    'entity_id': 'sensor.traeger_0123456789ab_grill_time',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '1970-01-01T00:00:22+00:00',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_grill_time-Grill Time].3
+# name: test_sensor[sensor-traeger_0123456789ab_grill_time-Grill Time].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -696,14 +696,14 @@
       'icon': 'mdi:clock-time-twelve-outline',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_grill_time',
+    'entity_id': 'sensor.traeger_0123456789ab_grill_time',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_ignite_fail_count-Ignite Fail Count]
+# name: test_sensor[sensor-traeger_0123456789ab_ignite_fail_count-Ignite Fail Count]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Ignite Fail Count",
@@ -711,14 +711,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_ignite_fail_count',
+    'entity_id': 'sensor.traeger_0123456789ab_ignite_fail_count',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_ignite_fail_count-Ignite Fail Count].1
+# name: test_sensor[sensor-traeger_0123456789ab_ignite_fail_count-Ignite Fail Count].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -728,14 +728,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_ignite_fail_count',
+    'entity_id': 'sensor.traeger_0123456789ab_ignite_fail_count',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '10',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_ignite_fail_count-Ignite Fail Count].2
+# name: test_sensor[sensor-traeger_0123456789ab_ignite_fail_count-Ignite Fail Count].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -745,14 +745,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_ignite_fail_count',
+    'entity_id': 'sensor.traeger_0123456789ab_ignite_fail_count',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '33',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_ignite_fail_count-Ignite Fail Count].3
+# name: test_sensor[sensor-traeger_0123456789ab_ignite_fail_count-Ignite Fail Count].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Ignite Fail Count",
@@ -760,14 +760,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_ignite_fail_count',
+    'entity_id': 'sensor.traeger_0123456789ab_ignite_fail_count',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_lowtemp_count-Lowtemp Count]
+# name: test_sensor[sensor-traeger_0123456789ab_lowtemp_count-Lowtemp Count]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Lowtemp Count",
@@ -775,14 +775,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_lowtemp_count',
+    'entity_id': 'sensor.traeger_0123456789ab_lowtemp_count',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_lowtemp_count-Lowtemp Count].1
+# name: test_sensor[sensor-traeger_0123456789ab_lowtemp_count-Lowtemp Count].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -792,14 +792,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_lowtemp_count',
+    'entity_id': 'sensor.traeger_0123456789ab_lowtemp_count',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '10',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_lowtemp_count-Lowtemp Count].2
+# name: test_sensor[sensor-traeger_0123456789ab_lowtemp_count-Lowtemp Count].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -809,14 +809,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_lowtemp_count',
+    'entity_id': 'sensor.traeger_0123456789ab_lowtemp_count',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '33',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_lowtemp_count-Lowtemp Count].3
+# name: test_sensor[sensor-traeger_0123456789ab_lowtemp_count-Lowtemp Count].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Lowtemp Count",
@@ -824,14 +824,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_lowtemp_count',
+    'entity_id': 'sensor.traeger_0123456789ab_lowtemp_count',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_overheat_count-Overheat Count]
+# name: test_sensor[sensor-traeger_0123456789ab_overheat_count-Overheat Count]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Overheat Count",
@@ -839,14 +839,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_overheat_count',
+    'entity_id': 'sensor.traeger_0123456789ab_overheat_count',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_overheat_count-Overheat Count].1
+# name: test_sensor[sensor-traeger_0123456789ab_overheat_count-Overheat Count].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -856,14 +856,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_overheat_count',
+    'entity_id': 'sensor.traeger_0123456789ab_overheat_count',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '10',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_overheat_count-Overheat Count].2
+# name: test_sensor[sensor-traeger_0123456789ab_overheat_count-Overheat Count].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -873,14 +873,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_overheat_count',
+    'entity_id': 'sensor.traeger_0123456789ab_overheat_count',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '33',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_overheat_count-Overheat Count].3
+# name: test_sensor[sensor-traeger_0123456789ab_overheat_count-Overheat Count].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Overheat Count",
@@ -888,14 +888,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_overheat_count',
+    'entity_id': 'sensor.traeger_0123456789ab_overheat_count',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_pellet_level-Pellet Level]
+# name: test_sensor[sensor-traeger_0123456789ab_pellet_level-Pellet Level]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Pellet Level",
@@ -903,14 +903,14 @@
       'unit_of_measurement': '%',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_pellet_level',
+    'entity_id': 'sensor.traeger_0123456789ab_pellet_level',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_pellet_level-Pellet Level].1
+# name: test_sensor[sensor-traeger_0123456789ab_pellet_level-Pellet Level].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -920,14 +920,14 @@
       'unit_of_measurement': '%',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_pellet_level',
+    'entity_id': 'sensor.traeger_0123456789ab_pellet_level',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '50',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_pellet_level-Pellet Level].2
+# name: test_sensor[sensor-traeger_0123456789ab_pellet_level-Pellet Level].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -937,14 +937,14 @@
       'unit_of_measurement': '%',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_pellet_level',
+    'entity_id': 'sensor.traeger_0123456789ab_pellet_level',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_pellet_level-Pellet Level].3
+# name: test_sensor[sensor-traeger_0123456789ab_pellet_level-Pellet Level].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Pellet Level",
@@ -952,14 +952,14 @@
       'unit_of_measurement': '%',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_pellet_level',
+    'entity_id': 'sensor.traeger_0123456789ab_pellet_level',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_server_status-Server Status]
+# name: test_sensor[sensor-traeger_0123456789ab_server_status-Server Status]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Server Status",
@@ -967,14 +967,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_server_status',
+    'entity_id': 'sensor.traeger_0123456789ab_server_status',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_server_status-Server Status].1
+# name: test_sensor[sensor-traeger_0123456789ab_server_status-Server Status].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -984,14 +984,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_server_status',
+    'entity_id': 'sensor.traeger_0123456789ab_server_status',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '0',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_server_status-Server Status].2
+# name: test_sensor[sensor-traeger_0123456789ab_server_status-Server Status].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1001,14 +1001,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_server_status',
+    'entity_id': 'sensor.traeger_0123456789ab_server_status',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_server_status-Server Status].3
+# name: test_sensor[sensor-traeger_0123456789ab_server_status-Server Status].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Server Status",
@@ -1016,14 +1016,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_server_status',
+    'entity_id': 'sensor.traeger_0123456789ab_server_status',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_state_index_count-State Index Count]
+# name: test_sensor[sensor-traeger_0123456789ab_state_index_count-State Index Count]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger State Index Count",
@@ -1031,14 +1031,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_state_index_count',
+    'entity_id': 'sensor.traeger_0123456789ab_state_index_count',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_state_index_count-State Index Count].1
+# name: test_sensor[sensor-traeger_0123456789ab_state_index_count-State Index Count].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1048,14 +1048,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_state_index_count',
+    'entity_id': 'sensor.traeger_0123456789ab_state_index_count',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '111111',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_state_index_count-State Index Count].2
+# name: test_sensor[sensor-traeger_0123456789ab_state_index_count-State Index Count].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1065,14 +1065,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_state_index_count',
+    'entity_id': 'sensor.traeger_0123456789ab_state_index_count',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '11',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_state_index_count-State Index Count].3
+# name: test_sensor[sensor-traeger_0123456789ab_state_index_count-State Index Count].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger State Index Count",
@@ -1080,14 +1080,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_state_index_count',
+    'entity_id': 'sensor.traeger_0123456789ab_state_index_count',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_sys_timer_end-Sys Timer End]
+# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_end-Sys Timer End]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -1096,14 +1096,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_sys_timer_end',
+    'entity_id': 'sensor.traeger_0123456789ab_sys_timer_end',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_sys_timer_end-Sys Timer End].1
+# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_end-Sys Timer End].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1114,14 +1114,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_sys_timer_end',
+    'entity_id': 'sensor.traeger_0123456789ab_sys_timer_end',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '1970-01-01T00:00:00+00:00',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_sys_timer_end-Sys Timer End].2
+# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_end-Sys Timer End].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1132,14 +1132,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_sys_timer_end',
+    'entity_id': 'sensor.traeger_0123456789ab_sys_timer_end',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '1970-01-01T00:00:22+00:00',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_sys_timer_end-Sys Timer End].3
+# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_end-Sys Timer End].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -1148,14 +1148,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_sys_timer_end',
+    'entity_id': 'sensor.traeger_0123456789ab_sys_timer_end',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_sys_timer_start-Sys Timer Start]
+# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_start-Sys Timer Start]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -1164,14 +1164,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_sys_timer_start',
+    'entity_id': 'sensor.traeger_0123456789ab_sys_timer_start',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_sys_timer_start-Sys Timer Start].1
+# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_start-Sys Timer Start].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1182,14 +1182,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_sys_timer_start',
+    'entity_id': 'sensor.traeger_0123456789ab_sys_timer_start',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '1970-01-01T00:00:00+00:00',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_sys_timer_start-Sys Timer Start].2
+# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_start-Sys Timer Start].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1200,14 +1200,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_sys_timer_start',
+    'entity_id': 'sensor.traeger_0123456789ab_sys_timer_start',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '1970-01-01T00:00:22+00:00',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_sys_timer_start-Sys Timer Start].3
+# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_start-Sys Timer Start].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -1216,14 +1216,14 @@
       'unit_of_measurement': '',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_sys_timer_start',
+    'entity_id': 'sensor.traeger_0123456789ab_sys_timer_start',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_wifi_rssi-WifI RSSI]
+# name: test_sensor[sensor-traeger_0123456789ab_wifi_rssi-WifI RSSI]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger WifI RSSI",
@@ -1231,14 +1231,14 @@
       'unit_of_measurement': 'dBm',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_wifi_rssi',
+    'entity_id': 'sensor.traeger_0123456789ab_wifi_rssi',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_wifi_rssi-WifI RSSI].1
+# name: test_sensor[sensor-traeger_0123456789ab_wifi_rssi-WifI RSSI].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1248,14 +1248,14 @@
       'unit_of_measurement': 'dBm',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_wifi_rssi',
+    'entity_id': 'sensor.traeger_0123456789ab_wifi_rssi',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '-71',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_wifi_rssi-WifI RSSI].2
+# name: test_sensor[sensor-traeger_0123456789ab_wifi_rssi-WifI RSSI].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1265,14 +1265,14 @@
       'unit_of_measurement': 'dBm',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_wifi_rssi',
+    'entity_id': 'sensor.traeger_0123456789ab_wifi_rssi',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_wifi_rssi-WifI RSSI].3
+# name: test_sensor[sensor-traeger_0123456789ab_wifi_rssi-WifI RSSI].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger WifI RSSI",
@@ -1280,28 +1280,28 @@
       'unit_of_measurement': 'dBm',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_wifi_rssi',
+    'entity_id': 'sensor.traeger_0123456789ab_wifi_rssi',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_wifi_ssid-WifI SSID]
+# name: test_sensor[sensor-traeger_0123456789ab_wifi_ssid-WifI SSID]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger WifI SSID",
       'icon': 'mdi:wifi',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_wifi_ssid',
+    'entity_id': 'sensor.traeger_0123456789ab_wifi_ssid',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_wifi_ssid-WifI SSID].1
+# name: test_sensor[sensor-traeger_0123456789ab_wifi_ssid-WifI SSID].1
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1310,14 +1310,14 @@
       'integration': 'traeger',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_wifi_ssid',
+    'entity_id': 'sensor.traeger_0123456789ab_wifi_ssid',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': 'Guest',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_wifi_ssid-WifI SSID].2
+# name: test_sensor[sensor-traeger_0123456789ab_wifi_ssid-WifI SSID].2
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1326,21 +1326,21 @@
       'integration': 'traeger',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_wifi_ssid',
+    'entity_id': 'sensor.traeger_0123456789ab_wifi_ssid',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-0123456789ab_wifi_ssid-WifI SSID].3
+# name: test_sensor[sensor-traeger_0123456789ab_wifi_ssid-WifI SSID].3
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger WifI SSID",
       'icon': 'mdi:wifi',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.0123456789ab_wifi_ssid',
+    'entity_id': 'sensor.traeger_0123456789ab_wifi_ssid',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
@@ -1351,364 +1351,364 @@
   list([
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_ambient_temperature',
+      'entity_id': 'sensor.traeger_0123456789ab_ambient_temperature',
       'original_name': '0123456789ab Ambient Temperature',
       'translation_key': None,
       'unique_id': '0123456789ab_ambient',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_auger_runtime',
+      'entity_id': 'sensor.traeger_0123456789ab_auger_runtime',
       'original_name': '0123456789ab Auger Runtime',
       'translation_key': None,
       'unique_id': '0123456789ab_auger',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_cook_cycle',
+      'entity_id': 'sensor.traeger_0123456789ab_cook_cycle',
       'original_name': '0123456789ab Cook Cycle',
       'translation_key': None,
       'unique_id': '0123456789ab_cook_cycles',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_cook_id',
+      'entity_id': 'sensor.traeger_0123456789ab_cook_id',
       'original_name': '0123456789ab Cook ID',
       'translation_key': None,
       'unique_id': '0123456789ab_cook_id',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_cook_timer_end',
+      'entity_id': 'sensor.traeger_0123456789ab_cook_timer_end',
       'original_name': '0123456789ab Cook Timer End',
       'translation_key': None,
       'unique_id': '0123456789ab_cook_timer_end',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_cook_timer_start',
+      'entity_id': 'sensor.traeger_0123456789ab_cook_timer_start',
       'original_name': '0123456789ab Cook Timer Start',
       'translation_key': None,
       'unique_id': '0123456789ab_cook_timer_start',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_current_cycle',
+      'entity_id': 'sensor.traeger_0123456789ab_current_cycle',
       'original_name': '0123456789ab Current Cycle',
       'translation_key': None,
       'unique_id': '0123456789ab_current_cycle',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_current_step',
+      'entity_id': 'sensor.traeger_0123456789ab_current_step',
       'original_name': '0123456789ab Current Step',
       'translation_key': None,
       'unique_id': '0123456789ab_current_step',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_errors',
+      'entity_id': 'sensor.traeger_0123456789ab_errors',
       'original_name': '0123456789ab Errors',
       'translation_key': None,
       'unique_id': '0123456789ab_errors',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_fan_runtime',
+      'entity_id': 'sensor.traeger_0123456789ab_fan_runtime',
       'original_name': '0123456789ab Fan Runtime',
       'translation_key': None,
       'unique_id': '0123456789ab_fan',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_grill_connected',
+      'entity_id': 'sensor.traeger_0123456789ab_grill_connected',
       'original_name': '0123456789ab Grill Connected',
       'translation_key': None,
       'unique_id': '0123456789ab_connected',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_grill_runtime',
+      'entity_id': 'sensor.traeger_0123456789ab_grill_runtime',
       'original_name': '0123456789ab Grill Runtime',
       'translation_key': None,
       'unique_id': '0123456789ab_runtime',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_grill_state',
+      'entity_id': 'sensor.traeger_0123456789ab_grill_state',
       'original_name': '0123456789ab Grill State',
       'translation_key': None,
       'unique_id': '0123456789ab_grill_state',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_grill_time',
+      'entity_id': 'sensor.traeger_0123456789ab_grill_time',
       'original_name': '0123456789ab Grill Time',
       'translation_key': None,
       'unique_id': '0123456789ab_time',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_heating_state',
+      'entity_id': 'sensor.traeger_0123456789ab_heating_state',
       'original_name': '0123456789ab Heating State',
       'translation_key': None,
       'unique_id': '0123456789ab_heating_state',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_hotrod_runtime',
+      'entity_id': 'sensor.traeger_0123456789ab_hotrod_runtime',
       'original_name': '0123456789ab Hotrod Runtime',
       'translation_key': None,
       'unique_id': '0123456789ab_hotrod',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_ignite_fail_count',
+      'entity_id': 'sensor.traeger_0123456789ab_ignite_fail_count',
       'original_name': '0123456789ab Ignite Fail Count',
       'translation_key': None,
       'unique_id': '0123456789ab_ignite_fail',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_lowtemp_count',
+      'entity_id': 'sensor.traeger_0123456789ab_lowtemp_count',
       'original_name': '0123456789ab Lowtemp Count',
       'translation_key': None,
       'unique_id': '0123456789ab_lowtemp',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_overheat_count',
+      'entity_id': 'sensor.traeger_0123456789ab_overheat_count',
       'original_name': '0123456789ab Overheat Count',
       'translation_key': None,
       'unique_id': '0123456789ab_overheat',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_pellet_level',
+      'entity_id': 'sensor.traeger_0123456789ab_pellet_level',
       'original_name': '0123456789ab Pellet Level',
       'translation_key': None,
       'unique_id': '0123456789ab_pellet_level',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_server_status',
+      'entity_id': 'sensor.traeger_0123456789ab_server_status',
       'original_name': '0123456789ab Server Status',
       'translation_key': None,
       'unique_id': '0123456789ab_server_status',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_state_index_count',
+      'entity_id': 'sensor.traeger_0123456789ab_state_index_count',
       'original_name': '0123456789ab State Index Count',
       'translation_key': None,
       'unique_id': '0123456789ab_stateIndex',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_sys_timer_end',
+      'entity_id': 'sensor.traeger_0123456789ab_sys_timer_end',
       'original_name': '0123456789ab Sys Timer End',
       'translation_key': None,
       'unique_id': '0123456789ab_sys_timer_end',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_sys_timer_start',
+      'entity_id': 'sensor.traeger_0123456789ab_sys_timer_start',
       'original_name': '0123456789ab Sys Timer Start',
       'translation_key': None,
       'unique_id': '0123456789ab_sys_timer_start',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_wifi_rssi',
+      'entity_id': 'sensor.traeger_0123456789ab_wifi_rssi',
       'original_name': '0123456789ab WifI RSSI',
       'translation_key': None,
       'unique_id': '0123456789ab_rssi',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_wifi_ssid',
+      'entity_id': 'sensor.traeger_0123456789ab_wifi_ssid',
       'original_name': '0123456789ab WifI SSID',
       'translation_key': None,
       'unique_id': '0123456789ab_ssid',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_ambient_temperature',
+      'entity_id': 'sensor.traeger_cd0123456789_ambient_temperature',
       'original_name': 'cd0123456789 Ambient Temperature',
       'translation_key': None,
       'unique_id': 'cd0123456789_ambient',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_auger_runtime',
+      'entity_id': 'sensor.traeger_cd0123456789_auger_runtime',
       'original_name': 'cd0123456789 Auger Runtime',
       'translation_key': None,
       'unique_id': 'cd0123456789_auger',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_cook_cycle',
+      'entity_id': 'sensor.traeger_cd0123456789_cook_cycle',
       'original_name': 'cd0123456789 Cook Cycle',
       'translation_key': None,
       'unique_id': 'cd0123456789_cook_cycles',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_cook_id',
+      'entity_id': 'sensor.traeger_cd0123456789_cook_id',
       'original_name': 'cd0123456789 Cook ID',
       'translation_key': None,
       'unique_id': 'cd0123456789_cook_id',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_cook_timer_end',
+      'entity_id': 'sensor.traeger_cd0123456789_cook_timer_end',
       'original_name': 'cd0123456789 Cook Timer End',
       'translation_key': None,
       'unique_id': 'cd0123456789_cook_timer_end',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_cook_timer_start',
+      'entity_id': 'sensor.traeger_cd0123456789_cook_timer_start',
       'original_name': 'cd0123456789 Cook Timer Start',
       'translation_key': None,
       'unique_id': 'cd0123456789_cook_timer_start',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_current_cycle',
+      'entity_id': 'sensor.traeger_cd0123456789_current_cycle',
       'original_name': 'cd0123456789 Current Cycle',
       'translation_key': None,
       'unique_id': 'cd0123456789_current_cycle',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_current_step',
+      'entity_id': 'sensor.traeger_cd0123456789_current_step',
       'original_name': 'cd0123456789 Current Step',
       'translation_key': None,
       'unique_id': 'cd0123456789_current_step',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_errors',
+      'entity_id': 'sensor.traeger_cd0123456789_errors',
       'original_name': 'cd0123456789 Errors',
       'translation_key': None,
       'unique_id': 'cd0123456789_errors',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_fan_runtime',
+      'entity_id': 'sensor.traeger_cd0123456789_fan_runtime',
       'original_name': 'cd0123456789 Fan Runtime',
       'translation_key': None,
       'unique_id': 'cd0123456789_fan',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_grill_connected',
+      'entity_id': 'sensor.traeger_cd0123456789_grill_connected',
       'original_name': 'cd0123456789 Grill Connected',
       'translation_key': None,
       'unique_id': 'cd0123456789_connected',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_grill_runtime',
+      'entity_id': 'sensor.traeger_cd0123456789_grill_runtime',
       'original_name': 'cd0123456789 Grill Runtime',
       'translation_key': None,
       'unique_id': 'cd0123456789_runtime',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_grill_state',
+      'entity_id': 'sensor.traeger_cd0123456789_grill_state',
       'original_name': 'cd0123456789 Grill State',
       'translation_key': None,
       'unique_id': 'cd0123456789_grill_state',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_grill_time',
+      'entity_id': 'sensor.traeger_cd0123456789_grill_time',
       'original_name': 'cd0123456789 Grill Time',
       'translation_key': None,
       'unique_id': 'cd0123456789_time',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_heating_state',
+      'entity_id': 'sensor.traeger_cd0123456789_heating_state',
       'original_name': 'cd0123456789 Heating State',
       'translation_key': None,
       'unique_id': 'cd0123456789_heating_state',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_hotrod_runtime',
+      'entity_id': 'sensor.traeger_cd0123456789_hotrod_runtime',
       'original_name': 'cd0123456789 Hotrod Runtime',
       'translation_key': None,
       'unique_id': 'cd0123456789_hotrod',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_ignite_fail_count',
+      'entity_id': 'sensor.traeger_cd0123456789_ignite_fail_count',
       'original_name': 'cd0123456789 Ignite Fail Count',
       'translation_key': None,
       'unique_id': 'cd0123456789_ignite_fail',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_lowtemp_count',
+      'entity_id': 'sensor.traeger_cd0123456789_lowtemp_count',
       'original_name': 'cd0123456789 Lowtemp Count',
       'translation_key': None,
       'unique_id': 'cd0123456789_lowtemp',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_overheat_count',
+      'entity_id': 'sensor.traeger_cd0123456789_overheat_count',
       'original_name': 'cd0123456789 Overheat Count',
       'translation_key': None,
       'unique_id': 'cd0123456789_overheat',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_pellet_level',
+      'entity_id': 'sensor.traeger_cd0123456789_pellet_level',
       'original_name': 'cd0123456789 Pellet Level',
       'translation_key': None,
       'unique_id': 'cd0123456789_pellet_level',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_server_status',
+      'entity_id': 'sensor.traeger_cd0123456789_server_status',
       'original_name': 'cd0123456789 Server Status',
       'translation_key': None,
       'unique_id': 'cd0123456789_server_status',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_state_index_count',
+      'entity_id': 'sensor.traeger_cd0123456789_state_index_count',
       'original_name': 'cd0123456789 State Index Count',
       'translation_key': None,
       'unique_id': 'cd0123456789_stateIndex',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_sys_timer_end',
+      'entity_id': 'sensor.traeger_cd0123456789_sys_timer_end',
       'original_name': 'cd0123456789 Sys Timer End',
       'translation_key': None,
       'unique_id': 'cd0123456789_sys_timer_end',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_sys_timer_start',
+      'entity_id': 'sensor.traeger_cd0123456789_sys_timer_start',
       'original_name': 'cd0123456789 Sys Timer Start',
       'translation_key': None,
       'unique_id': 'cd0123456789_sys_timer_start',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_wifi_rssi',
+      'entity_id': 'sensor.traeger_cd0123456789_wifi_rssi',
       'original_name': 'cd0123456789 WifI RSSI',
       'translation_key': None,
       'unique_id': 'cd0123456789_rssi',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_wifi_ssid',
+      'entity_id': 'sensor.traeger_cd0123456789_wifi_ssid',
       'original_name': 'cd0123456789 WifI SSID',
       'translation_key': None,
       'unique_id': 'cd0123456789_ssid',
@@ -1717,146 +1717,6 @@
 # ---
 # name: test_sensor_platform_asyncadd
   list([
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_ambient_temperature',
-      'original_name': "Johny's Traeger Ambient Temperature",
-      'translation_key': None,
-      'unique_id': '0123456789ab_ambient',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_auger_runtime',
-      'original_name': '0123456789ab Auger Runtime',
-      'translation_key': None,
-      'unique_id': '0123456789ab_auger',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_cook_cycle',
-      'original_name': '0123456789ab Cook Cycle',
-      'translation_key': None,
-      'unique_id': '0123456789ab_cook_cycles',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_cook_id',
-      'original_name': '0123456789ab Cook ID',
-      'translation_key': None,
-      'unique_id': '0123456789ab_cook_id',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_cook_timer_end',
-      'original_name': "Johny's Traeger Cook Timer End",
-      'translation_key': None,
-      'unique_id': '0123456789ab_cook_timer_end',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_cook_timer_start',
-      'original_name': "Johny's Traeger Cook Timer Start",
-      'translation_key': None,
-      'unique_id': '0123456789ab_cook_timer_start',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_current_cycle',
-      'original_name': '0123456789ab Current Cycle',
-      'translation_key': None,
-      'unique_id': '0123456789ab_current_cycle',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_current_step',
-      'original_name': '0123456789ab Current Step',
-      'translation_key': None,
-      'unique_id': '0123456789ab_current_step',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_errors',
-      'original_name': '0123456789ab Errors',
-      'translation_key': None,
-      'unique_id': '0123456789ab_errors',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_fan_runtime',
-      'original_name': '0123456789ab Fan Runtime',
-      'translation_key': None,
-      'unique_id': '0123456789ab_fan',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_grill_connected',
-      'original_name': '0123456789ab Grill Connected',
-      'translation_key': None,
-      'unique_id': '0123456789ab_connected',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_grill_runtime',
-      'original_name': '0123456789ab Grill Runtime',
-      'translation_key': None,
-      'unique_id': '0123456789ab_runtime',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_grill_state',
-      'original_name': "Johny's Traeger Grill State",
-      'translation_key': None,
-      'unique_id': '0123456789ab_grill_state',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_grill_time',
-      'original_name': '0123456789ab Grill Time',
-      'translation_key': None,
-      'unique_id': '0123456789ab_time',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_heating_state',
-      'original_name': "Johny's Traeger Heating State",
-      'translation_key': None,
-      'unique_id': '0123456789ab_heating_state',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_hotrod_runtime',
-      'original_name': '0123456789ab Hotrod Runtime',
-      'translation_key': None,
-      'unique_id': '0123456789ab_hotrod',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_ignite_fail_count',
-      'original_name': '0123456789ab Ignite Fail Count',
-      'translation_key': None,
-      'unique_id': '0123456789ab_ignite_fail',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_lowtemp_count',
-      'original_name': '0123456789ab Lowtemp Count',
-      'translation_key': None,
-      'unique_id': '0123456789ab_lowtemp',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_overheat_count',
-      'original_name': '0123456789ab Overheat Count',
-      'translation_key': None,
-      'unique_id': '0123456789ab_overheat',
-    }),
-    dict({
-      'device_class': None,
-      'entity_id': 'sensor.0123456789ab_pellet_level',
-      'original_name': "Johny's Traeger Pellet Level",
-      'translation_key': None,
-      'unique_id': '0123456789ab_pellet_level',
-    }),
     dict({
       'device_class': None,
       'entity_id': 'sensor.0123456789ab_probe_state_12charid1',
@@ -1880,224 +1740,364 @@
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_server_status',
+      'entity_id': 'sensor.traeger_0123456789ab_ambient_temperature',
+      'original_name': "Johny's Traeger Ambient Temperature",
+      'translation_key': None,
+      'unique_id': '0123456789ab_ambient',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_auger_runtime',
+      'original_name': '0123456789ab Auger Runtime',
+      'translation_key': None,
+      'unique_id': '0123456789ab_auger',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_cook_cycle',
+      'original_name': '0123456789ab Cook Cycle',
+      'translation_key': None,
+      'unique_id': '0123456789ab_cook_cycles',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_cook_id',
+      'original_name': '0123456789ab Cook ID',
+      'translation_key': None,
+      'unique_id': '0123456789ab_cook_id',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_cook_timer_end',
+      'original_name': "Johny's Traeger Cook Timer End",
+      'translation_key': None,
+      'unique_id': '0123456789ab_cook_timer_end',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_cook_timer_start',
+      'original_name': "Johny's Traeger Cook Timer Start",
+      'translation_key': None,
+      'unique_id': '0123456789ab_cook_timer_start',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_current_cycle',
+      'original_name': '0123456789ab Current Cycle',
+      'translation_key': None,
+      'unique_id': '0123456789ab_current_cycle',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_current_step',
+      'original_name': '0123456789ab Current Step',
+      'translation_key': None,
+      'unique_id': '0123456789ab_current_step',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_errors',
+      'original_name': '0123456789ab Errors',
+      'translation_key': None,
+      'unique_id': '0123456789ab_errors',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_fan_runtime',
+      'original_name': '0123456789ab Fan Runtime',
+      'translation_key': None,
+      'unique_id': '0123456789ab_fan',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_grill_connected',
+      'original_name': '0123456789ab Grill Connected',
+      'translation_key': None,
+      'unique_id': '0123456789ab_connected',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_grill_runtime',
+      'original_name': '0123456789ab Grill Runtime',
+      'translation_key': None,
+      'unique_id': '0123456789ab_runtime',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_grill_state',
+      'original_name': "Johny's Traeger Grill State",
+      'translation_key': None,
+      'unique_id': '0123456789ab_grill_state',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_grill_time',
+      'original_name': '0123456789ab Grill Time',
+      'translation_key': None,
+      'unique_id': '0123456789ab_time',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_heating_state',
+      'original_name': "Johny's Traeger Heating State",
+      'translation_key': None,
+      'unique_id': '0123456789ab_heating_state',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_hotrod_runtime',
+      'original_name': '0123456789ab Hotrod Runtime',
+      'translation_key': None,
+      'unique_id': '0123456789ab_hotrod',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_ignite_fail_count',
+      'original_name': '0123456789ab Ignite Fail Count',
+      'translation_key': None,
+      'unique_id': '0123456789ab_ignite_fail',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_lowtemp_count',
+      'original_name': '0123456789ab Lowtemp Count',
+      'translation_key': None,
+      'unique_id': '0123456789ab_lowtemp',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_overheat_count',
+      'original_name': '0123456789ab Overheat Count',
+      'translation_key': None,
+      'unique_id': '0123456789ab_overheat',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_pellet_level',
+      'original_name': "Johny's Traeger Pellet Level",
+      'translation_key': None,
+      'unique_id': '0123456789ab_pellet_level',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.traeger_0123456789ab_server_status',
       'original_name': '0123456789ab Server Status',
       'translation_key': None,
       'unique_id': '0123456789ab_server_status',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_state_index_count',
+      'entity_id': 'sensor.traeger_0123456789ab_state_index_count',
       'original_name': '0123456789ab State Index Count',
       'translation_key': None,
       'unique_id': '0123456789ab_stateIndex',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_sys_timer_end',
+      'entity_id': 'sensor.traeger_0123456789ab_sys_timer_end',
       'original_name': '0123456789ab Sys Timer End',
       'translation_key': None,
       'unique_id': '0123456789ab_sys_timer_end',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_sys_timer_start',
+      'entity_id': 'sensor.traeger_0123456789ab_sys_timer_start',
       'original_name': '0123456789ab Sys Timer Start',
       'translation_key': None,
       'unique_id': '0123456789ab_sys_timer_start',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_wifi_rssi',
+      'entity_id': 'sensor.traeger_0123456789ab_wifi_rssi',
       'original_name': '0123456789ab WifI RSSI',
       'translation_key': None,
       'unique_id': '0123456789ab_rssi',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.0123456789ab_wifi_ssid',
+      'entity_id': 'sensor.traeger_0123456789ab_wifi_ssid',
       'original_name': '0123456789ab WifI SSID',
       'translation_key': None,
       'unique_id': '0123456789ab_ssid',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_ambient_temperature',
+      'entity_id': 'sensor.traeger_cd0123456789_ambient_temperature',
       'original_name': 'cd0123456789 Ambient Temperature',
       'translation_key': None,
       'unique_id': 'cd0123456789_ambient',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_auger_runtime',
+      'entity_id': 'sensor.traeger_cd0123456789_auger_runtime',
       'original_name': 'cd0123456789 Auger Runtime',
       'translation_key': None,
       'unique_id': 'cd0123456789_auger',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_cook_cycle',
+      'entity_id': 'sensor.traeger_cd0123456789_cook_cycle',
       'original_name': 'cd0123456789 Cook Cycle',
       'translation_key': None,
       'unique_id': 'cd0123456789_cook_cycles',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_cook_id',
+      'entity_id': 'sensor.traeger_cd0123456789_cook_id',
       'original_name': 'cd0123456789 Cook ID',
       'translation_key': None,
       'unique_id': 'cd0123456789_cook_id',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_cook_timer_end',
+      'entity_id': 'sensor.traeger_cd0123456789_cook_timer_end',
       'original_name': 'cd0123456789 Cook Timer End',
       'translation_key': None,
       'unique_id': 'cd0123456789_cook_timer_end',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_cook_timer_start',
+      'entity_id': 'sensor.traeger_cd0123456789_cook_timer_start',
       'original_name': 'cd0123456789 Cook Timer Start',
       'translation_key': None,
       'unique_id': 'cd0123456789_cook_timer_start',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_current_cycle',
+      'entity_id': 'sensor.traeger_cd0123456789_current_cycle',
       'original_name': 'cd0123456789 Current Cycle',
       'translation_key': None,
       'unique_id': 'cd0123456789_current_cycle',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_current_step',
+      'entity_id': 'sensor.traeger_cd0123456789_current_step',
       'original_name': 'cd0123456789 Current Step',
       'translation_key': None,
       'unique_id': 'cd0123456789_current_step',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_errors',
+      'entity_id': 'sensor.traeger_cd0123456789_errors',
       'original_name': 'cd0123456789 Errors',
       'translation_key': None,
       'unique_id': 'cd0123456789_errors',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_fan_runtime',
+      'entity_id': 'sensor.traeger_cd0123456789_fan_runtime',
       'original_name': 'cd0123456789 Fan Runtime',
       'translation_key': None,
       'unique_id': 'cd0123456789_fan',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_grill_connected',
+      'entity_id': 'sensor.traeger_cd0123456789_grill_connected',
       'original_name': 'cd0123456789 Grill Connected',
       'translation_key': None,
       'unique_id': 'cd0123456789_connected',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_grill_runtime',
+      'entity_id': 'sensor.traeger_cd0123456789_grill_runtime',
       'original_name': 'cd0123456789 Grill Runtime',
       'translation_key': None,
       'unique_id': 'cd0123456789_runtime',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_grill_state',
+      'entity_id': 'sensor.traeger_cd0123456789_grill_state',
       'original_name': 'cd0123456789 Grill State',
       'translation_key': None,
       'unique_id': 'cd0123456789_grill_state',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_grill_time',
+      'entity_id': 'sensor.traeger_cd0123456789_grill_time',
       'original_name': 'cd0123456789 Grill Time',
       'translation_key': None,
       'unique_id': 'cd0123456789_time',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_heating_state',
+      'entity_id': 'sensor.traeger_cd0123456789_heating_state',
       'original_name': 'cd0123456789 Heating State',
       'translation_key': None,
       'unique_id': 'cd0123456789_heating_state',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_hotrod_runtime',
+      'entity_id': 'sensor.traeger_cd0123456789_hotrod_runtime',
       'original_name': 'cd0123456789 Hotrod Runtime',
       'translation_key': None,
       'unique_id': 'cd0123456789_hotrod',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_ignite_fail_count',
+      'entity_id': 'sensor.traeger_cd0123456789_ignite_fail_count',
       'original_name': 'cd0123456789 Ignite Fail Count',
       'translation_key': None,
       'unique_id': 'cd0123456789_ignite_fail',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_lowtemp_count',
+      'entity_id': 'sensor.traeger_cd0123456789_lowtemp_count',
       'original_name': 'cd0123456789 Lowtemp Count',
       'translation_key': None,
       'unique_id': 'cd0123456789_lowtemp',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_overheat_count',
+      'entity_id': 'sensor.traeger_cd0123456789_overheat_count',
       'original_name': 'cd0123456789 Overheat Count',
       'translation_key': None,
       'unique_id': 'cd0123456789_overheat',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_pellet_level',
+      'entity_id': 'sensor.traeger_cd0123456789_pellet_level',
       'original_name': 'cd0123456789 Pellet Level',
       'translation_key': None,
       'unique_id': 'cd0123456789_pellet_level',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_server_status',
+      'entity_id': 'sensor.traeger_cd0123456789_server_status',
       'original_name': 'cd0123456789 Server Status',
       'translation_key': None,
       'unique_id': 'cd0123456789_server_status',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_state_index_count',
+      'entity_id': 'sensor.traeger_cd0123456789_state_index_count',
       'original_name': 'cd0123456789 State Index Count',
       'translation_key': None,
       'unique_id': 'cd0123456789_stateIndex',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_sys_timer_end',
+      'entity_id': 'sensor.traeger_cd0123456789_sys_timer_end',
       'original_name': 'cd0123456789 Sys Timer End',
       'translation_key': None,
       'unique_id': 'cd0123456789_sys_timer_end',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_sys_timer_start',
+      'entity_id': 'sensor.traeger_cd0123456789_sys_timer_start',
       'original_name': 'cd0123456789 Sys Timer Start',
       'translation_key': None,
       'unique_id': 'cd0123456789_sys_timer_start',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_wifi_rssi',
+      'entity_id': 'sensor.traeger_cd0123456789_wifi_rssi',
       'original_name': 'cd0123456789 WifI RSSI',
       'translation_key': None,
       'unique_id': 'cd0123456789_rssi',
     }),
     dict({
       'device_class': None,
-      'entity_id': 'sensor.cd0123456789_wifi_ssid',
+      'entity_id': 'sensor.traeger_cd0123456789_wifi_ssid',
       'original_name': 'cd0123456789 WifI SSID',
       'translation_key': None,
       'unique_id': 'cd0123456789_ssid',

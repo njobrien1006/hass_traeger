@@ -109,7 +109,7 @@ async def test_climate_platform_asyncadd(
 @pytest.mark.usefixtures("socket_enabled")
 @pytest.mark.parametrize(
     "platform, entity_id",
-    [("climate", "0123456789ab_climate")],
+    [("climate", "traeger_0123456789ab_climate")],
 )
 #pylint: disable=too-many-statements
 async def test_climate_settemp_cmds(
