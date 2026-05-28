@@ -62,7 +62,7 @@ async def test_sensor_platform_asyncadd(
 
     def callback(url, **kwargs):
         """Setup API Callbacks"""
-        _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
+        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
         mqtt_msg_change = mqtt_msg
         if kwargs["json"]["command"] == "90":
             traeger_client.mqtt_client.mqtt_client.publish(
@@ -169,7 +169,7 @@ async def test_sensor(
 
     def callback(url, **kwargs):
         """Setup API Callbacks"""
-        _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
+        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
         mqtt_msg_change = mqtt_msg
         if kwargs["json"]["command"] == "90":
             traeger_client.mqtt_client.mqtt_client.publish(
@@ -196,7 +196,8 @@ async def test_sensor(
     entity = hass.states.get(f'{platform}.{entity_id}')
     #Check Entity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state == 'unavailable'
+    assert entity == snapshot(name='01-init')
 
     #Change Entity
     await asyncio.sleep(0.1)
@@ -212,7 +213,8 @@ async def test_sensor(
     entity = hass.states.get(f'{platform}.{entity_id}')
     #Check Enttity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state != 'unavailable'
+    assert entity == snapshot(name='02-ready')
 
     #Change Entity
     await asyncio.sleep(0.1)
@@ -235,7 +237,8 @@ async def test_sensor(
     entity = hass.states.get(f'{platform}.{entity_id}')
     #Check Enttity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state != 'unavailable'
+    assert entity == snapshot(name='03-changed')
 
     #Change Entity
     await asyncio.sleep(0.1)
@@ -251,7 +254,8 @@ async def test_sensor(
     entity = hass.states.get(f'{platform}.{entity_id}')
     #Check Enttity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state == 'unavailable'
+    assert entity == snapshot(name='04-not_connected')
 
     #Shutdown MQTT
     await asyncio.sleep(0.1)

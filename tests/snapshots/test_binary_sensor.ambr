@@ -1,5 +1,5 @@
 # serializer version: 1
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Cook Timer Complete",
@@ -13,7 +13,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete].1
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -29,7 +29,7 @@
     'state': '0',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete].2
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -45,7 +45,7 @@
     'state': '1',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete].3
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Cook Timer Complete",
@@ -59,7 +59,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Probe Alarm Fired",
@@ -73,7 +73,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired].1
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -89,7 +89,7 @@
     'state': '0',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired].2
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -105,7 +105,7 @@
     'state': '1',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired].3
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Probe Alarm Fired",

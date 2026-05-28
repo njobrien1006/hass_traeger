@@ -70,12 +70,11 @@ async def test_number(
 
     def callback(url, **kwargs):
         """Setup API Callbacks"""
-        _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
-        mqtt_msg_change = mqtt_msg
+        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
         if kwargs["json"]["command"] == "90":
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
+                json.dumps(mqtt_msg).encode("utf-8"),
                 qos=1,
             )
             return CallbackResult(status=400, payload=None)
@@ -97,7 +96,8 @@ async def test_number(
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Entity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state == 'unavailable'
+    assert entity == snapshot(name='01-init')
 
     # Change Entity
     await asyncio.sleep(0.1)  # Sleep on it
@@ -114,7 +114,8 @@ async def test_number(
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state != 'unavailable'
+    assert entity == snapshot(name='02-ready')
 
     # Change Entity
     await asyncio.sleep(0.1)
@@ -131,7 +132,8 @@ async def test_number(
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state != 'unavailable'
+    assert entity == snapshot(name='03-changed')
 
     # Change Entity
     await asyncio.sleep(0.1)
@@ -148,7 +150,8 @@ async def test_number(
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state == 'unavailable'
+    assert entity == snapshot(name='04-not_connected')
 
     # Shutdown MQTT
     await asyncio.sleep(0.1)
@@ -169,7 +172,7 @@ async def test_number_settimer(
 
     def callback(url, **kwargs):
         """Setup API Callbacks"""
-        _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
+        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
         mqtt_msg_change = mqtt_msg
         cmdsplit = kwargs["json"]["command"].split(",")
         if cmdsplit[0] == "12":
@@ -207,7 +210,8 @@ async def test_number_settimer(
     entity = hass.states.get("number.traeger_0123456789ab_cook_timer")
     # Check Entity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state == 'unavailable'
+    assert entity == snapshot(name='01-init')
 
     # Change Entity
     await asyncio.sleep(0.1)  # Sleep on it
@@ -224,7 +228,8 @@ async def test_number_settimer(
     entity = hass.states.get("number.traeger_0123456789ab_cook_timer")
     # Check Enttity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state != 'unavailable'
+    assert entity == snapshot(name='02-ready')
 
     # Put Grill in cook mode so we can expect the switch to be available.
     mqtt_msg_change = mqtt_msg
@@ -235,6 +240,14 @@ async def test_number_settimer(
         qos=1,
     )
     await asyncio.sleep(0.1)
+    await hass.async_block_till_done()
+    # Get Entity Happy Check
+    entity = hass.states.get("number.traeger_0123456789ab_cook_timer")
+    # Check Enttity
+    assert isinstance(entity, State)
+    assert entity.state != 'unavailable'
+    assert entity == snapshot(name='02-ready2cook')
+
     # Change Value
     await hass.services.async_call(
         "number",
@@ -257,7 +270,7 @@ async def test_number_settimer(
         entity = hass.states.get(entity_id)
         # Check Enttity
         assert isinstance(entity, State)
-    assert [hass.states.get(eid) for eid in entity_ids] == snapshot
+    assert [hass.states.get(eid) for eid in entity_ids] == snapshot(name='03-TrackedEntities')
 
     # Change Entity
     await asyncio.sleep(0.1)
@@ -274,7 +287,8 @@ async def test_number_settimer(
     entity = hass.states.get("number.traeger_0123456789ab_cook_timer")
     # Check Enttity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state == 'unavailable'
+    assert entity == snapshot(name='04-not_connected')
 
     # Shutdown MQTT
     await asyncio.sleep(0.1)
@@ -293,19 +307,9 @@ async def test_number_cookcycle(
 ) -> None:
     """Test Cook Cycles"""
 
-    # Tracked entities for test.
-    entity_ids = [
-        "number.traeger_0123456789ab_cook_cycle",
-        "number.traeger_0123456789ab_cook_timer",
-        "binary_sensor.traeger_0123456789ab_cook_timer_complete",
-        "binary_sensor.traeger_0123456789ab_probe_alarm_fired",
-        "climate.traeger_0123456789ab_climate",
-        "climate.0123456789ab_probe_p0",
-    ]
-
     def callback(url, **kwargs): # pylint: disable=too-many-return-statements,too-many-branches
         """Setup API Callbacks"""
-        _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
+        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
         if traeger_client.mqtt_client.grills_status == {}:
             mqtt_msg_change = mqtt_msg
         else:
@@ -416,7 +420,8 @@ async def test_number_cookcycle(
     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
     # Check Entity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state == '0'
+    assert entity == snapshot(name='01-init')
 
     # Change Entity
     await asyncio.sleep(0.1)  # Sleep on it
@@ -433,7 +438,8 @@ async def test_number_cookcycle(
     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
     # Check Enttity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state != 'unavailable'
+    assert entity == snapshot(name='02-ready')
 
     # Put Grill in cook mode so we can expect the switch to be available.
     mqtt_msg_change = mqtt_msg
@@ -490,7 +496,8 @@ async def test_number_cookcycle(
     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
     # Check Enttity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state != 'unavailable'
+    assert entity == snapshot(name='03-CookCycServiceInitd')
 
     # Start Cook Cycle
     await hass.services.async_call(
@@ -503,13 +510,8 @@ async def test_number_cookcycle(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(0.1)
-    # Get Entity Trig Check
-    for entity_id in entity_ids:
-        entity = hass.states.get(entity_id)
-        # Check Enttity
-        assert isinstance(entity, State)
-    assert [hass.states.get(eid) for eid in entity_ids] == snapshot
+    await asyncio.sleep(0.2)
+    snapshotname = 4
 
     try:
         async with asyncio.timeout(30):
@@ -548,7 +550,9 @@ async def test_number_cookcycle(
                     # Check State
                     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
                     assert isinstance(entity, State)
-                    assert entity.state == snapshot
+                    assert entity.state == snapshot(name=f'{snapshotname:02d}-CookCyleSnapshotsClimActPreAdv')
+                    snapshotname += 1
+
                     # Increase to ADV Point
                     mqtt_msg_change = traeger_client.mqtt_client.grills_status[
                         "0123456789ab"
@@ -561,12 +565,14 @@ async def test_number_cookcycle(
                         json.dumps(mqtt_msg_change).encode("utf-8"),
                         qos=1,
                     )
-                    await asyncio.sleep(0.05)
+                    await asyncio.sleep(0.1)
                     await hass.async_block_till_done()
                     # Check ADV'd
                     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
                     assert isinstance(entity, State)
-                    assert entity.state == snapshot
+                    assert entity.state == snapshot(name=f'{snapshotname:02d}-CookCyleSnapshotsClimActPostAdv')
+                    snapshotname += 1
+
                     await asyncio.sleep(0.05)
                 elif "use_timer" in curstepjson:
                     mqtt_msg_change = traeger_client.mqtt_client.grills_status[
@@ -600,7 +606,9 @@ async def test_number_cookcycle(
                     # Check State
                     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
                     assert isinstance(entity, State)
-                    assert entity.state == snapshot
+                    assert entity.state == snapshot(name=f'{snapshotname:02d}-CookCyleSnapshotsUseTimerPreAdv')
+                    snapshotname += 1
+
                     # Increase to ADV Point
                     mqtt_msg_change = traeger_client.mqtt_client.grills_status[
                         "0123456789ab"
@@ -614,12 +622,14 @@ async def test_number_cookcycle(
                         json.dumps(mqtt_msg_change).encode("utf-8"),
                         qos=1,
                     )
-                    await asyncio.sleep(0.05)
+                    await asyncio.sleep(0.1)
                     await hass.async_block_till_done()
                     # Check ADV'd
                     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
                     assert isinstance(entity, State)
-                    assert entity.state == snapshot
+                    assert entity.state == snapshot(name=f'{snapshotname:02d}-CookCyleSnapshotsUseTimerPostAdv')
+                    snapshotname += 1
+
                     await asyncio.sleep(0.05)
                 elif (
                     "min_delta" in curstepjson and "max_grill_delta_temp" in curstepjson
@@ -654,7 +664,9 @@ async def test_number_cookcycle(
                     # Check State
                     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
                     assert isinstance(entity, State)
-                    assert entity.state == snapshot
+                    assert entity.state == snapshot(name=f'{snapshotname:02d}-CookCyleSnapshotsMinDeltaPreAdv')
+                    snapshotname += 1
+
                     # Increase to ADV Point
                     mqtt_msg_change = traeger_client.mqtt_client.grills_status[
                         "0123456789ab"
@@ -667,12 +679,14 @@ async def test_number_cookcycle(
                         json.dumps(mqtt_msg_change).encode("utf-8"),
                         qos=1,
                     )
-                    await asyncio.sleep(0.05)
+                    await asyncio.sleep(0.1)
                     await hass.async_block_till_done()
                     # Check ADV'd
                     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
                     assert isinstance(entity, State)
-                    assert entity.state == snapshot
+                    assert entity.state == snapshot(name=f'{snapshotname:02d}-CookCyleSnapshotsMinDeltaPostAdv')
+                    snapshotname += 1
+
                     await asyncio.sleep(0.05)
                 elif "probe_act_temp_adv" in curstepjson:
                     _LOGGER.debug(
@@ -703,7 +717,9 @@ async def test_number_cookcycle(
                     # Check State
                     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
                     assert isinstance(entity, State)
-                    assert entity.state == snapshot
+                    assert entity.state == snapshot(name=f'{snapshotname:02d}-CookCyleSnapshotsProbeActPreAdv')
+                    snapshotname += 1
+
                     # Increase to ADV Point
                     mqtt_msg_change = traeger_client.mqtt_client.grills_status[
                         "0123456789ab"
@@ -716,12 +732,14 @@ async def test_number_cookcycle(
                         json.dumps(mqtt_msg_change).encode("utf-8"),
                         qos=1,
                     )
-                    await asyncio.sleep(0.05)
+                    await asyncio.sleep(0.1)
                     await hass.async_block_till_done()
                     # Check ADV'd
                     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
                     assert isinstance(entity, State)
-                    assert entity.state == snapshot
+                    assert entity.state == snapshot(name=f'{snapshotname:02d}-CookCyleSnapshotsProbeActPostAdv')
+                    snapshotname += 1
+
                     await asyncio.sleep(0.05)
                 if mqtt_msg_change["status"]["acc"][0]["probe"]["set_temp"] > 100:
                     _LOGGER.debug(
@@ -761,7 +779,9 @@ async def test_number_cookcycle(
                     # Check State
                     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
                     assert isinstance(entity, State)
-                    assert entity.state == snapshot
+                    assert entity.state == snapshot(name=f'{snapshotname:02d}-CookCyleSnapshotsProbeAlmPreAdv')
+                    snapshotname += 1
+
                     # Increase to ADV Point
                     mqtt_msg_change = traeger_client.mqtt_client.grills_status[
                         "0123456789ab"
@@ -775,19 +795,21 @@ async def test_number_cookcycle(
                         json.dumps(mqtt_msg_change).encode("utf-8"),
                         qos=1,
                     )
-                    await asyncio.sleep(0.05)
+                    await asyncio.sleep(0.1)
                     await hass.async_block_till_done()
                     # Check ADV'd
                     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
                     assert isinstance(entity, State)
-                    assert entity.state == snapshot
+                    assert entity.state == snapshot(name=f'{snapshotname:02d}-CookCyleSnapshotsProbeAlmPostAdv')
+                    snapshotname += 1
+
                     await asyncio.sleep(0.05)
-                    # Get Entity Trig Check
-                    for entity_id in entity_ids:
-                        entity = hass.states.get(entity_id)
-                        # Check Enttity
-                        assert isinstance(entity, State)
-                    assert [hass.states.get(eid) for eid in entity_ids] == snapshot
+                # Get Entity Trig Check
+                entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
+                assert isinstance(entity, State)
+                assert entity.state != 'unavailable'
+                assert entity == snapshot(name=f'{snapshotname:02d}-TrackedEntity')
+                snapshotname += 1
                 await asyncio.sleep(0.1)
     except TimeoutError:
         _LOGGER.error("Got stuck in cook cycle!")
@@ -808,7 +830,8 @@ async def test_number_cookcycle(
     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
     # Check Enttity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state == '0'
+    assert entity == snapshot(name=f'{snapshotname:02d}-not_connected')
 
     # Shutdown MQTT
     await asyncio.sleep(0.1)

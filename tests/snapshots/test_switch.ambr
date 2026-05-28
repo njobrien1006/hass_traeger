@@ -1,5 +1,5 @@
 # serializer version: 1
-# name: test_switch_cmds[switch-traeger_0123456789ab_keepwarm]
+# name: test_switch_cmds[switch-traeger_0123456789ab_keepwarm][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Keep Warm Enabled",
@@ -13,7 +13,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_switch_cmds[switch-traeger_0123456789ab_keepwarm].1
+# name: test_switch_cmds[switch-traeger_0123456789ab_keepwarm][02-on]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -29,7 +29,7 @@
     'state': 'on',
   })
 # ---
-# name: test_switch_cmds[switch-traeger_0123456789ab_keepwarm].2
+# name: test_switch_cmds[switch-traeger_0123456789ab_keepwarm][03-off]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -45,7 +45,7 @@
     'state': 'off',
   })
 # ---
-# name: test_switch_cmds[switch-traeger_0123456789ab_keepwarm].3
+# name: test_switch_cmds[switch-traeger_0123456789ab_keepwarm][04-unavailable]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Keep Warm Enabled",
@@ -59,7 +59,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_switch_cmds[switch-traeger_0123456789ab_smoke]
+# name: test_switch_cmds[switch-traeger_0123456789ab_smoke][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Super Smoke Enabled",
@@ -73,7 +73,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_switch_cmds[switch-traeger_0123456789ab_smoke].1
+# name: test_switch_cmds[switch-traeger_0123456789ab_smoke][02-on]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -89,7 +89,7 @@
     'state': 'on',
   })
 # ---
-# name: test_switch_cmds[switch-traeger_0123456789ab_smoke].2
+# name: test_switch_cmds[switch-traeger_0123456789ab_smoke][03-off]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -105,7 +105,7 @@
     'state': 'off',
   })
 # ---
-# name: test_switch_cmds[switch-traeger_0123456789ab_smoke].3
+# name: test_switch_cmds[switch-traeger_0123456789ab_smoke][04-unavailable]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Super Smoke Enabled",

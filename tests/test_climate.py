@@ -58,7 +58,7 @@ async def test_climate_platform_asyncadd(
 
     def callback(url, **kwargs):
         """Setup API Callbacks"""
-        _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
+        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
         mqtt_msg_change = mqtt_msg
         if kwargs["json"]["command"] == "90":
             traeger_client.mqtt_client.mqtt_client.publish(
@@ -125,7 +125,7 @@ async def test_climate_settemp_cmds(
 
     def callback(url, **kwargs):
         """Setup API Callbacks"""
-        _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
+        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
         if traeger_client.mqtt_client.grills_status == {}:
             mqtt_msg_change = mqtt_msg
         else:
@@ -173,7 +173,8 @@ async def test_climate_settemp_cmds(
     entity = hass.states.get(f'{platform}.{entity_id}')
     #Check Entity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state == 'unavailable'
+    assert entity == snapshot(name='01-init')
 
     #Change Entity
     await asyncio.sleep(0.1)
@@ -194,6 +195,14 @@ async def test_climate_settemp_cmds(
         qos=1,
     )
     await asyncio.sleep(0.1)
+    await hass.async_block_till_done()
+    #Get Entity Happy Check
+    entity = hass.states.get(f'{platform}.{entity_id}')
+    #Check Enttity
+    assert isinstance(entity, State)
+    assert entity.state != 'unavailable'
+    assert entity == snapshot(name='02-ready')
+
     await hass.services.async_call(
         "climate",
         "SET_TEMPERATURE",
@@ -208,7 +217,8 @@ async def test_climate_settemp_cmds(
     # Get Entity Trig Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
-    assert entity == snapshot
+    assert entity.state != 'unavailable'
+    assert entity == snapshot(name='03-changed')
 
     await asyncio.sleep(0.1)
     await hass.services.async_call(
@@ -225,7 +235,8 @@ async def test_climate_settemp_cmds(
     # Get Entity Trig Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
-    assert entity == snapshot
+    assert entity.state != 'unavailable'
+    assert entity == snapshot(name='04-changed2')
 
     await asyncio.sleep(0.1)
     await hass.services.async_call(
@@ -242,7 +253,8 @@ async def test_climate_settemp_cmds(
     # Get Entity Trig Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
-    assert entity == snapshot
+    assert entity.state != 'unavailable'
+    assert entity == snapshot(name='05-cool')
 
     # Put Grill back out of cook mode to make unavailable.
     mqtt_msg_change = mqtt_msg
@@ -257,7 +269,26 @@ async def test_climate_settemp_cmds(
     # Get Entity Trig Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
-    assert entity == snapshot
+    assert entity.state == 'off'
+    assert entity == snapshot(name='06-off')
+
+    # Change Entity
+    await asyncio.sleep(0.1)
+    mqtt_msg_change = mqtt_msg
+    mqtt_msg_change["status"]["connected"] = False
+    traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
+        "prod/thing/update/0123456789ab",
+        json.dumps(mqtt_msg_change).encode("utf-8"),
+        qos=1,
+    )
+    await asyncio.sleep(0.1)
+    await hass.async_block_till_done()
+    # Get Entity Offline
+    entity = hass.states.get(f"{platform}.{entity_id}")
+    # Check Enttity
+    assert isinstance(entity, State)
+    assert entity.state == 'unavailable'
+    assert entity == snapshot(name='07-not_connected')
 
     # Shut it down
     await asyncio.sleep(0.1)

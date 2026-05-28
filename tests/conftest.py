@@ -108,9 +108,11 @@ async def traeger_client(hass: HomeAssistant,
 @pytest.fixture
 async def mock_config_entry(hass: HomeAssistant,
                             traeger_client: TraegerTestClient,
-                            http: aioresponses) -> MockConfigEntry:
+                            http: aioresponses,
+                            caplog: pytest.LogCaptureFixture) -> MockConfigEntry:
     """HASS Mock Config Entry"""
     hass.config.units = US_CUSTOMARY_SYSTEM
+    caplog.set_level(logging.WARNING)
     entry = MockConfigEntry(
         domain=DOMAIN,
         data={

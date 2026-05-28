@@ -69,7 +69,7 @@ async def test_switch_cmds(
 
     def callback(url, **kwargs):
         """Setup API Callbacks"""
-        _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
+        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
         if traeger_client.mqtt_client.grills_status == {}:
             mqtt_msg_change = mqtt_msg
         else:
@@ -132,7 +132,8 @@ async def test_switch_cmds(
     entity = hass.states.get(f'{platform}.{entity_id}')
     #Check Entity
     assert isinstance(entity, State)
-    assert entity == snapshot
+    assert entity.state == 'unavailable'
+    assert entity == snapshot(name="01-init")
 
     #Change Entity
     await asyncio.sleep(0.1)
@@ -164,7 +165,8 @@ async def test_switch_cmds(
     # Get Entity Trig Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
-    assert entity == snapshot
+    assert entity.state == 'on'
+    assert entity == snapshot(name=f"02-{entity.state}")
 
     await asyncio.sleep(0.1)
     await hass.services.async_call(
@@ -178,7 +180,8 @@ async def test_switch_cmds(
     # Get Entity Trig Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
-    assert entity == snapshot
+    assert entity.state == 'off'
+    assert entity == snapshot(name=f"03-{entity.state}")
 
     # Put Grill back out of cook mode to make unavailable.
     mqtt_msg_change = mqtt_msg
@@ -193,7 +196,8 @@ async def test_switch_cmds(
     # Get Entity Trig Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
-    assert entity == snapshot
+    assert entity.state == 'unavailable'
+    assert entity == snapshot(name=f"04-{entity.state}")
 
     # Shut it down
     await asyncio.sleep(0.1)

@@ -1,5 +1,5 @@
 # serializer version: 1
-# name: test_sensor[sensor-traeger_0123456789ab_ambient_temperature-Ambient Temperature]
+# name: test_sensor[sensor-traeger_0123456789ab_ambient_temperature-Ambient Temperature][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'temperature',
@@ -15,7 +15,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_ambient_temperature-Ambient Temperature].1
+# name: test_sensor[sensor-traeger_0123456789ab_ambient_temperature-Ambient Temperature][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -33,7 +33,7 @@
     'state': '60',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_ambient_temperature-Ambient Temperature].2
+# name: test_sensor[sensor-traeger_0123456789ab_ambient_temperature-Ambient Temperature][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -51,7 +51,7 @@
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_ambient_temperature-Ambient Temperature].3
+# name: test_sensor[sensor-traeger_0123456789ab_ambient_temperature-Ambient Temperature][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'temperature',
@@ -67,7 +67,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_auger_runtime-Auger Runtime]
+# name: test_sensor[sensor-traeger_0123456789ab_auger_runtime-Auger Runtime][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Auger Runtime",
@@ -82,7 +82,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_auger_runtime-Auger Runtime].1
+# name: test_sensor[sensor-traeger_0123456789ab_auger_runtime-Auger Runtime][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -99,7 +99,7 @@
     'state': '1111111',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_auger_runtime-Auger Runtime].2
+# name: test_sensor[sensor-traeger_0123456789ab_auger_runtime-Auger Runtime][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -116,7 +116,7 @@
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_auger_runtime-Auger Runtime].3
+# name: test_sensor[sensor-traeger_0123456789ab_auger_runtime-Auger Runtime][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Auger Runtime",
@@ -131,7 +131,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_cook_cycle-Cook Cycle]
+# name: test_sensor[sensor-traeger_0123456789ab_cook_cycle-Cook Cycle][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Cook Cycle",
@@ -146,7 +146,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_cook_cycle-Cook Cycle].1
+# name: test_sensor[sensor-traeger_0123456789ab_cook_cycle-Cook Cycle][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -163,7 +163,7 @@
     'state': '1000',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_cook_cycle-Cook Cycle].2
+# name: test_sensor[sensor-traeger_0123456789ab_cook_cycle-Cook Cycle][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -180,7 +180,7 @@
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_cook_cycle-Cook Cycle].3
+# name: test_sensor[sensor-traeger_0123456789ab_cook_cycle-Cook Cycle][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Cook Cycle",
@@ -195,7 +195,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_cook_id-Cook ID]
+# name: test_sensor[sensor-traeger_0123456789ab_cook_id-Cook ID][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Cook ID",
@@ -209,7 +209,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_cook_id-Cook ID].1
+# name: test_sensor[sensor-traeger_0123456789ab_cook_id-Cook ID][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -225,7 +225,7 @@
     'state': '',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_cook_id-Cook ID].2
+# name: test_sensor[sensor-traeger_0123456789ab_cook_id-Cook ID][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -241,7 +241,7 @@
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_cook_id-Cook ID].3
+# name: test_sensor[sensor-traeger_0123456789ab_cook_id-Cook ID][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Cook ID",
@@ -255,7 +255,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_end-Cook Timer End]
+# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_end-Cook Timer End][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -270,7 +270,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_end-Cook Timer End].1
+# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_end-Cook Timer End][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -287,7 +287,7 @@
     'state': '1970-01-01T00:00:00+00:00',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_end-Cook Timer End].2
+# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_end-Cook Timer End][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -304,7 +304,7 @@
     'state': '1970-01-01T00:00:22+00:00',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_end-Cook Timer End].3
+# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_end-Cook Timer End][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -319,7 +319,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_start-Cook Timer Start]
+# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_start-Cook Timer Start][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -334,7 +334,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_start-Cook Timer Start].1
+# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_start-Cook Timer Start][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -351,7 +351,7 @@
     'state': '1970-01-01T00:00:00+00:00',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_start-Cook Timer Start].2
+# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_start-Cook Timer Start][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -368,7 +368,7 @@
     'state': '1970-01-01T00:00:22+00:00',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_start-Cook Timer Start].3
+# name: test_sensor[sensor-traeger_0123456789ab_cook_timer_start-Cook Timer Start][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -383,7 +383,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_current_cycle-Current Cycle]
+# name: test_sensor[sensor-traeger_0123456789ab_current_cycle-Current Cycle][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Current Cycle",
@@ -398,7 +398,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_current_cycle-Current Cycle].1
+# name: test_sensor[sensor-traeger_0123456789ab_current_cycle-Current Cycle][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -415,7 +415,7 @@
     'state': '0',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_current_cycle-Current Cycle].2
+# name: test_sensor[sensor-traeger_0123456789ab_current_cycle-Current Cycle][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -432,7 +432,7 @@
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_current_cycle-Current Cycle].3
+# name: test_sensor[sensor-traeger_0123456789ab_current_cycle-Current Cycle][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Current Cycle",
@@ -447,7 +447,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_current_step-Current Step]
+# name: test_sensor[sensor-traeger_0123456789ab_current_step-Current Step][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Current Step",
@@ -462,7 +462,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_current_step-Current Step].1
+# name: test_sensor[sensor-traeger_0123456789ab_current_step-Current Step][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -479,7 +479,7 @@
     'state': '0',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_current_step-Current Step].2
+# name: test_sensor[sensor-traeger_0123456789ab_current_step-Current Step][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -496,7 +496,7 @@
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_current_step-Current Step].3
+# name: test_sensor[sensor-traeger_0123456789ab_current_step-Current Step][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Current Step",
@@ -511,7 +511,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_errors-Errors]
+# name: test_sensor[sensor-traeger_0123456789ab_errors-Errors][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Errors",
@@ -526,7 +526,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_errors-Errors].1
+# name: test_sensor[sensor-traeger_0123456789ab_errors-Errors][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -543,7 +543,7 @@
     'state': '0',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_errors-Errors].2
+# name: test_sensor[sensor-traeger_0123456789ab_errors-Errors][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -560,7 +560,7 @@
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_errors-Errors].3
+# name: test_sensor[sensor-traeger_0123456789ab_errors-Errors][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Errors",
@@ -575,7 +575,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_fan_runtime-Fan Runtime]
+# name: test_sensor[sensor-traeger_0123456789ab_fan_runtime-Fan Runtime][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Fan Runtime",
@@ -590,7 +590,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_fan_runtime-Fan Runtime].1
+# name: test_sensor[sensor-traeger_0123456789ab_fan_runtime-Fan Runtime][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -607,7 +607,7 @@
     'state': '11111111',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_fan_runtime-Fan Runtime].2
+# name: test_sensor[sensor-traeger_0123456789ab_fan_runtime-Fan Runtime][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -624,7 +624,7 @@
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_fan_runtime-Fan Runtime].3
+# name: test_sensor[sensor-traeger_0123456789ab_fan_runtime-Fan Runtime][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Fan Runtime",
@@ -639,7 +639,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_grill_time-Grill Time]
+# name: test_sensor[sensor-traeger_0123456789ab_grill_time-Grill Time][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -654,7 +654,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_grill_time-Grill Time].1
+# name: test_sensor[sensor-traeger_0123456789ab_grill_time-Grill Time][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -671,7 +671,7 @@
     'state': '1970-01-01T00:00:00+00:00',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_grill_time-Grill Time].2
+# name: test_sensor[sensor-traeger_0123456789ab_grill_time-Grill Time][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -688,7 +688,7 @@
     'state': '1970-01-01T00:00:22+00:00',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_grill_time-Grill Time].3
+# name: test_sensor[sensor-traeger_0123456789ab_grill_time-Grill Time][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -703,7 +703,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_ignite_fail_count-Ignite Fail Count]
+# name: test_sensor[sensor-traeger_0123456789ab_ignite_fail_count-Ignite Fail Count][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Ignite Fail Count",
@@ -718,7 +718,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_ignite_fail_count-Ignite Fail Count].1
+# name: test_sensor[sensor-traeger_0123456789ab_ignite_fail_count-Ignite Fail Count][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -735,7 +735,7 @@
     'state': '10',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_ignite_fail_count-Ignite Fail Count].2
+# name: test_sensor[sensor-traeger_0123456789ab_ignite_fail_count-Ignite Fail Count][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -752,7 +752,7 @@
     'state': '33',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_ignite_fail_count-Ignite Fail Count].3
+# name: test_sensor[sensor-traeger_0123456789ab_ignite_fail_count-Ignite Fail Count][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Ignite Fail Count",
@@ -767,7 +767,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_lowtemp_count-Lowtemp Count]
+# name: test_sensor[sensor-traeger_0123456789ab_lowtemp_count-Lowtemp Count][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Lowtemp Count",
@@ -782,7 +782,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_lowtemp_count-Lowtemp Count].1
+# name: test_sensor[sensor-traeger_0123456789ab_lowtemp_count-Lowtemp Count][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -799,7 +799,7 @@
     'state': '10',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_lowtemp_count-Lowtemp Count].2
+# name: test_sensor[sensor-traeger_0123456789ab_lowtemp_count-Lowtemp Count][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -816,7 +816,7 @@
     'state': '33',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_lowtemp_count-Lowtemp Count].3
+# name: test_sensor[sensor-traeger_0123456789ab_lowtemp_count-Lowtemp Count][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Lowtemp Count",
@@ -831,7 +831,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_overheat_count-Overheat Count]
+# name: test_sensor[sensor-traeger_0123456789ab_overheat_count-Overheat Count][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Overheat Count",
@@ -846,7 +846,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_overheat_count-Overheat Count].1
+# name: test_sensor[sensor-traeger_0123456789ab_overheat_count-Overheat Count][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -863,7 +863,7 @@
     'state': '10',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_overheat_count-Overheat Count].2
+# name: test_sensor[sensor-traeger_0123456789ab_overheat_count-Overheat Count][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -880,7 +880,7 @@
     'state': '33',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_overheat_count-Overheat Count].3
+# name: test_sensor[sensor-traeger_0123456789ab_overheat_count-Overheat Count][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Overheat Count",
@@ -895,7 +895,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_pellet_level-Pellet Level]
+# name: test_sensor[sensor-traeger_0123456789ab_pellet_level-Pellet Level][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Pellet Level",
@@ -910,7 +910,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_pellet_level-Pellet Level].1
+# name: test_sensor[sensor-traeger_0123456789ab_pellet_level-Pellet Level][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -927,7 +927,7 @@
     'state': '50',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_pellet_level-Pellet Level].2
+# name: test_sensor[sensor-traeger_0123456789ab_pellet_level-Pellet Level][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -944,7 +944,7 @@
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_pellet_level-Pellet Level].3
+# name: test_sensor[sensor-traeger_0123456789ab_pellet_level-Pellet Level][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Pellet Level",
@@ -959,7 +959,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_server_status-Server Status]
+# name: test_sensor[sensor-traeger_0123456789ab_server_status-Server Status][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Server Status",
@@ -974,7 +974,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_server_status-Server Status].1
+# name: test_sensor[sensor-traeger_0123456789ab_server_status-Server Status][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -991,7 +991,7 @@
     'state': '0',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_server_status-Server Status].2
+# name: test_sensor[sensor-traeger_0123456789ab_server_status-Server Status][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1008,7 +1008,7 @@
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_server_status-Server Status].3
+# name: test_sensor[sensor-traeger_0123456789ab_server_status-Server Status][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Server Status",
@@ -1023,7 +1023,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_state_index_count-State Index Count]
+# name: test_sensor[sensor-traeger_0123456789ab_state_index_count-State Index Count][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger State Index Count",
@@ -1038,7 +1038,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_state_index_count-State Index Count].1
+# name: test_sensor[sensor-traeger_0123456789ab_state_index_count-State Index Count][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1055,7 +1055,7 @@
     'state': '111111',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_state_index_count-State Index Count].2
+# name: test_sensor[sensor-traeger_0123456789ab_state_index_count-State Index Count][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1072,7 +1072,7 @@
     'state': '11',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_state_index_count-State Index Count].3
+# name: test_sensor[sensor-traeger_0123456789ab_state_index_count-State Index Count][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger State Index Count",
@@ -1087,7 +1087,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_end-Sys Timer End]
+# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_end-Sys Timer End][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -1103,7 +1103,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_end-Sys Timer End].1
+# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_end-Sys Timer End][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1121,7 +1121,7 @@
     'state': '1970-01-01T00:00:00+00:00',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_end-Sys Timer End].2
+# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_end-Sys Timer End][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1139,7 +1139,7 @@
     'state': '1970-01-01T00:00:22+00:00',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_end-Sys Timer End].3
+# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_end-Sys Timer End][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -1155,7 +1155,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_start-Sys Timer Start]
+# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_start-Sys Timer Start][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -1171,7 +1171,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_start-Sys Timer Start].1
+# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_start-Sys Timer Start][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1189,7 +1189,7 @@
     'state': '1970-01-01T00:00:00+00:00',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_start-Sys Timer Start].2
+# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_start-Sys Timer Start][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1207,7 +1207,7 @@
     'state': '1970-01-01T00:00:22+00:00',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_start-Sys Timer Start].3
+# name: test_sensor[sensor-traeger_0123456789ab_sys_timer_start-Sys Timer Start][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'device_class': 'timestamp',
@@ -1223,7 +1223,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_wifi_rssi-WifI RSSI]
+# name: test_sensor[sensor-traeger_0123456789ab_wifi_rssi-WifI RSSI][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger WifI RSSI",
@@ -1238,7 +1238,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_wifi_rssi-WifI RSSI].1
+# name: test_sensor[sensor-traeger_0123456789ab_wifi_rssi-WifI RSSI][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1255,7 +1255,7 @@
     'state': '-71',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_wifi_rssi-WifI RSSI].2
+# name: test_sensor[sensor-traeger_0123456789ab_wifi_rssi-WifI RSSI][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1272,7 +1272,7 @@
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_wifi_rssi-WifI RSSI].3
+# name: test_sensor[sensor-traeger_0123456789ab_wifi_rssi-WifI RSSI][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger WifI RSSI",
@@ -1287,7 +1287,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_wifi_ssid-WifI SSID]
+# name: test_sensor[sensor-traeger_0123456789ab_wifi_ssid-WifI SSID][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger WifI SSID",
@@ -1301,7 +1301,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_wifi_ssid-WifI SSID].1
+# name: test_sensor[sensor-traeger_0123456789ab_wifi_ssid-WifI SSID][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1317,7 +1317,7 @@
     'state': 'Guest',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_wifi_ssid-WifI SSID].2
+# name: test_sensor[sensor-traeger_0123456789ab_wifi_ssid-WifI SSID][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -1333,7 +1333,7 @@
     'state': '22',
   })
 # ---
-# name: test_sensor[sensor-traeger_0123456789ab_wifi_ssid-WifI SSID].3
+# name: test_sensor[sensor-traeger_0123456789ab_wifi_ssid-WifI SSID][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger WifI SSID",
