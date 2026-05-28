@@ -19,7 +19,7 @@ from .zzMockResp import api_commands, api_user_self, mqtt_msg
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-#pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
+# pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
 async def test_binary_sensor_platform(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
@@ -30,28 +30,40 @@ async def test_binary_sensor_platform(
 
     # Map registry entries to a simplified dict for the snapshot
     entries = sorted(
-        [{
-            'entity_id': entry.entity_id,
-            'unique_id': entry.unique_id,
-            'translation_key': entry.translation_key,
-            'device_class': entry.device_class,
-            'original_name': entry.original_name,
-        }
-         for entry in registry.entities.values()
-         if entry.config_entry_id == mock_config_entry.entry_id and
-         entry.domain == 'binary_sensor'],
-        key=lambda entry: entry['entity_id'],
+        [
+            {
+                "entity_id": entry.entity_id,
+                "unique_id": entry.unique_id,
+                "translation_key": entry.translation_key,
+                "device_class": entry.device_class,
+                "original_name": entry.original_name,
+            }
+            for entry in registry.entities.values()
+            if entry.config_entry_id == mock_config_entry.entry_id
+            and entry.domain == "binary_sensor"
+        ],
+        key=lambda entry: entry["entity_id"],
     )
 
     assert entries == snapshot
 
 
 @pytest.mark.usefixtures("socket_enabled")
-@pytest.mark.parametrize("platform, entity_id, mqtt_loca", [
-    ('binary_sensor', 'traeger_0123456789ab_probe_alarm_fired', 'probe_alarm_fired'),
-    ('binary_sensor', 'traeger_0123456789ab_cook_timer_complete',
-     'cook_timer_complete'),
-])
+@pytest.mark.parametrize(
+    "platform, entity_id, mqtt_loca",
+    [
+        (
+            "binary_sensor",
+            "traeger_0123456789ab_probe_alarm_fired",
+            "probe_alarm_fired",
+        ),
+        (
+            "binary_sensor",
+            "traeger_0123456789ab_cook_timer_complete",
+            "cook_timer_complete",
+        ),
+    ],
+)
 async def test_binary_sensor_par(
     platform,
     entity_id,
@@ -81,73 +93,76 @@ async def test_binary_sensor_par(
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
-    await traeger_client.mqtt_client.connect(  #Need to connect
+    await traeger_client.mqtt_client.connect(  # Need to connect
         api_user_self["resp"]["things"],
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
         False,
         MQTTPORT,
     )
-    await asyncio.sleep(0.2)  #Sleep on it
+    await asyncio.sleep(0.2)  # Sleep on it
 
-    #Get Entity Init Check
-    entity = hass.states.get(f'{platform}.{entity_id}')
-    #Check Entity
+    # Get Entity Init Check
+    entity = hass.states.get(f"{platform}.{entity_id}")
+    # Check Entity
     assert isinstance(entity, State)
-    assert entity.state == 'unavailable'
-    assert entity == snapshot(name='01-init')
+    assert entity.state == "unavailable"
+    assert entity == snapshot(name="01-init")
 
-    #Change Entity
-    await asyncio.sleep(0.1)  #Sleep on it
+    # Change Entity
+    await asyncio.sleep(0.1)  # Sleep on it
     mqtt_msg_change = mqtt_msg
-    mqtt_msg_change['status']['connected'] = True
-    traeger_client.mqtt_client.mqtt_client.publish(  #The actual change
+    mqtt_msg_change["status"]["connected"] = True
+    traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
         "prod/thing/update/0123456789ab",
         json.dumps(mqtt_msg_change).encode("utf-8"),
-        qos=0)
+        qos=0,
+    )
     await asyncio.sleep(0.1)
     await hass.async_block_till_done()
-    #Get Entity Happy Check
-    entity = hass.states.get(f'{platform}.{entity_id}')
-    #Check Enttity
+    # Get Entity Happy Check
+    entity = hass.states.get(f"{platform}.{entity_id}")
+    # Check Enttity
     assert isinstance(entity, State)
-    assert entity.state != 'unavailable'
-    assert entity == snapshot(name='02-ready')
+    assert entity.state != "unavailable"
+    assert entity == snapshot(name="02-ready")
 
-    #Change Entity
+    # Change Entity
     await asyncio.sleep(0.1)
     mqtt_msg_change = mqtt_msg
-    mqtt_msg_change['status'][mqtt_loca] = 1
-    traeger_client.mqtt_client.mqtt_client.publish(  #The actual change
+    mqtt_msg_change["status"][mqtt_loca] = 1
+    traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
         "prod/thing/update/0123456789ab",
         json.dumps(mqtt_msg_change).encode("utf-8"),
-        qos=0)
+        qos=0,
+    )
     await asyncio.sleep(0.1)
     await hass.async_block_till_done()
-    #Get Entity Trig Check
-    entity = hass.states.get(f'{platform}.{entity_id}')
-    #Check Enttity
+    # Get Entity Trig Check
+    entity = hass.states.get(f"{platform}.{entity_id}")
+    # Check Enttity
     assert isinstance(entity, State)
-    assert entity.state != 'unavailable'
-    assert entity == snapshot(name='03-changed')
+    assert entity.state != "unavailable"
+    assert entity == snapshot(name="03-changed")
 
-    #Change Entity
+    # Change Entity
     await asyncio.sleep(0.1)
     mqtt_msg_change = mqtt_msg
-    mqtt_msg_change['status']['connected'] = False
-    traeger_client.mqtt_client.mqtt_client.publish(  #The actual change
+    mqtt_msg_change["status"]["connected"] = False
+    traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
         "prod/thing/update/0123456789ab",
         json.dumps(mqtt_msg_change).encode("utf-8"),
-        qos=0)
+        qos=0,
+    )
     await asyncio.sleep(0.1)
     await hass.async_block_till_done()
-    #Get Entity Offline
-    entity = hass.states.get(f'{platform}.{entity_id}')
-    #Check Enttity
+    # Get Entity Offline
+    entity = hass.states.get(f"{platform}.{entity_id}")
+    # Check Enttity
     assert isinstance(entity, State)
-    assert entity.state == 'unavailable'
-    assert entity == snapshot(name='04-not_connected')
+    assert entity.state == "unavailable"
+    assert entity == snapshot(name="04-not_connected")
 
-    #Shutdown MQTT
+    # Shutdown MQTT
     await asyncio.sleep(0.1)
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)

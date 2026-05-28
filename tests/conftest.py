@@ -21,14 +21,14 @@ from .zzMockResp import api_token, api_mqtt, api_user_self
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
-#The MQTT port we will use instead of 443
+# The MQTT port we will use instead of 443
 MQTTPORT = 4447
 
 
-#pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments,redefined-outer-name,invalid-name
+# pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments,redefined-outer-name,invalid-name
 @pytest.fixture(autouse=True)
 def auto_enable_custom_integrations(enable_custom_integrations):  # pylint: disable=unused-argument
-    '''Enable Custom Integrations'''
+    """Enable Custom Integrations"""
     yield
 
 
@@ -42,14 +42,12 @@ def snapshot(snapshot: SnapshotAssertion) -> SnapshotAssertion:
 def http() -> Generator[aioresponses, Any]:
     """Fixture to mock `aiohttp` requests."""
     with aioresponses() as mock:
-        mock.post(api_token['url'], payload=api_token['resp'], repeat=True)
-        mock.get(api_user_self['url'],
-                 payload=api_user_self['resp'],
-                 repeat=True)
-        mock.post(api_mqtt['url'], payload=api_mqtt['resp'], repeat=True)
-        #cmd API handled in tests as they are variable.
-        #mock.post(api_commands['url'], payload=api_commands['resp'], repeat=True)
-        #mock.post(api_commands['urlg2'], payload=api_commands['resp'], repeat=True)
+        mock.post(api_token["url"], payload=api_token["resp"], repeat=True)
+        mock.get(api_user_self["url"], payload=api_user_self["resp"], repeat=True)
+        mock.post(api_mqtt["url"], payload=api_mqtt["resp"], repeat=True)
+        # cmd API handled in tests as they are variable.
+        # mock.post(api_commands['url'], payload=api_commands['resp'], repeat=True)
+        # mock.post(api_commands['urlg2'], payload=api_commands['resp'], repeat=True)
         yield mock
 
 
@@ -70,46 +68,47 @@ async def mock_broker(hass: HomeAssistant) -> Broker:
                 "amqtt.plugins.authentication.AnonymousAuthPlugin": {
                     "allow_anonymous": True
                 },
-                "amqtt.plugins.sys.broker.BrokerSysPlugin": {
-                    "sys_interval": 30
-                },
+                "amqtt.plugins.sys.broker.BrokerSysPlugin": {"sys_interval": 30},
             },
         },
-        loop=hass.loop)
+        loop=hass.loop,
+    )
     return mBroker
 
 
 @pytest.fixture
 async def connected_amqtt(mock_broker: Broker):
     """Fixture to connect & gracefull disc amqtt patricularily on fail"""
-    #Start Broker
+    # Start Broker
     _LOGGER.error("Start Broker")
     await mock_broker.start()
     await asyncio.sleep(0.01)
 
     yield  # this is where the testing happens
 
-    #Shutdown MQTT
+    # Shutdown MQTT
     _LOGGER.error("Stop Broker")
     await mock_broker.shutdown()
     await asyncio.sleep(0.01)
 
 
 @pytest.fixture
-async def traeger_client(hass: HomeAssistant,
-                         http: aioresponses) -> TraegerTestClient:
+async def traeger_client(hass: HomeAssistant, http: aioresponses) -> TraegerTestClient:
     """Traeger Test Client"""
     session = async_get_clientsession(hass)
-    client = TraegerTestClient("johnytraeger@traeger.com",
-                               "johnytraeger'spassword", hass, session)
+    client = TraegerTestClient(
+        "johnytraeger@traeger.com", "johnytraeger'spassword", hass, session
+    )
     return client
 
 
 @pytest.fixture
-async def mock_config_entry(hass: HomeAssistant,
-                            traeger_client: TraegerTestClient,
-                            http: aioresponses,
-                            caplog: pytest.LogCaptureFixture) -> MockConfigEntry:
+async def mock_config_entry(
+    hass: HomeAssistant,
+    traeger_client: TraegerTestClient,
+    http: aioresponses,
+    caplog: pytest.LogCaptureFixture,
+) -> MockConfigEntry:
     """HASS Mock Config Entry"""
     hass.config.units = US_CUSTOMARY_SYSTEM
     caplog.set_level(logging.WARNING)

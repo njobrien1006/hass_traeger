@@ -17,6 +17,7 @@ from .zzMockResp import api_commands, api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
+# pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
 @pytest.mark.usefixtures("socket_enabled")
 async def test_zz_ha_log(
     hass: HomeAssistant,
@@ -24,7 +25,7 @@ async def test_zz_ha_log(
     connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aioresponses,
-    caplog: pytest.LogCaptureFixture
+    caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test HA Logs"""
 
@@ -45,21 +46,24 @@ async def test_zz_ha_log(
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
-    await traeger_client.mqtt_client.connect(  #Need to connect
+    await traeger_client.mqtt_client.connect(  # Need to connect
         api_user_self["resp"]["things"],
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
         False,
         MQTTPORT,
     )
-    await asyncio.sleep(0.2)  #Sleep on it
+    await asyncio.sleep(0.2)  # Sleep on it
 
-    #Check a known log exists.
+    # Check a known log exists.
     assert any("Was at callbacks" in record.message for record in caplog.records)
 
-    #Check if we have used any deprec items
-    assert not any("Detected that custom integration 'traeger'" in record.message for record in caplog.records)
+    # Check if we have used any deprec items
+    assert not any(
+        "Detected that custom integration 'traeger'" in record.message
+        for record in caplog.records
+    )
 
-    #Shutdown MQTT
+    # Shutdown MQTT
     await asyncio.sleep(0.1)
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)

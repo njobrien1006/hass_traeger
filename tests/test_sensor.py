@@ -22,7 +22,7 @@ from .zzMockResp import api_commands, api_user_self, mqtt_msg
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-#pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
+# pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
 @pytest.mark.usefixtures("socket_enabled")
 async def test_sensor_platform(
     hass: HomeAssistant,
@@ -35,16 +35,18 @@ async def test_sensor_platform(
 
     # Map registry entries to a simplified dict for the snapshot
     entries = sorted(
-        [{
-            "entity_id": entry.entity_id,
-            "unique_id": entry.unique_id,
-            "translation_key": entry.translation_key,
-            "device_class": entry.device_class,
-            "original_name": entry.original_name,
-        }
-         for entry in registry.entities.values()
-         if entry.config_entry_id == mock_config_entry.entry_id and
-         entry.domain == "sensor"],
+        [
+            {
+                "entity_id": entry.entity_id,
+                "unique_id": entry.unique_id,
+                "translation_key": entry.translation_key,
+                "device_class": entry.device_class,
+                "original_name": entry.original_name,
+            }
+            for entry in registry.entities.values()
+            if entry.config_entry_id == mock_config_entry.entry_id
+            and entry.domain == "sensor"
+        ],
         key=lambda entry: entry["entity_id"],
     )
     assert entries == snapshot
@@ -87,12 +89,10 @@ async def test_sensor_platform_asyncadd(
     _LOGGER.warning("Wait for onConnect to Subscribe")
     await asyncio.sleep(0.2)
     traeger_client.mqtt_client.mqtt_client.publish(
-        "prod/thing/update/0123456789ab",
-        json.dumps(mqtt_msg).encode("utf-8"),
-        qos=1)
+        "prod/thing/update/0123456789ab", json.dumps(mqtt_msg).encode("utf-8"), qos=1
+    )
     await asyncio.sleep(0.1)
-    assert traeger_client.mqtt_client.grills_status.get("0123456789ab",
-                                                        {}) == mqtt_msg
+    assert traeger_client.mqtt_client.grills_status.get("0123456789ab", {}) == mqtt_msg
     await asyncio.sleep(0.1)
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)
@@ -100,16 +100,18 @@ async def test_sensor_platform_asyncadd(
 
     # Map registry entries to a simplified dict for the snapshot
     entries = sorted(
-        [{
-            "entity_id": entry.entity_id,
-            "unique_id": entry.unique_id,
-            "translation_key": entry.translation_key,
-            "device_class": entry.device_class,
-            "original_name": entry.original_name,
-        }
-         for entry in registry.entities.values()
-         if entry.config_entry_id == mock_config_entry.entry_id and
-         entry.domain == "sensor"],
+        [
+            {
+                "entity_id": entry.entity_id,
+                "unique_id": entry.unique_id,
+                "translation_key": entry.translation_key,
+                "device_class": entry.device_class,
+                "original_name": entry.original_name,
+            }
+            for entry in registry.entities.values()
+            if entry.config_entry_id == mock_config_entry.entry_id
+            and entry.domain == "sensor"
+        ],
         key=lambda entry: entry["entity_id"],
     )
     assert entries == snapshot
@@ -118,28 +120,31 @@ async def test_sensor_platform_asyncadd(
 @pytest.mark.usefixtures("socket_enabled")
 @pytest.mark.parametrize(
     "platform, entity_id, friendly_name",
-    [('sensor', 'traeger_0123456789ab_ambient_temperature', 'Ambient Temperature'),
-     ('sensor', 'traeger_0123456789ab_cook_id', 'Cook ID'),
-     ('sensor', 'traeger_0123456789ab_cook_timer_end', 'Cook Timer End'),
-     ('sensor', 'traeger_0123456789ab_cook_timer_start', 'Cook Timer Start'),
-     ('sensor', 'traeger_0123456789ab_current_cycle', 'Current Cycle'),
-     ('sensor', 'traeger_0123456789ab_current_step', 'Current Step'),
-     ('sensor', 'traeger_0123456789ab_errors', 'Errors'),
-     ('sensor', 'traeger_0123456789ab_pellet_level', 'Pellet Level'),
-     ('sensor', 'traeger_0123456789ab_server_status', 'Server Status'),
-     ('sensor', 'traeger_0123456789ab_sys_timer_end', 'Sys Timer End'),
-     ('sensor', 'traeger_0123456789ab_sys_timer_start', 'Sys Timer Start'),
-     ('sensor', 'traeger_0123456789ab_grill_time', 'Grill Time'),
-     ('sensor', 'traeger_0123456789ab_auger_runtime', 'Auger Runtime'),
-     ('sensor', 'traeger_0123456789ab_fan_runtime', 'Fan Runtime'),
-     ('sensor', 'traeger_0123456789ab_cook_cycle', 'Cook Cycle'),
-     ('sensor', 'traeger_0123456789ab_ignite_fail_count', 'Ignite Fail Count'),
-     ('sensor', 'traeger_0123456789ab_overheat_count', 'Overheat Count'),
-     ('sensor', 'traeger_0123456789ab_lowtemp_count', 'Lowtemp Count'),
-     ('sensor', 'traeger_0123456789ab_state_index_count', 'State Index Count'),
-     ('sensor', 'traeger_0123456789ab_wifi_rssi', 'WifI RSSI'),
-     ('sensor', 'traeger_0123456789ab_wifi_ssid', 'WifI SSID')])
-#pylint: disable=too-many-statements,redefined-outer-name
+    [
+        ("sensor", "traeger_0123456789ab_ambient_temperature", "Ambient Temperature"),
+        ("sensor", "traeger_0123456789ab_cook_id", "Cook ID"),
+        ("sensor", "traeger_0123456789ab_cook_timer_end", "Cook Timer End"),
+        ("sensor", "traeger_0123456789ab_cook_timer_start", "Cook Timer Start"),
+        ("sensor", "traeger_0123456789ab_current_cycle", "Current Cycle"),
+        ("sensor", "traeger_0123456789ab_current_step", "Current Step"),
+        ("sensor", "traeger_0123456789ab_errors", "Errors"),
+        ("sensor", "traeger_0123456789ab_pellet_level", "Pellet Level"),
+        ("sensor", "traeger_0123456789ab_server_status", "Server Status"),
+        ("sensor", "traeger_0123456789ab_sys_timer_end", "Sys Timer End"),
+        ("sensor", "traeger_0123456789ab_sys_timer_start", "Sys Timer Start"),
+        ("sensor", "traeger_0123456789ab_grill_time", "Grill Time"),
+        ("sensor", "traeger_0123456789ab_auger_runtime", "Auger Runtime"),
+        ("sensor", "traeger_0123456789ab_fan_runtime", "Fan Runtime"),
+        ("sensor", "traeger_0123456789ab_cook_cycle", "Cook Cycle"),
+        ("sensor", "traeger_0123456789ab_ignite_fail_count", "Ignite Fail Count"),
+        ("sensor", "traeger_0123456789ab_overheat_count", "Overheat Count"),
+        ("sensor", "traeger_0123456789ab_lowtemp_count", "Lowtemp Count"),
+        ("sensor", "traeger_0123456789ab_state_index_count", "State Index Count"),
+        ("sensor", "traeger_0123456789ab_wifi_rssi", "WifI RSSI"),
+        ("sensor", "traeger_0123456789ab_wifi_ssid", "WifI SSID"),
+    ],
+)
+# pylint: disable=too-many-statements,redefined-outer-name
 async def test_sensor(
     platform,
     entity_id,
@@ -152,18 +157,20 @@ async def test_sensor(
     http: aioresponses,
 ) -> None:
     """Test Sensor"""
-    mqtt_loca = SENSOR_ENTITIES[friendly_name]['json_loca']
-    if SENSOR_ENTITIES[friendly_name].get('enabledbydflt', True) is False:
+    mqtt_loca = SENSOR_ENTITIES[friendly_name]["json_loca"]
+    if SENSOR_ENTITIES[friendly_name].get("enabledbydflt", True) is False:
         # Enable the entity
-        entity_registry.async_update_entity(f'{platform}.{entity_id}',
-                                            disabled_by=None)
+        entity_registry.async_update_entity(f"{platform}.{entity_id}", disabled_by=None)
         hass.config_entries.async_schedule_reload(mock_config_entry.entry_id)
         await hass.async_block_till_done()
-    if SENSOR_ENTITIES[friendly_name].get('entity_category',
-                                          None) is EntityCategory.DIAGNOSTIC:
+    if (
+        SENSOR_ENTITIES[friendly_name].get("entity_category", None)
+        is EntityCategory.DIAGNOSTIC
+    ):
         # Enable the entity
-        entity_registry.async_update_entity(f'{platform}.{entity_id}',
-                                            entity_category=None)
+        entity_registry.async_update_entity(
+            f"{platform}.{entity_id}", entity_category=None
+        )
         hass.config_entries.async_schedule_reload(mock_config_entry.entry_id)
         await hass.async_block_till_done()
 
@@ -184,80 +191,82 @@ async def test_sensor(
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
-    await traeger_client.mqtt_client.connect(  #Need to connect
+    await traeger_client.mqtt_client.connect(  # Need to connect
         api_user_self["resp"]["things"],
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
         False,
         MQTTPORT,
     )
-    await asyncio.sleep(0.2)  #Sleep on it
+    await asyncio.sleep(0.2)  # Sleep on it
 
-    #Get Entity Init Check
-    entity = hass.states.get(f'{platform}.{entity_id}')
-    #Check Entity
+    # Get Entity Init Check
+    entity = hass.states.get(f"{platform}.{entity_id}")
+    # Check Entity
     assert isinstance(entity, State)
-    assert entity.state == 'unavailable'
-    assert entity == snapshot(name='01-init')
+    assert entity.state == "unavailable"
+    assert entity == snapshot(name="01-init")
 
-    #Change Entity
+    # Change Entity
     await asyncio.sleep(0.1)
     mqtt_msg_change = mqtt_msg
-    mqtt_msg_change['status']['connected'] = True
-    traeger_client.mqtt_client.mqtt_client.publish(  #The actual change
+    mqtt_msg_change["status"]["connected"] = True
+    traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
         "prod/thing/update/0123456789ab",
         json.dumps(mqtt_msg_change).encode("utf-8"),
-        qos=1)
+        qos=1,
+    )
     await asyncio.sleep(0.1)
     await hass.async_block_till_done()
-    #Get Entity Happy Check
-    entity = hass.states.get(f'{platform}.{entity_id}')
-    #Check Enttity
+    # Get Entity Happy Check
+    entity = hass.states.get(f"{platform}.{entity_id}")
+    # Check Enttity
     assert isinstance(entity, State)
-    assert entity.state != 'unavailable'
-    assert entity == snapshot(name='02-ready')
+    assert entity.state != "unavailable"
+    assert entity == snapshot(name="02-ready")
 
-    #Change Entity
+    # Change Entity
     await asyncio.sleep(0.1)
     mqtt_msg_change = mqtt_msg
     mqtt_loca_splt = mqtt_loca.split(";")
     if len(mqtt_loca_splt) == 3:
-        mqtt_msg_change[mqtt_loca_splt[0]][mqtt_loca_splt[1]][
-            mqtt_loca_splt[2]] = 33
+        mqtt_msg_change[mqtt_loca_splt[0]][mqtt_loca_splt[1]][mqtt_loca_splt[2]] = 33
     if len(mqtt_loca_splt) == 2:
         mqtt_msg_change[mqtt_loca_splt[0]][mqtt_loca_splt[1]] = 22
     if len(mqtt_loca_splt) == 1:
         mqtt_msg_change[mqtt_loca_splt[0]] = 11
-    traeger_client.mqtt_client.mqtt_client.publish(  #The actual change
+    traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
         "prod/thing/update/0123456789ab",
         json.dumps(mqtt_msg_change).encode("utf-8"),
-        qos=1)
+        qos=1,
+    )
     await asyncio.sleep(0.1)
     await hass.async_block_till_done()
-    #Get Entity Trig Check
-    entity = hass.states.get(f'{platform}.{entity_id}')
-    #Check Enttity
+    # Get Entity Trig Check
+    entity = hass.states.get(f"{platform}.{entity_id}")
+    # Check Enttity
     assert isinstance(entity, State)
-    assert entity.state != 'unavailable'
-    assert entity == snapshot(name='03-changed')
+    assert entity.state != "unavailable"
+    assert entity == snapshot(name="03-changed")
 
-    #Change Entity
+    # Change Entity
     await asyncio.sleep(0.1)
     mqtt_msg_change = mqtt_msg
-    mqtt_msg_change['status']['connected'] = False
-    traeger_client.mqtt_client.mqtt_client.publish(  #The actual change
+    mqtt_msg_change["status"]["connected"] = False
+    traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
         "prod/thing/update/0123456789ab",
         json.dumps(mqtt_msg_change).encode("utf-8"),
-        qos=1)
+        qos=1,
+    )
     await asyncio.sleep(0.1)
     await hass.async_block_till_done()
-    #Get Entity Offline
-    entity = hass.states.get(f'{platform}.{entity_id}')
-    #Check Enttity
+    # Get Entity Offline
+    entity = hass.states.get(f"{platform}.{entity_id}")
+    # Check Enttity
     assert isinstance(entity, State)
-    assert entity.state == 'unavailable'
-    assert entity == snapshot(name='04-not_connected')
+    assert entity.state == "unavailable"
+    assert entity == snapshot(name="04-not_connected")
 
-    #Shutdown MQTT
+    # Shutdown MQTT
     await asyncio.sleep(0.1)
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)
