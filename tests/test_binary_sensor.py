@@ -62,6 +62,11 @@ async def test_binary_sensor_platform(
             "traeger_0123456789ab_cook_timer_complete",
             "cook_timer_complete",
         ),
+        (
+            "binary_sensor",
+            "traeger_0123456789ab_system_timer_complete",
+            "sys_timer_complete",
+        ),
     ],
 )
 async def test_binary_sensor_par(
