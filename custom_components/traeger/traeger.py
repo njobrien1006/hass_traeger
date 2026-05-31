@@ -296,13 +296,15 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
 
     async def kill(self):
         """This terminates the main loop and shutsdown the MQTT."""
-        if self.mqtt_client.isconnected:
-            _LOGGER.info("Killing Task")
+        if self.loop_task is not None:
+            _LOGGER.info("Cancel Task")
             _LOGGER.debug("Task Info: %s", self.loop_task)
             self.loop_task.cancel()
             _LOGGER.debug("Task Info: %s TaskCancelled Status: %s",
                           self.loop_task, self.loop_task.cancelled())
             self.loop_task = None
+        if self.mqtt_client.isconnected:
+            _LOGGER.info("Stopping MQTT")
             self.mqtt_client.disconnect()
             while self.mqtt_client.isconnected:  #Wait for disconnect to finish
                 await asyncio.sleep(0.1)

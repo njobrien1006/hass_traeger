@@ -14,6 +14,10 @@ async def async_setup_entry(hass, entry, async_add_devices):
                          "cook_timer_complete")
         ])
         async_add_devices([
+            TraegerTimer(client, grill["thingName"], "System Timer Complete",
+                         "sys_timer_complete")
+        ])
+        async_add_devices([
             TraegerProbe(client, grill["thingName"], "Probe Alarm Fired",
                          "probe_alarm_fired")
         ])

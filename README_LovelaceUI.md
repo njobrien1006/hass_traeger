@@ -21,72 +21,72 @@ cards:
   - type: horizontal-stack
     cards:
       - type: thermostat
-        entity: climate.0123456789ab_climate
+        entity: climate.traeger_0123456789ab_climate
       - type: thermostat
         entity: climate.friendlyname_probe_p0
   - type: entities
     entities:
-      - entity: sensor.0123456789ab_ambient_temperature
-      - entity: sensor.0123456789ab_cook_timer_end
-      - entity: sensor.0123456789ab_cook_timer_start
-      - entity: sensor.0123456789ab_pellet_level
-      - entity: sensor.0123456789ab_grill_state
-      - entity: sensor.0123456789ab_heating_state
-      - entity: switch.0123456789ab_smoke
-      - entity: switch.0123456789ab_keepwarm
-      - entity: switch.0123456789ab_connect
-      - entity: number.0123456789ab_cook_timer
-      - entity: number.0123456789ab_cook_cycle
-      - entity: binary_sensor.0123456789ab_cook_timer_complete
-      - entity: binary_sensor.0123456789ab_probe_alarm_fired
+      - entity: sensor.traeger_0123456789ab_ambient_temperature
+      - entity: sensor.traeger_0123456789ab_cook_timer_end
+      - entity: sensor.traeger_0123456789ab_cook_timer_start
+      - entity: sensor.traeger_0123456789ab_pellet_level
+      - entity: sensor.traeger_0123456789ab_grill_state
+      - entity: sensor.traeger_0123456789ab_heating_state
+      - entity: switch.traeger_0123456789ab_smoke
+      - entity: switch.traeger_0123456789ab_keepwarm
+      - entity: switch.traeger_0123456789ab_connect
+      - entity: number.traeger_0123456789ab_cook_timer
+      - entity: number.traeger_0123456789ab_cook_cycle
+      - entity: binary_sensor.traeger_0123456789ab_cook_timer_complete
+      - entity: binary_sensor.traeger_0123456789ab_probe_alarm_fired
       - entity: sensor.friendlyname_probe_state_p0
     title: 'friendlyname Commands / Sensors'
     show_header_toggle: false
   - type: entities
     entities:
-      - entity: sensor.0123456789ab_grill_connected
-      - entity: sensor.0123456789ab_cook_id
-      - entity: sensor.0123456789ab_current_cycle
-      - entity: sensor.0123456789ab_current_step
-      - entity: sensor.0123456789ab_errors
-      - entity: sensor.0123456789ab_server_status
-      - entity: sensor.0123456789ab_sys_timer_end
-      - entity: sensor.0123456789ab_sys_timer_start
-      - entity: sensor.0123456789ab_current_time
-      - entity: sensor.0123456789ab_auger_sec
-      - entity: sensor.0123456789ab_fan_sec
-      - entity: sensor.0123456789ab_runtime_sec
-      - entity: sensor.0123456789ab_hotrod_sec
-      - entity: sensor.0123456789ab_cook_cycle
-      - entity: sensor.0123456789ab_failed_ignite_count
-      - entity: sensor.0123456789ab_overtemp_count
-      - entity: sensor.0123456789ab_lowtemp_count
-      - entity: sensor.0123456789ab_state_index_count
-      - entity: sensor.0123456789ab_wifi_rssi
-      - entity: sensor.0123456789ab_wifi_ssid
+      - entity: sensor.traeger_0123456789ab_grill_connected
+      - entity: sensor.traeger_0123456789ab_cook_id
+      - entity: sensor.traeger_0123456789ab_current_cycle
+      - entity: sensor.traeger_0123456789ab_current_step
+      - entity: sensor.traeger_0123456789ab_errors
+      - entity: sensor.traeger_0123456789ab_server_status
+      - entity: sensor.traeger_0123456789ab_sys_timer_end
+      - entity: sensor.traeger_0123456789ab_sys_timer_start
+      - entity: sensor.traeger_0123456789ab_current_time
+      - entity: sensor.traeger_0123456789ab_auger_sec
+      - entity: sensor.traeger_0123456789ab_fan_sec
+      - entity: sensor.traeger_0123456789ab_runtime_sec
+      - entity: sensor.traeger_0123456789ab_hotrod_sec
+      - entity: sensor.traeger_0123456789ab_cook_cycle
+      - entity: sensor.traeger_0123456789ab_failed_ignite_count
+      - entity: sensor.traeger_0123456789ab_overtemp_count
+      - entity: sensor.traeger_0123456789ab_lowtemp_count
+      - entity: sensor.traeger_0123456789ab_state_index_count
+      - entity: sensor.traeger_0123456789ab_wifi_rssi
+      - entity: sensor.traeger_0123456789ab_wifi_ssid
     title: 'friendlyname Diag Sensors'
     show_header_toggle: false
   - type: history-graph
     entities:
-      - entity: sensor.0123456789ab_current_time
-      - entity: sensor.0123456789ab_state_index_count
+      - entity: sensor.traeger_0123456789ab_current_time
+      - entity: sensor.traeger_0123456789ab_state_index_count
     refresh_interval: 0.1
     title: 'friendlyname MQTT History'
     hours_to_show: 1
   - type: history-graph
     entities:
-      - entity: climate.0123456789ab_climate
-      - entity: sensor.0123456789ab_ambient_temperature
-      - entity: sensor.0123456789ab_grill_state
-      - entity: sensor.0123456789ab_heating_state
+      - entity: climate.traeger_0123456789ab_climate
+      - entity: sensor.traeger_0123456789ab_ambient_temperature
+      - entity: sensor.traeger_0123456789ab_grill_state
+      - entity: sensor.traeger_0123456789ab_heating_state
       - entity: climate.friendlyname_probe_p0
     refresh_interval: 0.1
     title: 'friendlyname History'
     hours_to_show: 6
   - type: custom:timer-clock-card
     disable_seconds: false
-    start_time: sensor.0123456789ab_cook_timer_start
-    end_time: sensor.0123456789ab_cook_timer_end
+    start_time: sensor.traeger_0123456789ab_cook_timer_start
+    end_time: sensor.traeger_0123456789ab_cook_timer_end
     display_date: MM/DD/YY HH:mm:ss
     caption: 'friendlyname  Timer'
     theme:
@@ -111,7 +111,7 @@ cards:
               service_data:
                 value: '1'
               target:
-                entity_id: number.0123456789ab_cook_cycle
+                entity_id: number.traeger_0123456789ab_cook_cycle
           - show_name: true
             show_icon: true
             type: button
@@ -125,7 +125,7 @@ cards:
               service_data:
                 value: '0'
               target:
-                entity_id: number.0123456789ab_cook_cycle
+                entity_id: number.traeger_0123456789ab_cook_cycle
           - show_name: true
             show_icon: true
             type: button
@@ -133,7 +133,7 @@ cards:
               action: call-service
               service: traeger.set_custom_cook
               data:
-                entity_id: number.0123456789ab_cook_cycle
+                entity_id: number.traeger_0123456789ab_cook_cycle
                 steps:
                   - time_set: 15
                     set_temp: 225
@@ -160,7 +160,7 @@ cards:
             tap_action:
               action: perform-action
               data:
-                entity_id: number.0123456789ab_cook_cycle
+                entity_id: number.traeger_0123456789ab_cook_cycle
                 steps:
                   - time_set: 15
                     smoke: 1
@@ -193,7 +193,7 @@ cards:
               action: call-service
               service: traeger.set_custom_cook
               data:
-                entity_id: number.0123456789ab_cook_cycle
+                entity_id: number.traeger_0123456789ab_cook_cycle
                 steps:
                   - set_temp: 425
                     act_temp_adv: 400
@@ -217,7 +217,7 @@ cards:
               action: call-service
               service: traeger.set_custom_cook
               service_data:
-                entity_id: number.0123456789ab_cook_cycle
+                entity_id: number.traeger_0123456789ab_cook_cycle
                 steps:
                   - set_temp: 225
                     act_temp_adv: 220
@@ -239,7 +239,7 @@ cards:
               action: call-service
               service: traeger.set_custom_cook
               service_data:
-                entity_id: number.0123456789ab_cook_cycle
+                entity_id: number.traeger_0123456789ab_cook_cycle
                 steps:
                   - set_temp: 425
                     act_temp_adv: 420
@@ -261,7 +261,7 @@ cards:
               action: call-service
               service: traeger.set_custom_cook
               service_data:
-                entity_id: number.0123456789ab_cook_cycle
+                entity_id: number.traeger_0123456789ab_cook_cycle
                 steps:
                   - set_temp: 200
                     use_timer: 1
@@ -315,7 +315,7 @@ cards:
               action: call-service
               service: traeger.set_custom_cook
               service_data:
-                entity_id: number.0123456789ab_cook_cycle
+                entity_id: number.traeger_0123456789ab_cook_cycle
                 steps:
                   - set_temp: 180
                     smoke: 1
@@ -349,14 +349,14 @@ cards:
             name: Roast
       - type: entity-filter
         entities:
-          - number.0123456789ab_cook_cycle
+          - number.traeger_0123456789ab_cook_cycle
         state_filter:
           - 'on'
         card:
           type: markdown
           title: 'friendlyname CookCycSteps'
           content: >-
-            {% set entity = 'number.0123456789ab_cook_cycle'%}{% for attr in
+            {% set entity = 'number.traeger_0123456789ab_cook_cycle'%}{% for attr in
             states[entity].attributes %}{% if '_step' in attr %}{{ attr }} ===
             {{ state_attr(entity, attr) }}
 
