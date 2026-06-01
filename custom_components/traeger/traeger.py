@@ -357,7 +357,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
 class TraegerMQTTClient:
     """Traeger MQTT Wrapper"""
 
-    # pylint: disable=unused-argument,too-many-instance-attributes
+    # pylint: disable=unused-argument,too-many-instance-attributes,too-many-arguments,too-many-positional-arguments
     def __init__(self, hass, callback, update_state):
         self.isconnected = False
         self.grills_status = {}
@@ -369,7 +369,7 @@ class TraegerMQTTClient:
         self.grill_callback = callback
         self.update_state = update_state
 
-        self.mqtt_client = AsyncMQTTClient(mqtt.CallbackAPIVersion.VERSION1,
+        self.mqtt_client = AsyncMQTTClient(mqtt.CallbackAPIVersion.VERSION2,
                                            transport="websockets")
         self.mqtt_client.on_connect = self._mqtt_onconnect
         self.mqtt_client.on_subscribe = self._mqtt_onsubscribe
@@ -415,7 +415,7 @@ class TraegerMQTTClient:
         self.isconnected = False
         _LOGGER.debug("We assume the Loop_Forever stopped.")
 
-    def _mqtt_onconnect(self, client, userdata, flags, rc):
+    def _mqtt_onconnect(self, client, userdata, flags, reason_code, properties):
         """MQTT on_connect"""
         self.isconnected = True
         _LOGGER.info("Grill Connected")
@@ -426,11 +426,11 @@ class TraegerMQTTClient:
             _LOGGER.debug("Subscribe To: %s", grill_id)
             client.subscribe((f"prod/thing/update/{grill_id}", 1))
 
-    def _mqtt_ondisconnect(self, client, userdata, rc):
+    def _mqtt_ondisconnect(self, client, userdata, flags, reason_code, properties):
         """MQTT on_undisconnect"""
         self.isconnected = False
         _LOGGER.debug("OnDisconnect Callback. Client:%s userdata:%s rc:%s",
-                      client, userdata, rc)
+                      client, userdata, reason_code)
 
     def mqtt_onmessage(self, client, userdata, message):
         """MQTT on_message"""
@@ -447,12 +447,12 @@ class TraegerMQTTClient:
                 return
             self.grill_callback(grill_id)
 
-    def _mqtt_onpublish(self, client, userdata, mid):
+    def _mqtt_onpublish(self, client, userdata, mid, reason_codes, properties):
         """MQTT on_publish"""
         _LOGGER.debug("OnPublish Callback. Client:%s userdata:%s mid:%s",
                       client, userdata, mid)
 
-    def _mqtt_onsubscribe(self, client, userdata, mid, rc):
+    def _mqtt_onsubscribe(self, client, userdata, mid, reason_codes, properties):
         """MQTT on_subscribe"""
         _LOGGER.debug("OnSubscribe Callback. Client:%s userdata:%s mid:%s",
                       client, userdata, mid)
@@ -462,7 +462,7 @@ class TraegerMQTTClient:
                 del self.grills_status[grill_id]
             self.update_state(grill_id)
 
-    def _mqtt_onunsubscribe(self, client, userdata, mid, prop, rc):  #pylint: disable=too-many-arguments,too-many-positional-arguments
+    def _mqtt_onunsubscribe(self, client, userdata, mid, reason_codes, properties):
         """MQTT on_unsubscribe"""
         _LOGGER.debug("OnUnsubscribe Callback. Client:%s userdata:%s mid:%s",
                       client, userdata, mid)
