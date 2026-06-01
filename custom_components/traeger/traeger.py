@@ -127,9 +127,19 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         """Set Grill Temp Setpoint"""
         await self.__send_command(thingname, f"11,{temp}")
 
-    async def set_probe_temperature(self, thingname, temp):
-        """Set Probe Temp Setpoint"""
-        await self.__send_command(thingname, f"14,{temp}")
+    async def set_probe_temperature(self, thingname, temp, sensor_id=None):
+        """Set Probe Temp Setpoint.
+
+        Modern dual-probe grills (e.g. Ironwood XL) require the per-probe
+        command ``120,10,{sensor_id},{temp}`` used by the official Traeger app,
+        where ``sensor_id`` is the accessory uuid from ``status.acc[]``.  When
+        ``sensor_id`` is not supplied we fall back to the legacy single-probe
+        command ``14,{temp}`` for older hardware.
+        """
+        if sensor_id is None:
+            await self.__send_command(thingname, f"14,{temp}")
+        else:
+            await self.__send_command(thingname, f"120,10,{sensor_id},{temp}")
 
     async def set_switch(self, thingname, switchval):
         """Set Binary Switch"""
