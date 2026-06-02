@@ -301,6 +301,7 @@ async def test_climate_setgrilltemp_cmd(
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)
 
+
 @pytest.mark.usefixtures("socket_enabled")
 @pytest.mark.parametrize(
     "mqtt_msg_acc",
@@ -317,12 +318,13 @@ async def test_climate_setprobetemp_cmds(
 ) -> None:
     """test climate cmds"""
     platform = "climate"
-    entity_id = f"0123456789ab_probe_{mqtt_msg_acc["uuid"]}"
+    entity_id = f"0123456789ab_probe_{mqtt_msg_acc['uuid']}"
     acc_indx = 0
     for acc in mqtt_msg["status"]["acc"]:
         if acc["uuid"] == mqtt_msg_acc["uuid"]:
             break
         acc_indx += 1
+
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
@@ -332,30 +334,38 @@ async def test_climate_setprobetemp_cmds(
             mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
         cmdsplit = kwargs["json"]["command"].split(",")
         if cmdsplit[0] == "14":
-            mqtt_msg_change["status"]["acc"][acc_indx][acc["type"]]["set_temp"] = int(cmdsplit[1])
-            mqtt_msg_change["status"]["acc"][acc_indx][acc["type"]]["get_temp"] = int(cmdsplit[1]) / 2
+            mqtt_msg_change["status"]["acc"][acc_indx][acc["type"]]["set_temp"] = int(
+                cmdsplit[1]
+            )
+            mqtt_msg_change["status"]["acc"][acc_indx][acc["type"]]["get_temp"] = (
+                int(cmdsplit[1]) / 2
+            )
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",
                 json.dumps(mqtt_msg_change).encode("utf-8"),
                 qos=1,
             )
             return CallbackResult(status=400, payload=None)
-        elif cmdsplit[0] == "120" and len(cmdsplit) == 4:
-            #"command": "120,10,p0,120"
+        if cmdsplit[0] == "120" and len(cmdsplit) == 4:
+            # "command": "120,10,p0,120"
             acc_indx120 = 0
             for acc120 in mqtt_msg["status"]["acc"]:
                 if acc120["uuid"] == cmdsplit[2]:
                     break
                 acc_indx120 += 1
-            mqtt_msg_change["status"]["acc"][acc_indx120][acc120["type"]]["set_temp"] = int(cmdsplit[1])
-            mqtt_msg_change["status"]["acc"][acc_indx120][acc120["type"]]["get_temp"] = int(cmdsplit[1]) / 2
+            mqtt_msg_change["status"]["acc"][acc_indx120][acc120["type"]][
+                "set_temp"
+            ] = int(cmdsplit[1])
+            mqtt_msg_change["status"]["acc"][acc_indx120][acc120["type"]][
+                "get_temp"
+            ] = int(cmdsplit[1]) / 2
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",
                 json.dumps(mqtt_msg_change).encode("utf-8"),
                 qos=1,
             )
             return CallbackResult(status=400, payload=None)
-        elif kwargs["json"]["command"] == "90":
+        if kwargs["json"]["command"] == "90":
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",
                 json.dumps(mqtt_msg_change).encode("utf-8"),
