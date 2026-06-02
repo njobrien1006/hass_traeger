@@ -192,6 +192,7 @@ async def test_climate_settemp_cmds(
     # Put Grill in cook mode so we can expect the switch to be available.
     mqtt_msg_change = mqtt_msg
     mqtt_msg_change["status"]["system_status"] = 6
+    mqtt_msg_change["limits"]["max_grill_temp"] = 0
     traeger_client.mqtt_client.mqtt_client.publish(
         "prod/thing/update/0123456789ab",
         json.dumps(mqtt_msg_change).encode("utf-8"),
@@ -204,6 +205,7 @@ async def test_climate_settemp_cmds(
     # Check Enttity
     assert isinstance(entity, State)
     assert entity.state != "unavailable"
+    assert entity.attributes.get("min_temp") < entity.attributes.get("max_temp")
     assert entity == snapshot(name="02-ready")
 
     await hass.services.async_call(
