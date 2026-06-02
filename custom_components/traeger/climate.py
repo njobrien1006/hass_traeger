@@ -127,9 +127,12 @@ class TraegerClimateEntity(TraegerBaseClimate):
     @property
     def max_temp(self):
         """Return the maximum temperature."""
-        if self.grill_mqtt_msg.get("limits", None) is None:
-            return self.min_temp
-        max_fahrenheit = self.grill_mqtt_msg["limits"]["max_grill_temp"]
+        try:
+            max_fahrenheit = self.grill_mqtt_msg["limits"]["max_grill_temp"]
+        except KeyError:
+            max_fahrenheit = 500
+        if max_fahrenheit <= GRILL_MIN_TEMP_F:
+            max_fahrenheit = 500
         if self.grill_units == UnitOfTemperature.CELSIUS:
             return round((max_fahrenheit - 32) * 5.0 / 9.0)
         return max_fahrenheit

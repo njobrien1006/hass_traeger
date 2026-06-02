@@ -1740,6 +1740,20 @@
     }),
     dict({
       'device_class': None,
+      'entity_id': 'sensor.0123456789ab_probe_state_probe0',
+      'original_name': "Johny's Traeger Probe State probe0",
+      'translation_key': None,
+      'unique_id': '0123456789ab_probe_state_probe0',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'sensor.0123456789ab_probe_state_probe1',
+      'original_name': "Johny's Traeger Probe State probe1",
+      'translation_key': None,
+      'unique_id': '0123456789ab_probe_state_probe1',
+    }),
+    dict({
+      'device_class': None,
       'entity_id': 'sensor.traeger_0123456789ab_ambient_temperature',
       'original_name': "Johny's Traeger Ambient Temperature",
       'translation_key': None,
