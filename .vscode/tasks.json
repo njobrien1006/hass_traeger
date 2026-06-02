@@ -30,6 +30,12 @@
             "type": "shell",
             "command": "pytest",
             "problemMatcher": []
+        },
+        {
+            "label": "Pytest & Coverage Report",
+            "type": "shell",
+            "command": "pytest --cov=custom_components/traeger && coverage-badge -o images/coverage.svg -f",
+            "problemMatcher": []
         }
     ]
 }
