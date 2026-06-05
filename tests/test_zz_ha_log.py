@@ -59,7 +59,7 @@ async def test_zz_ha_log(
 
     # Check if we have used any deprec items
     #https://github.com/njobrien1006/hass_traeger/issues/109
-    #TODO: Fix
+    #See issue for updates.
     #assert not any(
     #    "Detected that custom integration 'traeger'" in record.message
     #    for record in caplog.records
