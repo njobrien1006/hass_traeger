@@ -5,8 +5,11 @@
 [![hacs][hacsbadge]][hacs]
 
 [![VALI](https://github.com/njobrien1006/hass_traeger/actions/workflows/validate.yml/badge.svg)](https://github.com/njobrien1006/hass_traeger/actions/workflows/validate.yml)
-[![PYTEST](https://github.com/njobrien1006/hass_traeger/actions/workflows/pytest.yml/badge.svg)](https://github.com/njobrien1006/hass_traeger/actions/workflows/pytest.yml)
 [![LINT](https://github.com/njobrien1006/hass_traeger/actions/workflows/lint.yml/badge.svg)](https://github.com/njobrien1006/hass_traeger/actions/workflows/lint.yml)
+
+[![PYTEST](https://github.com/njobrien1006/hass_traeger/actions/workflows/pytest.yml/badge.svg)](https://github.com/njobrien1006/hass_traeger/actions/workflows/pytest.yml)
+[![Coverage](images/coverage.svg)](https://github.com/njobrien1006/hass_traeger/actions/workflows/pytest.yml)
+
 
 _Component to integrate with [Traeger WiFire Grills][traeger]._
 

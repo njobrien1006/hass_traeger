@@ -109,3 +109,38 @@ async def test_handle_cmd_bad(
     traeger_client.api["password"] = None
     await traeger_client.update_state("0123456789ab")
     assert True
+
+
+def _last_command(http: aioresponses) -> str:
+    """Return the command string from the most recent commands POST."""
+    posted = [
+        call.kwargs["json"]["command"]
+        for (method, url), calls in http.requests.items()
+        for call in calls
+        if method == "POST" and url.path.endswith("/commands")
+    ]
+    return posted[-1]
+
+
+async def test_set_probe_temperature_multiprobe(
+    traeger_client: TraegerTestClient, http: aioresponses
+) -> None:
+    """Per-probe target uses the 120,10,{sensor_id},{temp} command."""
+    http.post(api_token["url"], payload=api_token["resp"])
+    http.post(api_commands["url"], payload=api_commands["resp"])
+    traeger_client.api["username"] = "JohnyTraeger@traeger.com"
+    traeger_client.api["password"] = "abc123"
+    await traeger_client.set_probe_temperature("0123456789ab", 145, "probe0")
+    assert _last_command(http) == "120,10,probe0,145"
+
+
+async def test_set_probe_temperature_legacy_fallback(
+    traeger_client: TraegerTestClient, http: aioresponses
+) -> None:
+    """Without a sensor_id the legacy 14,{temp} command is used."""
+    http.post(api_token["url"], payload=api_token["resp"])
+    http.post(api_commands["url"], payload=api_commands["resp"])
+    traeger_client.api["username"] = "JohnyTraeger@traeger.com"
+    traeger_client.api["password"] = "abc123"
+    await traeger_client.set_probe_temperature("0123456789ab", 145)
+    assert _last_command(http) == "14,145"

@@ -127,9 +127,12 @@ class TraegerClimateEntity(TraegerBaseClimate):
     @property
     def max_temp(self):
         """Return the maximum temperature."""
-        if self.grill_mqtt_msg.get("limits", None) is None:
-            return self.min_temp
-        max_fahrenheit = self.grill_mqtt_msg["limits"]["max_grill_temp"]
+        try:
+            max_fahrenheit = self.grill_mqtt_msg["limits"]["max_grill_temp"]
+        except KeyError:
+            max_fahrenheit = 500
+        if max_fahrenheit <= GRILL_MIN_TEMP_F:
+            max_fahrenheit = 500
         if self.grill_units == UnitOfTemperature.CELSIUS:
             return round((max_fahrenheit - 32) * 5.0 / 9.0)
         return max_fahrenheit
@@ -351,7 +354,8 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
         self.current_preset_mode = PRESET_NONE
         temperature = kwargs.get(ATTR_TEMPERATURE)
         await self.client.set_probe_temperature(self.grill_id,
-                                                round(temperature))
+                                                round(temperature),
+                                                self.sensor_id)
 
     async def async_set_hvac_mode(self, hvac_mode):
         """Start grill shutdown sequence"""
@@ -364,4 +368,5 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
         self.current_preset_mode = preset_mode
         temperature = PROBE_PRESET_MODES[preset_mode][self.grill_units]
         await self.client.set_probe_temperature(self.grill_id,
-                                                round(temperature))
+                                                round(temperature),
+                                                self.sensor_id)
