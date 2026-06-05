@@ -349,16 +349,16 @@ async def test_climate_setprobetemp_cmds(
         if cmdsplit[0] == "120" and len(cmdsplit) == 4:
             # "command": "120,10,p0,120"
             acc_indx120 = 0
-            for acc120 in mqtt_msg["status"]["acc"]:
+            for acc120 in mqtt_msg_change["status"]["acc"]:
                 if acc120["uuid"] == cmdsplit[2]:
                     break
                 acc_indx120 += 1
             mqtt_msg_change["status"]["acc"][acc_indx120][acc120["type"]][
                 "set_temp"
-            ] = int(cmdsplit[1])
+            ] = int(cmdsplit[3])
             mqtt_msg_change["status"]["acc"][acc_indx120][acc120["type"]][
                 "get_temp"
-            ] = int(cmdsplit[1]) / 2
+            ] = int(cmdsplit[3]) / 2
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",
                 json.dumps(mqtt_msg_change).encode("utf-8"),
