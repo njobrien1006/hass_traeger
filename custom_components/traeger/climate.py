@@ -354,7 +354,8 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
         self.current_preset_mode = PRESET_NONE
         temperature = kwargs.get(ATTR_TEMPERATURE)
         await self.client.set_probe_temperature(self.grill_id,
-                                                round(temperature))
+                                                round(temperature),
+                                                self.sensor_id)
 
     async def async_set_hvac_mode(self, hvac_mode):
         """Start grill shutdown sequence"""
@@ -367,4 +368,5 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
         self.current_preset_mode = preset_mode
         temperature = PROBE_PRESET_MODES[preset_mode][self.grill_units]
         await self.client.set_probe_temperature(self.grill_id,
-                                                round(temperature))
+                                                round(temperature),
+                                                self.sensor_id)
