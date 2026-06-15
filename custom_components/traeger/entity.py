@@ -56,9 +56,9 @@ class TraegerBaseEntity(Entity):  # pylint: disable=too-many-instance-attributes
 
         return {
             "identifiers": {(DOMAIN, self.grill_id)},
-            "name": self.grill_mqtt_msg["details"]["friendlyName"],
-            "model": self.grill_mqtt_msg["settings"]["device_type_id"],
-            "sw_version": self.grill_mqtt_msg["settings"]["fw_version"],
+            "name": str(self.grill_mqtt_msg["details"]["friendlyName"]),
+            "model": str(self.grill_mqtt_msg["settings"]["device_type_id"]),
+            "sw_version": str(self.grill_mqtt_msg["settings"]["fw_version"]),
             "manufacturer": NAME
         }
 
