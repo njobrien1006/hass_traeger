@@ -20,18 +20,22 @@ from .entity import TraegerBaseEntity
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-async def async_setup_entry(hass, entry, async_add_devices):
+async def async_setup_entry(hass, entry, async_add_entities):
     """
     Setup Number/Timer platform.
     """
     client = hass.data[DOMAIN][entry.entry_id]
     grills = client.get_grills()
+    entities = []
     for grill in grills:
-        async_add_devices(
-            [TraegerNumberEntity(client, grill["thingName"], "cook_timer")])
-        async_add_devices([
+        entities.append(
+            TraegerNumberEntity(client, grill["thingName"], "cook_timer")
+        )
+        entities.append(
             CookCycNumberEntity(client, grill["thingName"], "cook_cycle", hass)
-        ])
+        )
+    if entities != []:
+        async_add_entities(entities)
 
 
 class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):

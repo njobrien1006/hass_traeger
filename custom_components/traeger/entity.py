@@ -74,10 +74,10 @@ class TraegerBaseEntity(Entity):  # pylint: disable=too-many-instance-attributes
 class TraegerGrillMonitor:
     """TraegerGrillMonitor Class."""
 
-    def __init__(self, client, grill_id, async_add_devices, probe_entity=None):
+    def __init__(self, client, grill_id, async_add_entities, probe_entity=None):
         self.client = client
         self.grill_id = grill_id
-        self.async_add_devices = async_add_devices
+        self.async_add_entities = async_add_entities
         self.probe_entity = probe_entity
         self.accessory_status = {}
 
@@ -98,12 +98,15 @@ class TraegerGrillMonitor:
         """
         if self.device_state is None:
             return
+        entities = []
         for accessory in self.device_state["acc"]:
             if accessory["type"] in ["probe", "btprobe", "hob"]:
                 if accessory["uuid"] not in self.accessory_status:
                     if self.probe_entity:
-                        self.async_add_devices([
+                        entities.append(
                             self.probe_entity(self.client, self.grill_id,
                                               accessory["uuid"])
-                        ])
+                        )
                         self.accessory_status[accessory["uuid"]] = True
+        if entities != []:
+            self.async_add_entities(entities)

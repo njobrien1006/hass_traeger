@@ -25,15 +25,18 @@ from .const import (
 from .entity import TraegerBaseEntity, TraegerGrillMonitor
 
 
-async def async_setup_entry(hass, entry, async_add_devices):
+async def async_setup_entry(hass, entry, async_add_entities):
     """Setup climate platform."""
     client = hass.data[DOMAIN][entry.entry_id]
     grills = client.get_grills()
+    entities = []
     for grill in grills:
         grill_id = grill["thingName"]
-        async_add_devices([TraegerClimateEntity(client, grill_id, "Climate")])
-        TraegerGrillMonitor(client, grill_id, async_add_devices,
+        entities.append(TraegerClimateEntity(client, grill_id, "Climate"))
+        TraegerGrillMonitor(client, grill_id, async_add_entities,
                             AccessoryTraegerClimateEntity)
+    if entities != []:
+        async_add_entities(entities)
 
 
 class TraegerBaseClimate(ClimateEntity, TraegerBaseEntity):
