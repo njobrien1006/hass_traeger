@@ -22,7 +22,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
             TraegerProbe(client, grill["thingName"], "Probe Alarm Fired",
                          "probe_alarm_fired")
         )
-    if entities != []:
+    if entities:
         async_add_entities(entities)
 
 

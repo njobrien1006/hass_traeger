@@ -108,5 +108,5 @@ class TraegerGrillMonitor:
                                               accessory["uuid"])
                         )
                         self.accessory_status[accessory["uuid"]] = True
-        if entities != []:
+        if entities:
             self.async_add_entities(entities)

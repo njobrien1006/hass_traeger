@@ -34,7 +34,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
         entities.append(
             CookCycNumberEntity(client, grill["thingName"], "cook_cycle", hass)
         )
-    if entities != []:
+    if entities:
         async_add_entities(entities)
 
 

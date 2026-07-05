@@ -223,7 +223,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
                          "heating_state")
         )
         TraegerGrillMonitor(client, grill_id, async_add_entities, ProbeState)
-    if entities != []:
+    if entities:
         async_add_entities(entities)
 
 

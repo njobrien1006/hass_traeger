@@ -35,7 +35,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
         entities.append(TraegerClimateEntity(client, grill_id, "Climate"))
         TraegerGrillMonitor(client, grill_id, async_add_entities,
                             AccessoryTraegerClimateEntity)
-    if entities != []:
+    if entities:
         async_add_entities(entities)
 
 

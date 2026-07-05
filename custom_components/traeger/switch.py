@@ -26,7 +26,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
             TraegerConnectEntity(client, grill["thingName"], "connect",
                                  "Connect")
         )
-    if entities != []:
+    if entities:
         async_add_entities(entities)
 
 
