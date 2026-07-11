@@ -74,7 +74,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     await client.start(15)
     hass.data[DOMAIN][entry.entry_id] = client
 
-    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
+    if client.grills is not None:
+        await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     async def async_shutdown(event: Event):  # pylint: disable=unused-argument
         """Shut down the client."""

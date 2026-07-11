@@ -1,10 +1,21 @@
 """Test the Traeger Client."""
 
+import asyncio
+import copy
+import json
 import logging
-from aioresponses import aioresponses
+import pytest
 
-from .conftest import TraegerTestClient
-from .zzMockResp import api_commands, api_token, api_mqtt, api_user_self
+from aioresponses import CallbackResult
+from homeassistant.core import HomeAssistant
+
+from pytest_homeassistant_custom_component.common import MockConfigEntry
+from syrupy.assertion import SnapshotAssertion
+
+from custom_components.traeger.const import DOMAIN
+
+from .conftest import TraegerTestClient, Broker, aioresponses, MQTTPORT
+from .zzMockResp import api_commands, api_token, api_mqtt, api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -14,6 +25,7 @@ async def test_handle_tokens(
     traeger_client: TraegerTestClient, http: aioresponses
 ) -> None:
     """test getting token"""
+    http.clear()
     http.post(api_token["url"], payload=api_token["resp"])
     traeger_client.api["username"] = "JohnyTraeger@traeger.com"
     traeger_client.api["password"] = "abc123"
@@ -27,6 +39,7 @@ async def test_handle_tokens_bad_user_pass(
     traeger_client: TraegerTestClient, http: aioresponses
 ) -> None:
     """test getting token with bad PAR"""
+    http.clear()
     http.post(api_token["url"], payload={"error": "badpass"})
     traeger_client.api["username"] = ""
     traeger_client.api["password"] = ""
@@ -38,6 +51,7 @@ async def test_handle_user(
     traeger_client: TraegerTestClient, http: aioresponses
 ) -> None:
     """test getting user data"""
+    http.clear()
     http.post(api_token["url"], payload=api_token["resp"])
     http.get(api_user_self["url"], payload=api_user_self["resp"])
     traeger_client.api["username"] = "JohnyTraeger@traeger.com"
@@ -52,6 +66,7 @@ async def test_handle_user_bad(
     traeger_client: TraegerTestClient, http: aioresponses
 ) -> None:
     """test getting user data with bad data"""
+    http.clear()
     http.post(api_token["url"], payload={"error": "badpass"})
     http.get(api_user_self["url"], payload={"error": "badtoken"})
     traeger_client.api["username"] = ""
@@ -64,6 +79,7 @@ async def test_handle_mqtturl(
     traeger_client: TraegerTestClient, http: aioresponses
 ) -> None:
     """test getting mqtt url"""
+    http.clear()
     http.post(api_token["url"], payload=api_token["resp"])
     http.post(api_mqtt["url"], payload=api_mqtt["resp"])
     traeger_client.api["username"] = "JohnyTraeger@traeger.com"
@@ -78,6 +94,7 @@ async def test_handle_mqtturl_bad(
     traeger_client: TraegerTestClient, http: aioresponses
 ) -> None:
     """test getting mqtt url bad"""
+    http.clear()
     http.post(api_token["url"], payload={"error": "badpass"})
     http.post(api_mqtt["url"], payload={"error": "badtoken"})
     traeger_client.api["username"] = ""
@@ -90,6 +107,7 @@ async def test_handle_cmd(
     traeger_client: TraegerTestClient, http: aioresponses
 ) -> None:
     """test grill command"""
+    http.clear()
     http.post(api_token["url"], payload=api_token["resp"])
     http.post(api_commands["url"], payload=api_commands["resp"])
     traeger_client.api["username"] = "JohnyTraeger@traeger.com"
@@ -103,6 +121,7 @@ async def test_handle_cmd_bad(
     traeger_client: TraegerTestClient, http: aioresponses
 ) -> None:
     """test grill command"""
+    http.clear()
     http.post(api_token["url"], payload={"error": "badpass"})
     http.post(api_commands["url"], payload={"error": "badtoken"})
     traeger_client.api["username"] = "JohnyTraeger@traeger.com"
@@ -144,3 +163,86 @@ async def test_set_probe_temperature_legacy_fallback(
     traeger_client.api["password"] = "abc123"
     await traeger_client.set_probe_temperature("0123456789ab", 145)
     assert _last_command(http) == "14,145"
+
+
+# pylint: disable=unused-argument
+@pytest.mark.usefixtures("socket_enabled")
+async def test_client_missing_sts(
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    connected_amqtt: Broker,
+    snapshot: SnapshotAssertion,
+    http: aioresponses,
+) -> None:
+    """Test Bad MQTT formation"""
+
+    def callback(url, **kwargs):
+        """Setup API Callbacks"""
+        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
+        if kwargs["json"]["command"] == "90":
+            traeger_client.mqtt_client.mqtt_client.publish(
+                "prod/thing/update/0123456789ab",
+                json.dumps(mqtt_msg).encode("utf-8"),
+                qos=1,
+            )
+            return CallbackResult(status=400, payload=None)
+        return CallbackResult(status=404, payload=None)
+
+    # Register Callbacks
+    http.post(api_commands["url"], callback=callback, repeat=True)
+    http.post(api_commands["urlg2"], callback=callback, repeat=True)
+    traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    await traeger_client.mqtt_client.connect(  # Need to connect
+        api_user_self["resp"]["things"],
+        "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
+        False,
+        MQTTPORT,
+    )
+
+    # Set Connected
+    await asyncio.sleep(0.1)  # Sleep on it
+    mqtt_msg_change = mqtt_msg
+    mqtt_msg_change["status"]["connected"] = True
+    traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
+        "prod/thing/update/0123456789ab",
+        json.dumps(mqtt_msg_change).encode("utf-8"),
+        qos=1,
+    )
+    await asyncio.sleep(0.1)
+    await hass.async_block_till_done()
+    grill_msg = traeger_client.mqtt_client.grills_status.get("0123456789ab", {})
+    assert grill_msg["status"]
+
+    # Set Null Status
+    await asyncio.sleep(0.1)  # Sleep on it
+    mqtt_msg_change = copy.deepcopy(mqtt_msg)
+    mqtt_msg_change.pop("status", None)
+    traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
+        "prod/thing/update/0123456789ab",
+        json.dumps(mqtt_msg_change).encode("utf-8"),
+        qos=1,
+    )
+    await asyncio.sleep(0.1)
+    await hass.async_block_till_done()
+    grill_msg = traeger_client.mqtt_client.grills_status.get("0123456789ab", {})
+    _LOGGER.warning("Bad Grill MSG: %s", grill_msg)
+    assert not grill_msg.get("status", False)
+
+    # Set UnConnected
+    await asyncio.sleep(0.1)  # Sleep on it
+    mqtt_msg_change = mqtt_msg
+    mqtt_msg_change["status"]["connected"] = False
+    traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
+        "prod/thing/update/0123456789ab",
+        json.dumps(mqtt_msg_change).encode("utf-8"),
+        qos=1,
+    )
+    await asyncio.sleep(0.1)
+    await hass.async_block_till_done()
+    grill_msg = traeger_client.mqtt_client.grills_status.get("0123456789ab", {})
+    assert grill_msg["status"]
+
+    # Shut it down
+    await asyncio.sleep(0.1)
+    traeger_client.mqtt_client.disconnect()
+    await asyncio.sleep(0.1)

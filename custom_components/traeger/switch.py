@@ -114,8 +114,6 @@ class TraegerSwitchEntity(TraegerBaseSwitch):
     @property
     def is_on(self):
         """Return true if device is on."""
-        if self.grill_mqtt_msg.get("status", None) is None:
-            return 0
         return self.grill_mqtt_msg["status"][self.devname]
 
     # Switch Methods

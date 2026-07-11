@@ -356,8 +356,6 @@ class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
     @property
     def native_value(self):
         """Return the value reported by the number."""
-        if self.grill_mqtt_msg.get("status", None) is None:
-            return 0
         end_time = self.grill_mqtt_msg["status"][f"{self.devname}_end"]
         start_time = self.grill_mqtt_msg["status"][f"{self.devname}_start"]
         tot_time = (end_time - start_time) / 60
@@ -381,8 +379,6 @@ class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
     # Timer Methods
     async def async_set_native_value(self, value: float):
         """Set new Timer Val."""
-        if self.grill_mqtt_msg.get("status", None) is None:
-            return
         state = self.grill_mqtt_msg["status"]["system_status"]
         if GRILL_MODE_IGNITING <= state <= GRILL_MODE_CUSTOM_COOK:
             if value >= 1:

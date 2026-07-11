@@ -35,11 +35,6 @@ class TraegerBaseEntity(Entity):  # pylint: disable=too-many-instance-attributes
         self.schedule_update_ha_state()
 
     @property
-    def unique_id(self):
-        """Return the unique id."""
-        return self.grill_id
-
-    @property
     def should_poll(self):
         """Return the polling state."""
         return False
