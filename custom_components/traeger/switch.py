@@ -7,24 +7,27 @@ from .const import (DOMAIN, GRILL_MODE_CUSTOM_COOK, GRILL_MODE_IGNITING,
 from .entity import TraegerBaseEntity
 
 
-async def async_setup_entry(hass, entry, async_add_devices):
+async def async_setup_entry(hass, entry, async_add_entities):
     """Setup Switch platform."""
     client = hass.data[DOMAIN][entry.entry_id]
     grills = client.get_grills()
+    entities = []
     for grill in grills:
-        async_add_devices([
+        entities.append(
             TraegerSuperSmokeEntity(client, grill["thingName"], "smoke",
                                     "Super Smoke Enabled", "mdi:weather-fog",
                                     20, 21)
-        ])
-        async_add_devices([
+        )
+        entities.append(
             TraegerSwitchEntity(client, grill["thingName"], "keepwarm",
                                 "Keep Warm Enabled", "mdi:beach", 18, 19)
-        ])
-        async_add_devices([
+        )
+        entities.append(
             TraegerConnectEntity(client, grill["thingName"], "connect",
                                  "Connect")
-        ])
+        )
+    if entities:
+        async_add_entities(entities)
 
 
 class TraegerBaseSwitch(SwitchEntity, TraegerBaseEntity):
@@ -111,8 +114,6 @@ class TraegerSwitchEntity(TraegerBaseSwitch):
     @property
     def is_on(self):
         """Return true if device is on."""
-        if self.grill_mqtt_msg.get("status", None) is None:
-            return 0
         return self.grill_mqtt_msg["status"][self.devname]
 
     # Switch Methods

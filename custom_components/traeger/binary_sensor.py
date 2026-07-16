@@ -4,23 +4,26 @@ from .const import DOMAIN
 from .entity import TraegerBaseEntity
 
 
-async def async_setup_entry(hass, entry, async_add_devices):
+async def async_setup_entry(hass, entry, async_add_entities):
     """Setup Binary Sensor platform."""
     client = hass.data[DOMAIN][entry.entry_id]
     grills = client.get_grills()
+    entities = []
     for grill in grills:
-        async_add_devices([
+        entities.append(
             TraegerTimer(client, grill["thingName"], "Cook Timer Complete",
                          "cook_timer_complete")
-        ])
-        async_add_devices([
+        )
+        entities.append(
             TraegerTimer(client, grill["thingName"], "System Timer Complete",
                          "sys_timer_complete")
-        ])
-        async_add_devices([
+        )
+        entities.append(
             TraegerProbe(client, grill["thingName"], "Probe Alarm Fired",
                          "probe_alarm_fired")
-        ])
+        )
+    if entities:
+        async_add_entities(entities)
 
 
 class TraegerBaseSensor(TraegerBaseEntity):

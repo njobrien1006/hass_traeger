@@ -58,12 +58,10 @@ async def test_zz_ha_log(
     assert any("Was at callbacks" in record.message for record in caplog.records)
 
     # Check if we have used any deprec items
-    #https://github.com/njobrien1006/hass_traeger/issues/109
-    #See issue for updates.
-    #assert not any(
-    #    "Detected that custom integration 'traeger'" in record.message
-    #    for record in caplog.records
-    #)
+    assert not any(
+        "Detected that custom integration 'traeger'" in record.message
+        for record in caplog.records
+    )
 
     # Shutdown MQTT
     await asyncio.sleep(0.1)

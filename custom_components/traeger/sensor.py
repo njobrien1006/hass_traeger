@@ -181,15 +181,16 @@ SENSOR_ENTITIES = {
 }
 
 
-async def async_setup_entry(hass, entry, async_add_devices):
+async def async_setup_entry(hass, entry, async_add_entities):
     """Setup sensor platform."""
     client = hass.data[DOMAIN][entry.entry_id]
     grills = client.get_grills()
+    entities = []
     for grill in grills:
         grill_id = grill["thingName"]
         for friendly, info in SENSOR_ENTITIES.items():
             if info["unit"] == "temp":
-                async_add_devices([
+                entities.append(
                     ValueTemperature(
                         client=client,
                         thingName=grill["thingName"],
@@ -200,9 +201,9 @@ async def async_setup_entry(hass, entry, async_add_devices):
                         enabledbydflt=info.get("enabledbydflt", True),
                         entity_category=info.get("entity_category", None),
                         device_class=info.get("device_class", None))
-                ])
+                )
             else:
-                async_add_devices([
+                entities.append(
                     TraegerFlexSensor(
                         client=client,
                         thingName=grill["thingName"],
@@ -213,15 +214,17 @@ async def async_setup_entry(hass, entry, async_add_devices):
                         enabledbydflt=info.get("enabledbydflt", True),
                         entity_category=info.get("entity_category", None),
                         device_class=info.get("device_class", None))
-                ])
-        async_add_devices([
+                )
+        entities.append(
             GrillState(client, grill["thingName"], "Grill State", "grill_state")
-        ])
-        async_add_devices([
+        )
+        entities.append(
             HeatingState(client, grill["thingName"], "Heating State",
                          "heating_state")
-        ])
-        TraegerGrillMonitor(client, grill_id, async_add_devices, ProbeState)
+        )
+        TraegerGrillMonitor(client, grill_id, async_add_entities, ProbeState)
+    if entities:
+        async_add_entities(entities)
 
 
 class TraegerFlexSensor(TraegerBaseEntity, SensorEntity):

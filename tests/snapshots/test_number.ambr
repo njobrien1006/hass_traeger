@@ -1013,7 +1013,60 @@
     }),
   ])
 # ---
-# name: test_number_settimer[04-not_connected]
+# name: test_number_settimer[04-TrackedEntities]
+  list([
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'friendly_name': "Johny's Traeger Cook_timer",
+        'icon': 'mdi:timer',
+        'integration': 'traeger',
+        'max': 1440,
+        'min': 0,
+        'mode': <NumberMode.AUTO: 'auto'>,
+        'step': 1,
+        'unit_of_measurement': 'min',
+      }),
+      'context': <ANY>,
+      'entity_id': 'number.traeger_0123456789ab_cook_timer',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '0.0',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'device_class': 'timestamp',
+        'friendly_name': "Johny's Traeger Cook Timer Start",
+        'icon': 'mdi:timer',
+        'integration': 'traeger',
+      }),
+      'context': <ANY>,
+      'entity_id': 'sensor.traeger_0123456789ab_cook_timer_start',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '1970-01-01T00:00:00+00:00',
+    }),
+    StateSnapshot({
+      'attributes': ReadOnlyDict({
+        'attribution': '',
+        'device_class': 'timestamp',
+        'friendly_name': "Johny's Traeger Cook Timer End",
+        'icon': 'mdi:timer',
+        'integration': 'traeger',
+      }),
+      'context': <ANY>,
+      'entity_id': 'sensor.traeger_0123456789ab_cook_timer_end',
+      'last_changed': <ANY>,
+      'last_reported': <ANY>,
+      'last_updated': <ANY>,
+      'state': '1970-01-01T00:00:00+00:00',
+    }),
+  ])
+# ---
+# name: test_number_settimer[05-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'friendly_name': "Johny's Traeger Cook_timer",

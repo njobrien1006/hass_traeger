@@ -25,15 +25,18 @@ from .const import (
 from .entity import TraegerBaseEntity, TraegerGrillMonitor
 
 
-async def async_setup_entry(hass, entry, async_add_devices):
+async def async_setup_entry(hass, entry, async_add_entities):
     """Setup climate platform."""
     client = hass.data[DOMAIN][entry.entry_id]
     grills = client.get_grills()
+    entities = []
     for grill in grills:
         grill_id = grill["thingName"]
-        async_add_devices([TraegerClimateEntity(client, grill_id, "Climate")])
-        TraegerGrillMonitor(client, grill_id, async_add_devices,
+        entities.append(TraegerClimateEntity(client, grill_id, "Climate"))
+        TraegerGrillMonitor(client, grill_id, async_add_entities,
                             AccessoryTraegerClimateEntity)
+    if entities:
+        async_add_entities(entities)
 
 
 class TraegerBaseClimate(ClimateEntity, TraegerBaseEntity):
@@ -102,15 +105,11 @@ class TraegerClimateEntity(TraegerBaseClimate):
     @property
     def current_temperature(self):
         """Return the current temperature."""
-        if self.grill_mqtt_msg.get("status", None) is None:
-            return 0
         return self.grill_mqtt_msg["status"]["grill"]
 
     @property
     def target_temperature(self):
         """Return the temperature we try to reach."""
-        if self.grill_mqtt_msg.get("status", None) is None:
-            return 0
         return self.grill_mqtt_msg["status"]["set"]
 
     @property
@@ -150,8 +149,6 @@ class TraegerClimateEntity(TraegerBaseClimate):
         Need to be one of HVAC_MODE_*.
         """
         returnval = HVACMode.OFF
-        if self.grill_mqtt_msg.get("status", None) is None:
-            return returnval
 
         state = self.grill_mqtt_msg["status"]["system_status"]
 
@@ -186,8 +183,6 @@ class TraegerClimateEntity(TraegerBaseClimate):
     # Climate Methods
     async def async_set_temperature(self, **kwargs):
         """Set new target temperature."""
-        if self.grill_mqtt_msg.get("status", None) is None:
-            return
         state = self.grill_mqtt_msg["status"]["system_status"]
         if GRILL_MODE_IGNITING <= state <= GRILL_MODE_CUSTOM_COOK:
             temperature = kwargs.get(ATTR_TEMPERATURE)
@@ -197,8 +192,6 @@ class TraegerClimateEntity(TraegerBaseClimate):
 
     async def async_set_hvac_mode(self, hvac_mode):
         """Start grill shutdown sequence"""
-        if self.grill_mqtt_msg.get("status", None) is None:
-            return
         state = self.grill_mqtt_msg["status"]["system_status"]
         if (hvac_mode in (HVACMode.OFF, HVACMode.COOL) and
                 GRILL_MODE_IGNITING <= state <= GRILL_MODE_CUSTOM_COOK):
@@ -259,24 +252,18 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
     @property
     def current_temperature(self):
         """Return the current temperature."""
-        if self.grill_accessory is None:
-            return 0
         acc_type = self.grill_accessory["type"]
         return self.grill_accessory[acc_type]["get_temp"]
 
     @property
     def target_temperature(self):
         """Return the temperature we try to reach."""
-        if self.grill_accessory is None:
-            return 0
         acc_type = self.grill_accessory["type"]
         return self.grill_accessory[acc_type]["set_temp"]
 
     @property
     def extra_state_attributes(self):
         """Return the extra state attributes."""
-        if self.grill_accessory is None:
-            return 0
         acc_type = self.grill_accessory["type"]
         custom_attributes = {
             "grill_native_cur_val": self.grill_accessory[acc_type]["get_temp"],
@@ -308,9 +295,6 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
         Return hvac operation ie. heat, cool mode.
         Need to be one of HVAC_MODE_*.
         """
-        if self.grill_mqtt_msg.get("status", None) is None:
-            return HVACMode.OFF
-
         state = self.grill_accessory["con"]
 
         if state == 1:  # Probe Connected

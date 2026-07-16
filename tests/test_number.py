@@ -9,6 +9,7 @@ from aioresponses import CallbackResult
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry
 
+
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
@@ -185,6 +186,16 @@ async def test_number_settimer(
                 qos=1,
             )
             return CallbackResult(status=400, payload=None)
+        if kwargs["json"]["command"] == "13":
+            mqtt_msg_change["status"]["time"] = 0
+            mqtt_msg_change["status"]["cook_timer_start"] = 0
+            mqtt_msg_change["status"]["cook_timer_end"] = 0
+            traeger_client.mqtt_client.mqtt_client.publish(
+                "prod/thing/update/0123456789ab",
+                json.dumps(mqtt_msg_change).encode("utf-8"),
+                qos=1,
+            )
+            return CallbackResult(status=400, payload=None)
         if kwargs["json"]["command"] == "90":
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",
@@ -231,6 +242,20 @@ async def test_number_settimer(
     assert entity.state != "unavailable"
     assert entity == snapshot(name="02-ready")
 
+    # Change Before Ready for expected `NotImplementedError`
+    with pytest.raises(NotImplementedError):
+        await hass.services.async_call(
+            "number",
+            "SET_VALUE",
+            {
+                "entity_id": "number.traeger_0123456789ab_cook_timer",
+                "value": 60,
+            },
+            blocking=True,
+        )
+        await hass.async_block_till_done()
+        await asyncio.sleep(0.1)
+
     # Put Grill in cook mode so we can expect the switch to be available.
     mqtt_msg_change = mqtt_msg
     mqtt_msg_change["status"]["system_status"] = 6
@@ -274,6 +299,32 @@ async def test_number_settimer(
         name="03-TrackedEntities"
     )
 
+    # Reset Timer
+    await hass.services.async_call(
+        "number",
+        "SET_VALUE",
+        {
+            "entity_id": "number.traeger_0123456789ab_cook_timer",
+            "value": 0,
+        },
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+    await asyncio.sleep(0.1)
+    # Get Entity Trig Check
+    entity_ids = [
+        "number.traeger_0123456789ab_cook_timer",
+        "sensor.traeger_0123456789ab_cook_timer_start",
+        "sensor.traeger_0123456789ab_cook_timer_end",
+    ]
+    for entity_id in entity_ids:
+        entity = hass.states.get(entity_id)
+        # Check Enttity
+        assert isinstance(entity, State)
+    assert [hass.states.get(eid) for eid in entity_ids] == snapshot(
+        name="04-TrackedEntities"
+    )
+
     # Change Entity
     await asyncio.sleep(0.1)
     mqtt_msg_change = mqtt_msg
@@ -290,7 +341,7 @@ async def test_number_settimer(
     # Check Enttity
     assert isinstance(entity, State)
     assert entity.state == "unavailable"
-    assert entity == snapshot(name="04-not_connected")
+    assert entity == snapshot(name="05-not_connected")
 
     # Shutdown MQTT
     await asyncio.sleep(0.1)

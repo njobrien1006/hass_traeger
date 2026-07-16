@@ -8,6 +8,7 @@ import pytest
 from aioresponses import CallbackResult
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry
+from homeassistant.util.unit_system import US_CUSTOMARY_SYSTEM, METRIC_SYSTEM
 
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
@@ -111,13 +112,17 @@ async def test_climate_platform_asyncadd(
 
 @pytest.mark.usefixtures("socket_enabled")
 @pytest.mark.parametrize(
-    "platform, entity_id",
-    [("climate", "traeger_0123456789ab_climate")],
+    "platform, entity_id, unit",
+    [
+        ("climate", "traeger_0123456789ab_climate", "F"),
+        ("climate", "traeger_0123456789ab_climate", "C"),
+    ],
 )
 # pylint: disable=too-many-statements
 async def test_climate_setgrilltemp_cmd(
     platform,
     entity_id,
+    unit,
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
     connected_amqtt: Broker,
@@ -125,6 +130,12 @@ async def test_climate_setgrilltemp_cmd(
     http: aioresponses,
 ) -> None:
     """test climate cmds"""
+    if unit == "F":
+        mqtt_msg["status"]["units"] = 1
+        hass.config.units = US_CUSTOMARY_SYSTEM
+    elif unit == "C":
+        mqtt_msg["status"]["units"] = 0
+        hass.config.units = METRIC_SYSTEM
 
     def callback(url, **kwargs):
         """Setup API Callbacks"""
@@ -189,6 +200,56 @@ async def test_climate_setgrilltemp_cmd(
     )
     _LOGGER.error("Wait for onConnect to Subscribe")
     await asyncio.sleep(0.2)
+
+    snapshotname = 2
+    for system_status in [2, 3, 4, 5, 6, 7, 9, 2, 99]:
+        mqtt_msg_change = mqtt_msg
+        mqtt_msg_change["status"]["system_status"] = system_status
+        traeger_client.mqtt_client.mqtt_client.publish(
+            "prod/thing/update/0123456789ab",
+            json.dumps(mqtt_msg_change).encode("utf-8"),
+            qos=1,
+        )
+        await asyncio.sleep(0.1)
+        await hass.async_block_till_done()
+        # Get Entity Happy Check
+        entity = hass.states.get(f"{platform}.{entity_id}")
+        # Check Enttity
+        assert isinstance(entity, State)
+        assert entity.state != "unavailable"
+        assert entity == snapshot(
+            name=f"{snapshotname:02d}-system_status({system_status})"
+        )
+        snapshotname += 1
+
+    # Change Before Ready for expected `NotImplementedError`
+    with pytest.raises(NotImplementedError):
+        await hass.services.async_call(
+            "climate",
+            "SET_TEMPERATURE",
+            {
+                "entity_id": f"{platform}.{entity_id}",
+                "temperature": 255,
+            },
+            blocking=True,
+        )
+        await hass.async_block_till_done()
+        await asyncio.sleep(0.1)
+
+    # Change Before Ready for expected `NotImplementedError`
+    with pytest.raises(NotImplementedError):
+        await hass.services.async_call(
+            "climate",
+            "set_hvac_mode",
+            {
+                "entity_id": f"{platform}.{entity_id}",
+                "hvac_mode": "cool",
+            },
+            blocking=True,
+        )
+        await hass.async_block_till_done()
+        await asyncio.sleep(0.1)
+
     # Put Grill in cook mode so we can expect the switch to be available.
     mqtt_msg_change = mqtt_msg
     mqtt_msg_change["status"]["system_status"] = 6
@@ -206,7 +267,8 @@ async def test_climate_setgrilltemp_cmd(
     assert isinstance(entity, State)
     assert entity.state != "unavailable"
     assert entity.attributes.get("min_temp") < entity.attributes.get("max_temp")
-    assert entity == snapshot(name="02-ready")
+    assert entity == snapshot(name=f"{snapshotname:02d}-ready")
+    snapshotname += 1
 
     await hass.services.async_call(
         "climate",
@@ -223,7 +285,8 @@ async def test_climate_setgrilltemp_cmd(
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
     assert entity.state != "unavailable"
-    assert entity == snapshot(name="03-changed")
+    assert entity == snapshot(name=f"{snapshotname:02d}-changed")
+    snapshotname += 1
 
     await asyncio.sleep(0.1)
     await hass.services.async_call(
@@ -231,7 +294,7 @@ async def test_climate_setgrilltemp_cmd(
         "SET_TEMPERATURE",
         {
             "entity_id": f"{platform}.{entity_id}",
-            "temperature": 495,
+            "temperature": 255,
         },
         blocking=True,
     )
@@ -241,7 +304,8 @@ async def test_climate_setgrilltemp_cmd(
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
     assert entity.state != "unavailable"
-    assert entity == snapshot(name="04-changed2")
+    assert entity == snapshot(name=f"{snapshotname:02d}-changed2")
+    snapshotname += 1
 
     await asyncio.sleep(0.1)
     await hass.services.async_call(
@@ -259,7 +323,8 @@ async def test_climate_setgrilltemp_cmd(
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
     assert entity.state != "unavailable"
-    assert entity == snapshot(name="05-cool")
+    assert entity == snapshot(name=f"{snapshotname:02d}-cool")
+    snapshotname += 1
 
     # Put Grill back out of cook mode to make unavailable.
     mqtt_msg_change = mqtt_msg
@@ -294,12 +359,17 @@ async def test_climate_setgrilltemp_cmd(
     # Check Enttity
     assert isinstance(entity, State)
     assert entity.state == "unavailable"
-    assert entity == snapshot(name="07-not_connected")
+    assert entity == snapshot(name=f"{snapshotname:02d}-not_connected")
+    snapshotname += 1
 
     # Shut it down
     await asyncio.sleep(0.1)
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)
+
+    if unit == "C":
+        mqtt_msg["status"]["units"] = 1
+        hass.config.units = US_CUSTOMARY_SYSTEM
 
 
 @pytest.mark.usefixtures("socket_enabled")
@@ -418,7 +488,7 @@ async def test_climate_setprobetemp_cmds(
         "SET_TEMPERATURE",
         {
             "entity_id": f"{platform}.{entity_id}",
-            "temperature": 170,
+            "temperature": 95,
         },
         blocking=True,
     )
@@ -436,7 +506,7 @@ async def test_climate_setprobetemp_cmds(
         "SET_TEMPERATURE",
         {
             "entity_id": f"{platform}.{entity_id}",
-            "temperature": 180,
+            "temperature": 100,
         },
         blocking=True,
     )
