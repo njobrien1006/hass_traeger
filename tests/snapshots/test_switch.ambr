@@ -2,8 +2,8 @@
 # name: test_switch_cmds[switch-traeger_0123456789ab_keepwarm][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Keep Warm Enabled",
-      'icon': 'mdi:beach',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Keep Warm Enabled",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:beach',
     }),
     'context': <ANY>,
     'entity_id': 'switch.traeger_0123456789ab_keepwarm',
@@ -17,8 +17,8 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger Keep Warm Enabled",
-      'icon': 'mdi:beach',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Keep Warm Enabled",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:beach',
       'integration': 'traeger',
     }),
     'context': <ANY>,
@@ -33,8 +33,8 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger Keep Warm Enabled",
-      'icon': 'mdi:beach',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Keep Warm Enabled",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:beach',
       'integration': 'traeger',
     }),
     'context': <ANY>,
@@ -48,8 +48,8 @@
 # name: test_switch_cmds[switch-traeger_0123456789ab_keepwarm][04-unavailable]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Keep Warm Enabled",
-      'icon': 'mdi:beach',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Keep Warm Enabled",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:beach',
     }),
     'context': <ANY>,
     'entity_id': 'switch.traeger_0123456789ab_keepwarm',
@@ -62,8 +62,8 @@
 # name: test_switch_cmds[switch-traeger_0123456789ab_smoke][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Super Smoke Enabled",
-      'icon': 'mdi:weather-fog',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Super Smoke Enabled",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:weather-fog',
     }),
     'context': <ANY>,
     'entity_id': 'switch.traeger_0123456789ab_smoke',
@@ -77,8 +77,8 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger Super Smoke Enabled",
-      'icon': 'mdi:weather-fog',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Super Smoke Enabled",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:weather-fog',
       'integration': 'traeger',
     }),
     'context': <ANY>,
@@ -93,8 +93,8 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger Super Smoke Enabled",
-      'icon': 'mdi:weather-fog',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Super Smoke Enabled",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:weather-fog',
       'integration': 'traeger',
     }),
     'context': <ANY>,
@@ -108,8 +108,8 @@
 # name: test_switch_cmds[switch-traeger_0123456789ab_smoke][04-unavailable]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Super Smoke Enabled",
-      'icon': 'mdi:weather-fog',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Super Smoke Enabled",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:weather-fog',
     }),
     'context': <ANY>,
     'entity_id': 'switch.traeger_0123456789ab_smoke',

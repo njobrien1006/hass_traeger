@@ -3,8 +3,8 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger Connect",
-      'icon': 'mdi:lan-connect',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Connect",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:lan-connect',
       'integration': 'traeger',
     }),
     'context': <ANY>,
@@ -19,8 +19,8 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger Connect",
-      'icon': 'mdi:lan-connect',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Connect",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:lan-connect',
       'integration': 'traeger',
     }),
     'context': <ANY>,

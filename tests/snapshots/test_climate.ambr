@@ -73,17 +73,17 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Climate",
-      'hvac_modes': tuple(
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 260,
-      'min_temp': 75,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 260,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -96,21 +96,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][02-system_status(2)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 260,
-      'min_temp': 75,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 260,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -123,21 +123,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][03-system_status(3)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 260,
-      'min_temp': 75,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 260,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -150,21 +150,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][04-system_status(4)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 260,
-      'min_temp': 75,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 260,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -177,21 +177,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][05-system_status(5)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 260,
-      'min_temp': 75,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 260,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -204,21 +204,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][06-off]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 260,
-      'min_temp': 75,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 260,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -231,21 +231,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][06-system_status(6)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 260,
-      'min_temp': 75,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 260,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -258,21 +258,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][07-system_status(7)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 260,
-      'min_temp': 75,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 260,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -285,21 +285,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][08-system_status(9)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 260,
-      'min_temp': 75,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 260,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -312,21 +312,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][09-system_status(2)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 260,
-      'min_temp': 75,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 260,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -339,21 +339,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][10-system_status(99)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 260,
-      'min_temp': 75,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 260,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -366,21 +366,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][11-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 260,
-      'min_temp': 75,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 260,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -393,21 +393,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][12-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 170,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 260,
-      'min_temp': 75,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 170,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 260,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 170,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -420,21 +420,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][13-changed2]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 255,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 260,
-      'min_temp': 75,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 255,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 260,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 255,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -447,21 +447,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][14-cool]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 255,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 260,
-      'min_temp': 75,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 255,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 260,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 255,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -474,17 +474,17 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][15-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Climate",
-      'hvac_modes': tuple(
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 260,
-      'min_temp': 75,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 260,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -497,17 +497,17 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Climate",
-      'hvac_modes': tuple(
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 500,
-      'min_temp': 165,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 500,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -520,21 +520,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][02-system_status(2)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 500,
-      'min_temp': 165,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 500,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -547,21 +547,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][03-system_status(3)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 500,
-      'min_temp': 165,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 500,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -574,21 +574,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][04-system_status(4)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 500,
-      'min_temp': 165,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 500,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -601,21 +601,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][05-system_status(5)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 500,
-      'min_temp': 165,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 500,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -628,21 +628,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][06-off]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 500,
-      'min_temp': 165,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 500,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -655,21 +655,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][06-system_status(6)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 500,
-      'min_temp': 165,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 500,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -682,21 +682,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][07-system_status(7)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 500,
-      'min_temp': 165,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 500,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -709,21 +709,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][08-system_status(9)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 500,
-      'min_temp': 165,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 500,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -736,21 +736,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][09-system_status(2)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 500,
-      'min_temp': 165,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 500,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -763,21 +763,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][10-system_status(99)]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 500,
-      'min_temp': 165,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 500,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -790,21 +790,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][11-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 165,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 500,
-      'min_temp': 165,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 165,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 500,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -817,21 +817,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][12-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 170,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 500,
-      'min_temp': 165,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 170,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 500,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 170,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -844,21 +844,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][13-changed2]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 255,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 500,
-      'min_temp': 165,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 255,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 500,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 255,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -871,21 +871,21 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][14-cool]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 43,
-      'friendly_name': "Johny's Traeger Climate",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
       'grill_native_cur_val': 43,
       'grill_native_set_val': 255,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 500,
-      'min_temp': 165,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
-      'temperature': 255,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 500,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 255,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -898,17 +898,17 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][15-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Climate",
-      'hvac_modes': tuple(
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
         <HVACMode.COOL: 'cool'>,
       ),
-      'icon': 'mdi:grill',
-      'max_temp': 500,
-      'min_temp': 165,
-      'supported_features': <ClimateEntityFeature: 385>,
-      'target_temp_step': 5,
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:grill',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 500,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -921,15 +921,15 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc0][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Probe p0",
-      'hvac_modes': tuple(
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe p0",
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -949,8 +949,8 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_p0',
@@ -963,19 +963,19 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc0][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 1,
-      'friendly_name': "Johny's Traeger Probe p0",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 1,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe p0",
       'grill_native_cur_val': 1,
       'grill_native_set_val': 2,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_mode': 'none',
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'none',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -995,9 +995,9 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
-      'temperature': 2,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 2,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_p0',
@@ -1010,19 +1010,19 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc0][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 48,
-      'friendly_name': "Johny's Traeger Probe p0",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 48,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe p0",
       'grill_native_cur_val': 47.5,
       'grill_native_set_val': 95,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_mode': 'none',
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'none',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1042,9 +1042,9 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
-      'temperature': 95,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 95,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_p0',
@@ -1057,19 +1057,19 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc0][04-changed2]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 50,
-      'friendly_name': "Johny's Traeger Probe p0",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 50,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe p0",
       'grill_native_cur_val': 50.0,
       'grill_native_set_val': 100,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_mode': 'none',
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'none',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1089,9 +1089,9 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
-      'temperature': 100,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 100,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_p0',
@@ -1104,15 +1104,15 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc0][05-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Probe p0",
-      'hvac_modes': tuple(
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe p0",
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1132,8 +1132,8 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_p0',
@@ -1146,15 +1146,15 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc1][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Probe probe0",
-      'hvac_modes': tuple(
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe probe0",
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1174,8 +1174,8 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_probe0',
@@ -1188,19 +1188,19 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc1][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 3,
-      'friendly_name': "Johny's Traeger Probe probe0",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 3,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe probe0",
       'grill_native_cur_val': 3,
       'grill_native_set_val': 4,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_mode': 'none',
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'none',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1220,9 +1220,9 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
-      'temperature': 4,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 4,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_probe0',
@@ -1235,19 +1235,19 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc1][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 48,
-      'friendly_name': "Johny's Traeger Probe probe0",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 48,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe probe0",
       'grill_native_cur_val': 47.5,
       'grill_native_set_val': 95,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_mode': 'none',
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'none',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1267,9 +1267,9 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
-      'temperature': 95,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 95,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_probe0',
@@ -1282,19 +1282,19 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc1][04-changed2]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 50,
-      'friendly_name': "Johny's Traeger Probe probe0",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 50,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe probe0",
       'grill_native_cur_val': 50.0,
       'grill_native_set_val': 100,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_mode': 'none',
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'none',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1314,9 +1314,9 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
-      'temperature': 100,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 100,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_probe0',
@@ -1329,15 +1329,15 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc1][05-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Probe probe0",
-      'hvac_modes': tuple(
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe probe0",
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1357,8 +1357,8 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_probe0',
@@ -1371,15 +1371,15 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc2][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Probe probe1",
-      'hvac_modes': tuple(
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe probe1",
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1399,8 +1399,8 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_probe1',
@@ -1413,19 +1413,19 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc2][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 5,
-      'friendly_name': "Johny's Traeger Probe probe1",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 5,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe probe1",
       'grill_native_cur_val': 5,
       'grill_native_set_val': 6,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_mode': 'none',
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'none',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1445,9 +1445,9 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
-      'temperature': 6,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 6,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_probe1',
@@ -1460,19 +1460,19 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc2][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 48,
-      'friendly_name': "Johny's Traeger Probe probe1",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 48,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe probe1",
       'grill_native_cur_val': 47.5,
       'grill_native_set_val': 95,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_mode': 'none',
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'none',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1492,9 +1492,9 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
-      'temperature': 95,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 95,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_probe1',
@@ -1507,19 +1507,19 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc2][04-changed2]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 50,
-      'friendly_name': "Johny's Traeger Probe probe1",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 50,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe probe1",
       'grill_native_cur_val': 50.0,
       'grill_native_set_val': 100,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_mode': 'none',
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'none',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1539,9 +1539,9 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
-      'temperature': 100,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 100,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_probe1',
@@ -1554,15 +1554,15 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc2][05-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Probe probe1",
-      'hvac_modes': tuple(
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe probe1",
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1582,8 +1582,8 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_probe1',
@@ -1596,15 +1596,15 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc3][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Probe 12charId1",
-      'hvac_modes': tuple(
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe 12charId1",
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1624,8 +1624,8 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_12charid1',
@@ -1638,19 +1638,19 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc3][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 7,
-      'friendly_name': "Johny's Traeger Probe 12charId1",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 7,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe 12charId1",
       'grill_native_cur_val': 7,
       'grill_native_set_val': 8,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_mode': 'none',
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'none',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1670,9 +1670,9 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
-      'temperature': 8,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 8,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_12charid1',
@@ -1685,19 +1685,19 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc3][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 48,
-      'friendly_name': "Johny's Traeger Probe 12charId1",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 48,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe 12charId1",
       'grill_native_cur_val': 47.5,
       'grill_native_set_val': 95,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_mode': 'none',
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'none',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1717,9 +1717,9 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
-      'temperature': 95,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 95,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_12charid1',
@@ -1732,19 +1732,19 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc3][04-changed2]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 50,
-      'friendly_name': "Johny's Traeger Probe 12charId1",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 50,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe 12charId1",
       'grill_native_cur_val': 50.0,
       'grill_native_set_val': 100,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_mode': 'none',
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'none',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1764,9 +1764,9 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
-      'temperature': 100,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 100,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_12charid1',
@@ -1779,15 +1779,15 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc3][05-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Probe 12charId1",
-      'hvac_modes': tuple(
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe 12charId1",
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1807,8 +1807,8 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_12charid1',
@@ -1821,15 +1821,15 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc4][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Probe 12charId2",
-      'hvac_modes': tuple(
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe 12charId2",
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1849,8 +1849,8 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_12charid2',
@@ -1863,19 +1863,19 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc4][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 9,
-      'friendly_name': "Johny's Traeger Probe 12charId2",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 9,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe 12charId2",
       'grill_native_cur_val': 9,
       'grill_native_set_val': 10,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_mode': 'none',
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'none',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1895,9 +1895,9 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
-      'temperature': 10,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 10,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_12charid2',
@@ -1910,19 +1910,19 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc4][03-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 48,
-      'friendly_name': "Johny's Traeger Probe 12charId2",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 48,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe 12charId2",
       'grill_native_cur_val': 47.5,
       'grill_native_set_val': 95,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_mode': 'none',
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'none',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1942,9 +1942,9 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
-      'temperature': 95,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 95,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_12charid2',
@@ -1957,19 +1957,19 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc4][04-changed2]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'current_temperature': 50,
-      'friendly_name': "Johny's Traeger Probe 12charId2",
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 50,
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe 12charId2",
       'grill_native_cur_val': 50.0,
       'grill_native_set_val': 100,
-      'hvac_modes': tuple(
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_mode': 'none',
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityStateAttribute.PRESET_MODE: 'preset_mode'>: 'none',
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -1989,9 +1989,9 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
-      'temperature': 100,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 100,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_12charid2',
@@ -2004,15 +2004,15 @@
 # name: test_climate_setprobetemp_cmds[mqtt_msg_acc4][05-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Probe 12charId2",
-      'hvac_modes': tuple(
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe 12charId2",
+      <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
       ),
-      'icon': 'mdi:thermometer',
-      'max_temp': 215,
-      'min_temp': 80,
-      'preset_modes': list([
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
+      <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
+      <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 80,
+      <ClimateEntityCapabilityAttribute.PRESET_MODES: 'preset_modes'>: list([
         'Chicken',
         'Turkey',
         'Beef (Rare)',
@@ -2032,8 +2032,8 @@
         'Pork (Well Done)',
         'Fish',
       ]),
-      'supported_features': <ClimateEntityFeature: 401>,
-      'target_temp_step': 5,
+      <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 401>,
+      <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
     }),
     'context': <ANY>,
     'entity_id': 'climate.0123456789ab_probe_12charid2',

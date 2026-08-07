@@ -2,8 +2,8 @@
 # name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Cook Timer Complete",
-      'icon': 'mdi:timer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Cook Timer Complete",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:timer',
     }),
     'context': <ANY>,
     'entity_id': 'binary_sensor.traeger_0123456789ab_cook_timer_complete',
@@ -17,8 +17,8 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger Cook Timer Complete",
-      'icon': 'mdi:timer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Cook Timer Complete",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:timer',
       'integration': 'traeger',
     }),
     'context': <ANY>,
@@ -33,8 +33,8 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger Cook Timer Complete",
-      'icon': 'mdi:timer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Cook Timer Complete",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:timer',
       'integration': 'traeger',
     }),
     'context': <ANY>,
@@ -48,8 +48,8 @@
 # name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Cook Timer Complete",
-      'icon': 'mdi:timer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Cook Timer Complete",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:timer',
     }),
     'context': <ANY>,
     'entity_id': 'binary_sensor.traeger_0123456789ab_cook_timer_complete',
@@ -62,8 +62,8 @@
 # name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Probe Alarm Fired",
-      'icon': 'mdi:thermometer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe Alarm Fired",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
     }),
     'context': <ANY>,
     'entity_id': 'binary_sensor.traeger_0123456789ab_probe_alarm_fired',
@@ -77,8 +77,8 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger Probe Alarm Fired",
-      'icon': 'mdi:thermometer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe Alarm Fired",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       'integration': 'traeger',
     }),
     'context': <ANY>,
@@ -93,8 +93,8 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger Probe Alarm Fired",
-      'icon': 'mdi:thermometer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe Alarm Fired",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       'integration': 'traeger',
     }),
     'context': <ANY>,
@@ -108,8 +108,8 @@
 # name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Probe Alarm Fired",
-      'icon': 'mdi:thermometer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe Alarm Fired",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
     }),
     'context': <ANY>,
     'entity_id': 'binary_sensor.traeger_0123456789ab_probe_alarm_fired',
@@ -122,8 +122,8 @@
 # name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger System Timer Complete",
-      'icon': 'mdi:timer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger System Timer Complete",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:timer',
     }),
     'context': <ANY>,
     'entity_id': 'binary_sensor.traeger_0123456789ab_system_timer_complete',
@@ -137,8 +137,8 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger System Timer Complete",
-      'icon': 'mdi:timer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger System Timer Complete",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:timer',
       'integration': 'traeger',
     }),
     'context': <ANY>,
@@ -153,8 +153,8 @@
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger System Timer Complete",
-      'icon': 'mdi:timer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger System Timer Complete",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:timer',
       'integration': 'traeger',
     }),
     'context': <ANY>,
@@ -168,8 +168,8 @@
 # name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger System Timer Complete",
-      'icon': 'mdi:timer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger System Timer Complete",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:timer',
     }),
     'context': <ANY>,
     'entity_id': 'binary_sensor.traeger_0123456789ab_system_timer_complete',
