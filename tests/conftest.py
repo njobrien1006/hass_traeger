@@ -2,8 +2,6 @@
 
 import asyncio
 import logging
-from collections.abc import Generator
-from typing import Any
 import pytest
 
 from aiointercept import aiointercept
@@ -39,7 +37,7 @@ def snapshot(snapshot: SnapshotAssertion) -> SnapshotAssertion:
 
 @pytest.fixture(autouse=True)
 def allowed_hosts(socket_enabled):
-    # Allows aiointercept to spin up its local loopback server safely
+    """Allows aiointercept to spin up its local loopback server safely"""
     pass
 
 @pytest.fixture

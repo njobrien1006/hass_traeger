@@ -7,9 +7,9 @@ from homeassistant import config_entries
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 
+from aiointercept import aiointercept
 from custom_components.traeger.const import CONF_PASSWORD, CONF_USERNAME, DOMAIN
 
-from aiointercept import aiointercept
 from .zzMockResp import api_token, api_mqtt, api_user_self
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
