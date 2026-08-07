@@ -35,10 +35,12 @@ def snapshot(snapshot: SnapshotAssertion) -> SnapshotAssertion:
     """Return snapshot assertion fixture with the Home Assistant extension."""
     return snapshot.use_extension(HomeAssistantSnapshotExtension)
 
+
 @pytest.fixture(autouse=True)
 def allowed_hosts(socket_enabled):
     """Allows aiointercept to spin up its local loopback server safely"""
-    pass
+    pass  # pylint: disable=unnecessary-pass
+
 
 @pytest.fixture
 async def http():
@@ -125,7 +127,7 @@ async def mock_config_entry(
     entry.add_to_hass(hass)
     await hass.config_entries.async_setup(entry.entry_id)
     hass_traeger_client = hass.data[DOMAIN][entry.entry_id]
-    #Start with pending task cancelled.
+    # Start with pending task cancelled.
     await hass_traeger_client.kill()
 
     yield entry
