@@ -6,7 +6,7 @@ from collections.abc import Generator
 from typing import Any
 import pytest
 
-from aioresponses import aioresponses
+from aiointercept import aiointercept
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.util.unit_system import US_CUSTOMARY_SYSTEM
@@ -37,11 +37,15 @@ def snapshot(snapshot: SnapshotAssertion) -> SnapshotAssertion:
     """Return snapshot assertion fixture with the Home Assistant extension."""
     return snapshot.use_extension(HomeAssistantSnapshotExtension)
 
+@pytest.fixture(autouse=True)
+def allowed_hosts(socket_enabled):
+    # Allows aiointercept to spin up its local loopback server safely
+    pass
 
 @pytest.fixture
-def http() -> Generator[aioresponses, Any]:
+async def http():
     """Fixture to mock `aiohttp` requests."""
-    with aioresponses() as mock:
+    async with aiointercept(mock_external_urls=True) as mock:
         mock.post(api_token["url"], payload=api_token["resp"], repeat=True)
         mock.get(api_user_self["url"], payload=api_user_self["resp"], repeat=True)
         mock.post(api_mqtt["url"], payload=api_mqtt["resp"], repeat=True)
@@ -93,7 +97,7 @@ async def connected_amqtt(mock_broker: Broker):
 
 
 @pytest.fixture
-async def traeger_client(hass: HomeAssistant, http: aioresponses) -> TraegerTestClient:
+async def traeger_client(hass: HomeAssistant, http: aiointercept) -> TraegerTestClient:
     """Traeger Test Client"""
     session = async_get_clientsession(hass)
     client = TraegerTestClient(
@@ -106,7 +110,7 @@ async def traeger_client(hass: HomeAssistant, http: aioresponses) -> TraegerTest
 async def mock_config_entry(
     hass: HomeAssistant,
     traeger_client: TraegerTestClient,
-    http: aioresponses,
+    http: aiointercept,
     caplog: pytest.LogCaptureFixture,
 ) -> MockConfigEntry:
     """HASS Mock Config Entry"""

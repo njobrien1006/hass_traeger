@@ -5,7 +5,7 @@ import json
 import logging
 import pytest
 
-from aioresponses import CallbackResult
+from aiointercept import aiointercept, CallbackResult
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry
 
@@ -15,7 +15,7 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import DOMAIN
-from .conftest import Broker, aioresponses, MQTTPORT
+from .conftest import Broker, MQTTPORT
 from .zzMockResp import api_commands, api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -65,7 +65,7 @@ async def test_switch_cmds(
     mock_config_entry: MockConfigEntry,
     connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
-    http: aioresponses,
+    http: aiointercept,
 ) -> None:
     """test switch cmds"""
 

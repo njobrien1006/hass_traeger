@@ -4,7 +4,7 @@ import asyncio
 import logging
 import json
 import pytest
-from aioresponses import aioresponses
+from aiointercept import aiointercept
 from paho.mqtt.client import MQTTMessage
 
 from .conftest import TraegerTestClient, Broker, MQTTPORT
@@ -17,7 +17,7 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 # pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
 @pytest.mark.usefixtures("socket_enabled")
 async def test_connect_pub(
-    traeger_client: TraegerTestClient, connected_amqtt: Broker, http: aioresponses
+    traeger_client: TraegerTestClient, connected_amqtt: Broker, http: aiointercept
 ) -> None:
     """Test connect and publish"""
     await asyncio.sleep(0.1)
@@ -40,7 +40,7 @@ async def test_connect_pub(
 
 @pytest.mark.usefixtures("socket_enabled")
 async def test_connect_bad_pub(
-    traeger_client: TraegerTestClient, connected_amqtt: Broker, http: aioresponses
+    traeger_client: TraegerTestClient, connected_amqtt: Broker, http: aiointercept
 ) -> None:
     """Test connect and bad publish"""
     await asyncio.sleep(0.1)
@@ -64,7 +64,7 @@ async def test_connect_bad_pub(
 
 @pytest.mark.usefixtures("socket_enabled")
 async def test_connect_grillmsg(
-    traeger_client: TraegerTestClient, connected_amqtt: Broker, http: aioresponses
+    traeger_client: TraegerTestClient, connected_amqtt: Broker, http: aiointercept
 ) -> None:
     """Test connect and send grill mqtt msg"""
     await asyncio.sleep(0.1)

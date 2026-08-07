@@ -5,7 +5,7 @@ import json
 import logging
 import pytest
 
-from aioresponses import CallbackResult
+from aiointercept import aiointercept, CallbackResult
 from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry
@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import DOMAIN
 from custom_components.traeger.sensor import SENSOR_ENTITIES
-from .conftest import Broker, aioresponses, MQTTPORT
+from .conftest import Broker, MQTTPORT
 from .zzMockResp import api_commands, api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -28,7 +28,7 @@ async def test_sensor_platform(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
     snapshot: SnapshotAssertion,
-    http: aioresponses,
+    http: aiointercept,
 ) -> None:
     """Test the sensor platform setup."""
     registry = entity_registry.async_get(hass)
@@ -58,7 +58,7 @@ async def test_sensor_platform_asyncadd(
     mock_config_entry: MockConfigEntry,
     connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
-    http: aioresponses,
+    http: aiointercept,
 ) -> None:
     """Check async add for the post init additions"""
 
@@ -154,7 +154,7 @@ async def test_sensor(
     entity_registry: EntityRegistry,
     connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
-    http: aioresponses,
+    http: aiointercept,
 ) -> None:
     """Test Sensor"""
     mqtt_loca = SENSOR_ENTITIES[friendly_name]["json_loca"]

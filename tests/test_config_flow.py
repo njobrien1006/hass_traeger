@@ -9,7 +9,7 @@ from homeassistant.data_entry_flow import FlowResultType
 
 from custom_components.traeger.const import CONF_PASSWORD, CONF_USERNAME, DOMAIN
 
-from .conftest import aioresponses
+from aiointercept import aiointercept
 from .zzMockResp import api_token, api_mqtt, api_user_self
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -18,7 +18,7 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 # TestTraegerConfigFlow
 # pylint: disable=unused-argument
 async def test_config_flow_show_user_form(
-    hass: HomeAssistant, http: aioresponses
+    hass: HomeAssistant, http: aiointercept
 ) -> None:
     """Test that user form is shown on init."""
     result = await hass.config_entries.flow.async_init(
@@ -30,7 +30,7 @@ async def test_config_flow_show_user_form(
     assert result["errors"] == {}
 
 # pylint: disable=unused-argument
-async def test_config_flow_success(hass: HomeAssistant, http: aioresponses) -> None:
+async def test_config_flow_success(hass: HomeAssistant, http: aiointercept) -> None:
     """Test Success User Flow with Ent Create"""
     # Start the flow
     result = await hass.config_entries.flow.async_init(
@@ -112,7 +112,7 @@ async def test_config_flow_fail(
     assert1,
     assert2,
     hass: HomeAssistant,
-    http: aioresponses,
+    http: aiointercept,
 ) -> None:
     """Test Failed User Flow"""
     http.clear()

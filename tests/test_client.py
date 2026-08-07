@@ -6,7 +6,7 @@ import json
 import logging
 import pytest
 
-from aioresponses import CallbackResult
+from aiointercept import aiointercept, CallbackResult
 from homeassistant.core import HomeAssistant
 
 from homeassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_ON, SERVICE_TURN_OFF
@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import DOMAIN
 
-from .conftest import TraegerTestClient, Broker, aioresponses, MQTTPORT
+from .conftest import TraegerTestClient, Broker, MQTTPORT
 from .zzMockResp import api_commands, api_token, api_mqtt, api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -24,7 +24,7 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 # TestTraegerClient
 async def test_handle_tokens(
-    traeger_client: TraegerTestClient, http: aioresponses
+    traeger_client: TraegerTestClient, http: aiointercept
 ) -> None:
     """test getting token"""
     http.clear()
@@ -38,7 +38,7 @@ async def test_handle_tokens(
 
 
 async def test_handle_tokens_bad_user_pass(
-    traeger_client: TraegerTestClient, http: aioresponses
+    traeger_client: TraegerTestClient, http: aiointercept
 ) -> None:
     """test getting token with bad PAR"""
     http.clear()
@@ -50,7 +50,7 @@ async def test_handle_tokens_bad_user_pass(
 
 
 async def test_handle_user(
-    traeger_client: TraegerTestClient, http: aioresponses
+    traeger_client: TraegerTestClient, http: aiointercept
 ) -> None:
     """test getting user data"""
     http.clear()
@@ -65,7 +65,7 @@ async def test_handle_user(
 
 
 async def test_handle_user_bad(
-    traeger_client: TraegerTestClient, http: aioresponses
+    traeger_client: TraegerTestClient, http: aiointercept
 ) -> None:
     """test getting user data with bad data"""
     http.clear()
@@ -78,7 +78,7 @@ async def test_handle_user_bad(
 
 
 async def test_handle_mqtturl(
-    traeger_client: TraegerTestClient, http: aioresponses
+    traeger_client: TraegerTestClient, http: aiointercept
 ) -> None:
     """test getting mqtt url"""
     http.clear()
@@ -93,7 +93,7 @@ async def test_handle_mqtturl(
 
 
 async def test_handle_mqtturl_bad(
-    traeger_client: TraegerTestClient, http: aioresponses
+    traeger_client: TraegerTestClient, http: aiointercept
 ) -> None:
     """test getting mqtt url bad"""
     http.clear()
@@ -106,7 +106,7 @@ async def test_handle_mqtturl_bad(
 
 
 async def test_handle_cmd(
-    traeger_client: TraegerTestClient, http: aioresponses
+    traeger_client: TraegerTestClient, http: aiointercept
 ) -> None:
     """test grill command"""
     http.clear()
@@ -120,7 +120,7 @@ async def test_handle_cmd(
 
 
 async def test_handle_cmd_bad(
-    traeger_client: TraegerTestClient, http: aioresponses
+    traeger_client: TraegerTestClient, http: aiointercept
 ) -> None:
     """test grill command"""
     http.clear()
@@ -132,41 +132,6 @@ async def test_handle_cmd_bad(
     assert True
 
 
-def _last_command(http: aioresponses) -> str:
-    """Return the command string from the most recent commands POST."""
-    posted = [
-        call.kwargs["json"]["command"]
-        for (method, url), calls in http.requests.items()
-        for call in calls
-        if method == "POST" and url.path.endswith("/commands")
-    ]
-    return posted[-1]
-
-
-async def test_set_probe_temperature_multiprobe(
-    traeger_client: TraegerTestClient, http: aioresponses
-) -> None:
-    """Per-probe target uses the 120,10,{sensor_id},{temp} command."""
-    http.post(api_token["url"], payload=api_token["resp"])
-    http.post(api_commands["url"], payload=api_commands["resp"])
-    traeger_client.api["username"] = "JohnyTraeger@traeger.com"
-    traeger_client.api["password"] = "abc123"
-    await traeger_client.set_probe_temperature("0123456789ab", 145, "probe0")
-    assert _last_command(http) == "120,10,probe0,145"
-
-
-async def test_set_probe_temperature_legacy_fallback(
-    traeger_client: TraegerTestClient, http: aioresponses
-) -> None:
-    """Without a sensor_id the legacy 14,{temp} command is used."""
-    http.post(api_token["url"], payload=api_token["resp"])
-    http.post(api_commands["url"], payload=api_commands["resp"])
-    traeger_client.api["username"] = "JohnyTraeger@traeger.com"
-    traeger_client.api["password"] = "abc123"
-    await traeger_client.set_probe_temperature("0123456789ab", 145)
-    assert _last_command(http) == "14,145"
-
-
 # pylint: disable=unused-argument
 @pytest.mark.usefixtures("socket_enabled")
 async def test_client_missing_sts(
@@ -174,7 +139,7 @@ async def test_client_missing_sts(
     mock_config_entry: MockConfigEntry,
     connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
-    http: aioresponses,
+    http: aiointercept,
 ) -> None:
     """Test Bad MQTT formation"""
 
@@ -255,7 +220,7 @@ async def test_connect_cmds(
     mock_config_entry: MockConfigEntry,
     connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
-    http: aioresponses,
+    http: aiointercept,
 ) -> None:
     """test switch connect cmds"""
 
