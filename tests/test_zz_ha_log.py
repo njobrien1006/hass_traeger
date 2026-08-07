@@ -46,11 +46,11 @@ async def test_zz_ha_log(
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    traeger_client.mqtt_client.ssl = False
+    traeger_client.mqtt_client.port = MQTTPORT
     await traeger_client.mqtt_client.connect(  # Need to connect
         api_user_self["resp"]["things"],
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
-        False,
-        MQTTPORT,
     )
     await asyncio.sleep(0.2)  # Sleep on it
 

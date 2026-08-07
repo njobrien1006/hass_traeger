@@ -21,11 +21,11 @@ async def test_connect_pub(
 ) -> None:
     """Test connect and publish"""
     await asyncio.sleep(0.1)
+    traeger_client.mqtt_client.ssl = False
+    traeger_client.mqtt_client.port = MQTTPORT
     await traeger_client.mqtt_client.connect(
         api_user_self["resp"]["things"],
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
-        False,
-        MQTTPORT,
     )
     _LOGGER.warning("Wait for onConnect to Subscribe")
     await asyncio.sleep(0.2)
@@ -44,11 +44,11 @@ async def test_connect_bad_pub(
 ) -> None:
     """Test connect and bad publish"""
     await asyncio.sleep(0.1)
+    traeger_client.mqtt_client.ssl = False
+    traeger_client.mqtt_client.port = MQTTPORT
     await traeger_client.mqtt_client.connect(
         api_user_self["resp"]["things"],
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
-        False,
-        MQTTPORT,
     )
     _LOGGER.warning("Wait for onConnect to Subscribe")
     await asyncio.sleep(0.2)
@@ -68,11 +68,11 @@ async def test_connect_grillmsg(
 ) -> None:
     """Test connect and send grill mqtt msg"""
     await asyncio.sleep(0.1)
+    traeger_client.mqtt_client.ssl = False
+    traeger_client.mqtt_client.port = MQTTPORT
     await traeger_client.mqtt_client.connect(
         api_user_self["resp"]["things"],
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
-        False,
-        MQTTPORT,
     )
     _LOGGER.warning("Wait for onConnect to Subscribe")
     await asyncio.sleep(0, 1)

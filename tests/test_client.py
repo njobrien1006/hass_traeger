@@ -9,6 +9,8 @@ import pytest
 from aioresponses import CallbackResult
 from homeassistant.core import HomeAssistant
 
+from homeassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_ON, SERVICE_TURN_OFF
+
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
@@ -192,11 +194,11 @@ async def test_client_missing_sts(
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    traeger_client.mqtt_client.ssl = False
+    traeger_client.mqtt_client.port = MQTTPORT
     await traeger_client.mqtt_client.connect(  # Need to connect
         api_user_self["resp"]["things"],
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
-        False,
-        MQTTPORT,
     )
 
     # Set Connected
@@ -246,3 +248,73 @@ async def test_client_missing_sts(
     await asyncio.sleep(0.1)
     traeger_client.mqtt_client.disconnect()
     await asyncio.sleep(0.1)
+
+@pytest.mark.usefixtures("socket_enabled")
+async def test_connect_cmds(
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    connected_amqtt: Broker,
+    snapshot: SnapshotAssertion,
+    http: aioresponses,
+) -> None:
+    """test switch connect cmds"""
+
+    def callback(url, **kwargs):
+        """Setup API Callbacks"""
+        _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
+        if kwargs["json"]["command"] == "90":
+            traeger_client.mqtt_client.mqtt_client.publish(
+                "prod/thing/update/0123456789ab",
+                json.dumps(mqtt_msg).encode("utf-8"),
+                qos=1,
+            )
+            traeger_client.mqtt_client.mqtt_client.publish(
+                "prod/thing/update/cd0123456789",
+                json.dumps(mqtt_msg).encode("utf-8"),
+                qos=1,
+            )
+            return CallbackResult(status=400, payload=None)
+        return CallbackResult(status=404, payload=None)
+
+    # Register Callbacks
+    http.post(api_commands["url"], callback=callback, repeat=True)
+    http.post(api_commands["urlg2"], callback=callback, repeat=True)
+    traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    traeger_client.mqtt_client.ssl = False
+    traeger_client.mqtt_client.port = MQTTPORT
+    await hass.services.async_call(
+        "switch",
+        SERVICE_TURN_ON,
+        {ATTR_ENTITY_ID: "switch.traeger_0123456789ab_connect"},
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+    await asyncio.sleep(2)
+
+    # Get Entity Trig Check
+    entity = hass.states.get("switch.traeger_0123456789ab_connect")
+    # Check Enttity
+    assert traeger_client.mqtt_client.isconnected
+    assert entity.state == "on"
+    assert entity == snapshot(name="01-On")
+
+    await hass.services.async_call(
+        "switch",
+        SERVICE_TURN_OFF,
+        {ATTR_ENTITY_ID: "switch.traeger_0123456789ab_connect"},
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+    await asyncio.sleep(1)
+
+    # Get Entity Trig Check
+    entity = hass.states.get("switch.traeger_0123456789ab_connect")
+    # Check Enttity
+    assert not traeger_client.mqtt_client.isconnected
+    assert entity.state == "off"
+    assert entity == snapshot(name="02-Off")
+
+    # No Need to shutdown
+    #await asyncio.sleep(0.1)
+    #traeger_client.mqtt_client.disconnect()
+    #await asyncio.sleep(0.1)

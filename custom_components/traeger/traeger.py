@@ -24,7 +24,7 @@ from paho.mqtt import client as mqtt
 from homeassistant.components.mqtt.async_client import AsyncMQTTClient
 from homeassistant.helpers import entity_registry as er
 
-TIMEOUT = 60
+TIMEOUT = 10
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -343,9 +343,11 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                     return json.loads(data)
 
                 if method == "post_raw":
-                    await self.request.post(url, headers=headers, json=data)
+                    response = await self.request.post(url, headers=headers, json=data)
+                    data = await response.read()
+                    return {}
 
-                elif method == "post":
+                if method == "post":
                     response = await self.request.post(url,
                                                        headers=headers,
                                                        json=data)
@@ -372,6 +374,8 @@ class TraegerMQTTClient:
         self.isconnected = False
         self.grills_status = {}
         self.context = None
+        self.ssl = True
+        self.port = 443
 
         self._hass = hass
         self._grills = {}
@@ -396,12 +400,10 @@ class TraegerMQTTClient:
 
     async def connect(self,
                       grills,
-                      mqtt_url,
-                      setssl: bool = True,
-                      port: int = 443) -> None:
+                      mqtt_url) -> None:
         """Call Connect"""
         self._grills = grills
-        if setssl and self.context is None:
+        if self.ssl and self.context is None:
             self.context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
             self.context.check_hostname = False
             self.context.verify_mode = ssl.CERT_NONE
@@ -412,7 +414,7 @@ class TraegerMQTTClient:
         }
         self.mqtt_client.ws_set_options(
             path=f"{mqtt_parts.path}?{mqtt_parts.query}", headers=headers)
-        self.mqtt_client.connect_async(mqtt_parts.netloc, port, keepalive=300)
+        self.mqtt_client.connect_async(mqtt_parts.netloc, self.port, keepalive=300)
         _LOGGER.debug("Starting Traeger MQTT Class")
         self.mqtt_client.loop_start()
         _LOGGER.debug("Started Traeger MQTT Class")
