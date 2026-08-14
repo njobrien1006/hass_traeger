@@ -1,6 +1,7 @@
 """Tests for the binary sensor platform."""
 
 import asyncio
+import copy
 import json
 import logging
 import pytest
@@ -84,14 +85,14 @@ async def test_binary_sensor_par(
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        mqtt_msg_change = mqtt_msg
+        mqtt_msg_change = copy.deepcopy(mqtt_msg)
         if kwargs["json"]["command"] == "90":
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",
                 json.dumps(mqtt_msg_change).encode("utf-8"),
                 qos=0,
             )
-            return CallbackResult(status=400, payload=None)
+            return CallbackResult(status=200, payload=None)
         return CallbackResult(status=404, payload=None)
 
     # Register Callbacks
@@ -115,7 +116,7 @@ async def test_binary_sensor_par(
 
     # Change Entity
     await asyncio.sleep(0.1)  # Sleep on it
-    mqtt_msg_change = mqtt_msg
+    mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["connected"] = True
     traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
         "prod/thing/update/0123456789ab",
@@ -133,7 +134,7 @@ async def test_binary_sensor_par(
 
     # Change Entity
     await asyncio.sleep(0.1)
-    mqtt_msg_change = mqtt_msg
+    mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"][mqtt_loca] = 1
     traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
         "prod/thing/update/0123456789ab",
@@ -151,7 +152,7 @@ async def test_binary_sensor_par(
 
     # Change Entity
     await asyncio.sleep(0.1)
-    mqtt_msg_change = mqtt_msg
+    mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["connected"] = False
     traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
         "prod/thing/update/0123456789ab",

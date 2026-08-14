@@ -36,7 +36,7 @@
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
-    'state': '-10.0',
+    'state': '0.0',
   })
 # ---
 # name: test_number[number-traeger_0123456789ab_cook_timer-cook_timer_end][03-changed]
@@ -57,7 +57,7 @@
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
-    'state': '0.0',
+    'state': '10.0',
   })
 # ---
 # name: test_number[number-traeger_0123456789ab_cook_timer-cook_timer_end][04-not_connected]

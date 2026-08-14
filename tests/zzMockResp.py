@@ -131,7 +131,7 @@ mqtt_msg = {
         "probe_alarm_fired": 0,
         "ambient": 60,
         "probe_con": 0,
-        "sys_timer_complete": 1,
+        "sys_timer_complete": 0,
         "cook_timer_start": 0,
         "cook_timer_end": 0,
         "keepwarm": 0,

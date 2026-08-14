@@ -152,7 +152,7 @@ async def test_client_missing_sts(
                 json.dumps(mqtt_msg).encode("utf-8"),
                 qos=1,
             )
-            return CallbackResult(status=400, payload=None)
+            return CallbackResult(status=200, payload=None)
         return CallbackResult(status=404, payload=None)
 
     # Register Callbacks
@@ -168,7 +168,7 @@ async def test_client_missing_sts(
 
     # Set Connected
     await asyncio.sleep(0.1)  # Sleep on it
-    mqtt_msg_change = mqtt_msg
+    mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["connected"] = True
     traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
         "prod/thing/update/0123456789ab",
@@ -197,7 +197,7 @@ async def test_client_missing_sts(
 
     # Set UnConnected
     await asyncio.sleep(0.1)  # Sleep on it
-    mqtt_msg_change = mqtt_msg
+    mqtt_msg_change = copy.deepcopy(mqtt_msg)
     mqtt_msg_change["status"]["connected"] = False
     traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
         "prod/thing/update/0123456789ab",
@@ -238,7 +238,7 @@ async def test_connect_cmds(
                 json.dumps(mqtt_msg).encode("utf-8"),
                 qos=1,
             )
-            return CallbackResult(status=400, payload=None)
+            return CallbackResult(status=200, payload=None)
         return CallbackResult(status=404, payload=None)
 
     # Register Callbacks

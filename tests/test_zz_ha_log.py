@@ -1,6 +1,7 @@
 """Tests to check HA Logs."""
 
 import asyncio
+import copy
 import json
 import logging
 import pytest
@@ -32,14 +33,14 @@ async def test_zz_ha_log(
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        mqtt_msg_change = mqtt_msg
+        mqtt_msg_change = copy.deepcopy(mqtt_msg)
         if kwargs["json"]["command"] == "90":
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",
                 json.dumps(mqtt_msg_change).encode("utf-8"),
                 qos=0,
             )
-            return CallbackResult(status=400, payload=None)
+            return CallbackResult(status=200, payload=None)
         return CallbackResult(status=404, payload=None)
 
     # Register Callbacks

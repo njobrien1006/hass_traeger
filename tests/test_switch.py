@@ -1,6 +1,7 @@
 """Tests for the switch platform."""
 
 import asyncio
+import copy
 import json
 import logging
 import pytest
@@ -73,7 +74,7 @@ async def test_switch_cmds(
         """Setup API Callbacks"""
         _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
         if traeger_client.mqtt_client.grills_status == {}:
-            mqtt_msg_change = mqtt_msg
+            mqtt_msg_change = copy.deepcopy(mqtt_msg)
         else:
             mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
         if kwargs["json"]["command"] == "18":
@@ -83,7 +84,7 @@ async def test_switch_cmds(
                 json.dumps(mqtt_msg_change).encode("utf-8"),
                 qos=1,
             )
-            return CallbackResult(status=400, payload=None)
+            return CallbackResult(status=200, payload=None)
         if kwargs["json"]["command"] == "19":
             mqtt_msg_change["status"]["keepwarm"] = 0
             traeger_client.mqtt_client.mqtt_client.publish(
@@ -91,7 +92,7 @@ async def test_switch_cmds(
                 json.dumps(mqtt_msg_change).encode("utf-8"),
                 qos=1,
             )
-            return CallbackResult(status=400, payload=None)
+            return CallbackResult(status=200, payload=None)
         if kwargs["json"]["command"] == "20":
             mqtt_msg_change["status"]["smoke"] = 1
             traeger_client.mqtt_client.mqtt_client.publish(
@@ -99,7 +100,7 @@ async def test_switch_cmds(
                 json.dumps(mqtt_msg_change).encode("utf-8"),
                 qos=1,
             )
-            return CallbackResult(status=400, payload=None)
+            return CallbackResult(status=200, payload=None)
         if kwargs["json"]["command"] == "21":
             mqtt_msg_change["status"]["smoke"] = 0
             traeger_client.mqtt_client.mqtt_client.publish(
@@ -107,14 +108,14 @@ async def test_switch_cmds(
                 json.dumps(mqtt_msg_change).encode("utf-8"),
                 qos=1,
             )
-            return CallbackResult(status=400, payload=None)
+            return CallbackResult(status=200, payload=None)
         if kwargs["json"]["command"] == "90":
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",
                 json.dumps(mqtt_msg).encode("utf-8"),
                 qos=1,
             )
-            return CallbackResult(status=400, payload=None)
+            return CallbackResult(status=200, payload=None)
         return CallbackResult(status=404, payload=None)
 
     # Register Callbacks
@@ -138,7 +139,7 @@ async def test_switch_cmds(
 
     # Change Entity
     await asyncio.sleep(0.1)
-    mqtt_msg_change = mqtt_msg
+    mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["connected"] = True
     traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
         "prod/thing/update/0123456789ab",
@@ -148,7 +149,7 @@ async def test_switch_cmds(
     _LOGGER.error("Wait for onConnect to Subscribe")
     await asyncio.sleep(0.2)
     # Put Grill in cook mode so we can expect the switch to be available.
-    mqtt_msg_change = mqtt_msg
+    mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["system_status"] = 6
     traeger_client.mqtt_client.mqtt_client.publish(
         "prod/thing/update/0123456789ab",
@@ -186,7 +187,7 @@ async def test_switch_cmds(
     assert entity == snapshot(name=f"03-{entity.state}")
 
     # Put Grill back out of cook mode to make unavailable.
-    mqtt_msg_change = mqtt_msg
+    mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["system_status"] = 0
     traeger_client.mqtt_client.mqtt_client.publish(
         "prod/thing/update/0123456789ab",

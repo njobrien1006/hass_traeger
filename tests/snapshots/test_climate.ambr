@@ -204,10 +204,10 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][06-off]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 255,
       <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
-      'grill_native_cur_val': 43,
-      'grill_native_set_val': 165,
+      'grill_native_cur_val': 255,
+      'grill_native_set_val': 255,
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
@@ -218,7 +218,7 @@
       <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 75,
       <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
       <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
-      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 255,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -447,9 +447,9 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][14-cool]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 255,
       <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
-      'grill_native_cur_val': 43,
+      'grill_native_cur_val': 255,
       'grill_native_set_val': 255,
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
@@ -628,10 +628,10 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][06-off]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 255,
       <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
-      'grill_native_cur_val': 43,
-      'grill_native_set_val': 165,
+      'grill_native_cur_val': 255,
+      'grill_native_set_val': 255,
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
@@ -642,7 +642,7 @@
       <ClimateEntityCapabilityAttribute.MIN_TEMP: 'min_temp'>: 165,
       <EntityStateAttribute.SUPPORTED_FEATURES: 'supported_features'>: <ClimateEntityFeature: 385>,
       <ClimateEntityCapabilityAttribute.TARGET_TEMP_STEP: 'target_temp_step'>: 5,
-      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 165,
+      <ClimateEntityStateAttribute.TARGET_TEMPERATURE: 'temperature'>: 255,
     }),
     'context': <ANY>,
     'entity_id': 'climate.traeger_0123456789ab_climate',
@@ -871,9 +871,9 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][14-cool]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 255,
       <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
-      'grill_native_cur_val': 43,
+      'grill_native_cur_val': 255,
       'grill_native_set_val': 255,
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
@@ -925,6 +925,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -970,6 +971,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1017,6 +1019,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1064,6 +1067,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1108,6 +1112,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1150,6 +1155,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1195,6 +1201,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1242,6 +1249,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1289,6 +1297,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1333,6 +1342,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1375,6 +1385,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1420,6 +1431,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1467,6 +1479,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1514,6 +1527,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1558,6 +1572,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1600,6 +1615,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1645,6 +1661,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1692,6 +1709,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1739,6 +1757,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1783,6 +1802,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1825,6 +1845,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1870,6 +1891,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1917,6 +1939,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -1964,6 +1987,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,
@@ -2008,6 +2032,7 @@
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
         <HVACMode.OFF: 'off'>,
+        <HVACMode.COOL: 'cool'>,
       ),
       <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       <ClimateEntityCapabilityAttribute.MAX_TEMP: 'max_temp'>: 215,

@@ -1,6 +1,7 @@
 """Tests for the sensor platform."""
 
 import asyncio
+import copy
 import json
 import logging
 import pytest
@@ -65,14 +66,14 @@ async def test_sensor_platform_asyncadd(
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        mqtt_msg_change = mqtt_msg
+        mqtt_msg_change = copy.deepcopy(mqtt_msg)
         if kwargs["json"]["command"] == "90":
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",
                 json.dumps(mqtt_msg_change).encode("utf-8"),
                 qos=1,
             )
-            return CallbackResult(status=400, payload=None)
+            return CallbackResult(status=200, payload=None)
         return CallbackResult(status=404, payload=None)
 
     # Register Callbacks
@@ -177,14 +178,13 @@ async def test_sensor(
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        mqtt_msg_change = mqtt_msg
         if kwargs["json"]["command"] == "90":
             traeger_client.mqtt_client.mqtt_client.publish(
                 "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
+                json.dumps(mqtt_msg).encode("utf-8"),
                 qos=1,
             )
-            return CallbackResult(status=400, payload=None)
+            return CallbackResult(status=200, payload=None)
         return CallbackResult(status=404, payload=None)
 
     # Register Callbacks
@@ -208,7 +208,7 @@ async def test_sensor(
 
     # Change Entity
     await asyncio.sleep(0.1)
-    mqtt_msg_change = mqtt_msg
+    mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["connected"] = True
     traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
         "prod/thing/update/0123456789ab",
@@ -226,7 +226,7 @@ async def test_sensor(
 
     # Change Entity
     await asyncio.sleep(0.1)
-    mqtt_msg_change = mqtt_msg
+    mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_loca_splt = mqtt_loca.split(";")
     if len(mqtt_loca_splt) == 3:
         mqtt_msg_change[mqtt_loca_splt[0]][mqtt_loca_splt[1]][mqtt_loca_splt[2]] = 33
@@ -250,7 +250,7 @@ async def test_sensor(
 
     # Change Entity
     await asyncio.sleep(0.1)
-    mqtt_msg_change = mqtt_msg
+    mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["connected"] = False
     traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
         "prod/thing/update/0123456789ab",
