@@ -1,84 +1,94 @@
 {
-    "config": {
-      "step": {
-        "user": {
-          "description": "If you need help with the configuration have a look here: {github_url}",
-          "data": {
-            "username": "Username",
-            "password": "Password"
-          }
+  "config": {
+    "step": {
+      "user": {
+        "description": "If you need help with the configuration have a look here: {github_url}",
+        "data": {
+          "username": "Username",
+          "password": "Password",
+          "notify_list": "Mobile App Notify Endpoints"
         }
       },
-      "error": {
-        "auth": "Username/Password is wrong."
-      },
-      "abort": {
-        "single_instance_allowed": "Only a single configuration of Traeger is allowed."
-      }
-    },
-    "options": {
-      "step": {
-        "user": {
-          "data": {
-            "sensor": "Sensors enabled",
-            "climate": "Climate entity enabled",
-            "switch": "Switch entity enabled",
-            "number": "Number entity enabled",
-            "binary_sensor": "Binary Sensors enabled"
-          }
+      "reconfigure": {
+        "description": "If you need help with the configuration have a look here: {github_url}",
+        "data": {
+          "username": "Username",
+          "password": "Password",
+          "notify_list": "Mobile App Notify Endpoints"
         }
       }
     },
-    "services": {
-      "set_custom_cook": {
-        "name": "Set Cook Cycle",
-        "description": "Set Custom Cook Cycle Steps",
-        "fields": {
-          "steps": {
-            "name": "Steps",
-            "description": "List of steps to perform."
-          },
-          "set_temp": {
-            "name": "Set Temp",
-            "description": "Set Grill Temp.____________________________Only up to your grill's MaxTemp."
-          },
-          "smoke": {
-            "name": "Set S.Smoke Mode",
-            "description": "Set Smoke Mode 1 or 0._________________________Only Avail if grill supports"
-          },
-          "keepwarm": {
-            "name": "Set KeepWarm Mode",
-            "description": "Set keepwarm, Mode 1 or 0."
-          },
-          "time_set": {
-            "name": "Set Timer",
-            "description": "Set Timer in Minutes."
-          },
-          "use_timer": {
-            "name": "Use Timer",
-            "description": "Use Timer to Advance State._________________*Only applies to current state."
-          },
-          "min_delta": {
-            "name": "Min Probe/Grill Delta",
-            "description": "Min DELTA temp between Grill and Probe.___*Requires `max_grill_delta_temp`."
-          },
-          "max_grill_delta_temp": {
-            "name": "Max Grill Set.Temp for Delta",
-            "description": "Max Temp it will increase to from probe `min_delta`. *Requires `min_delta`."
-          },
-          "act_temp_adv": {
-            "name": "Actual Grill Temp for Advance",
-            "description": "Grill Temp at which the State will advance."
-          },
-          "probe_act_temp_adv": {
-            "name": "Actual Probe Temp for Advance",
-            "description": "Probe Temp at which the State will advance."
-          },
-          "shutdown": {
-            "name": "Command Shutdown",
-            "description": "Call Grill Shutdown."
-          }
+    "error": {
+      "auth": "Username/Password is wrong."
+    },
+    "abort": {
+      "single_instance_allowed": "Only a single configuration of Traeger is allowed.",
+      "reconfigure_successful": "Re-configuration was successful."
+    }
+  },
+  "options": {
+    "step": {
+      "user": {
+        "data": {
+          "sensor": "Sensors enabled",
+          "climate": "Climate entity enabled",
+          "switch": "Switch entity enabled",
+          "number": "Number entity enabled",
+          "binary_sensor": "Binary Sensors enabled"
         }
       }
     }
+  },
+  "services": {
+    "set_custom_cook": {
+      "name": "Set Cook Cycle",
+      "description": "Set Custom Cook Cycle Steps",
+      "fields": {
+        "steps": {
+          "name": "Steps",
+          "description": "List of steps to perform."
+        },
+        "set_temp": {
+          "name": "Set Temp",
+          "description": "Set Grill Temp.____________________________Only up to your grill's MaxTemp."
+        },
+        "smoke": {
+          "name": "Set S.Smoke Mode",
+          "description": "Set Smoke Mode 1 or 0._________________________Only Avail if grill supports"
+        },
+        "keepwarm": {
+          "name": "Set KeepWarm Mode",
+          "description": "Set keepwarm, Mode 1 or 0."
+        },
+        "time_set": {
+          "name": "Set Timer",
+          "description": "Set Timer in Minutes."
+        },
+        "use_timer": {
+          "name": "Use Timer",
+          "description": "Use Timer to Advance State._________________*Only applies to current state."
+        },
+        "min_delta": {
+          "name": "Min Probe/Grill Delta",
+          "description": "Min DELTA temp between Grill and Probe.___*Requires `max_grill_delta_temp`."
+        },
+        "max_grill_delta_temp": {
+          "name": "Max Grill Set.Temp for Delta",
+          "description": "Max Temp it will increase to from probe `min_delta`. *Requires `min_delta`."
+        },
+        "act_temp_adv": {
+          "name": "Actual Grill Temp for Advance",
+          "description": "Grill Temp at which the State will advance."
+        },
+        "probe_act_temp_adv": {
+          "name": "Actual Probe Temp for Advance",
+          "description": "Probe Temp at which the State will advance."
+        },
+        "shutdown": {
+          "name": "Command Shutdown",
+          "description": "Call Grill Shutdown."
+        }
+      }
+    }
+  }
 }

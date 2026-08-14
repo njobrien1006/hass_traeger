@@ -22,7 +22,7 @@ import homeassistant.const
 from paho.mqtt import client as mqtt
 
 from homeassistant.components.mqtt.async_client import AsyncMQTTClient
-from homeassistant.helpers import entity_registry as er
+from homeassistant.helpers import entity_registry as er, device_registry as dr
 
 TIMEOUT = 10
 
@@ -32,7 +32,8 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attributes
     """Traeger API Wrapper"""
 
-    def __init__(self, username, password, hass, request_library):
+    # pylint: disable=dangerous-default-value,too-many-arguments,too-many-positional-arguments
+    def __init__(self, username, password, hass, request_library, notifydict={}):
         self.api = {
             "username": username,
             "password": password,
@@ -52,6 +53,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                                              self.sync_grill_callback,
                                              self.sync_update_state)
         self.entities = {}
+        self.notify = notifydict
 
     def __token_remaining(self):
         """Report remaining token time."""
@@ -202,7 +204,14 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 continue
             if entity_entry.platform == "traeger":
                 self.entities[entity_entry.unique_id] = entity_id
-        _LOGGER.debug(json.dumps(self.entities))
+        _LOGGER.info(json.dumps(self.entities))
+        registry = dr.async_get(self.hass)
+        for dev in registry.devices.values():
+            if dev.id in list(self.notify):
+                _LOGGER.debug("MobileApp EntId: %s - %s - %s", dev.id, dev.name, dev.manufacturer)
+                self.notify[dev.id]["name"] = dev.name
+                self.notify[dev.id]["manu"] = dev.manufacturer
+        _LOGGER.info(json.dumps(self.notify))
 
     def __mqtt_url_remaining(self):
         """Available MQTT time left."""

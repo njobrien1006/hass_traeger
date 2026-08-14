@@ -18,6 +18,7 @@ class TraegerBaseEntity(Entity):  # pylint: disable=too-many-instance-attributes
         self.grill_mqtt_msg = self.client.get_mqtt_msg_for_grill(self.grill_id)
         self.grill_units = self.client.get_units_for_device(self.grill_id)
         self.grill_cloudconnect = self.client.get_cloudconnect(self.grill_id)
+        self.notify = self.client.notify
 
     def grill_register_callback(self):
         """Tell the Traeger client to call grill_update() when it gets an update"""

@@ -5,7 +5,7 @@ from homeassistant.const import UnitOfTemperature
 NAME = "Traeger"
 DOMAIN = "traeger"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "2026.05.31"
+VERSION = "2026.08.14"
 ATTRIBUTION = ""
 ISSUE_URL = "https://github.com/njobrien1006/hass_traeger/issues"
 
@@ -24,6 +24,7 @@ PLATFORMS = [CLIMATE, SENSOR, SWITCH, NUMBER, BINARY_SENSOR]
 CONF_ENABLED = "enabled"
 CONF_USERNAME = "username"
 CONF_PASSWORD = "password"
+CONF_OPT_MOBILE_APP = "notify_list"
 
 # Defaults
 DEFAULT_NAME = DOMAIN

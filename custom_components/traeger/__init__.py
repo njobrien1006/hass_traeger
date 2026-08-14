@@ -18,7 +18,7 @@ from homeassistant.helpers import config_validation as cv, service
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.typing import ConfigType
 
-from .const import (CONF_PASSWORD, CONF_USERNAME, DOMAIN, PLATFORMS,
+from .const import (CONF_PASSWORD, CONF_USERNAME, CONF_OPT_MOBILE_APP, DOMAIN, PLATFORMS,
                     STARTUP_MESSAGE)
 from .traeger import Traeger
 from .utils import register_static_path, init_resource
@@ -66,10 +66,11 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     username = entry.data.get(CONF_USERNAME)
     password = entry.data.get(CONF_PASSWORD)
+    notifydict = dict.fromkeys(entry.data.get(CONF_OPT_MOBILE_APP),{})
 
     session = async_get_clientsession(hass)
 
-    client = Traeger(username, password, hass, session)
+    client = Traeger(username, password, hass, session, notifydict)
 
     await client.start(15)
     hass.data[DOMAIN][entry.entry_id] = client

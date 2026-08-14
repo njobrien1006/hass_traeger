@@ -36,6 +36,19 @@
             "type": "shell",
             "command": "pytest --cov=custom_components/traeger && coverage-badge -o images/coverage.svg -f && coverage html -d tests/coverage",
             "problemMatcher": []
+        },
+        {
+            "label": "Pylint Component",
+            "type": "shell",
+            "command": "pylint custom_components/traeger/ --disable=duplicate-code,abstract-method,overridden-final-method",
+            "problemMatcher": []
+        }
+        ,
+        {
+            "label": "Pylint Test",
+            "type": "shell",
+            "command": "pylint tests/ --disable=duplicate-code",
+            "problemMatcher": []
         }
     ]
 }

@@ -307,7 +307,7 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
         Return the list of available hvac operation modes.
         Need to be a subset of HVAC_MODES.
         """
-        return (HVACMode.HEAT, HVACMode.OFF)
+        return (HVACMode.HEAT, HVACMode.OFF, HVACMode.COOL)
 
     @property
     def preset_mode(self):
@@ -343,7 +343,7 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
 
     async def async_set_hvac_mode(self, hvac_mode):
         """Start grill shutdown sequence"""
-        if hvac_mode in (HVACMode.OFF, HVACMode.COOL):
+        if hvac_mode in (HVACMode.HEAT, HVACMode.OFF, HVACMode.COOL):
             raise NotImplementedError(
                 "HVAC Mode is determined based on the probe being plugged in.")
 
