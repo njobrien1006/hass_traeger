@@ -15,6 +15,7 @@ def notifydevices(title, msg, notify, hass):
     _LOGGER.error("MSG Base Data: %s", data)
     for notidev in notify:
         if "name" in notify[notidev]:
+            _LOGGER.error("NotiDev Info: %s - %s", notify[notidev]["name"], notify[notidev]["manu"])
             hass.async_create_task(
                 hass.services.async_call(
                     "notify",

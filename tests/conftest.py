@@ -159,7 +159,6 @@ async def mock_config_entry(
             "user_id": "32CharUserUUID",
             "webhook_id": "mock_webhook_id_98765",
         },
-        unique_id="mock_android_uuid_12345",
     )
     entry.add_to_hass(hass)
     await hass.config_entries.async_setup(entry.entry_id)
@@ -180,7 +179,7 @@ async def mock_config_entry(
             "app_name": "Home Assistant Companion",
             "app_version": "2026.1.1",
             "device_name": "iPhone",
-            "device_id": "mock_Android",
+            "device_id": "mock_iPhone",
             "manufacturer": "Apple",
             "model": "iPhone17,1",
             "os_name": "iOS",
@@ -189,7 +188,6 @@ async def mock_config_entry(
             "user_id": "32CharUserUUID",
             "webhook_id": "mock_webhook_id_98766",
         },
-        unique_id="mock_apple_uuid_12346",
     )
     entry.add_to_hass(hass)
     await hass.config_entries.async_setup(entry.entry_id)

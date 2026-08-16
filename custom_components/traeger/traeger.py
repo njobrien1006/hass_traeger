@@ -209,8 +209,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         for dev in registry.devices.values():
             if dev.id in list(self.notify):
                 _LOGGER.debug("MobileApp EntId: %s - %s - %s", dev.id, dev.name, dev.manufacturer)
-                self.notify[dev.id]["name"] = dev.name
-                self.notify[dev.id]["manu"] = dev.manufacturer
+                self.notify[dev.id] = {"name": dev.name, "manu": dev.manufacturer}
         _LOGGER.info(json.dumps(self.notify))
 
     def __mqtt_url_remaining(self):

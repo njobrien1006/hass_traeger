@@ -456,6 +456,7 @@ async def test_climate_setprobetemp_cmds(
         if cmdsplit[0] == "120" and len(cmdsplit) == 4:
             # "command": "120,10,p0,120"
             acc_indx120 = 0
+            acc120 = {}
             for acc120 in mqtt_msg_change["status"]["acc"]:
                 if acc120["uuid"] == cmdsplit[2]:
                     break
