@@ -164,7 +164,8 @@ async def mock_config_entry(
     await hass.config_entries.async_setup(entry.entry_id)
     await hass.async_block_till_done()
     devices = dr.async_entries_for_config_entry(registry, entry.entry_id)
-    mobile_app.append(devices[0].id)
+    if len(devices):
+        mobile_app.append(devices[0].id)
 
     # iPhone Entry
     entry = MockConfigEntry(
@@ -193,7 +194,8 @@ async def mock_config_entry(
     await hass.config_entries.async_setup(entry.entry_id)
     await hass.async_block_till_done()
     devices = dr.async_entries_for_config_entry(registry, entry.entry_id)
-    mobile_app.append(devices[0].id)
+    if len(devices):
+        mobile_app.append(devices[0].id)
 
     _LOGGER.info("MobileAppIds: %s", mobile_app)
 
