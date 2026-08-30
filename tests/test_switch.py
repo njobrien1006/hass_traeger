@@ -14,7 +14,9 @@ from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import DOMAIN
-from .conftest import Broker, MQTTPORT
+
+from .conftest import Broker
+from .zzCommon import client_connect, client_disconnect, client_publish
 from .zzMockResp import api_commands, api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -120,13 +122,7 @@ async def test_switch_cmds(
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
-    traeger_client.mqtt_client.ssl = False
-    traeger_client.mqtt_client.port = MQTTPORT
-    await traeger_client.mqtt_client.connect(  # Need to connect
-        api_user_self["resp"]["things"],
-        "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
-    )
-    await asyncio.sleep(0.2)  # Sleep on it
+    await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
 
     # Get Entity Init Check
     entity = hass.states.get(f"{platform}.{entity_id}")
@@ -136,25 +132,16 @@ async def test_switch_cmds(
     assert entity == snapshot(name="01-init")
 
     # Change Entity
-    await asyncio.sleep(0.1)
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["connected"] = True
-    traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
-        "prod/thing/update/0123456789ab",
-        json.dumps(mqtt_msg_change).encode("utf-8"),
-        qos=1,
-    )
+    await client_publish(hass, traeger_client, mqtt_msg_change)
     _LOGGER.error("Wait for onConnect to Subscribe")
-    await asyncio.sleep(0.2)
+
     # Put Grill in cook mode so we can expect the switch to be available.
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["system_status"] = 6
-    traeger_client.mqtt_client.mqtt_client.publish(
-        "prod/thing/update/0123456789ab",
-        json.dumps(mqtt_msg_change).encode("utf-8"),
-        qos=1,
-    )
-    await asyncio.sleep(0.1)
+    await client_publish(hass, traeger_client, mqtt_msg_change)
+
     await hass.services.async_call(
         "switch",
         SERVICE_TURN_ON,
@@ -187,20 +174,12 @@ async def test_switch_cmds(
     # Put Grill back out of cook mode to make unavailable.
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["system_status"] = 0
-    traeger_client.mqtt_client.mqtt_client.publish(
-        "prod/thing/update/0123456789ab",
-        json.dumps(mqtt_msg_change).encode("utf-8"),
-        qos=1,
-    )
-    await hass.async_block_till_done()
-    await asyncio.sleep(0.1)
+    await client_publish(hass, traeger_client, mqtt_msg_change)
+
     # Get Entity Trig Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
     assert entity.state == "unavailable"
     assert entity == snapshot(name=f"04-{entity.state}")
 
-    # Shut it down
-    await asyncio.sleep(0.1)
-    traeger_client.mqtt_client.disconnect()
-    await asyncio.sleep(0.1)
+    await client_disconnect(hass, traeger_client)

@@ -8,7 +8,8 @@ import pytest
 from aiointercept import aiointercept
 from paho.mqtt.client import MQTTMessage
 
-from .conftest import TraegerTestClient, Broker, MQTTPORT
+from .conftest import Broker, TraegerTestClient
+from .zzCommon import client_connect, client_disconnect
 from .zzMockResp import api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -22,11 +23,8 @@ async def test_connect_pub(
 ) -> None:
     """Test connect and publish"""
     await asyncio.sleep(0.1)
-    traeger_client.mqtt_client.ssl = False
-    traeger_client.mqtt_client.port = MQTTPORT
-    await traeger_client.mqtt_client.connect(
-        api_user_self["resp"]["things"],
-        "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
+    await client_connect(
+        traeger_client.hass, traeger_client, api_user_self["resp"]["things"]
     )
     _LOGGER.warning("Wait for onConnect to Subscribe")
     await asyncio.sleep(0.2)
@@ -35,8 +33,12 @@ async def test_connect_pub(
     )
     await asyncio.sleep(0.1)
     assert traeger_client.mqtt_client.grills_status["0123456789ab"] == {}
-    traeger_client.mqtt_client.disconnect()
+    await client_disconnect(traeger_client.hass, traeger_client)
+    await client_connect(
+        traeger_client.hass, traeger_client, api_user_self["resp"]["things"]
+    )
     await asyncio.sleep(0.1)
+    await client_disconnect(traeger_client.hass, traeger_client)
 
 
 @pytest.mark.usefixtures("socket_enabled")
@@ -44,12 +46,8 @@ async def test_connect_bad_pub(
     traeger_client: TraegerTestClient, connected_amqtt: Broker, http: aiointercept
 ) -> None:
     """Test connect and bad publish"""
-    await asyncio.sleep(0.1)
-    traeger_client.mqtt_client.ssl = False
-    traeger_client.mqtt_client.port = MQTTPORT
-    await traeger_client.mqtt_client.connect(
-        api_user_self["resp"]["things"],
-        "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
+    await client_connect(
+        traeger_client.hass, traeger_client, api_user_self["resp"]["things"]
     )
     _LOGGER.warning("Wait for onConnect to Subscribe")
     await asyncio.sleep(0.2)
@@ -58,9 +56,7 @@ async def test_connect_bad_pub(
     )
     await asyncio.sleep(0.1)
     assert traeger_client.mqtt_client.grills_status.get("0123456789ab", {}) == {}
-    await asyncio.sleep(0.1)
-    traeger_client.mqtt_client.disconnect()
-    await asyncio.sleep(0.1)
+    await client_disconnect(traeger_client.hass, traeger_client)
 
 
 @pytest.mark.usefixtures("socket_enabled")
@@ -68,12 +64,8 @@ async def test_connect_grillmsg(
     traeger_client: TraegerTestClient, connected_amqtt: Broker, http: aiointercept
 ) -> None:
     """Test connect and send grill mqtt msg"""
-    await asyncio.sleep(0.1)
-    traeger_client.mqtt_client.ssl = False
-    traeger_client.mqtt_client.port = MQTTPORT
-    await traeger_client.mqtt_client.connect(
-        api_user_self["resp"]["things"],
-        "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
+    await client_connect(
+        traeger_client.hass, traeger_client, api_user_self["resp"]["things"]
     )
     _LOGGER.warning("Wait for onConnect to Subscribe")
     await asyncio.sleep(0, 1)
@@ -82,9 +74,7 @@ async def test_connect_grillmsg(
     )
     await asyncio.sleep(0.1)
     assert traeger_client.mqtt_client.grills_status.get("0123456789ab", {}) == mqtt_msg
-    await asyncio.sleep(0.1)
-    traeger_client.mqtt_client.disconnect()
-    await asyncio.sleep(0.1)
+    await client_disconnect(traeger_client.hass, traeger_client)
 
 
 def test_handle_bad_topic(traeger_client: TraegerTestClient) -> None:

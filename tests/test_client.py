@@ -15,8 +15,9 @@ from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import DOMAIN
 
-from .conftest import TraegerTestClient, Broker, MQTTPORT
-from .zzMockResp import api_commands, api_token, api_mqtt, api_user_self, mqtt_msg
+from .conftest import MQTTPORT, Broker, TraegerTestClient
+from .zzCommon import client_connect, client_disconnect, client_publish
+from .zzMockResp import api_commands, api_mqtt, api_token, api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -158,60 +159,32 @@ async def test_client_missing_sts(
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
-    traeger_client.mqtt_client.ssl = False
-    traeger_client.mqtt_client.port = MQTTPORT
-    await traeger_client.mqtt_client.connect(  # Need to connect
-        api_user_self["resp"]["things"],
-        "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
-    )
+    await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
 
     # Set Connected
-    await asyncio.sleep(0.1)  # Sleep on it
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["connected"] = True
-    traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
-        "prod/thing/update/0123456789ab",
-        json.dumps(mqtt_msg_change).encode("utf-8"),
-        qos=1,
-    )
-    await asyncio.sleep(0.1)
-    await hass.async_block_till_done()
+    await client_publish(hass, traeger_client, mqtt_msg_change)
     grill_msg = traeger_client.mqtt_client.grills_status.get("0123456789ab", {})
     assert grill_msg["status"]
 
     # Set Null Status
-    await asyncio.sleep(0.1)  # Sleep on it
     mqtt_msg_change = copy.deepcopy(mqtt_msg)
     mqtt_msg_change.pop("status", None)
-    traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
-        "prod/thing/update/0123456789ab",
-        json.dumps(mqtt_msg_change).encode("utf-8"),
-        qos=1,
-    )
-    await asyncio.sleep(0.1)
-    await hass.async_block_till_done()
+    await client_publish(hass, traeger_client, mqtt_msg_change)
     grill_msg = traeger_client.mqtt_client.grills_status.get("0123456789ab", {})
     _LOGGER.warning("Bad Grill MSG: %s", grill_msg)
     assert not grill_msg.get("status", False)
 
     # Set UnConnected
-    await asyncio.sleep(0.1)  # Sleep on it
     mqtt_msg_change = copy.deepcopy(mqtt_msg)
     mqtt_msg_change["status"]["connected"] = False
-    traeger_client.mqtt_client.mqtt_client.publish(  # The actual change
-        "prod/thing/update/0123456789ab",
-        json.dumps(mqtt_msg_change).encode("utf-8"),
-        qos=1,
-    )
-    await asyncio.sleep(0.1)
-    await hass.async_block_till_done()
+    await client_publish(hass, traeger_client, mqtt_msg_change)
     grill_msg = traeger_client.mqtt_client.grills_status.get("0123456789ab", {})
     assert grill_msg["status"]
 
-    # Shut it down
-    await asyncio.sleep(0.1)
-    traeger_client.mqtt_client.disconnect()
-    await asyncio.sleep(0.1)
+    await client_disconnect(hass, traeger_client)
+
 
 @pytest.mark.usefixtures("socket_enabled")
 async def test_connect_cmds(
