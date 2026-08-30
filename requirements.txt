@@ -3,9 +3,17 @@ aiointercept>=0.1.9
 async-timeout>=5.0.1
 colorlog>=6.7.0
 coverage-badge>=1.1.2
+ha-ffmpeg>=3.2.0
+hassil>=3.12.0
 homeassistant>=2026.1.0
+home_assistant_intents
+mutagen>=1.48.0
 pip>=21.0
 pycares>=5.0
+pylint>=4.0.0
+pymicro-vad>=2.1.0
+pyspeex_noise>=2.0.0
+pyturbojpeg<2.0.0
 PyYAML>=6.0.3
 pytest-homeassistant-custom-component>=0.13.109
 ruff>=0.15.2

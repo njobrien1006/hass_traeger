@@ -46,7 +46,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         self.loop_task = None
         self.grill_callbacks = {}
 
-        self.grills = None
+        self.grills = {}
         self.mqtt_client = TraegerMQTTClient(self.hass,
                                              self.sync_grill_callback,
                                              self.sync_update_state)

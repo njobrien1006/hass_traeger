@@ -177,7 +177,7 @@ class TraegerClimateEntity(TraegerBaseClimate):
         """Set new target temperature."""
         state = self.grill_mqtt_msg["status"]["system_status"]
         if GRILL_MODE["Igniting"] <= state <= GRILL_MODE["Cook_Custom"]:
-            temperature = kwargs.get(ATTR_TEMPERATURE)
+            temperature = kwargs.get(ATTR_TEMPERATURE, 0)
             await self.client.set_temperature(self.grill_id, round(temperature))
             return
         raise NotImplementedError("Set Temp not supported in current state.")

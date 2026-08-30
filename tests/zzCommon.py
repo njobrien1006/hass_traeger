@@ -2,8 +2,8 @@
 
 import asyncio
 import json
-#import logging
 
+#import logging
 from .conftest import MQTTPORT
 
 #_LOGGER: logging.Logger = logging.getLogger(__package__)
