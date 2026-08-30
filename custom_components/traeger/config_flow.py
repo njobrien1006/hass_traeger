@@ -6,7 +6,7 @@ from homeassistant import config_entries
 from homeassistant.helpers import selector
 from homeassistant.helpers.aiohttp_client import async_create_clientsession
 
-from .const import CONF_PASSWORD, CONF_USERNAME, CONF_OPT_MOBILE_APP, DOMAIN
+from .const import CONF_OPT_MOBILE_APP, CONF_PASSWORD, CONF_USERNAME, DOMAIN
 from .traeger import Traeger
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -112,7 +112,7 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         """Return true if credentials is valid."""
         try:
             session = async_create_clientsession(self.hass)
-            client = Traeger(username, password, self.hass, session)
+            client = Traeger(username, password, self.hass, session, {})
             response = await client.get_user_data()
             _LOGGER.debug("Test Creds Resp: %s", response)
             if client.api['api_token'] == "":

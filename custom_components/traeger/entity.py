@@ -96,13 +96,14 @@ class TraegerGrillMonitor:
             return
         entities = []
         for accessory in self.device_state["acc"]:
-            if accessory["type"] in ["probe", "btprobe", "hob"]:
-                if accessory["uuid"] not in self.accessory_status:
-                    if self.probe_entity:
-                        entities.append(
-                            self.probe_entity(self.client, self.grill_id,
-                                              accessory["uuid"])
-                        )
-                        self.accessory_status[accessory["uuid"]] = True
+            if (
+                accessory["type"] in ["probe", "btprobe", "hob"]
+                and accessory["uuid"] not in self.accessory_status
+                and self.probe_entity
+            ):
+                entities.append(
+                    self.probe_entity(self.client, self.grill_id, accessory["uuid"])
+                )
+                self.accessory_status[accessory["uuid"]] = True
         if entities:
             self.async_add_entities(entities)

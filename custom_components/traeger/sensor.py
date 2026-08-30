@@ -227,14 +227,14 @@ class TraegerFlexSensor(TraegerBaseEntity, SensorEntity):
     """Flex Sensor Class Common to All"""
 
     def __init__(self, **kwargs):
-        super().__init__(kwargs.get('client'), kwargs.get('thingName'))
-        self.value = kwargs.get('json_loca').split(";")
+        super().__init__(kwargs.get('client'), kwargs.get('thingName', ''))
+        self.value = kwargs.get('json_loca','').split(";")
         self.unit = kwargs.get('unit')
         self.mdi = kwargs.get('mdi')
         self.dev_class = kwargs.get('device_class')
         self.friendly_name = kwargs.get('friendly')
         self._attr_entity_category = kwargs.get('entity_category')
-        self._attr_entity_registry_enabled_default = kwargs.get('enabledbydflt')
+        self._attr_entity_registry_enabled_default = kwargs.get('enabledbydflt', True)
         self.grill_register_callback()
 
     # Generic Properties

@@ -829,7 +829,45 @@
     'state': '0',
   })
 # ---
-# name: test_number_cookcycle[49-not_connected]
+# name: test_number_cookcycle[49-checkoutofcookindx]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      '_step01': '{"set_temp": 225, "act_temp_adv": 220}',
+      '_step02': '{"use_timer": 1, "time_set": 10}',
+      '_step03': '{"set_temp": 375, "use_timer": 1, "time_set": 10}',
+      '_step04': '{"probe_set_temp": 165, "probe_act_temp_adv": 140}',
+      '_step05': '{"time_set": 10}',
+      '_step06': '{"use_timer": 1}',
+      '_step07': '{"time_set": 10, "use_timer": 1, "keepwarm": 1}',
+      '_step08': '{"time_set": 10, "use_timer": 1, "keepwarm": 0}',
+      '_step09': '{"set_temp": 170, "use_timer": 1, "time_set": 10}',
+      '_step10': '{"time_set": 10, "use_timer": 1, "smoke": 1}',
+      '_step11': '{"time_set": 10, "use_timer": 1, "smoke": 0}',
+      '_step12': '{"time_set": 15, "smoke": 1, "set_temp": 180, "use_timer": 1}',
+      '_step13': '{"probe_set_temp": 210, "time_set": 1080, "min_delta": 30, "max_grill_delta_temp": 225, "probe_act_temp_adv": 160}',
+      '_step14': '{"min_delta": 35, "max_grill_delta_temp": 230, "probe_act_temp_adv": 170}',
+      '_step15': '{"min_delta": 40, "max_grill_delta_temp": 250}',
+      '_step16': '{"time_set": 10, "set_temp": 210, "use_timer": 1}',
+      '_step17': '{"shutdown": 1}',
+      'curr_step': '{}',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Cook_cycle",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:chef-hat',
+      <NumberEntityCapabilityAttribute.MAX: 'max'>: 999,
+      <NumberEntityCapabilityAttribute.MIN: 'min'>: 0,
+      <NumberEntityCapabilityAttribute.MODE: 'mode'>: <NumberMode.AUTO: 'auto'>,
+      'next_step': '1: {"set_temp": 225, "act_temp_adv": 220}',
+      'prev_step': '{}',
+      <NumberEntityCapabilityAttribute.STEP: 'step'>: 1,
+    }),
+    'context': <ANY>,
+    'entity_id': 'number.traeger_0123456789ab_cook_cycle',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0',
+  })
+# ---
+# name: test_number_cookcycle[50-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       '_step01': '{"set_temp": 225, "act_temp_adv": 220}',

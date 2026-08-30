@@ -141,7 +141,6 @@ class TraegerClimateEntity(TraegerBaseClimate):
         """Return hvac operation ie. heat, cool mode.
         Need to be one of HVAC_MODE_*.
         """
-        returnval = HVACMode.OFF
 
         state = self.grill_mqtt_msg["status"]["system_status"]
 
@@ -329,7 +328,7 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
     async def async_set_temperature(self, **kwargs):
         """Set new target temperature."""
         self.current_preset_mode = PRESET_NONE
-        temperature = kwargs.get(ATTR_TEMPERATURE)
+        temperature = kwargs.get(ATTR_TEMPERATURE,0)
         await self.client.set_probe_temperature(self.grill_id,
                                                 round(temperature),
                                                 self.sensor_id)

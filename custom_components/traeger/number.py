@@ -26,9 +26,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
     grills = client.get_grills()
     entities = []
     for grill in grills:
-        entities.append(
-            TraegerNumberEntity(client, grill["thingName"], "cook_timer")
-        )
+        entities.append(TraegerNumberEntity(client, grill["thingName"], "cook_timer"))
         entities.append(
             CookCycNumberEntity(client, grill["thingName"], "cook_cycle", hass)
         )
