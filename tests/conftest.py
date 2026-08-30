@@ -14,16 +14,16 @@ from homeassistant.util.unit_system import US_CUSTOMARY_SYSTEM
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from pytest_homeassistant_custom_component.syrupy import HomeAssistantSnapshotExtension
 from syrupy.assertion import SnapshotAssertion
-from amqtt.broker import Broker
 
 from custom_components.traeger.const import (
+    CONF_OPT_MOBILE_APP,
     CONF_PASSWORD,
     CONF_USERNAME,
     DOMAIN,
-    CONF_OPT_MOBILE_APP,
 )
 from custom_components.traeger.traeger import Traeger as TraegerTestClient
-from .zzMockResp import api_token, api_mqtt, api_user_self
+
+from .zzMockResp import api_mqtt, api_token, api_user_self
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -57,7 +57,11 @@ async def http():
 
         def callback(url, **kwargs):
             """Setup API Callbacks"""
-            _LOGGER.info("Was at conftest callbacks %s - %s", url, kwargs["json"])
+            _LOGGER.info(
+                "Was at conftest callbacks\n%s\n%s",
+                url,
+                json.dumps(kwargs["json"], indent=4),
+            )
             return CallbackResult(status=200, payload={})
 
         mock.post(api_token["url"], payload=api_token["resp"], repeat=True)
@@ -120,7 +124,7 @@ async def traeger_client(hass: HomeAssistant, http: aiointercept) -> TraegerTest
     """Traeger Test Client"""
     session = async_get_clientsession(hass)
     client = TraegerTestClient(
-        "johnytraeger@traeger.com", "johnytraeger'spassword", hass, session
+        "johnytraeger@traeger.com", "johnytraeger'spassword", hass, session, {}
     )
     return client
 
@@ -150,7 +154,7 @@ async def mock_config_entry(
                 "push_url": "https://mobile-apps.home-assistant.io/api/sendPushNotification",
             },
             "app_name": "Home Assistant Companion",
-            "app_version": "2026.1.1",
+            "app_version": "2026.8.0",
             "device_name": "Android Phone",
             "device_id": "mock_Android",
             "manufacturer": "Google",
@@ -159,7 +163,7 @@ async def mock_config_entry(
             "os_version": "14",
             "supports_encryption": False,
             "user_id": "32CharUserUUID",
-            "webhook_id": "mock_webhook_id_98765",
+            "webhook_id": "mock_webhook_android",
         },
     )
     entry.add_to_hass(hass)
@@ -180,7 +184,7 @@ async def mock_config_entry(
                 "push_url": "https://mobile-apps.home-assistant.io/api/sendPushNotification",
             },
             "app_name": "Home Assistant Companion",
-            "app_version": "2026.1.1",
+            "app_version": "2026.8.0",
             "device_name": "iPhone",
             "device_id": "mock_iPhone",
             "manufacturer": "Apple",
@@ -189,7 +193,7 @@ async def mock_config_entry(
             "os_version": "26.6",
             "supports_encryption": False,
             "user_id": "32CharUserUUID",
-            "webhook_id": "mock_webhook_id_98766",
+            "webhook_id": "mock_webhook_iphone",
         },
     )
     entry.add_to_hass(hass)

@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import (
     DOMAIN,
-    GRILL_MODE_COOL_DOWN,
+    GRILL_MODE,
     PROBE_PRESET_MODES,
 )
 
@@ -69,15 +69,17 @@ async def test_climate_platform_asyncadd(
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        mqtt_msg_change = copy.deepcopy(mqtt_msg)
         if kwargs["json"]["command"] == "90":
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        return CallbackResult(status=404, payload=None)
+            mqtt_msg_change = copy.deepcopy(mqtt_msg)
+        else:
+            return CallbackResult(status=404, payload=None)
+        # Publish Change
+        traeger_client.mqtt_client.mqtt_client.publish(
+            "prod/thing/update/0123456789ab",
+            json.dumps(mqtt_msg_change).encode("utf-8"),
+            qos=1,
+        )
+        return CallbackResult(status=200, payload=None)
 
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)
@@ -148,28 +150,19 @@ async def test_climate_setgrilltemp_cmd(
         cmdsplit = kwargs["json"]["command"].split(",")
         if cmdsplit[0] == "11":
             mqtt_msg_change["status"]["set"] = int(cmdsplit[1])
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if kwargs["json"]["command"] == "17":
-            mqtt_msg_change["status"]["system_status"] = GRILL_MODE_COOL_DOWN
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if kwargs["json"]["command"] == "90":
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        return CallbackResult(status=404, payload=None)
+        elif kwargs["json"]["command"] == "17":
+            mqtt_msg_change["status"]["system_status"] = GRILL_MODE["Cool_Down"]
+        elif kwargs["json"]["command"] == "90":
+            mqtt_msg_change = copy.deepcopy(mqtt_msg)
+        else:
+            return CallbackResult(status=404, payload=None)
+        # Publish Change
+        traeger_client.mqtt_client.mqtt_client.publish(
+            "prod/thing/update/0123456789ab",
+            json.dumps(mqtt_msg_change).encode("utf-8"),
+            qos=1,
+        )
+        return CallbackResult(status=200, payload=None)
 
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)
@@ -302,7 +295,6 @@ async def test_climate_setgrilltemp_cmd(
     ]:
         # Climate Sensor Preheat..heating
         _LOGGER.error("doing sensor step: %s", item)
-        await asyncio.sleep(0.1)
         mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
         mqtt_msg_change["status"]["system_status"] = item["sts"]
         mqtt_msg_change["status"]["grill"] = item["grill"]
@@ -401,13 +393,7 @@ async def test_climate_setprobetemp_cmds(
             mqtt_msg_change["status"]["acc"][acc_indx][acc["type"]]["get_temp"] = (
                 int(cmdsplit[1]) / 2
             )
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if cmdsplit[0] == "120" and len(cmdsplit) == 4:
+        elif cmdsplit[0] == "120" and len(cmdsplit) == 4:
             # "command": "120,10,p0,120"
             acc_indx120 = 0
             acc120 = {}
@@ -421,20 +407,17 @@ async def test_climate_setprobetemp_cmds(
             mqtt_msg_change["status"]["acc"][acc_indx120][acc120["type"]][
                 "get_temp"
             ] = int(cmdsplit[3]) / 2
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if kwargs["json"]["command"] == "90":
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        return CallbackResult(status=404, payload=None)
+        elif kwargs["json"]["command"] == "90":
+            mqtt_msg_change = copy.deepcopy(mqtt_msg)
+        else:
+            return CallbackResult(status=404, payload=None)
+        # Publish Change
+        traeger_client.mqtt_client.mqtt_client.publish(
+            "prod/thing/update/0123456789ab",
+            json.dumps(mqtt_msg_change).encode("utf-8"),
+            qos=1,
+        )
+        return CallbackResult(status=200, payload=None)
 
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)

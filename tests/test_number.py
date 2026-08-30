@@ -74,13 +74,16 @@ async def test_number(
         """Setup API Callbacks"""
         _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
         if kwargs["json"]["command"] == "90":
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        return CallbackResult(status=404, payload=None)
+            mqtt_msg_change = copy.deepcopy(mqtt_msg)
+        else:
+            return CallbackResult(status=404, payload=None)
+        # Publish Change
+        traeger_client.mqtt_client.mqtt_client.publish(
+            "prod/thing/update/0123456789ab",
+            json.dumps(mqtt_msg_change).encode("utf-8"),
+            qos=1,
+        )
+        return CallbackResult(status=200, payload=None)
 
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)
@@ -157,30 +160,21 @@ async def test_number_settimer(
             mqtt_msg_change["status"]["time"] = 1577836800
             mqtt_msg_change["status"]["cook_timer_start"] = 1577836800
             mqtt_msg_change["status"]["cook_timer_end"] = 1577836800 + int(cmdsplit[1])
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if kwargs["json"]["command"] == "13":
+        elif kwargs["json"]["command"] == "13":
             mqtt_msg_change["status"]["time"] = 0
             mqtt_msg_change["status"]["cook_timer_start"] = 0
             mqtt_msg_change["status"]["cook_timer_end"] = 0
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if kwargs["json"]["command"] == "90":
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        return CallbackResult(status=404, payload=None)
+        elif kwargs["json"]["command"] == "90":
+            mqtt_msg_change = copy.deepcopy(mqtt_msg)
+        else:
+            return CallbackResult(status=404, payload=None)
+        # Publish Change
+        traeger_client.mqtt_client.mqtt_client.publish(
+            "prod/thing/update/0123456789ab",
+            json.dumps(mqtt_msg_change).encode("utf-8"),
+            qos=1,
+        )
+        return CallbackResult(status=200, payload=None)
 
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)
@@ -331,35 +325,17 @@ async def test_number_cookcycle(
         if cmdsplit[0] == "11":
             mqtt_msg_change["status"]["set"] = int(cmdsplit[1])
             mqtt_msg_change["status"]["grill"] = int(cmdsplit[1]) / 2
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if cmdsplit[0] == "12":
+        elif cmdsplit[0] == "12":
             mqtt_msg_change["status"]["time"] = 1577836800
             mqtt_msg_change["status"]["cook_timer_start"] = 1577836800
             mqtt_msg_change["status"]["cook_timer_end"] = 1577836800 + int(cmdsplit[1])
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if cmdsplit[0] == "14":
+        elif cmdsplit[0] == "14":
             mqtt_msg_change["status"]["acc"][0]["probe"]["set_temp"] = int(cmdsplit[1])
             mqtt_msg_change["status"]["acc"][0]["probe"]["get_temp"] = (
                 int(cmdsplit[1]) / 2
             )
             mqtt_msg_change["status"]["probe"] = int(cmdsplit[1]) / 2
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if cmdsplit[0] == "120" and len(cmdsplit) == 4:
+        elif cmdsplit[0] == "120" and len(cmdsplit) == 4:
             # "command": "120,10,p0,120"
             acc_indx120 = 0
             acc120 = {}
@@ -373,60 +349,27 @@ async def test_number_cookcycle(
             mqtt_msg_change["status"]["acc"][acc_indx120][acc120["type"]][
                 "get_temp"
             ] = int(cmdsplit[3]) / 2
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if kwargs["json"]["command"] == "17":
-            mqtt_msg_change["status"]["system_status"] = GRILL_MODE_COOL_DOWN
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if kwargs["json"]["command"] == "18":
+        elif kwargs["json"]["command"] == "17":
+            mqtt_msg_change["status"]["system_status"] = GRILL_MODE["Cool_Down"]
+        elif kwargs["json"]["command"] == "18":
             mqtt_msg_change["status"]["keepwarm"] = 1
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if kwargs["json"]["command"] == "19":
+        elif kwargs["json"]["command"] == "19":
             mqtt_msg_change["status"]["keepwarm"] = 0
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if kwargs["json"]["command"] == "20":
+        elif kwargs["json"]["command"] == "20":
             mqtt_msg_change["status"]["smoke"] = 1
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if kwargs["json"]["command"] == "21":
+        elif kwargs["json"]["command"] == "21":
             mqtt_msg_change["status"]["smoke"] = 0
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if kwargs["json"]["command"] == "90":
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        return CallbackResult(status=404, payload=None)
+        elif kwargs["json"]["command"] == "90":
+            mqtt_msg_change = copy.deepcopy(mqtt_msg)
+        else:
+            return CallbackResult(status=404, payload=None)
+        # Publish Change
+        traeger_client.mqtt_client.mqtt_client.publish(
+            "prod/thing/update/0123456789ab",
+            json.dumps(mqtt_msg_change).encode("utf-8"),
+            qos=1,
+        )
+        return CallbackResult(status=200, payload=None)
 
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)
@@ -438,13 +381,14 @@ async def test_number_cookcycle(
     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
     # Check Entity
     assert isinstance(entity, State)
-    assert entity.state == "0"
+    assert entity.state != "unavailable"
     assert entity == snapshot(name="01-init")
 
-    # Change Entity
-    await asyncio.sleep(0.1)  # Sleep on it
+    # Put Grill in cook mode so we can expect the switch to be available.
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["connected"] = True
+    mqtt_msg_change["status"]["system_status"] = 6
+    mqtt_msg_change["status"]["acc"][0]["con"] = 1
     await client_publish(hass, traeger_client, mqtt_msg_change)
 
     # Get Entity Happy Check
@@ -454,16 +398,6 @@ async def test_number_cookcycle(
     assert entity.state != "unavailable"
     assert entity == snapshot(name="02-ready")
 
-    # Put Grill in cook mode so we can expect the switch to be available.
-    mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
-    mqtt_msg_change["status"]["system_status"] = 6
-    mqtt_msg_change["status"]["acc"][0]["con"] = 1
-    traeger_client.mqtt_client.mqtt_client.publish(
-        "prod/thing/update/0123456789ab",
-        json.dumps(mqtt_msg_change).encode("utf-8"),
-        qos=1,
-    )
-    await asyncio.sleep(0.1)
     # Load Test Cook Cycle
     await hass.services.async_call(
         "traeger",
@@ -782,16 +716,39 @@ async def test_number_cookcycle(
                     snapshotname += 1
 
                     await asyncio.sleep(0.05)
+                await asyncio.sleep(0.05)
                 # Get Entity Trig Check
                 entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
                 assert isinstance(entity, State)
                 assert entity.state != "unavailable"
                 assert entity == snapshot(name=f"{snapshotname:02d}-TrackedEntity")
                 snapshotname += 1
-                await asyncio.sleep(0.1)
+                if curstepjson == {'shutdown': 1}:
+                    break
     except TimeoutError:
         _LOGGER.error("Got stuck in cook cycle!")
         assert False
+    except Exception as exception:  # pylint: disable=broad-except
+        _LOGGER.error("Something really wrong happend! - %s", exception)
+        assert False
+
+    # Try overdoing it...
+    await hass.services.async_call(
+        "number",
+        "SET_VALUE",
+        {
+            "entity_id": "number.traeger_0123456789ab_cook_cycle",
+            "value": 70,
+        },
+        blocking=True,
+    )
+    await hass.async_block_till_done()
+    entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
+    # Check Enttity
+    assert isinstance(entity, State)
+    assert entity.state == "0"
+    assert entity == snapshot(name=f"{snapshotname:02d}-checkoutofcookindx")
+    snapshotname += 1
 
     # Change Entity
     await asyncio.sleep(0.1)

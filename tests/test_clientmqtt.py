@@ -34,10 +34,24 @@ async def test_connect_pub(
     await asyncio.sleep(0.1)
     assert traeger_client.mqtt_client.grills_status["0123456789ab"] == {}
     await client_disconnect(traeger_client.hass, traeger_client)
+
+
+@pytest.mark.usefixtures("socket_enabled")
+async def test_connect_pub_unsubscribe(
+    traeger_client: TraegerTestClient, connected_amqtt: Broker, http: aiointercept
+) -> None:
+    """Test connect and publish"""
+    await asyncio.sleep(0.1)
     await client_connect(
         traeger_client.hass, traeger_client, api_user_self["resp"]["things"]
     )
+    _LOGGER.warning("Wait for onConnect to Subscribe")
+    await asyncio.sleep(0.2)
+    traeger_client.mqtt_client.mqtt_client.publish(
+            "prod/thing/update/0123456789ab", b"{}", qos=1
+        )
     await asyncio.sleep(0.1)
+    #traeger_client.mqtt_client.mqtt_client.unsubscribe("prod/thing/update/0123456789ab")
     await client_disconnect(traeger_client.hass, traeger_client)
 
 

@@ -11,7 +11,7 @@ from homeassistant.data_entry_flow import FlowResultType
 
 from custom_components.traeger.const import CONF_PASSWORD, CONF_USERNAME, DOMAIN
 
-from .zzMockResp import api_token, api_mqtt, api_user_self
+from .zzMockResp import api_mqtt, api_token, api_user_self
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -29,6 +29,7 @@ async def test_config_flow_show_user_form(
     assert result["type"] == FlowResultType.FORM
     assert result["step_id"] == "user"
     assert result["errors"] == {}
+
 
 # pylint: disable=unused-argument
 async def test_config_flow_success(hass: HomeAssistant, http: aiointercept) -> None:
@@ -59,15 +60,15 @@ async def test_config_flow_success(hass: HomeAssistant, http: aiointercept) -> N
         (
             {
                 "payload": api_token["resp"],
-                "status": 400,
+                "status": 200,
             },
             {
                 "payload": api_user_self["resp"],
-                "status": 400,
+                "status": 200,
             },
             {
                 "payload": api_mqtt["resp"],
-                "status": 400,
+                "status": 200,
             },
             FlowResultType.CREATE_ENTRY,
             None,
@@ -75,15 +76,15 @@ async def test_config_flow_success(hass: HomeAssistant, http: aiointercept) -> N
         (
             {
                 "payload": {"error": "badtoken"},
-                "status": 400,
+                "status": 200,
             },
             {
                 "payload": api_user_self["resp"],
-                "status": 400,
+                "status": 200,
             },
             {
                 "payload": api_mqtt["resp"],
-                "status": 400,
+                "status": 200,
             },
             FlowResultType.FORM,
             {"base": "auth"},
@@ -91,15 +92,15 @@ async def test_config_flow_success(hass: HomeAssistant, http: aiointercept) -> N
         (
             {
                 "payload": api_token["resp"],
-                "status": 400,
+                "status": 200,
             },
             {
                 "payload": {"error": "baduser"},
-                "status": 400,
+                "status": 200,
             },
             {
                 "payload": api_mqtt["resp"],
-                "status": 400,
+                "status": 200,
             },
             FlowResultType.FORM,
             {"base": "auth"},
@@ -154,3 +155,111 @@ async def test_config_flow_fail(
     # Flow Result is failed
     assert result["type"] == assert1
     assert assert2 is None or result["errors"] == assert2
+
+
+async def test_config_flow_reconfig_success(
+    hass: HomeAssistant, http: aiointercept
+) -> None:
+    """Test Success Reconfig Flow"""
+    # Start the flow
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    # Submit credentials
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        {
+            CONF_USERNAME: "johnytraeger@traeger.com",
+            CONF_PASSWORD: "johnytraeger'spassword",
+        },
+    )
+
+    # Flow Result is created entity
+    assert result["type"] == FlowResultType.CREATE_ENTRY
+
+    # Prep ReCFG
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={
+            "source": config_entries.SOURCE_RECONFIGURE,
+            "entry_id": result["result"].entry_id,
+        },
+    )
+
+    # Submit Updated credentials
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        {
+            CONF_USERNAME: "johnytraeger@traeger.com",
+            CONF_PASSWORD: "johnytraeger'sUpdatedpassword",
+        },
+    )
+
+    # Flow Result is updated entity
+    assert result["type"] == FlowResultType.ABORT
+
+    await asyncio.sleep(0.1)
+
+
+async def test_config_flow_reconfig_fail(
+    hass: HomeAssistant, http: aiointercept
+) -> None:
+    """Test Success Reconfig Flow"""
+    # Start the flow
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": config_entries.SOURCE_USER}
+    )
+
+    # Submit credentials
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        {
+            CONF_USERNAME: "johnytraeger@traeger.com",
+            CONF_PASSWORD: "johnytraeger'spassword",
+        },
+    )
+
+    # Flow Result is created entity
+    assert result["type"] == FlowResultType.CREATE_ENTRY
+
+    http.clear()
+    http.post(
+        api_token["url"],
+        payload={"error": "badtoken"},
+        status=200,
+        repeat=True,
+    )
+    http.get(
+        api_user_self["url"],
+        payload=api_user_self["resp"],
+        status=200,
+        repeat=True,
+    )
+    http.post(
+        api_mqtt["url"],
+        payload=api_mqtt["resp"],
+        status=200,
+        repeat=True,
+    )
+
+    # Prep ReCFG
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={
+            "source": config_entries.SOURCE_RECONFIGURE,
+            "entry_id": result["result"].entry_id,
+        },
+    )
+
+    # Submit Updated Bad credentials
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        {
+            CONF_USERNAME: "johnytraeger@traeger.com",
+            CONF_PASSWORD: "johnytraeger'sBadpassword",
+        },
+    )
+
+    # Flow Result is updated entity
+    assert result["type"] == FlowResultType.FORM

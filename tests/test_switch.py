@@ -79,44 +79,23 @@ async def test_switch_cmds(
             mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
         if kwargs["json"]["command"] == "18":
             mqtt_msg_change["status"]["keepwarm"] = 1
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if kwargs["json"]["command"] == "19":
+        elif kwargs["json"]["command"] == "19":
             mqtt_msg_change["status"]["keepwarm"] = 0
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if kwargs["json"]["command"] == "20":
+        elif kwargs["json"]["command"] == "20":
             mqtt_msg_change["status"]["smoke"] = 1
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if kwargs["json"]["command"] == "21":
+        elif kwargs["json"]["command"] == "21":
             mqtt_msg_change["status"]["smoke"] = 0
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        if kwargs["json"]["command"] == "90":
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        return CallbackResult(status=404, payload=None)
+        elif kwargs["json"]["command"] == "90":
+            mqtt_msg_change = copy.deepcopy(mqtt_msg)
+        else:
+            return CallbackResult(status=404, payload=None)
+        # Publish Change
+        traeger_client.mqtt_client.mqtt_client.publish(
+            "prod/thing/update/0123456789ab",
+            json.dumps(mqtt_msg_change).encode("utf-8"),
+            qos=1,
+        )
+        return CallbackResult(status=200, payload=None)
 
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)

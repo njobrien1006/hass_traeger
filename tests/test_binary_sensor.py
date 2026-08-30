@@ -1,6 +1,5 @@
 """Tests for the binary sensor platform."""
 
-import asyncio
 import copy
 import json
 import logging
@@ -10,7 +9,6 @@ import pytest
 from aiointercept import CallbackResult, aiointercept
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry
-
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
@@ -73,6 +71,7 @@ async def test_binary_sensor_platform(
         ),
     ],
 )
+# pylint: disable=too-many-statements
 async def test_binary_sensor_par(
     platform,
     entity_id,
@@ -88,15 +87,17 @@ async def test_binary_sensor_par(
     def callback(url, **kwargs):
         """Setup API Callbacks"""
         _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        mqtt_msg_change = copy.deepcopy(mqtt_msg)
         if kwargs["json"]["command"] == "90":
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=0,
-            )
-            return CallbackResult(status=200, payload=None)
-        return CallbackResult(status=404, payload=None)
+            mqtt_msg_change = copy.deepcopy(mqtt_msg)
+        else:
+            return CallbackResult(status=404, payload=None)
+        # Publish Change
+        traeger_client.mqtt_client.mqtt_client.publish(
+            "prod/thing/update/0123456789ab",
+            json.dumps(mqtt_msg_change).encode("utf-8"),
+            qos=1,
+        )
+        return CallbackResult(status=200, payload=None)
 
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)
