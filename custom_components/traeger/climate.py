@@ -12,15 +12,7 @@ from .const import (
     DOMAIN,
     GRILL_MIN_TEMP_C,
     GRILL_MIN_TEMP_F,
-    GRILL_MODE_COOL_DOWN,
-    GRILL_MODE_CUSTOM_COOK,
-    GRILL_MODE_IDLE,
-    GRILL_MODE_IGNITING,
-    GRILL_MODE_MANUAL_COOK,
-    GRILL_MODE_OFFLINE,
-    GRILL_MODE_PREHEATING,
-    GRILL_MODE_SHUTDOWN,
-    GRILL_MODE_SLEEPING,
+    GRILL_MODE,
     PROBE_PRESET_MODES,
 )
 from .entity import TraegerBaseEntity, TraegerGrillMonitor
@@ -153,23 +145,23 @@ class TraegerClimateEntity(TraegerBaseClimate):
 
         state = self.grill_mqtt_msg["status"]["system_status"]
 
-        if state == GRILL_MODE_COOL_DOWN:
+        if state in [GRILL_MODE["Cool_Down"]]:
             returnval = HVACMode.COOL
-        elif state == GRILL_MODE_CUSTOM_COOK:
+        elif state in [
+            GRILL_MODE["Cook_Custom"],
+            GRILL_MODE["Cook_Manual"],
+            GRILL_MODE["PreHeating"],
+            GRILL_MODE["Igniting"],
+        ]:
             returnval = HVACMode.HEAT
-        elif state == GRILL_MODE_MANUAL_COOK:
-            returnval = HVACMode.HEAT
-        elif state == GRILL_MODE_PREHEATING:
-            returnval = HVACMode.HEAT
-        elif state == GRILL_MODE_IGNITING:
-            returnval = HVACMode.HEAT
-        elif state == GRILL_MODE_IDLE:
+        elif state in [
+            GRILL_MODE["Idle"],
+            GRILL_MODE["Sleeping"],
+            GRILL_MODE["Offline"],
+            GRILL_MODE["Shutdown"],
+        ]:
             returnval = HVACMode.OFF
-        elif state == GRILL_MODE_SLEEPING:
-            returnval = HVACMode.OFF
-        elif state == GRILL_MODE_OFFLINE:
-            returnval = HVACMode.OFF
-        elif state == GRILL_MODE_SHUTDOWN:
+        else:
             returnval = HVACMode.OFF
         return returnval
 
@@ -185,7 +177,7 @@ class TraegerClimateEntity(TraegerBaseClimate):
     async def async_set_temperature(self, **kwargs):
         """Set new target temperature."""
         state = self.grill_mqtt_msg["status"]["system_status"]
-        if GRILL_MODE_IGNITING <= state <= GRILL_MODE_CUSTOM_COOK:
+        if GRILL_MODE["Igniting"] <= state <= GRILL_MODE["Cook_Custom"]:
             temperature = kwargs.get(ATTR_TEMPERATURE)
             await self.client.set_temperature(self.grill_id, round(temperature))
             return
@@ -195,7 +187,7 @@ class TraegerClimateEntity(TraegerBaseClimate):
         """Start grill shutdown sequence"""
         state = self.grill_mqtt_msg["status"]["system_status"]
         if (hvac_mode in (HVACMode.OFF, HVACMode.COOL) and
-                GRILL_MODE_IGNITING <= state <= GRILL_MODE_CUSTOM_COOK):
+                GRILL_MODE["Igniting"] <= state <= GRILL_MODE["Cook_Custom"]):
             await self.client.shutdown_grill(self.grill_id)
             return
         raise NotImplementedError(

@@ -30,15 +30,22 @@ CONF_OPT_MOBILE_APP = "notify_list"
 DEFAULT_NAME = DOMAIN
 
 # Grill Modes
-GRILL_MODE_OFFLINE = 99  # Offline
-GRILL_MODE_SHUTDOWN = 9  # Cooled down, heading to sleep
-GRILL_MODE_COOL_DOWN = 8  # Cool down cycle
-GRILL_MODE_CUSTOM_COOK = 7  # Custom cook
-GRILL_MODE_MANUAL_COOK = 6  # Manual cook
-GRILL_MODE_PREHEATING = 5  # Preheating
-GRILL_MODE_IGNITING = 4  # Igniting
-GRILL_MODE_IDLE = 3  # Idle (Power switch on, screen on)
-GRILL_MODE_SLEEPING = 2  # Sleeping (Power switch on, screen off)
+GRILL_MODES = {
+    "Offline": 99,
+    "Shutdown": 9,
+    "Cool_Down": 8,
+    "Cook_Custom": 7,
+    "Cook_Manual": 6,
+    "PreHeating": 5,
+    "Igniting": 4,
+    "Idle": 3,
+    "Sleeping": 2
+}
+# Grill Modes + Inverted value/key pairs
+GRILL_MODE = {}
+for key, value in GRILL_MODES.items():
+    GRILL_MODE[key] = value
+    GRILL_MODE[value] = key
 
 # Grill Temps
 # these are the min temps the traeger app would set

@@ -4,12 +4,7 @@ from datetime import datetime, timezone
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.const import EntityCategory, UnitOfTemperature
 
-from .const import (DOMAIN, GRILL_MIN_TEMP_C, GRILL_MIN_TEMP_F,
-                    GRILL_MODE_COOL_DOWN, GRILL_MODE_CUSTOM_COOK,
-                    GRILL_MODE_IDLE, GRILL_MODE_IGNITING,
-                    GRILL_MODE_MANUAL_COOK, GRILL_MODE_OFFLINE,
-                    GRILL_MODE_PREHEATING, GRILL_MODE_SHUTDOWN,
-                    GRILL_MODE_SLEEPING)
+from .const import DOMAIN, GRILL_MIN_TEMP_C, GRILL_MIN_TEMP_F, GRILL_MODE
 from .entity import TraegerBaseEntity, TraegerGrillMonitor
 
 SENSOR_ENTITIES = {
@@ -363,24 +358,8 @@ class GrillState(TraegerBaseSensor):
         returnval = "unknown"  # Likely a new state we don't know about
         state = self.grill_mqtt_msg["status"]["system_status"]
 
-        if state == GRILL_MODE_COOL_DOWN:
-            returnval = "cool_down"
-        elif state == GRILL_MODE_CUSTOM_COOK:
-            returnval = "cook_custom"
-        elif state == GRILL_MODE_MANUAL_COOK:
-            returnval = "cook_manual"
-        elif state == GRILL_MODE_PREHEATING:
-            returnval = "preheating"
-        elif state == GRILL_MODE_IGNITING:
-            returnval = "igniting"
-        elif state == GRILL_MODE_IDLE:
-            returnval = "idle"
-        elif state == GRILL_MODE_SLEEPING:
-            returnval = "sleeping"
-        elif state == GRILL_MODE_OFFLINE:
-            returnval = "offline"
-        elif state == GRILL_MODE_SHUTDOWN:
-            returnval = "shutdown"
+        if state in GRILL_MODE:
+            returnval = str(GRILL_MODE[state]).lower()
         return returnval
 
 
@@ -391,8 +370,8 @@ class HeatingState(TraegerBaseSensor):
         super().__init__(client, grill_id, friendly_name, value)
         self.previous_target_temp = None
         self.previous_state = "idle"
-        self.preheat_modes = [GRILL_MODE_PREHEATING, GRILL_MODE_IGNITING]
-        self.cook_modes = [GRILL_MODE_CUSTOM_COOK, GRILL_MODE_MANUAL_COOK]
+        self.preheat_modes = [GRILL_MODE["PreHeating"], GRILL_MODE["Igniting"]]
+        self.cook_modes = [GRILL_MODE["Cook_Custom"], GRILL_MODE["Cook_Manual"]]
 
     # Generic Properties
     @property
@@ -462,7 +441,7 @@ class HeatingState(TraegerBaseSensor):
                     state = "heating"
                 else:
                     state = "cooling"
-        elif grill_mode == GRILL_MODE_COOL_DOWN:
+        elif grill_mode == GRILL_MODE["Cool_Down"]:
             state = "cool_down"
 
         self.previous_target_temp = target_temp
@@ -483,8 +462,8 @@ class ProbeState(TraegerBaseSensor):
         self.previous_target_temp = None
         self.probe_alarm = False
         self.active_modes = [
-            GRILL_MODE_PREHEATING, GRILL_MODE_IGNITING, GRILL_MODE_CUSTOM_COOK,
-            GRILL_MODE_MANUAL_COOK
+            GRILL_MODE["PreHeating"], GRILL_MODE["Igniting"], GRILL_MODE["Cook_Custom"],
+            GRILL_MODE["Cook_Manual"]
         ]
 
         # Tell the Traeger client to call grill_accessory_update() when it gets an update

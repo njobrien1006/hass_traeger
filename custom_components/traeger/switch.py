@@ -2,8 +2,7 @@
 from homeassistant.components.switch import SwitchEntity
 from homeassistant.const import UnitOfTemperature
 
-from .const import (DOMAIN, GRILL_MODE_CUSTOM_COOK, GRILL_MODE_IGNITING,
-                    SUPER_SMOKE_MAX_TEMP_C, SUPER_SMOKE_MAX_TEMP_F)
+from .const import DOMAIN, GRILL_MODE, SUPER_SMOKE_MAX_TEMP_C, SUPER_SMOKE_MAX_TEMP_F
 from .entity import TraegerBaseEntity
 
 
@@ -105,10 +104,8 @@ class TraegerSwitchEntity(TraegerBaseSwitch):
         if self.grill_mqtt_msg.get("status",None) is None or \
             not self.grill_mqtt_msg.get("status",{}).get("connected",False):
             return False
-        if GRILL_MODE_IGNITING <= self.grill_mqtt_msg["status"][
-                'system_status'] <= GRILL_MODE_CUSTOM_COOK:
-            return True
-        return False
+        return GRILL_MODE["Igniting"] <= self.grill_mqtt_msg["status"][
+                'system_status'] <= GRILL_MODE["Cook_Custom"]
 
     # Switch Properties
     @property
@@ -119,14 +116,14 @@ class TraegerSwitchEntity(TraegerBaseSwitch):
     # Switch Methods
     async def async_turn_on(self, **kwargs):  # pylint: disable=unused-argument
         """Set new Switch Val."""
-        if GRILL_MODE_IGNITING <= self.grill_mqtt_msg["status"][
-                'system_status'] <= GRILL_MODE_CUSTOM_COOK:
+        if GRILL_MODE["Igniting"] <= self.grill_mqtt_msg["status"][
+                'system_status'] <= GRILL_MODE["Cook_Custom"]:
             await self.client.set_switch(self.grill_id, self.on_cmd)
 
     async def async_turn_off(self, **kwargs):  # pylint: disable=unused-argument
         """Set new Switch Val."""
-        if GRILL_MODE_IGNITING <= self.grill_mqtt_msg["status"][
-                'system_status'] <= GRILL_MODE_CUSTOM_COOK:
+        if GRILL_MODE["Igniting"] <= self.grill_mqtt_msg["status"][
+                'system_status'] <= GRILL_MODE["Cook_Custom"]:
             await self.client.set_switch(self.grill_id, self.off_cmd)
 
 
@@ -138,8 +135,8 @@ class TraegerSuperSmokeEntity(TraegerSwitchEntity):
         if self.grill_mqtt_msg.get("status",None) is None or \
             not self.grill_mqtt_msg.get("status",{}).get("connected",False):
             return False
-        if GRILL_MODE_IGNITING <= self.grill_mqtt_msg["status"][
-                'system_status'] <= GRILL_MODE_CUSTOM_COOK:
+        if GRILL_MODE["Igniting"] <= self.grill_mqtt_msg["status"][
+                'system_status'] <= GRILL_MODE["Cook_Custom"]:
             super_smoke_supported = 0
             if self.grill_mqtt_msg["features"]["super_smoke_enabled"] == 1:
                 super_smoke_supported = 1

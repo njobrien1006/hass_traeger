@@ -1,20 +1,12 @@
 """Number/Timer platform for Traeger."""
+
 import asyncio
 import json
 import logging
 
 from homeassistant.components.number import NumberEntity
 
-from .const import (
-    DOMAIN,
-    GRILL_MODE_COOL_DOWN,
-    GRILL_MODE_CUSTOM_COOK,
-    GRILL_MODE_IDLE,
-    GRILL_MODE_IGNITING,
-    GRILL_MODE_SHUTDOWN,
-    GRILL_MODE_SLEEPING,
-)
-
+from .const import DOMAIN, GRILL_MODE
 from .entity import TraegerBaseEntity
 from .utils import (
     call_service_set_climate,
@@ -327,10 +319,9 @@ class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
     async def async_set_native_value(self, value: float):
         """Set new Timer Val."""
         state = self.grill_mqtt_msg["status"]["system_status"]
-        if GRILL_MODE_IGNITING <= state <= GRILL_MODE_CUSTOM_COOK:
+        if GRILL_MODE["Igniting"] <= state <= GRILL_MODE["Cook_Custom"]:
             if value >= 1:
-                await self.client.set_timer_sec(self.grill_id,
-                                                (round(value) * 60))
+                await self.client.set_timer_sec(self.grill_id, (round(value) * 60))
             else:
                 await self.client.reset_timer(self.grill_id)
             return
