@@ -1,17 +1,15 @@
 """Tests for the sensor platform."""
 
-import asyncio
 import copy
 import json
 import logging
-import pytest
 
-from aiointercept import aiointercept, CallbackResult
+import pytest
+from aiointercept import CallbackResult, aiointercept
 from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry
 from homeassistant.helpers.entity_registry import EntityRegistry
-
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 

@@ -4,9 +4,9 @@ import asyncio
 import copy
 import json
 import logging
-import pytest
 
-from aiointercept import aiointercept, CallbackResult
+import pytest
+from aiointercept import CallbackResult, aiointercept
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry
 

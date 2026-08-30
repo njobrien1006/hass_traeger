@@ -1,10 +1,12 @@
 """Fixtures for testing."""
 
 import asyncio
+import json
 import logging
-import pytest
 
-from aiointercept import aiointercept, CallbackResult
+import pytest
+from aiointercept import CallbackResult, aiointercept
+from amqtt.broker import Broker
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.aiohttp_client import async_get_clientsession

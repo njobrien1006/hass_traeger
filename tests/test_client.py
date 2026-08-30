@@ -4,13 +4,12 @@ import asyncio
 import copy
 import json
 import logging
+import time
+
 import pytest
-
-from aiointercept import aiointercept, CallbackResult
+from aiointercept import CallbackResult, aiointercept
+from homeassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
 from homeassistant.core import HomeAssistant
-
-from homeassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_ON, SERVICE_TURN_OFF
-
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 

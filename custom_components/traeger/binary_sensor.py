@@ -4,7 +4,7 @@ import logging
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
-from .const import DOMAIN
+from .const import DOMAIN, GRILL_MODE
 from .entity import TraegerBaseEntity
 from .notify_helper import notifydevices
 

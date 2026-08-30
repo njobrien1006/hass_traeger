@@ -1,14 +1,12 @@
 """Tests to check HA Logs."""
 
-import asyncio
 import copy
 import json
 import logging
+
 import pytest
-
-from aiointercept import aiointercept, CallbackResult
+from aiointercept import CallbackResult, aiointercept
 from homeassistant.core import HomeAssistant
-
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 

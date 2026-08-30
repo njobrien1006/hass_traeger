@@ -1,7 +1,8 @@
 """Sensor platform for Traeger."""
 from datetime import datetime, timezone
-from homeassistant.const import EntityCategory, UnitOfTemperature
+
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
+from homeassistant.const import EntityCategory, UnitOfTemperature
 
 from .const import (DOMAIN, GRILL_MIN_TEMP_C, GRILL_MIN_TEMP_F,
                     GRILL_MODE_COOL_DOWN, GRILL_MODE_CUSTOM_COOK,

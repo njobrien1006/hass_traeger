@@ -1,8 +1,9 @@
 """Test the Traeger Client."""
 
 import asyncio
-import logging
 import json
+import logging
+
 import pytest
 from aiointercept import aiointercept
 from paho.mqtt.client import MQTTMessage

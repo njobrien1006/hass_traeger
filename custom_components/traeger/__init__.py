@@ -5,23 +5,28 @@ For more details about this integration, please refer to
 https://github.com/njobrien1006/hass_traeger
 """
 import logging
-
 from pathlib import Path
 
 import voluptuous as vol
-
 from homeassistant.components.number import DOMAIN as NUMBER_DOMAIN
 from homeassistant.config_entries import ConfigEntry
-from homeassistant.const import (EVENT_HOMEASSISTANT_STOP)
+from homeassistant.const import EVENT_HOMEASSISTANT_STOP
 from homeassistant.core import Event, HomeAssistant
-from homeassistant.helpers import config_validation as cv, service
+from homeassistant.helpers import config_validation as cv
+from homeassistant.helpers import service
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.typing import ConfigType
 
-from .const import (CONF_PASSWORD, CONF_USERNAME, CONF_OPT_MOBILE_APP, DOMAIN, PLATFORMS,
-                    STARTUP_MESSAGE)
+from .const import (
+    CONF_OPT_MOBILE_APP,
+    CONF_PASSWORD,
+    CONF_USERNAME,
+    DOMAIN,
+    PLATFORMS,
+    STARTUP_MESSAGE,
+)
 from .traeger import Traeger
-from .utils import register_static_path, init_resource
+from .utils import init_resource, register_static_path
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 

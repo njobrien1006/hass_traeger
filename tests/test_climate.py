@@ -4,14 +4,13 @@ import asyncio
 import copy
 import json
 import logging
+
 import pytest
-
-from aiointercept import aiointercept, CallbackResult
-from homeassistant.core import HomeAssistant, State
+from aiointercept import CallbackResult, aiointercept
 from homeassistant.const import UnitOfTemperature
+from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry
-from homeassistant.util.unit_system import US_CUSTOMARY_SYSTEM, METRIC_SYSTEM
-
+from homeassistant.util.unit_system import METRIC_SYSTEM, US_CUSTOMARY_SYSTEM
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 

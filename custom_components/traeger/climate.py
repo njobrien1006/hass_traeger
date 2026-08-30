@@ -1,7 +1,8 @@
 """Climate platform for Traeger grills"""
-from homeassistant.components.climate import (
+
+from homeassistant.components.climate import ClimateEntity
+from homeassistant.components.climate.const import (
     PRESET_NONE,
-    ClimateEntity,
     ClimateEntityFeature,
     HVACMode,
 )

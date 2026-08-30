@@ -1,6 +1,7 @@
 """
 www registration helper from https://github.com/AlexxIT/WebRTC and redacted
 """
+
 import logging
 
 from homeassistant.components.frontend import add_extra_js_url
