@@ -71,7 +71,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     username = entry.data.get(CONF_USERNAME)
     password = entry.data.get(CONF_PASSWORD)
-    notifydict = dict.fromkeys(entry.data.get(CONF_OPT_MOBILE_APP),{})
+    notifydict = dict.fromkeys(entry.data.get(CONF_OPT_MOBILE_APP,{}))
 
     session = async_get_clientsession(hass)
 
