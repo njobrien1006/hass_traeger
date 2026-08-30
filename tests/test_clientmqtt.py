@@ -9,7 +9,7 @@ from aiointercept import aiointercept
 from paho.mqtt.client import MQTTMessage
 
 from .conftest import Broker, TraegerTestClient
-from .zzCommon import client_connect, client_disconnect
+from .zzcommon import client_connect, client_disconnect
 from .zzMockResp import api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)

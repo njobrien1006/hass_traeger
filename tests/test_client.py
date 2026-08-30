@@ -16,7 +16,7 @@ from syrupy.assertion import SnapshotAssertion
 from custom_components.traeger.const import DOMAIN
 
 from .conftest import MQTTPORT, Broker, TraegerTestClient
-from .zzCommon import client_connect, client_disconnect, client_publish
+from .zzcommon import client_connect, client_disconnect, client_publish
 from .zzMockResp import api_commands, api_mqtt, api_token, api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -119,6 +119,7 @@ async def test_handle_getgrills_bad_notjson(
     _LOGGER.error("do cognito resp: %s", traeger_client.grills)
 
 
+# pylint: disable=unused-argument
 async def test_handle_api_timeout(
     traeger_client: TraegerTestClient, http: aiointercept
 ) -> None:

@@ -17,7 +17,7 @@ from custom_components.traeger.const import DOMAIN
 from custom_components.traeger.sensor import SENSOR_ENTITIES
 
 from .conftest import Broker
-from .zzCommon import client_connect, client_disconnect, client_publish
+from .zzcommon import client_connect, client_disconnect, client_publish
 from .zzMockResp import api_commands, api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)

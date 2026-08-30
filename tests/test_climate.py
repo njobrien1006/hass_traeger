@@ -21,7 +21,7 @@ from custom_components.traeger.const import (
 )
 
 from .conftest import Broker
-from .zzCommon import client_connect, client_disconnect, client_publish
+from .zzcommon import client_connect, client_disconnect, client_publish
 from .zzMockResp import api_commands, api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -238,7 +238,7 @@ async def test_climate_setgrilltemp_cmd(
     # Check Enttity
     assert isinstance(entity, State)
     assert entity.state != "unavailable"
-    assert entity.attributes.get("min_temp") < entity.attributes.get("max_temp")
+    assert entity.attributes.get("min_temp",999) < entity.attributes.get("max_temp")
     assert entity == snapshot(name=f"{snapshotname:02d}-ready")
     snapshotname += 1
 
@@ -443,7 +443,7 @@ async def test_climate_setprobetemp_cmds(
     # Check Enttity
     assert isinstance(entity, State)
     assert entity.state != "unavailable"
-    assert entity.attributes.get("min_temp") < entity.attributes.get("max_temp")
+    assert entity.attributes.get("min_temp",999) < entity.attributes.get("max_temp")
     assert entity == snapshot(name="02-ready")
 
     await hass.services.async_call(
