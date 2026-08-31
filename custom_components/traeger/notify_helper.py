@@ -43,7 +43,16 @@ def notifystartliveupdate_time(notify, hass, *, tag, title, msg, unix):
     data = {
         "title": title,
         "message": msg,
-        "data": {"tag": tag, "live_update": True, "chronometer": True, "when": unix},
+        "data": {
+            "tag": tag,
+            "live_update": True,
+            "chronometer": True,
+            "notification_icon": "mdi:timer",
+            "notification_icon_color": "#FF7900",
+            "color": "#FF7900",
+            "url": "/lovalace/grill",
+            "when": unix,
+        },
     }
     _LOGGER.info("MSG Base Data: %s", data)
     for notidev in notify:

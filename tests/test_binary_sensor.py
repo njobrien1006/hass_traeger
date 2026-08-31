@@ -129,25 +129,45 @@ async def test_binary_sensor_par(
 
     await client_publish(hass, traeger_client, mqtt_msg_change)
 
+    if "complete" in mqtt_loca:
+        jsondata = http.last_request.kwargs.get("json",{})
+        jsondata["data"]["when"] = 1785560400
+        assert jsondata == snapshot(name="02-live")
+
     # Get Entity Ready Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
     assert isinstance(entity, State)
     assert entity.state != "unavailable"
-    assert entity == snapshot(name="02-ready")
+    assert entity == snapshot(name="03-ready")
 
     # Change Entity
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
-    mqtt_msg_change["status"]["system_status"] = 7
+    mqtt_msg_change["status"]["system_status"] = 8
     mqtt_msg_change["status"][mqtt_loca] = 1
     await client_publish(hass, traeger_client, mqtt_msg_change)
+
+    if "complete" in mqtt_loca:
+        assert http.last_request.kwargs.get("json",{}) == snapshot(name="04-timercmplt")
+        if "sys" in mqtt_loca:
+            # Change Entity
+            mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
+            mqtt_msg_change["status"][mqtt_loca] = 0
+            await client_publish(hass, traeger_client, mqtt_msg_change)
+
+            # Change Entity
+            mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
+            mqtt_msg_change["status"]["system_status"] = 2
+            mqtt_msg_change["status"][mqtt_loca] = 1
+            await client_publish(hass, traeger_client, mqtt_msg_change)
+            assert http.last_request.kwargs.get("json",{}) == snapshot(name="05-cooldowncmplt")
 
     # Get Entity Trig Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
     assert isinstance(entity, State)
     assert entity.state != "unavailable"
-    assert entity == snapshot(name="03-changed")
+    assert entity == snapshot(name="06-changed")
 
     # Change Entity
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
@@ -159,6 +179,6 @@ async def test_binary_sensor_par(
     # Check Enttity
     assert isinstance(entity, State)
     assert entity.state == "unavailable"
-    assert entity == snapshot(name="04-not_connected")
+    assert entity == snapshot(name="07-not_connected")
 
     await client_disconnect(hass, traeger_client)

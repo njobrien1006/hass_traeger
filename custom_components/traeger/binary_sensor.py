@@ -128,6 +128,9 @@ class TraegerTimer(TraegerBaseSensor):
                 title=f"{self.friendly_name}",
                 msg=f"Timer is done on {self.grill_name}",
             )
+            self.grill_timer_val = 0
+        if self.grill_timer_val > 0 and self.grill_mqtt_msg["status"]["cook_timer_end"] == 0:
+            notifyclearliveupdate(self.notify, self.hass, tag=self.unique_id)
         self.grill_timer_val = self.grill_mqtt_msg["status"]["cook_timer_end"]
         self.value = self.grill_mqtt_msg["status"][self.devid]
         return self.value
@@ -161,6 +164,9 @@ class TraegerSysTimer(TraegerBaseSensor):
                 title=f"{self.friendly_name}",
                 msg=f"{self.grill_name} is done {GRILL_MODE[self.grill_sts]}",
             )
+            self.grill_timer_val = 0
+        if self.grill_timer_val > 0 and self.grill_mqtt_msg["status"]["sys_timer_end"] == 0:
+            notifyclearliveupdate(self.notify, self.hass, tag=self.unique_id)
         self.grill_timer_val = self.grill_mqtt_msg["status"]["sys_timer_end"]
         self.grill_sts = self.grill_mqtt_msg["status"]["system_status"]
         self.value = self.grill_mqtt_msg["status"][self.devid]
