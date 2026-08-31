@@ -20,7 +20,7 @@ async def client_connect(hass, client, grill_list):
     await asyncio.sleep(0.1)
 
 
-async def client_publish(hass, client, msg, dly=0.05):
+async def client_publish(hass, client, msg, dly=0.08):
     """Publish to MQTT Client"""
     await asyncio.sleep(dly/2)
     client.mqtt_client.mqtt_client.publish(
