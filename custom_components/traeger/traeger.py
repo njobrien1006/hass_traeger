@@ -347,10 +347,12 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                     data = await response.read()
                     data = {}
                 elif method == "post":
-                    response = await self.request.post(url,
-                                                       headers=headers,
-                                                       json=data)
+                    response = await self.request.post(url, headers=headers, json=data)
                     data = json.loads(await response.read())
+                if response.status >= 400:
+                    _LOGGER.error(
+                        "Command to %s returned HTTP %s", url, response.status
+                    )
                 if not isinstance(data, (dict, list)):
                     raise TypeError("Valid JSON, but not a JSON Object or Array")
                 return data
