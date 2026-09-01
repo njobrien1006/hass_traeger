@@ -33,7 +33,7 @@ DEFAULT_NAME = DOMAIN
 GRILL_MODES = {
     "Offline": 99,
     "Shutdown": 9,
-    "Cool_Down": 8,
+    "CoolingDown": 8,
     "Cook_Custom": 7,
     "Cook_Manual": 6,
     "PreHeating": 5,

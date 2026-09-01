@@ -164,7 +164,7 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
             self.num_value = 0
             return self.num_value
         if self.num_value > 0 and self.grill_mqtt_msg["status"]["system_status"] in [
-            GRILL_MODE["Cool_Down"],
+            GRILL_MODE["CoolingDown"],
             GRILL_MODE["Sleeping"],
             GRILL_MODE["Shutdown"],
             GRILL_MODE["Idle"],

@@ -151,7 +151,7 @@ async def test_climate_setgrilltemp_cmd(
         if cmdsplit[0] == "11":
             mqtt_msg_change["status"]["set"] = int(cmdsplit[1])
         elif kwargs["json"]["command"] == "17":
-            mqtt_msg_change["status"]["system_status"] = GRILL_MODE["Cool_Down"]
+            mqtt_msg_change["status"]["system_status"] = GRILL_MODE["CoolingDown"]
         elif kwargs["json"]["command"] == "90":
             mqtt_msg_change = copy.deepcopy(mqtt_msg)
         else:

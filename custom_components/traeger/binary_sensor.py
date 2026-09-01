@@ -147,7 +147,7 @@ class TraegerSysTimer(TraegerBaseSensor):
             notifystartliveupdate_time(
                 self.notify,
                 self.hass,
-                title=f"{self.grill_name} System Timer",
+                title=f"{self.grill_name} {GRILL_MODE[self.grill_sts]}",
                 msg="System timer is in progress",
                 tag=self.unique_id,
                 unix=self.grill_mqtt_msg["status"]["sys_timer_end"],

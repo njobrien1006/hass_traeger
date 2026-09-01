@@ -350,7 +350,7 @@ async def test_number_cookcycle(
                 "get_temp"
             ] = int(cmdsplit[3]) / 2
         elif kwargs["json"]["command"] == "17":
-            mqtt_msg_change["status"]["system_status"] = GRILL_MODE["Cool_Down"]
+            mqtt_msg_change["status"]["system_status"] = GRILL_MODE["CoolingDown"]
         elif kwargs["json"]["command"] == "18":
             mqtt_msg_change["status"]["keepwarm"] = 1
         elif kwargs["json"]["command"] == "19":

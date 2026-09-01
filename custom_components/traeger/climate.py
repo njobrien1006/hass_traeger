@@ -144,7 +144,7 @@ class TraegerClimateEntity(TraegerBaseClimate):
 
         state = self.grill_mqtt_msg["status"]["system_status"]
 
-        if state in [GRILL_MODE["Cool_Down"]]:
+        if state in [GRILL_MODE["CoolingDown"]]:
             returnval = HVACMode.COOL
         elif state in [
             GRILL_MODE["Cook_Custom"],

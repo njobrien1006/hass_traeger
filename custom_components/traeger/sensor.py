@@ -441,7 +441,7 @@ class HeatingState(TraegerBaseSensor):
                     state = "heating"
                 else:
                     state = "cooling"
-        elif grill_mode == GRILL_MODE["Cool_Down"]:
+        elif grill_mode == GRILL_MODE["CoolingDown"]:
             state = "cool_down"
 
         self.previous_target_temp = target_temp
