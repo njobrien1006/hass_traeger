@@ -3,9 +3,10 @@ import logging
 
 import voluptuous as vol
 from homeassistant import config_entries
+from homeassistant.helpers import selector
 from homeassistant.helpers.aiohttp_client import async_create_clientsession
 
-from .const import CONF_PASSWORD, CONF_USERNAME, DOMAIN
+from .const import CONF_OPT_MOBILE_APP, CONF_PASSWORD, CONF_USERNAME, DOMAIN
 from .traeger import Traeger
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -22,6 +23,42 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         """Initialize."""
         self._errors = {}
 
+    async def async_step_reconfigure(self, user_input):
+        """Handle reconfiguration of the integration."""
+        self._errors = {}
+        if user_input:
+            valid, username = await self._test_credentials(user_input[CONF_USERNAME],
+            user_input[CONF_PASSWORD])
+            if valid:
+                await self.async_set_unique_id(username)
+                self._abort_if_unique_id_mismatch(reason="wrong_account")
+                return self.async_update_and_abort(
+                    self._get_reconfigure_entry(),
+                    data_updates=user_input,
+                )
+            self._errors["base"] = "auth"
+
+        return self.async_show_form(
+            step_id="reconfigure",
+            data_schema=vol.Schema({
+                vol.Required(CONF_USERNAME):
+                    str,
+                vol.Required(CONF_PASSWORD):
+                    str,
+                vol.Optional(CONF_OPT_MOBILE_APP): selector.DeviceSelector(
+                    selector.EntitySelectorConfig(
+                        integration="mobile_app",
+                        multiple=True,
+                    )
+                ),
+            }),
+            errors=self._errors,
+            description_placeholders={
+                "github_url":
+                    "[njobrien1006/hass_traeger](https://github.com/njobrien1006/hass_traeger)"
+            },
+        )
+
     async def async_step_user(self, user_input=None):
         """Handle a flow initialized by the user."""
         self._errors = {}
@@ -31,9 +68,11 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         #     return self.async_abort(reason="single_instance_allowed")
 
         if user_input is not None:
-            valid = await self._test_credentials(user_input[CONF_USERNAME],
+            valid, username = await self._test_credentials(user_input[CONF_USERNAME],
                                                  user_input[CONF_PASSWORD])
             if valid:
+                await self.async_set_unique_id(username)
+                self._abort_if_unique_id_configured()
                 return self.async_create_entry(title=user_input[CONF_USERNAME],
                                                data=user_input)
             self._errors["base"] = "auth"
@@ -55,6 +94,12 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                     str,
                 vol.Required(CONF_PASSWORD, default=user_input[CONF_PASSWORD]):
                     str,
+                vol.Optional(CONF_OPT_MOBILE_APP): selector.DeviceSelector(
+                    selector.EntitySelectorConfig(
+                        integration="mobile_app",
+                        multiple=True,
+                    )
+                ),
             }),
             errors=self._errors,
             description_placeholders={
@@ -67,14 +112,14 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         """Return true if credentials is valid."""
         try:
             session = async_create_clientsession(self.hass)
-            client = Traeger(username, password, self.hass, session)
+            client = Traeger(username, password, self.hass, session, {})
             response = await client.get_user_data()
             _LOGGER.debug("Test Creds Resp: %s", response)
             if client.api['api_token'] == "":
                 raise PermissionError("Null Token")
             if "userId" not in response:
                 raise PermissionError("Bad User Data")
-            return True
+            return True, client.api['username']
         except Exception as exception:  # pylint: disable=broad-except
             _LOGGER.error("Failed to login %s", exception)
-        return False
+        return False, ""

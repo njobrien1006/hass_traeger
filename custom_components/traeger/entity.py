@@ -18,6 +18,7 @@ class TraegerBaseEntity(Entity):  # pylint: disable=too-many-instance-attributes
         self.grill_mqtt_msg = self.client.get_mqtt_msg_for_grill(self.grill_id)
         self.grill_units = self.client.get_units_for_device(self.grill_id)
         self.grill_cloudconnect = self.client.get_cloudconnect(self.grill_id)
+        self.notify = self.client.notify
 
     def grill_register_callback(self):
         """Tell the Traeger client to call grill_update() when it gets an update"""
@@ -95,13 +96,14 @@ class TraegerGrillMonitor:
             return
         entities = []
         for accessory in self.device_state["acc"]:
-            if accessory["type"] in ["probe", "btprobe", "hob"]:
-                if accessory["uuid"] not in self.accessory_status:
-                    if self.probe_entity:
-                        entities.append(
-                            self.probe_entity(self.client, self.grill_id,
-                                              accessory["uuid"])
-                        )
-                        self.accessory_status[accessory["uuid"]] = True
+            if (
+                accessory["type"] in ["probe", "btprobe", "hob"]
+                and accessory["uuid"] not in self.accessory_status
+                and self.probe_entity
+            ):
+                entities.append(
+                    self.probe_entity(self.client, self.grill_id, accessory["uuid"])
+                )
+                self.accessory_status[accessory["uuid"]] = True
         if entities:
             self.async_add_entities(entities)

@@ -2,8 +2,8 @@
 # name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Cook Timer Complete",
-      'icon': 'mdi:timer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Cook Timer Complete",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:timer',
     }),
     'context': <ANY>,
     'entity_id': 'binary_sensor.traeger_0123456789ab_cook_timer_complete',
@@ -13,12 +13,35 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][02-ready]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][02-live]
+  dict({
+    'data': dict({
+      'chronometer': True,
+      'color': '#FF7900',
+      'live_update': True,
+      'notification_icon': 'mdi:timer',
+      'notification_icon_color': '#FF7900',
+      'tag': '0123456789ab_cook_timer_complete',
+      'url': '/lovalace/grill',
+      'when': 1785560400,
+    }),
+    'message': 'Cook timer is in progress',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': "Johny's Traeger Cook Timer",
+  })
+# ---
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][03-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger Cook Timer Complete",
-      'icon': 'mdi:timer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Cook Timer Complete",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:timer',
       'integration': 'traeger',
     }),
     'context': <ANY>,
@@ -29,12 +52,25 @@
     'state': '0',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][03-changed]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][04-timercmplt]
+  dict({
+    'message': "Timer is done on Johny's Traeger",
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': 'Cook Timer Complete',
+  })
+# ---
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][07-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger Cook Timer Complete",
-      'icon': 'mdi:timer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Cook Timer Complete",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:timer',
       'integration': 'traeger',
     }),
     'context': <ANY>,
@@ -45,11 +81,11 @@
     'state': '1',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][04-not_connected]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][08-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Cook Timer Complete",
-      'icon': 'mdi:timer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Cook Timer Complete",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:timer',
     }),
     'context': <ANY>,
     'entity_id': 'binary_sensor.traeger_0123456789ab_cook_timer_complete',
@@ -62,8 +98,8 @@
 # name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Probe Alarm Fired",
-      'icon': 'mdi:thermometer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe Alarm Fired",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
     }),
     'context': <ANY>,
     'entity_id': 'binary_sensor.traeger_0123456789ab_probe_alarm_fired',
@@ -73,12 +109,12 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][02-ready]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][03-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger Probe Alarm Fired",
-      'icon': 'mdi:thermometer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe Alarm Fired",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       'integration': 'traeger',
     }),
     'context': <ANY>,
@@ -89,12 +125,12 @@
     'state': '0',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][03-changed]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][07-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger Probe Alarm Fired",
-      'icon': 'mdi:thermometer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe Alarm Fired",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
       'integration': 'traeger',
     }),
     'context': <ANY>,
@@ -105,11 +141,11 @@
     'state': '1',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][04-not_connected]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][08-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger Probe Alarm Fired",
-      'icon': 'mdi:thermometer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe Alarm Fired",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:thermometer',
     }),
     'context': <ANY>,
     'entity_id': 'binary_sensor.traeger_0123456789ab_probe_alarm_fired',
@@ -122,8 +158,8 @@
 # name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][01-init]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger System Timer Complete",
-      'icon': 'mdi:timer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger System Timer Complete",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:timer',
     }),
     'context': <ANY>,
     'entity_id': 'binary_sensor.traeger_0123456789ab_system_timer_complete',
@@ -133,12 +169,100 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][02-ready]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][02-live]
+  dict({
+    'data': dict({
+      'chronometer': True,
+      'color': '#FF7900',
+      'live_update': True,
+      'notification_icon': 'mdi:timer',
+      'notification_icon_color': '#FF7900',
+      'tag': '0123456789ab_sys_timer_complete',
+      'url': '/lovalace/grill',
+      'when': 1785560400,
+    }),
+    'message': 'System timer is in progress',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': "Johny's Traeger PreHeating",
+  })
+# ---
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][03-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
-      'friendly_name': "Johny's Traeger System Timer Complete",
-      'icon': 'mdi:timer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger System Timer Complete",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:timer',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'binary_sensor.traeger_0123456789ab_system_timer_complete',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': '0',
+  })
+# ---
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][04-timercmplt]
+  dict({
+    'message': "Johny's Traeger is done PreHeating",
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': 'System Timer Complete',
+  })
+# ---
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][05-livecooldown]
+  dict({
+    'data': dict({
+      'chronometer': True,
+      'color': '#FF7900',
+      'live_update': True,
+      'notification_icon': 'mdi:timer',
+      'notification_icon_color': '#FF7900',
+      'tag': '0123456789ab_sys_timer_complete',
+      'url': '/lovalace/grill',
+      'when': 1785560400,
+    }),
+    'message': 'System timer is in progress',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': "Johny's Traeger CoolingDown",
+  })
+# ---
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][06-cooldowncmplt]
+  dict({
+    'message': "Johny's Traeger is done CoolingDown",
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': 'System Timer Complete',
+  })
+# ---
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][07-changed]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger System Timer Complete",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:timer',
       'integration': 'traeger',
     }),
     'context': <ANY>,
@@ -149,27 +273,11 @@
     'state': '1',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][03-changed]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][08-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      'attribution': '',
-      'friendly_name': "Johny's Traeger System Timer Complete",
-      'icon': 'mdi:timer',
-      'integration': 'traeger',
-    }),
-    'context': <ANY>,
-    'entity_id': 'binary_sensor.traeger_0123456789ab_system_timer_complete',
-    'last_changed': <ANY>,
-    'last_reported': <ANY>,
-    'last_updated': <ANY>,
-    'state': '1',
-  })
-# ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][04-not_connected]
-  StateSnapshot({
-    'attributes': ReadOnlyDict({
-      'friendly_name': "Johny's Traeger System Timer Complete",
-      'icon': 'mdi:timer',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger System Timer Complete",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:timer',
     }),
     'context': <ANY>,
     'entity_id': 'binary_sensor.traeger_0123456789ab_system_timer_complete',

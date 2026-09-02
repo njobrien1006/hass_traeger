@@ -1,7 +1,8 @@
 """Climate platform for Traeger grills"""
-from homeassistant.components.climate import (
+
+from homeassistant.components.climate import ClimateEntity
+from homeassistant.components.climate.const import (
     PRESET_NONE,
-    ClimateEntity,
     ClimateEntityFeature,
     HVACMode,
 )
@@ -11,15 +12,7 @@ from .const import (
     DOMAIN,
     GRILL_MIN_TEMP_C,
     GRILL_MIN_TEMP_F,
-    GRILL_MODE_COOL_DOWN,
-    GRILL_MODE_CUSTOM_COOK,
-    GRILL_MODE_IDLE,
-    GRILL_MODE_IGNITING,
-    GRILL_MODE_MANUAL_COOK,
-    GRILL_MODE_OFFLINE,
-    GRILL_MODE_PREHEATING,
-    GRILL_MODE_SHUTDOWN,
-    GRILL_MODE_SLEEPING,
+    GRILL_MODE,
     PROBE_PRESET_MODES,
 )
 from .entity import TraegerBaseEntity, TraegerGrillMonitor
@@ -148,27 +141,26 @@ class TraegerClimateEntity(TraegerBaseClimate):
         """Return hvac operation ie. heat, cool mode.
         Need to be one of HVAC_MODE_*.
         """
-        returnval = HVACMode.OFF
 
         state = self.grill_mqtt_msg["status"]["system_status"]
 
-        if state == GRILL_MODE_COOL_DOWN:
+        if state in [GRILL_MODE["CoolingDown"]]:
             returnval = HVACMode.COOL
-        elif state == GRILL_MODE_CUSTOM_COOK:
+        elif state in [
+            GRILL_MODE["Cook_Custom"],
+            GRILL_MODE["Cook_Manual"],
+            GRILL_MODE["PreHeating"],
+            GRILL_MODE["Igniting"],
+        ]:
             returnval = HVACMode.HEAT
-        elif state == GRILL_MODE_MANUAL_COOK:
-            returnval = HVACMode.HEAT
-        elif state == GRILL_MODE_PREHEATING:
-            returnval = HVACMode.HEAT
-        elif state == GRILL_MODE_IGNITING:
-            returnval = HVACMode.HEAT
-        elif state == GRILL_MODE_IDLE:
+        elif state in [
+            GRILL_MODE["Idle"],
+            GRILL_MODE["Sleeping"],
+            GRILL_MODE["Offline"],
+            GRILL_MODE["Shutdown"],
+        ]:
             returnval = HVACMode.OFF
-        elif state == GRILL_MODE_SLEEPING:
-            returnval = HVACMode.OFF
-        elif state == GRILL_MODE_OFFLINE:
-            returnval = HVACMode.OFF
-        elif state == GRILL_MODE_SHUTDOWN:
+        else:
             returnval = HVACMode.OFF
         return returnval
 
@@ -184,8 +176,8 @@ class TraegerClimateEntity(TraegerBaseClimate):
     async def async_set_temperature(self, **kwargs):
         """Set new target temperature."""
         state = self.grill_mqtt_msg["status"]["system_status"]
-        if GRILL_MODE_IGNITING <= state <= GRILL_MODE_CUSTOM_COOK:
-            temperature = kwargs.get(ATTR_TEMPERATURE)
+        if GRILL_MODE["Igniting"] <= state <= GRILL_MODE["Cook_Custom"]:
+            temperature = kwargs.get(ATTR_TEMPERATURE, 0)
             await self.client.set_temperature(self.grill_id, round(temperature))
             return
         raise NotImplementedError("Set Temp not supported in current state.")
@@ -194,7 +186,7 @@ class TraegerClimateEntity(TraegerBaseClimate):
         """Start grill shutdown sequence"""
         state = self.grill_mqtt_msg["status"]["system_status"]
         if (hvac_mode in (HVACMode.OFF, HVACMode.COOL) and
-                GRILL_MODE_IGNITING <= state <= GRILL_MODE_CUSTOM_COOK):
+                GRILL_MODE["Igniting"] <= state <= GRILL_MODE["Cook_Custom"]):
             await self.client.shutdown_grill(self.grill_id)
             return
         raise NotImplementedError(
@@ -307,7 +299,7 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
         Return the list of available hvac operation modes.
         Need to be a subset of HVAC_MODES.
         """
-        return (HVACMode.HEAT, HVACMode.OFF)
+        return (HVACMode.HEAT, HVACMode.OFF, HVACMode.COOL)
 
     @property
     def preset_mode(self):
@@ -336,14 +328,14 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
     async def async_set_temperature(self, **kwargs):
         """Set new target temperature."""
         self.current_preset_mode = PRESET_NONE
-        temperature = kwargs.get(ATTR_TEMPERATURE)
+        temperature = kwargs.get(ATTR_TEMPERATURE,0)
         await self.client.set_probe_temperature(self.grill_id,
                                                 round(temperature),
                                                 self.sensor_id)
 
     async def async_set_hvac_mode(self, hvac_mode):
         """Start grill shutdown sequence"""
-        if hvac_mode in (HVACMode.OFF, HVACMode.COOL):
+        if hvac_mode in (HVACMode.HEAT, HVACMode.OFF, HVACMode.COOL):
             raise NotImplementedError(
                 "HVAC Mode is determined based on the probe being plugged in.")
 

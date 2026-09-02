@@ -18,13 +18,10 @@ import urllib
 import aiohttp
 import async_timeout
 import homeassistant.const
-
-from paho.mqtt import client as mqtt
-
 from homeassistant.components.mqtt.async_client import AsyncMQTTClient
+from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import entity_registry as er
-
-TIMEOUT = 60
+from paho.mqtt import client as mqtt
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -32,14 +29,16 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attributes
     """Traeger API Wrapper"""
 
-    def __init__(self, username, password, hass, request_library):
+    # pylint: disable=dangerous-default-value,too-many-arguments,too-many-positional-arguments
+    def __init__(self, username, password, hass, request_library, notifydict):
         self.api = {
             "username": username,
             "password": password,
             "api_token": "",
             "api_expires": 0,
             "mqtt_url_expires": time.time(),
-            "mqtt_url": None
+            "mqtt_url": None,
+            "timeout": 10
         }
         self.hass = hass
         self.request = request_library
@@ -47,11 +46,12 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         self.loop_task = None
         self.grill_callbacks = {}
 
-        self.grills = None
+        self.grills = {}
         self.mqtt_client = TraegerMQTTClient(self.hass,
                                              self.sync_grill_callback,
                                              self.sync_update_state)
         self.entities = {}
+        self.notify = notifydict
 
     def __token_remaining(self):
         """Report remaining token time."""
@@ -128,18 +128,9 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         await self.__send_command(thingname, f"11,{temp}")
 
     async def set_probe_temperature(self, thingname, temp, sensor_id=None):
-        """Set Probe Temp Setpoint.
-
-        Modern dual-probe grills (e.g. Ironwood XL) require the per-probe
-        command ``120,10,{sensor_id},{temp}`` used by the official Traeger app,
-        where ``sensor_id`` is the accessory uuid from ``status.acc[]``.  When
-        ``sensor_id`` is not supplied we fall back to the legacy single-probe
-        command ``14,{temp}`` for older hardware.
-        """
-        if sensor_id is None:
-            await self.__send_command(thingname, f"14,{temp}")
-        else:
-            await self.__send_command(thingname, f"120,10,{sensor_id},{temp}")
+        """Set Probe Temp Setpoint."""
+        # await self.__send_command(thingname, f"14,{temp}")
+        await self.__send_command(thingname, f"120,10,{sensor_id},{temp}")
 
     async def set_switch(self, thingname, switchval):
         """Set Binary Switch"""
@@ -202,7 +193,13 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 continue
             if entity_entry.platform == "traeger":
                 self.entities[entity_entry.unique_id] = entity_id
-        _LOGGER.debug(json.dumps(self.entities))
+        _LOGGER.info(json.dumps(self.entities))
+        registry = dr.async_get(self.hass)
+        for dev in registry.devices.values():
+            if dev.id in list(self.notify):
+                _LOGGER.debug("MobileApp EntId: %s - %s - %s", dev.id, dev.name, dev.manufacturer)
+                self.notify[dev.id] = {"name": dev.name, "manu": dev.manufacturer}
+        _LOGGER.info(json.dumps(self.notify))
 
     def __mqtt_url_remaining(self):
         """Available MQTT time left."""
@@ -213,6 +210,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         await self.__refresh_token()
         if self.__mqtt_url_remaining() < 60:
             try:
+                myjson = {}
                 mqtt_request_time = time.time()
                 myjson = await self.api_wrapper(
                     "post",
@@ -287,9 +285,9 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         Small wrapper to switch from the call_later def back to the async loop
         """
         _LOGGER.debug("@Call_Later SyncMain CreatingTask for async Main.")
-        self.hass.async_create_task(self.__main())
+        self.hass.async_create_task(self.main())
 
-    async def __main(self):
+    async def main(self, min_dly=30):
         """This is the loop that keeps the tokens updated."""
         _LOGGER.debug("Current Main Loop Time: %s", time.time())
         _LOGGER.debug(
@@ -297,10 +295,10 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
             self.__token_remaining(), self.__mqtt_url_remaining())
         if self.__mqtt_url_remaining() < 60:
             if self.mqtt_client.isconnected:
-                self.mqtt_client.disconnect()
+                await self.mqtt_client.disconnect()
             await self.__get_mqtt_client()
         _LOGGER.debug("Call_Later @: %s", self.api['mqtt_url_expires'])
-        delay = max(self.__mqtt_url_remaining(), 30)
+        delay = max(self.__mqtt_url_remaining(), min_dly)
         self.loop_task = self.hass.loop.call_later(delay, self.__syncmain)
         await self.get_entities()
 
@@ -315,7 +313,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
             self.loop_task = None
         if self.mqtt_client.isconnected:
             _LOGGER.info("Stopping MQTT")
-            self.mqtt_client.disconnect()
+            await self.mqtt_client.disconnect()
             while self.mqtt_client.isconnected:  #Wait for disconnect to finish
                 await asyncio.sleep(0.1)
             self.api['mqtt_url_expires'] = time.time()
@@ -332,36 +330,47 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
     async def api_wrapper(self,
                           method: str,
                           url: str,
-                          data: dict = {},
-                          headers: dict = {}) -> dict:
+                          data=None,
+                          headers=None) -> dict:
         """Get information from the API."""
+        if data is None:
+            data = {}
+        if headers is None:
+            headers = {}
         try:
-            async with async_timeout.timeout(TIMEOUT):
+            async with async_timeout.timeout(self.api["timeout"]):
                 if method == "get":
                     response = await self.request.get(url, headers=headers)
+                    data = json.loads(await response.read())
+                elif method == "post_raw":
+                    response = await self.request.post(url, headers=headers, json=data)
                     data = await response.read()
-                    return json.loads(data)
-
-                if method == "post_raw":
-                    await self.request.post(url, headers=headers, json=data)
-
+                    data = {}
                 elif method == "post":
-                    response = await self.request.post(url,
-                                                       headers=headers,
-                                                       json=data)
-                    data = await response.read()
-                    return json.loads(data)
+                    response = await self.request.post(url, headers=headers, json=data)
+                    data = json.loads(await response.read())
+                if response.status >= 400:
+                    _LOGGER.error(
+                        "Command to %s returned HTTP %s", url, response.status
+                    )
+                if not isinstance(data, (dict, list)):
+                    raise TypeError("Valid JSON, but not a JSON Object or Array")
+                return data
         except asyncio.TimeoutError as exception:
             _LOGGER.error("Timeout error fetching information from %s - %s",
                           url, exception)
-        except (KeyError, TypeError) as exception:
+            return {}
+        except TypeError as exception:
             _LOGGER.error("Error parsing information from %s - %s", url,
                           exception)
+            return {}
         except (aiohttp.ClientError, socket.gaierror) as exception:
             _LOGGER.error("Error fetching information from %s - %s", url,
                           exception)
+            return {}
         except Exception as exception:  # pylint: disable=broad-except
             _LOGGER.error("Something really wrong happend! - %s", exception)
+            return {}
 
 
 class TraegerMQTTClient:
@@ -372,6 +381,8 @@ class TraegerMQTTClient:
         self.isconnected = False
         self.grills_status = {}
         self.context = None
+        self.ssl = True
+        self.port = 443
 
         self._hass = hass
         self._grills = {}
@@ -387,7 +398,6 @@ class TraegerMQTTClient:
         self.mqtt_client.on_publish = self._mqtt_onpublish  #Only Tests uses this.
         if _LOGGER.level <= 10:  #Add these callbacks only if our logging is Debug or less.
             self.mqtt_client.enable_logger(_LOGGER)
-            self.mqtt_client.on_unsubscribe = self._mqtt_onunsubscribe
             self.mqtt_client.on_disconnect = self._mqtt_ondisconnect
             self.mqtt_client.on_socket_close = self._mqtt_onsocketclose
             self.mqtt_client.on_socket_unregister_write = self._mqtt_onsocketunregisterwrite
@@ -396,39 +406,34 @@ class TraegerMQTTClient:
 
     async def connect(self,
                       grills,
-                      mqtt_url,
-                      setssl: bool = True,
-                      port: int = 443) -> None:
+                      mqtt_url) -> None:
         """Call Connect"""
         self._grills = grills
-        if setssl and self.context is None:
+        if self.ssl and self.context is None:
             self.context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
             self.context.check_hostname = False
             self.context.verify_mode = ssl.CERT_NONE
             self.mqtt_client.tls_set_context(self.context)
         mqtt_parts = urllib.parse.urlparse(mqtt_url)
         headers = {
-            "Host": "{0:s}".format(mqtt_parts.netloc),  # pylint: disable=consider-using-f-string
+            "Host": mqtt_parts.netloc
         }
         self.mqtt_client.ws_set_options(
             path=f"{mqtt_parts.path}?{mqtt_parts.query}", headers=headers)
-        self.mqtt_client.connect_async(mqtt_parts.netloc, port, keepalive=300)
+        self.mqtt_client.connect_async(mqtt_parts.netloc, self.port, keepalive=300)
         _LOGGER.debug("Starting Traeger MQTT Class")
         self.mqtt_client.loop_start()
         _LOGGER.debug("Started Traeger MQTT Class")
 
-    def disconnect(self) -> None:
+    async def disconnect(self) -> None:
         """Call disconnect"""
         _LOGGER.debug("Stopping Traeger MQTT Class")
         self._hass.async_add_executor_job(self.mqtt_client.disconnect)
         _LOGGER.debug("Added disconnect to executor job (thread)")
-        self.isconnected = False
-        _LOGGER.debug("We assume the Loop_Forever stopped.")
 
     def _mqtt_onconnect(self, client, userdata, flags, reason_code, properties):
         """MQTT on_connect"""
-        self.isconnected = True
-        _LOGGER.info("Grill Connected")
+        self.isconnected = self.mqtt_client.is_connected()
         for grill in self._grills:
             grill_id = grill["thingName"]
             if grill_id in self.grills_status:
@@ -438,9 +443,10 @@ class TraegerMQTTClient:
 
     def _mqtt_ondisconnect(self, client, userdata, flags, reason_code, properties):
         """MQTT on_undisconnect"""
-        self.isconnected = False
+        self.isconnected = self.mqtt_client.is_connected()
         _LOGGER.debug("OnDisconnect Callback. Client:%s userdata:%s rc:%s",
                       client, userdata, reason_code)
+        self.mqtt_client.loop_stop()
 
     def mqtt_onmessage(self, client, userdata, message):
         """MQTT on_message"""
@@ -468,14 +474,7 @@ class TraegerMQTTClient:
                       client, userdata, mid)
         for grill in self._grills:
             grill_id = grill["thingName"]
-            if grill_id in self.grills_status:
-                del self.grills_status[grill_id]
             self.update_state(grill_id)
-
-    def _mqtt_onunsubscribe(self, client, userdata, mid, reason_codes, properties):
-        """MQTT on_unsubscribe"""
-        _LOGGER.debug("OnUnsubscribe Callback. Client:%s userdata:%s mid:%s",
-                      client, userdata, mid)
 
     def _mqtt_onsocketclose(self, client, userdata, sock):
         """MQTT on_socketclose"""

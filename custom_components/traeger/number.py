@@ -1,21 +1,19 @@
 """Number/Timer platform for Traeger."""
+
 import asyncio
 import json
 import logging
 
 from homeassistant.components.number import NumberEntity
 
-from .const import (
-    DOMAIN,
-    GRILL_MODE_COOL_DOWN,
-    GRILL_MODE_CUSTOM_COOK,
-    GRILL_MODE_IDLE,
-    GRILL_MODE_IGNITING,
-    GRILL_MODE_SHUTDOWN,
-    GRILL_MODE_SLEEPING,
-)
-
+from .const import DOMAIN, GRILL_MODE
 from .entity import TraegerBaseEntity
+from .utils import (
+    call_service_set_climate,
+    call_service_set_climate_mode,
+    call_service_set_number,
+    call_service_set_switch,
+)
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -28,9 +26,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
     grills = client.get_grills()
     entities = []
     for grill in grills:
-        entities.append(
-            TraegerNumberEntity(client, grill["thingName"], "cook_timer")
-        )
+        entities.append(TraegerNumberEntity(client, grill["thingName"], "cook_timer"))
         entities.append(
             CookCycNumberEntity(client, grill["thingName"], "cook_cycle", hass)
         )
@@ -74,6 +70,88 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         """Return the supported step."""
         return 1
 
+    def scan_next_step(self, curstep):
+        '''Scan for next step'''
+        if "use_timer" in curstep:
+            if self.grill_mqtt_msg["status"]["cook_timer_complete"]:
+                self.num_value = self.num_value + 1
+        elif self.grill_mqtt_msg["status"]["probe_alarm_fired"]:
+            self.num_value = self.num_value + 1
+        elif "act_temp_adv" in curstep:
+            if self.grill_mqtt_msg["status"]["grill"] >= curstep["act_temp_adv"]:
+                self.num_value = self.num_value + 1
+        elif (
+            "probe_act_temp_adv" in curstep
+            and self.grill_mqtt_msg["status"]["probe"] >= curstep["probe_act_temp_adv"]
+        ):
+            self.num_value = self.num_value + 1
+
+    def in_step_change(self, curstep):
+        '''In Step Change'''
+        curstep["max_grill_delta_temp"] = min(
+            curstep["max_grill_delta_temp"],
+            self.grill_mqtt_msg["limits"]["max_grill_temp"],
+        )
+
+        if (
+            self.grill_mqtt_msg["status"]["set"] < curstep["max_grill_delta_temp"]
+            and self.grill_mqtt_msg["status"]["probe"]
+            > self.grill_mqtt_msg["status"]["set"] - curstep["min_delta"]
+        ):
+            set_temp = self.grill_mqtt_msg["status"]["set"] + 5
+            call_service_set_climate(
+                self.hass,
+                self.client.sync_grill_get_entity(f"{self.grill_id}_climate"),
+                round(set_temp),
+            )
+
+    def next_step(self, curstep):
+        '''Cmd Next Step'''
+        if "time_set" in curstep:
+            call_service_set_number(
+                self.hass,
+                self.client.sync_grill_get_entity(f"{self.grill_id}_cook_timer"),
+                round(curstep["time_set"]),
+            )
+        if "probe_set_temp" in curstep:
+            call_service_set_climate(
+                self.hass,
+                self.client.sync_grill_get_entity(f"{self.grill_id}_probe_p0"),
+                round(curstep["probe_set_temp"]),
+            )
+        if "set_temp" in curstep:
+            call_service_set_climate(
+                self.hass,
+                self.client.sync_grill_get_entity(f"{self.grill_id}_climate"),
+                round(curstep["set_temp"]),
+            )
+        if (
+            "smoke" in curstep
+            and self.grill_mqtt_msg["features"]["super_smoke_enabled"] == 1
+            and self.grill_mqtt_msg["status"]["smoke"] != curstep["smoke"]
+            and self.grill_mqtt_msg["status"]["set"] <= 225
+        ):
+            call_service_set_switch(
+                self.hass,
+                self.client.sync_grill_get_entity(f"{self.grill_id}_smoke"),
+                curstep["smoke"],
+            )
+        if (
+            "keepwarm" in curstep
+            and self.grill_mqtt_msg["status"]["keepwarm"] != curstep["keepwarm"]
+        ):
+            call_service_set_switch(
+                self.hass,
+                self.client.sync_grill_get_entity(f"{self.grill_id}_keepwarm"),
+                curstep["keepwarm"],
+            )
+        if "shutdown" in curstep:
+            call_service_set_climate_mode(
+                self.hass,
+                self.client.sync_grill_get_entity(f"{self.grill_id}_climate"),
+                "cool",
+            )
+
     # Value Properties
     @property
     def native_value(self):
@@ -81,21 +159,16 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         Return the value reported by the number.
         This also serves the cook cycle.
         """
-        # pylint: disable=too-many-branches,too-many-statements
-        if self.grill_mqtt_msg.get("status", None) is None:
-            self.num_value = 0
-            return self.num_value
         if self.num_value > len(self.cook_cycle):
             _LOGGER.info("B.Cook Cycles out of indexes.")
             self.num_value = 0
             return self.num_value
-        if self.num_value > 0 and self.grill_mqtt_msg["status"][
-                "system_status"] in [
-                    GRILL_MODE_COOL_DOWN,
-                    GRILL_MODE_SLEEPING,
-                    GRILL_MODE_SHUTDOWN,
-                    GRILL_MODE_IDLE,
-                ]:
+        if self.num_value > 0 and self.grill_mqtt_msg["status"]["system_status"] in [
+            GRILL_MODE["CoolingDown"],
+            GRILL_MODE["Sleeping"],
+            GRILL_MODE["Shutdown"],
+            GRILL_MODE["Idle"],
+        ]:
             _LOGGER.info("Steps not available when not cooking. Revert to 0.")
             self.num_value = 0
             return self.num_value
@@ -103,161 +176,20 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         # Scan for next step advance
         if self.num_value > 0 and self.num_value == self.old_num_value:
             curstep = self.cook_cycle[self.num_value - 1]
-            if "use_timer" in curstep:
-                if self.grill_mqtt_msg["status"]["cook_timer_complete"]:
-                    self.num_value = self.num_value + 1
-            elif self.grill_mqtt_msg["status"]["probe_alarm_fired"]:
-                self.num_value = self.num_value + 1
-            elif "act_temp_adv" in curstep:
-                if self.grill_mqtt_msg["status"]["grill"] >= curstep[
-                        "act_temp_adv"]:
-                    self.num_value = self.num_value + 1
-            elif "probe_act_temp_adv" in curstep:
-                if self.grill_mqtt_msg["status"]["probe"] >= curstep[
-                        "probe_act_temp_adv"]:
-                    self.num_value = self.num_value + 1
+            self.scan_next_step(curstep)
             ####################################################################
             # In step change
             if "min_delta" in curstep and "max_grill_delta_temp" in curstep:
-                if (curstep["max_grill_delta_temp"]
-                        > self.grill_mqtt_msg["limits"]["max_grill_temp"]):
-                    curstep["max_grill_delta_temp"] = self.grill_mqtt_msg[
-                        "limits"]["max_grill_temp"]
-                if self.grill_mqtt_msg["status"]["set"] < curstep[
-                        "max_grill_delta_temp"]:
-                    if (self.grill_mqtt_msg["status"]["probe"]
-                            > self.grill_mqtt_msg["status"]["set"] -
-                            curstep["min_delta"]):
-                        set_temp = self.grill_mqtt_msg["status"]["set"] + 5
-                        self.hass.async_create_task(
-                            self.hass.services.async_call(
-                                "climate",
-                                "set_temperature",
-                                {
-                                    "entity_id":
-                                        self.client.sync_grill_get_entity(
-                                            f"{self.grill_id}_climate"),
-                                    "temperature":
-                                        round(set_temp),
-                                },
-                                False,
-                            ))
+                self.in_step_change(curstep)
         ########################################################################
         # Implement next step
-        if (self.num_value > 0 and self.num_value
-                != self.old_num_value):  # Only hit once per step.
-            if self.num_value > len(self.cook_cycle):
-                _LOGGER.info("B.Cook Cycles out of indexes.")
-                self.num_value = 0
-                return self.num_value
+        if (
+            self.num_value > 0 and self.num_value != self.old_num_value
+        ):  # Only hit once per step.
             curstep = self.cook_cycle[self.num_value - 1]
-            if "time_set" in curstep:
-                self.hass.async_create_task(
-                    self.hass.services.async_call(
-                        "number",
-                        "set_value",
-                        {
-                            "entity_id": self.client.sync_grill_get_entity(
-                                f"{self.grill_id}_cook_timer"),
-                            "value": round(curstep["time_set"]),
-                        },
-                        False,
-                    ))
-            if "probe_set_temp" in curstep:
-                self.hass.async_create_task(
-                    self.hass.services.async_call(
-                        "climate",
-                        "set_temperature",
-                        {
-                            "entity_id": self.client.sync_grill_get_entity(
-                                f"{self.grill_id}_probe_p0"),
-                            "temperature": round(curstep["probe_set_temp"]),
-                        },
-                        False,
-                    ))
-            if "set_temp" in curstep:
-                self.hass.async_create_task(
-                    self.hass.services.async_call(
-                        "climate",
-                        "set_temperature",
-                        {
-                            "entity_id": self.client.sync_grill_get_entity(
-                                f"{self.grill_id}_climate"),
-                            "temperature": round(curstep["set_temp"]),
-                        },
-                        False,
-                    ))
-            if "smoke" in curstep:
-                if (self.grill_mqtt_msg["features"]["super_smoke_enabled"] == 1
-                        and self.grill_mqtt_msg["status"]["smoke"]
-                        != curstep["smoke"] and
-                        self.grill_mqtt_msg["status"]["set"] <= 225):
-                    if curstep["smoke"] == 1:
-                        self.hass.async_create_task(
-                            self.hass.services.async_call(
-                                "switch",
-                                "turn_on",
-                                {
-                                    "entity_id": self.client.sync_grill_get_entity(
-                                    f"{self.grill_id}_smoke"),
-                                },
-                                False,
-                            ))
-                    else:
-                        self.hass.async_create_task(
-                            self.hass.services.async_call(
-                                "switch",
-                                "turn_off",
-                                {
-                                    "entity_id": self.client.sync_grill_get_entity(
-                                    f"{self.grill_id}_smoke"),
-                                },
-                                False,
-                            ))
-            if "keepwarm" in curstep:
-                if self.grill_mqtt_msg["status"]["keepwarm"] != curstep[
-                        "keepwarm"]:
-                    if curstep["keepwarm"] == 1:
-                        self.hass.async_create_task(
-                            self.hass.services.async_call(
-                                "switch",
-                                "turn_on",
-                                {
-                                    "entity_id": self.client.sync_grill_get_entity(
-                                    f"{self.grill_id}_keepwarm"),
-                                },
-                                False,
-                            ))
-                    else:
-                        self.hass.async_create_task(
-                            self.hass.services.async_call(
-                                "switch",
-                                "turn_off",
-                                {
-                                    "entity_id": self.client.sync_grill_get_entity(
-                                    f"{self.grill_id}_keepwarm"),
-                                },
-                                False,
-                            ))
-            if "shutdown" in curstep:
-                if curstep["shutdown"] == 1:
-                    self.hass.async_create_task(
-                        self.hass.services.async_call(
-                            "climate",
-                            "set_hvac_mode",
-                            {
-                                "entity_id": self.client.sync_grill_get_entity(
-                                    f"{self.grill_id}_climate"),
-                                "hvac_mode": "cool",
-                            },
-                            False,
-                        ))
-                    self.num_value = 0
+            self.next_step(curstep)
         self.old_num_value = self.num_value
         _LOGGER.debug("CookCycle Steps:%s", self.cook_cycle)
-        if self.num_value > len(self.cook_cycle):
-            _LOGGER.info("A.Cook Cycles out of indexes.")
-            self.num_value = 0
         return self.num_value
 
     @property
@@ -280,9 +212,13 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         if self.num_value > 1:
             prev_step = f"{self.num_value - 1}: {json.dumps(self.cook_cycle[self.num_value - 2])}"
         if self.num_value > 0:
-            curr_step = f"{self.num_value}: {json.dumps(self.cook_cycle[self.num_value - 1])}"
+            curr_step = (
+                f"{self.num_value}: {json.dumps(self.cook_cycle[self.num_value - 1])}"
+            )
         if self.num_value < len(self.cook_cycle):
-            next_step = f"{self.num_value + 1}: {json.dumps(self.cook_cycle[self.num_value])}"
+            next_step = (
+                f"{self.num_value + 1}: {json.dumps(self.cook_cycle[self.num_value])}"
+            )
         custom_attributes = {
             "prev_step": str(prev_step),
             "curr_step": str(curr_step),
@@ -310,7 +246,8 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         _LOGGER.info("Traeger: Set Cook Cycle:%s", self.cook_cycle)
         # Need to call callback now so that it fires state cust atrib update.
         asyncio.run_coroutine_threadsafe(
-            self.client.grill_callback(self.grill_id), self.hass.loop)
+            self.client.grill_callback(self.grill_id), self.hass.loop
+        )
 
 
 class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
@@ -380,10 +317,9 @@ class TraegerNumberEntity(NumberEntity, TraegerBaseEntity):
     async def async_set_native_value(self, value: float):
         """Set new Timer Val."""
         state = self.grill_mqtt_msg["status"]["system_status"]
-        if GRILL_MODE_IGNITING <= state <= GRILL_MODE_CUSTOM_COOK:
+        if GRILL_MODE["Igniting"] <= state <= GRILL_MODE["Cook_Custom"]:
             if value >= 1:
-                await self.client.set_timer_sec(self.grill_id,
-                                                (round(value) * 60))
+                await self.client.set_timer_sec(self.grill_id, (round(value) * 60))
             else:
                 await self.client.reset_timer(self.grill_id)
             return

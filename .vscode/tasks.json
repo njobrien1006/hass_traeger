@@ -8,33 +8,51 @@
             "problemMatcher": []
         },
         {
-            "label": "Pytest + Debug Logging",
+            "label": "Pytest + Logging + Failon_1st + Test Matching + Snapshot Update",
             "type": "shell",
-            "command": "pytest --log-cli-level=DEBUG",
-            "problemMatcher": []
-        },
-        {
-            "label": "Pytest + Logging + Test Matching",
-            "type": "shell",
-            "command": "pytest --log-cli-level=INFO -k 'test_'",
-            "problemMatcher": []
-        },
-        {
-            "label": "Pytest + Logging + Test Matching + Snapshot Update",
-            "type": "shell",
-            "command": "pytest --log-cli-level=INFO -k 'test_climate_platform' --snapshot-update",
-            "problemMatcher": []
-        },
-        {
-            "label": "Pytest",
-            "type": "shell",
-            "command": "pytest",
+            "command": "pytest --log-cli-level=INFO -x -k 'test_climate_platform' --snapshot-update",
             "problemMatcher": []
         },
         {
             "label": "Pytest & Coverage Badge & Coverage Report",
             "type": "shell",
             "command": "pytest --cov=custom_components/traeger && coverage-badge -o images/coverage.svg -f && coverage html -d tests/coverage",
+            "problemMatcher": []
+        },
+        {
+            "label": "Pylint Component",
+            "type": "shell",
+            "command": "pylint custom_components/traeger/ --disable=duplicate-code,abstract-method,overridden-final-method",
+            "problemMatcher": [],
+            "presentation": {
+                "group": "quality-group"
+            }
+        },
+        {
+            "label": "Pylint Test",
+            "type": "shell",
+            "command": "pylint tests/ --disable=duplicate-code",
+            "problemMatcher": [],
+            "presentation": {
+                "group": "quality-group"
+            }
+        },
+        {
+            "label": "Ruff Check",
+            "type": "shell",
+            "command": "ruff check",
+            "problemMatcher": [],
+            "presentation": {
+                "group": "quality-group"
+            }
+        },
+        {
+            "label": "Code Quality Checks",
+            "dependsOn": [
+                "Pylint Component",
+                "Pylint Test",
+                "Ruff Check"
+            ],
             "problemMatcher": []
         }
     ]

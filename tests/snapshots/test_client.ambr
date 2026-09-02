@@ -1,0 +1,33 @@
+# serializer version: 1
+# name: test_connect_cmds[01-On]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Connect",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:lan-connect',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.traeger_0123456789ab_connect',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'on',
+  })
+# ---
+# name: test_connect_cmds[02-Off]
+  StateSnapshot({
+    'attributes': ReadOnlyDict({
+      'attribution': '',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Connect",
+      <EntityStateAttribute.ICON: 'icon'>: 'mdi:lan-connect',
+      'integration': 'traeger',
+    }),
+    'context': <ANY>,
+    'entity_id': 'switch.traeger_0123456789ab_connect',
+    'last_changed': <ANY>,
+    'last_reported': <ANY>,
+    'last_updated': <ANY>,
+    'state': 'off',
+  })
+# ---
