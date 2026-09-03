@@ -170,6 +170,7 @@ async def test_binary_sensor_par(
 
             if "complete" in mqtt_loca:
                 jsondata = http.last_request.kwargs.get("json", {})
+                await redactnotidata(jsondata)
                 jsondata["data"]["when"] = 1785560400
                 assert jsondata["data"].get("live_update",False)
                 assert jsondata == snapshot(name="05-livecooldown")

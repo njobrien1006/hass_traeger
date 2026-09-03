@@ -443,7 +443,7 @@ class TraegerMQTTClient:
 
     def _mqtt_ondisconnect(self, client, userdata, flags, reason_code, properties):
         """MQTT on_undisconnect"""
-        self.isconnected = self.mqtt_client.is_connected()
+        self.isconnected = False
         _LOGGER.debug("OnDisconnect Callback. Client:%s userdata:%s rc:%s",
                       client, userdata, reason_code)
         self.mqtt_client.loop_stop()

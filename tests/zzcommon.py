@@ -44,5 +44,6 @@ async def client_disconnect(hass, client):
 async def redactnotidata(data):
     """Remove Android and IOS specfics from snapshots"""
     untracednotidata = ["clickAction", "url", "notification_icon_color", "color"]
-    for key in untracednotidata:
-        data["data"].pop(key, None)
+    if "data" in data:
+        for key in untracednotidata:
+            data["data"].pop(key, None)
