@@ -195,7 +195,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 self.entities[entity_entry.unique_id] = entity_id
         _LOGGER.info(json.dumps(self.entities))
         registry = dr.async_get(self.hass)
-        for dev in registry.devices.values():
+        for dev in registry.devices:
             if dev.id in list(self.notify):
                 _LOGGER.debug("MobileApp EntId: %s - %s - %s", dev.id, dev.name, dev.manufacturer)
                 self.notify[dev.id] = {"name": dev.name, "manu": dev.manufacturer}
