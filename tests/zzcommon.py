@@ -3,10 +3,11 @@
 import asyncio
 import json
 
-#import logging
+# import logging
 from .conftest import MQTTPORT
 
-#_LOGGER: logging.Logger = logging.getLogger(__package__)
+# _LOGGER: logging.Logger = logging.getLogger(__package__)
+
 
 async def client_connect(hass, client, grill_list):
     """Connect to MQTT Client"""
@@ -22,7 +23,7 @@ async def client_connect(hass, client, grill_list):
 
 async def client_publish(hass, client, msg, dly=0.1):
     """Publish to MQTT Client"""
-    await asyncio.sleep(dly/2)
+    await asyncio.sleep(dly / 2)
     client.mqtt_client.mqtt_client.publish(
         "prod/thing/update/0123456789ab",
         json.dumps(msg).encode("utf-8"),
@@ -38,3 +39,11 @@ async def client_disconnect(hass, client):
     await client.mqtt_client.disconnect()
     await hass.async_block_till_done()
     await asyncio.sleep(0.1)
+
+
+async def redactnotidata(data):
+    """Remove Android and IOS specfics from snapshots"""
+    untracednotidata = ["clickAction", "url", "notification_icon_color", "color"]
+    if "data" in data:
+        for key in untracednotidata:
+            data["data"].pop(key, None)

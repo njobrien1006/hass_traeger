@@ -18,3 +18,4 @@ config/*
 config/.storage/*
 !config/.storage/lovelave_resources
 .devcontainer-lock.json
+requirements_ha_all.txt

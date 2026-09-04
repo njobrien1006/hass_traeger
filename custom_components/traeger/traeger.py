@@ -195,7 +195,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 self.entities[entity_entry.unique_id] = entity_id
         _LOGGER.info(json.dumps(self.entities))
         registry = dr.async_get(self.hass)
-        for dev in registry.devices.values():
+        for dev in registry.devices:
             if dev.id in list(self.notify):
                 _LOGGER.debug("MobileApp EntId: %s - %s - %s", dev.id, dev.name, dev.manufacturer)
                 self.notify[dev.id] = {"name": dev.name, "manu": dev.manufacturer}
@@ -443,7 +443,7 @@ class TraegerMQTTClient:
 
     def _mqtt_ondisconnect(self, client, userdata, flags, reason_code, properties):
         """MQTT on_undisconnect"""
-        self.isconnected = self.mqtt_client.is_connected()
+        self.isconnected = False
         _LOGGER.debug("OnDisconnect Callback. Client:%s userdata:%s rc:%s",
                       client, userdata, reason_code)
         self.mqtt_client.loop_stop()

@@ -1,5 +1,6 @@
 """Notification Helper for Traeger."""
 
+import copy
 import logging
 
 from homeassistant.util import slugify
@@ -18,20 +19,27 @@ def notifydevices(
     data = {
         "title": title,
         "message": msg,
+        "data": {}
     }
     _LOGGER.info("MSG Base Data: %s", data)
     for notidev in notify:
         if notify[notidev] is not None and "name" in notify[notidev]:
+            noti_data = copy.deepcopy(data)
+            if notify[notidev]["manu"] == "Apple":
+                noti_data["data"].update({"url": "/lovalace/grill"})
+            else:
+                noti_data["data"].update({"clickAction": "/lovalace/grill"})
             _LOGGER.info(
-                "NotiDev Info: %s - %s",
+                "NotiDev Info: %s - %s\n%s",
                 notify[notidev]["name"],
                 notify[notidev]["manu"],
+                noti_data
             )
             hass.async_create_task(
                 hass.services.async_call(
                     "notify",
                     slugify(f"mobile_app_{notify[notidev]['name']}"),
-                    data,
+                    noti_data,
                     False,
                 )
             )
@@ -48,19 +56,26 @@ def notifystartliveupdate_time(notify, hass, *, tag, title, msg, unix):
             "live_update": True,
             "chronometer": True,
             "notification_icon": "mdi:timer",
-            "notification_icon_color": "#FF7900",
-            "color": "#FF7900",
-            "url": "/lovalace/grill",
             "when": unix,
         },
     }
     _LOGGER.info("MSG Base Data: %s", data)
     for notidev in notify:
         if notify[notidev] is not None and "name" in notify[notidev]:
+            noti_data = copy.deepcopy(data)
+            if notify[notidev]["manu"] == "Apple":
+                noti_data["data"].update(
+                    {"url": "/lovalace/grill", "notification_icon_color": "#FF7900"}
+                )
+            else:
+                noti_data["data"].update(
+                    {"clickAction": "/lovalace/grill", "color": "#FF7900"}
+                )
             _LOGGER.info(
-                "NotiDev Info: %s - %s",
+                "NotiDev Info: %s - %s\n%s",
                 notify[notidev]["name"],
                 notify[notidev]["manu"],
+                noti_data
             )
             hass.async_create_task(
                 hass.services.async_call(

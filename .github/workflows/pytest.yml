@@ -33,6 +33,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install --upgrade -r requirements.txt
         pip install --upgrade --no-deps -r requirementsnodeps.txt
+        pip install --upgrade -r requirements_ha.txt
     - name: Test with pytest
       run: |
         export PYTHONPATH=$PYTHONPATH:$(pwd)

@@ -6,3 +6,6 @@ cd "$(dirname "$0")/.."
 
 python3 -m pip install --upgrade -r requirements.txt
 python3 -m pip install --upgrade --no-deps -r requirementsnodeps.txt
+wget -O requirements_ha_all.txt https://raw.githubusercontent.com/home-assistant/core/refs/heads/master/requirements.txt
+grep -Ei 'hassil|turbojpeg|gazetteer|mutagen|ffmpeg|pymicro|pyspeex' requirements_ha_all.txt > requirements_ha.txt
+python3 -m pip install --upgrade -r requirements_ha.txt
