@@ -13,27 +13,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][02-live]
-  dict({
-    'data': dict({
-      'chronometer': True,
-      'live_update': True,
-      'notification_icon': 'mdi:timer',
-      'tag': '0123456789ab_cook_timer_complete',
-      'when': 1785560400,
-    }),
-    'message': 'Cook timer is in progress',
-    'push_token': '142CharToken',
-    'registration_info': dict({
-      'app_id': 'io.homeassistant.companion.iphone',
-      'app_version': '2026.8.0',
-      'os_version': '26.6',
-      'webhook_id': 'mock_webhook_iphone',
-    }),
-    'title': "Johny's Traeger Cook Timer",
-  })
-# ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][03-ready]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -49,22 +29,7 @@
     'state': '0',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][04-timercmplt]
-  dict({
-    'data': dict({
-    }),
-    'message': "Timer is done on Johny's Traeger",
-    'push_token': '142CharToken',
-    'registration_info': dict({
-      'app_id': 'io.homeassistant.companion.iphone',
-      'app_version': '2026.8.0',
-      'os_version': '26.6',
-      'webhook_id': 'mock_webhook_iphone',
-    }),
-    'title': 'Cook Timer Complete',
-  })
-# ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][07-changed]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][03-triggered]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -80,7 +45,7 @@
     'state': '1',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][08-not_connected]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_cook_timer_complete-cook_timer_complete][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Cook Timer Complete",
@@ -108,7 +73,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][03-ready]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -124,7 +89,7 @@
     'state': '0',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][07-changed]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][03-triggered]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -140,7 +105,7 @@
     'state': '1',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][08-not_connected]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_probe_alarm_fired-probe_alarm_fired][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Probe Alarm Fired",
@@ -168,27 +133,7 @@
     'state': 'unavailable',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][02-live]
-  dict({
-    'data': dict({
-      'chronometer': True,
-      'live_update': True,
-      'notification_icon': 'mdi:timer',
-      'tag': '0123456789ab_sys_timer_complete',
-      'when': 1785560400,
-    }),
-    'message': 'System timer is in progress',
-    'push_token': '142CharToken',
-    'registration_info': dict({
-      'app_id': 'io.homeassistant.companion.iphone',
-      'app_version': '2026.8.0',
-      'os_version': '26.6',
-      'webhook_id': 'mock_webhook_iphone',
-    }),
-    'title': "Johny's Traeger PreHeating",
-  })
-# ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][03-ready]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][02-ready]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -204,57 +149,7 @@
     'state': '0',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][04-timercmplt]
-  dict({
-    'data': dict({
-    }),
-    'message': "Johny's Traeger is done PreHeating",
-    'push_token': '142CharToken',
-    'registration_info': dict({
-      'app_id': 'io.homeassistant.companion.iphone',
-      'app_version': '2026.8.0',
-      'os_version': '26.6',
-      'webhook_id': 'mock_webhook_iphone',
-    }),
-    'title': 'System Timer Complete',
-  })
-# ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][05-livecooldown]
-  dict({
-    'data': dict({
-      'chronometer': True,
-      'live_update': True,
-      'notification_icon': 'mdi:timer',
-      'tag': '0123456789ab_sys_timer_complete',
-      'when': 1785560400,
-    }),
-    'message': 'System timer is in progress',
-    'push_token': '142CharToken',
-    'registration_info': dict({
-      'app_id': 'io.homeassistant.companion.iphone',
-      'app_version': '2026.8.0',
-      'os_version': '26.6',
-      'webhook_id': 'mock_webhook_iphone',
-    }),
-    'title': "Johny's Traeger CoolingDown",
-  })
-# ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][06-cooldowncmplt]
-  dict({
-    'data': dict({
-    }),
-    'message': "Johny's Traeger is done CoolingDown",
-    'push_token': '142CharToken',
-    'registration_info': dict({
-      'app_id': 'io.homeassistant.companion.iphone',
-      'app_version': '2026.8.0',
-      'os_version': '26.6',
-      'webhook_id': 'mock_webhook_iphone',
-    }),
-    'title': 'System Timer Complete',
-  })
-# ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][07-changed]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][03-triggered]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       'attribution': '',
@@ -270,7 +165,7 @@
     'state': '1',
   })
 # ---
-# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][08-not_connected]
+# name: test_binary_sensor_par[binary_sensor-traeger_0123456789ab_system_timer_complete-sys_timer_complete][04-not_connected]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger System Timer Complete",
@@ -304,6 +199,87 @@
       'device_class': None,
       'entity_id': 'binary_sensor.traeger_0123456789ab_system_timer_complete',
       'original_name': '0123456789ab System Timer Complete',
+      'translation_key': None,
+      'unique_id': '0123456789ab_sys_timer_complete',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'binary_sensor.traeger_cd0123456789_cook_timer_complete',
+      'original_name': 'cd0123456789 Cook Timer Complete',
+      'translation_key': None,
+      'unique_id': 'cd0123456789_cook_timer_complete',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'binary_sensor.traeger_cd0123456789_probe_alarm_fired',
+      'original_name': 'cd0123456789 Probe Alarm Fired',
+      'translation_key': None,
+      'unique_id': 'cd0123456789_probe_alarm_fired',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'binary_sensor.traeger_cd0123456789_system_timer_complete',
+      'original_name': 'cd0123456789 System Timer Complete',
+      'translation_key': None,
+      'unique_id': 'cd0123456789_sys_timer_complete',
+    }),
+  ])
+# ---
+# name: test_binarysensor_platform_asyncadd
+  list([
+    dict({
+      'device_class': None,
+      'entity_id': 'binary_sensor.0123456789ab_probe_alarm_12charid1',
+      'original_name': "Johny's Traeger Probe Alarm",
+      'translation_key': None,
+      'unique_id': '0123456789ab_probe_alarm_12charId1',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'binary_sensor.0123456789ab_probe_alarm_12charid2',
+      'original_name': "Johny's Traeger Probe Alarm",
+      'translation_key': None,
+      'unique_id': '0123456789ab_probe_alarm_12charId2',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'binary_sensor.0123456789ab_probe_alarm_p0',
+      'original_name': "Johny's Traeger Probe Alarm",
+      'translation_key': None,
+      'unique_id': '0123456789ab_probe_alarm_p0',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'binary_sensor.0123456789ab_probe_alarm_probe0',
+      'original_name': "Johny's Traeger Probe Alarm",
+      'translation_key': None,
+      'unique_id': '0123456789ab_probe_alarm_probe0',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'binary_sensor.0123456789ab_probe_alarm_probe1',
+      'original_name': "Johny's Traeger Probe Alarm",
+      'translation_key': None,
+      'unique_id': '0123456789ab_probe_alarm_probe1',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'binary_sensor.traeger_0123456789ab_cook_timer_complete',
+      'original_name': "Johny's Traeger Cook Timer Complete",
+      'translation_key': None,
+      'unique_id': '0123456789ab_cook_timer_complete',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'binary_sensor.traeger_0123456789ab_probe_alarm_fired',
+      'original_name': "Johny's Traeger Probe Alarm Fired",
+      'translation_key': None,
+      'unique_id': '0123456789ab_probe_alarm_fired',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'binary_sensor.traeger_0123456789ab_system_timer_complete',
+      'original_name': "Johny's Traeger System Timer Complete",
       'translation_key': None,
       'unique_id': '0123456789ab_sys_timer_complete',
     }),

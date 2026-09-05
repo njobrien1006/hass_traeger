@@ -9,6 +9,7 @@ from .entity import TraegerBaseEntity, TraegerGrillMonitor
 from .notify_helper import (
     notifyclearliveupdate,
     notifydevices,
+    notifyliveupdate_text,
     notifystartliveupdate_time,
 )
 
@@ -118,22 +119,29 @@ class TraegerTimer(TraegerBaseSensor):
                 msg="Cook timer is in progress",
                 tag=self.unique_id,
                 unix=self.grill_mqtt_msg["status"]["cook_timer_end"],
+                icon="mdi:timer"
             )
         if (
             not self.value
             and self.value is not None
             and self.grill_mqtt_msg["status"][self.devid]
         ):
-            notifyclearliveupdate(self.notify, self.hass, tag=self.unique_id)
-            notifydevices(
+            notifyliveupdate_text(
                 self.notify,
                 self.hass,
                 title=f"{self.friendly_name}",
                 msg=f"Timer is done on {self.grill_name}",
+                tag=self.unique_id,
+                icon="mdi:timer",
+                silent=False,
             )
             self.grill_timer_val = 0
-        if self.grill_timer_val > 0 and self.grill_mqtt_msg["status"]["cook_timer_end"] == 0:
-            notifyclearliveupdate(self.notify, self.hass, tag=self.unique_id)
+        else:
+            if self.grill_mqtt_msg["status"]["system_status"] in [
+                GRILL_MODE["Idle"],
+                GRILL_MODE["Sleeping"],
+            ]:
+                notifyclearliveupdate(self.notify, self.hass, tag=self.unique_id)
         self.grill_timer_val = self.grill_mqtt_msg["status"]["cook_timer_end"]
         self.value = self.grill_mqtt_msg["status"][self.devid]
         return self.value
@@ -155,22 +163,29 @@ class TraegerSysTimer(TraegerBaseSensor):
                 msg="System timer is in progress",
                 tag=self.unique_id,
                 unix=self.grill_mqtt_msg["status"]["sys_timer_end"],
+                icon="mdi:timer",
             )
         if (
             not self.value
             and self.value is not None
             and self.grill_mqtt_msg["status"][self.devid]
         ):
-            notifyclearliveupdate(self.notify, self.hass, tag=self.unique_id)
-            notifydevices(
+            notifyliveupdate_text(
                 self.notify,
                 self.hass,
                 title=f"{self.friendly_name}",
                 msg=f"{self.grill_name} is done {GRILL_MODE[self.grill_sts]}",
+                tag=self.unique_id,
+                icon="mdi:timer",
+                silent=False,
             )
             self.grill_timer_val = 0
-        if self.grill_timer_val > 0 and self.grill_mqtt_msg["status"]["sys_timer_end"] == 0:
-            notifyclearliveupdate(self.notify, self.hass, tag=self.unique_id)
+        else:
+            if self.grill_mqtt_msg["status"]["system_status"] in [
+                GRILL_MODE["Idle"],
+                GRILL_MODE["Sleeping"],
+            ]:
+                notifyclearliveupdate(self.notify, self.hass, tag=self.unique_id)
         self.grill_timer_val = self.grill_mqtt_msg["status"]["sys_timer_end"]
         self.grill_sts = self.grill_mqtt_msg["status"]["system_status"]
         self.value = self.grill_mqtt_msg["status"][self.devid]

@@ -39,11 +39,3 @@ async def client_disconnect(hass, client):
     await client.mqtt_client.disconnect()
     await hass.async_block_till_done()
     await asyncio.sleep(0.1)
-
-
-async def redactnotidata(data):
-    """Remove Android and IOS specfics from snapshots"""
-    untracednotidata = ["clickAction", "url", "notification_icon_color", "color"]
-    if "data" in data:
-        for key in untracednotidata:
-            data["data"].pop(key, None)

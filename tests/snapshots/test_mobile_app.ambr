@@ -1,0 +1,675 @@
+# serializer version: 1
+# name: test_mobile_app_manu_cook[Apple][01-live]
+  dict({
+    'data': dict({
+      'chronometer': True,
+      'live_update': True,
+      'notification_icon': 'mdi:timer',
+      'notification_icon_color': '#FF7900',
+      'tag': '0123456789ab_cook_timer_complete',
+      'url': '/lovelace/grill',
+      'when': 1785560400,
+    }),
+    'message': 'Cook timer is in progress',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': "Johny's Traeger Cook Timer",
+  })
+# ---
+# name: test_mobile_app_manu_cook[Apple][02-timercomplete]
+  dict({
+    'data': dict({
+      'live_update': True,
+      'notification_icon': 'mdi:timer',
+      'notification_icon_color': '#FF7900',
+      'silent': False,
+      'tag': '0123456789ab_cook_timer_complete',
+      'url': '/lovelace/grill',
+    }),
+    'message': "Timer is done on Johny's Traeger",
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': 'Cook Timer Complete',
+  })
+# ---
+# name: test_mobile_app_manu_cook[Google][01-live]
+  dict({
+    'data': dict({
+      'chronometer': True,
+      'clickAction': '/lovelace/grill',
+      'color': '#FF7900',
+      'live_update': True,
+      'notification_icon': 'mdi:timer',
+      'tag': '0123456789ab_cook_timer_complete',
+      'when': 1785560400,
+    }),
+    'message': 'Cook timer is in progress',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.android',
+      'app_version': '2026.8.0',
+      'os_version': '14',
+      'webhook_id': 'mock_webhook_android',
+    }),
+    'title': "Johny's Traeger Cook Timer",
+  })
+# ---
+# name: test_mobile_app_manu_cook[Google][02-timercomplete]
+  dict({
+    'data': dict({
+      'alert_once': False,
+      'clickAction': '/lovelace/grill',
+      'color': '#FF7900',
+      'live_update': True,
+      'notification_icon': 'mdi:timer',
+      'tag': '0123456789ab_cook_timer_complete',
+    }),
+    'message': "Timer is done on Johny's Traeger",
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.android',
+      'app_version': '2026.8.0',
+      'os_version': '14',
+      'webhook_id': 'mock_webhook_android',
+    }),
+    'title': 'Cook Timer Complete',
+  })
+# ---
+# name: test_mobile_app_manu_grill[Apple][01-startlive]
+  dict({
+    'data': dict({
+      'live_update': True,
+      'notification_icon': 'mdi:grill',
+      'notification_icon_color': '#FF7900',
+      'silent': True,
+      'tag': '0123456789ab_climate',
+      'url': '/lovelace/grill',
+    }),
+    'message': '''
+      Actual: 200
+      Set: 200
+    ''',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': "Johny's Traeger Climate",
+  })
+# ---
+# name: test_mobile_app_manu_grill[Apple][02-overtemp]
+  dict({
+    'data': dict({
+      'live_update': True,
+      'notification_icon': 'mdi:grill',
+      'notification_icon_color': '#FF0000',
+      'silent': True,
+      'tag': '0123456789ab_climate',
+      'url': '/lovelace/grill',
+    }),
+    'message': '''
+      Actual: 210
+      Set: 200
+    ''',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': "Johny's Traeger Climate",
+  })
+# ---
+# name: test_mobile_app_manu_grill[Apple][03-undertemp]
+  dict({
+    'data': dict({
+      'live_update': True,
+      'notification_icon': 'mdi:grill',
+      'notification_icon_color': '#0000FF',
+      'silent': True,
+      'tag': '0123456789ab_climate',
+      'url': '/lovelace/grill',
+    }),
+    'message': '''
+      Actual: 190
+      Set: 200
+    ''',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': "Johny's Traeger Climate",
+  })
+# ---
+# name: test_mobile_app_manu_grill[Apple][04-attemp]
+  dict({
+    'data': dict({
+      'live_update': True,
+      'notification_icon': 'mdi:grill',
+      'notification_icon_color': '#FF7900',
+      'silent': True,
+      'tag': '0123456789ab_climate',
+      'url': '/lovelace/grill',
+    }),
+    'message': '''
+      Actual: 200
+      Set: 200
+    ''',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': "Johny's Traeger Climate",
+  })
+# ---
+# name: test_mobile_app_manu_grill[Google][01-startlive]
+  dict({
+    'data': dict({
+      'alert_once': True,
+      'clickAction': '/lovelace/grill',
+      'color': '#FF7900',
+      'live_update': True,
+      'notification_icon': 'mdi:grill',
+      'tag': '0123456789ab_climate',
+    }),
+    'message': '''
+      Actual: 200
+      Set: 200
+    ''',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.android',
+      'app_version': '2026.8.0',
+      'os_version': '14',
+      'webhook_id': 'mock_webhook_android',
+    }),
+    'title': "Johny's Traeger Climate",
+  })
+# ---
+# name: test_mobile_app_manu_grill[Google][02-overtemp]
+  dict({
+    'data': dict({
+      'alert_once': True,
+      'clickAction': '/lovelace/grill',
+      'color': '#FF0000',
+      'live_update': True,
+      'notification_icon': 'mdi:grill',
+      'tag': '0123456789ab_climate',
+    }),
+    'message': '''
+      Actual: 210
+      Set: 200
+    ''',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.android',
+      'app_version': '2026.8.0',
+      'os_version': '14',
+      'webhook_id': 'mock_webhook_android',
+    }),
+    'title': "Johny's Traeger Climate",
+  })
+# ---
+# name: test_mobile_app_manu_grill[Google][03-undertemp]
+  dict({
+    'data': dict({
+      'alert_once': True,
+      'clickAction': '/lovelace/grill',
+      'color': '#0000FF',
+      'live_update': True,
+      'notification_icon': 'mdi:grill',
+      'tag': '0123456789ab_climate',
+    }),
+    'message': '''
+      Actual: 190
+      Set: 200
+    ''',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.android',
+      'app_version': '2026.8.0',
+      'os_version': '14',
+      'webhook_id': 'mock_webhook_android',
+    }),
+    'title': "Johny's Traeger Climate",
+  })
+# ---
+# name: test_mobile_app_manu_grill[Google][04-attemp]
+  dict({
+    'data': dict({
+      'alert_once': True,
+      'clickAction': '/lovelace/grill',
+      'color': '#FF7900',
+      'live_update': True,
+      'notification_icon': 'mdi:grill',
+      'tag': '0123456789ab_climate',
+    }),
+    'message': '''
+      Actual: 200
+      Set: 200
+    ''',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.android',
+      'app_version': '2026.8.0',
+      'os_version': '14',
+      'webhook_id': 'mock_webhook_android',
+    }),
+    'title': "Johny's Traeger Climate",
+  })
+# ---
+# name: test_mobile_app_manu_probe[Apple][01-startlive]
+  dict({
+    'data': dict({
+      'live_update': True,
+      'notification_icon': 'mdi:thermometer-probe',
+      'notification_icon_color': '#FF7900',
+      'silent': True,
+      'tag': '0123456789ab_probe_p0',
+      'url': '/lovelace/grill',
+    }),
+    'message': '''
+      Actual: 200
+      Set: 200
+    ''',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': "Johny's Traeger Probe p0",
+  })
+# ---
+# name: test_mobile_app_manu_probe[Apple][02-overtemp]
+  dict({
+    'data': dict({
+      'live_update': True,
+      'notification_icon': 'mdi:thermometer-probe',
+      'notification_icon_color': '#FF0000',
+      'silent': True,
+      'tag': '0123456789ab_probe_p0',
+      'url': '/lovelace/grill',
+    }),
+    'message': '''
+      Actual: 210
+      Set: 200
+    ''',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': "Johny's Traeger Probe p0",
+  })
+# ---
+# name: test_mobile_app_manu_probe[Apple][03-undertemp]
+  dict({
+    'data': dict({
+      'live_update': True,
+      'notification_icon': 'mdi:thermometer-probe',
+      'notification_icon_color': '#0000FF',
+      'silent': True,
+      'tag': '0123456789ab_probe_p0',
+      'url': '/lovelace/grill',
+    }),
+    'message': '''
+      Actual: 190
+      Set: 200
+    ''',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': "Johny's Traeger Probe p0",
+  })
+# ---
+# name: test_mobile_app_manu_probe[Apple][04-attemp]
+  dict({
+    'data': dict({
+      'live_update': True,
+      'notification_icon': 'mdi:thermometer-probe',
+      'notification_icon_color': '#FF7900',
+      'silent': True,
+      'tag': '0123456789ab_probe_p0',
+      'url': '/lovelace/grill',
+    }),
+    'message': '''
+      Actual: 200
+      Set: 200
+    ''',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': "Johny's Traeger Probe p0",
+  })
+# ---
+# name: test_mobile_app_manu_probe[Google][01-startlive]
+  dict({
+    'data': dict({
+      'alert_once': True,
+      'clickAction': '/lovelace/grill',
+      'color': '#FF7900',
+      'live_update': True,
+      'notification_icon': 'mdi:thermometer-probe',
+      'tag': '0123456789ab_probe_p0',
+    }),
+    'message': '''
+      Actual: 200
+      Set: 200
+    ''',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.android',
+      'app_version': '2026.8.0',
+      'os_version': '14',
+      'webhook_id': 'mock_webhook_android',
+    }),
+    'title': "Johny's Traeger Probe p0",
+  })
+# ---
+# name: test_mobile_app_manu_probe[Google][02-overtemp]
+  dict({
+    'data': dict({
+      'alert_once': True,
+      'clickAction': '/lovelace/grill',
+      'color': '#FF0000',
+      'live_update': True,
+      'notification_icon': 'mdi:thermometer-probe',
+      'tag': '0123456789ab_probe_p0',
+    }),
+    'message': '''
+      Actual: 210
+      Set: 200
+    ''',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.android',
+      'app_version': '2026.8.0',
+      'os_version': '14',
+      'webhook_id': 'mock_webhook_android',
+    }),
+    'title': "Johny's Traeger Probe p0",
+  })
+# ---
+# name: test_mobile_app_manu_probe[Google][03-undertemp]
+  dict({
+    'data': dict({
+      'alert_once': True,
+      'clickAction': '/lovelace/grill',
+      'color': '#0000FF',
+      'live_update': True,
+      'notification_icon': 'mdi:thermometer-probe',
+      'tag': '0123456789ab_probe_p0',
+    }),
+    'message': '''
+      Actual: 190
+      Set: 200
+    ''',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.android',
+      'app_version': '2026.8.0',
+      'os_version': '14',
+      'webhook_id': 'mock_webhook_android',
+    }),
+    'title': "Johny's Traeger Probe p0",
+  })
+# ---
+# name: test_mobile_app_manu_probe[Google][04-attemp]
+  dict({
+    'data': dict({
+      'alert_once': True,
+      'clickAction': '/lovelace/grill',
+      'color': '#FF7900',
+      'live_update': True,
+      'notification_icon': 'mdi:thermometer-probe',
+      'tag': '0123456789ab_probe_p0',
+    }),
+    'message': '''
+      Actual: 200
+      Set: 200
+    ''',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.android',
+      'app_version': '2026.8.0',
+      'os_version': '14',
+      'webhook_id': 'mock_webhook_android',
+    }),
+    'title': "Johny's Traeger Probe p0",
+  })
+# ---
+# name: test_mobile_app_manu_sys[Apple][01-live]
+  dict({
+    'data': dict({
+      'chronometer': True,
+      'live_update': True,
+      'notification_icon': 'mdi:timer',
+      'notification_icon_color': '#FF7900',
+      'tag': '0123456789ab_sys_timer_complete',
+      'url': '/lovelace/grill',
+      'when': 1785560400,
+    }),
+    'message': 'System timer is in progress',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': "Johny's Traeger PreHeating",
+  })
+# ---
+# name: test_mobile_app_manu_sys[Apple][02-preheatcmplt]
+  dict({
+    'data': dict({
+      'live_update': True,
+      'notification_icon': 'mdi:timer',
+      'notification_icon_color': '#FF7900',
+      'silent': False,
+      'tag': '0123456789ab_sys_timer_complete',
+      'url': '/lovelace/grill',
+    }),
+    'message': "Johny's Traeger is done PreHeating",
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': 'System Timer Complete',
+  })
+# ---
+# name: test_mobile_app_manu_sys[Apple][03-livecooldown]
+  dict({
+    'data': dict({
+      'chronometer': True,
+      'live_update': True,
+      'notification_icon': 'mdi:timer',
+      'notification_icon_color': '#FF7900',
+      'tag': '0123456789ab_sys_timer_complete',
+      'url': '/lovelace/grill',
+      'when': 1785560400,
+    }),
+    'message': 'System timer is in progress',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': "Johny's Traeger CoolingDown",
+  })
+# ---
+# name: test_mobile_app_manu_sys[Apple][04-cooldowncmplt]
+  dict({
+    'data': dict({
+      'live_update': True,
+      'notification_icon': 'mdi:timer',
+      'notification_icon_color': '#FF7900',
+      'silent': False,
+      'tag': '0123456789ab_sys_timer_complete',
+      'url': '/lovelace/grill',
+    }),
+    'message': "Johny's Traeger is done CoolingDown",
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.iphone',
+      'app_version': '2026.8.0',
+      'os_version': '26.6',
+      'webhook_id': 'mock_webhook_iphone',
+    }),
+    'title': 'System Timer Complete',
+  })
+# ---
+# name: test_mobile_app_manu_sys[Google][01-live]
+  dict({
+    'data': dict({
+      'chronometer': True,
+      'clickAction': '/lovelace/grill',
+      'color': '#FF7900',
+      'live_update': True,
+      'notification_icon': 'mdi:timer',
+      'tag': '0123456789ab_sys_timer_complete',
+      'when': 1785560400,
+    }),
+    'message': 'System timer is in progress',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.android',
+      'app_version': '2026.8.0',
+      'os_version': '14',
+      'webhook_id': 'mock_webhook_android',
+    }),
+    'title': "Johny's Traeger PreHeating",
+  })
+# ---
+# name: test_mobile_app_manu_sys[Google][02-preheatcmplt]
+  dict({
+    'data': dict({
+      'alert_once': False,
+      'clickAction': '/lovelace/grill',
+      'color': '#FF7900',
+      'live_update': True,
+      'notification_icon': 'mdi:timer',
+      'tag': '0123456789ab_sys_timer_complete',
+    }),
+    'message': "Johny's Traeger is done PreHeating",
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.android',
+      'app_version': '2026.8.0',
+      'os_version': '14',
+      'webhook_id': 'mock_webhook_android',
+    }),
+    'title': 'System Timer Complete',
+  })
+# ---
+# name: test_mobile_app_manu_sys[Google][03-livecooldown]
+  dict({
+    'data': dict({
+      'chronometer': True,
+      'clickAction': '/lovelace/grill',
+      'color': '#FF7900',
+      'live_update': True,
+      'notification_icon': 'mdi:timer',
+      'tag': '0123456789ab_sys_timer_complete',
+      'when': 1785560400,
+    }),
+    'message': 'System timer is in progress',
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.android',
+      'app_version': '2026.8.0',
+      'os_version': '14',
+      'webhook_id': 'mock_webhook_android',
+    }),
+    'title': "Johny's Traeger CoolingDown",
+  })
+# ---
+# name: test_mobile_app_manu_sys[Google][04-cooldowncmplt]
+  dict({
+    'data': dict({
+      'alert_once': False,
+      'clickAction': '/lovelace/grill',
+      'color': '#FF7900',
+      'live_update': True,
+      'notification_icon': 'mdi:timer',
+      'tag': '0123456789ab_sys_timer_complete',
+    }),
+    'message': "Johny's Traeger is done CoolingDown",
+    'push_token': '142CharToken',
+    'registration_info': dict({
+      'app_id': 'io.homeassistant.companion.android',
+      'app_version': '2026.8.0',
+      'os_version': '14',
+      'webhook_id': 'mock_webhook_android',
+    }),
+    'title': 'System Timer Complete',
+  })
+# ---
+# name: test_mobile_app_platform
+  list([
+    dict({
+      'device_class': None,
+      'entity_id': 'device_tracker.android_phone',
+      'original_name': 'Android Phone',
+      'translation_key': None,
+      'unique_id': 'mock_Android',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'device_tracker.iphone',
+      'original_name': 'iPhone',
+      'translation_key': None,
+      'unique_id': 'mock_iPhone',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'notify.android_phone',
+      'original_name': None,
+      'translation_key': 'notify',
+      'unique_id': 'mock_Android',
+    }),
+    dict({
+      'device_class': None,
+      'entity_id': 'notify.iphone',
+      'original_name': None,
+      'translation_key': 'notify',
+      'unique_id': 'mock_iPhone',
+    }),
+  ])
+# ---

@@ -8,6 +8,11 @@ from homeassistant.components.climate.const import (
 )
 from homeassistant.const import ATTR_TEMPERATURE, UnitOfTemperature
 
+from custom_components.traeger.notify_helper import (
+    notifyclearliveupdate,
+    notifyliveupdate_text,
+)
+
 from .const import (
     DOMAIN,
     GRILL_MIN_TEMP_C,
@@ -40,6 +45,8 @@ class TraegerBaseClimate(ClimateEntity, TraegerBaseEntity):
     def __init__(self, client, grill_id, friendly_name):
         super().__init__(client, grill_id)
         self.friendly_name = friendly_name
+        self.curtemp = None
+        self.settemp = None
 
     # Generic Properties
     @property
@@ -98,12 +105,46 @@ class TraegerClimateEntity(TraegerBaseClimate):
     @property
     def current_temperature(self):
         """Return the current temperature."""
-        return self.grill_mqtt_msg["status"]["grill"]
+        if (
+            self.curtemp != self.grill_mqtt_msg["status"]["grill"]
+            or self.settemp != self.grill_mqtt_msg["status"]["set"]
+        ) and (
+            GRILL_MODE["Igniting"]
+            <= self.grill_mqtt_msg["status"]["system_status"]
+            <= GRILL_MODE["Shutdown"]
+        ):
+            self.curtemp = self.grill_mqtt_msg["status"]["grill"]
+            self.settemp = self.grill_mqtt_msg["status"]["set"]
+            if self.settemp - 5 <= self.curtemp <= self.settemp + 5:
+                iconcolor = "#FF7900"
+            elif self.curtemp < self.settemp - 5:
+                iconcolor = "#0000FF"
+            else:
+                iconcolor = "#FF0000"
+            notifyliveupdate_text(
+                self.notify,
+                self.hass,
+                title=f"{self.name}",
+                msg=f"Actual: {self.curtemp}\nSet: {self.settemp}",
+                tag=self.unique_id,
+                icon="mdi:grill",
+                icon_color=iconcolor,
+                silent=True,
+            )
+        else:
+            if self.grill_mqtt_msg["status"]["system_status"] in [
+                GRILL_MODE["Idle"],
+                GRILL_MODE["Sleeping"],
+            ]:
+                notifyclearliveupdate(self.notify, self.hass, tag=self.unique_id)
+            self.curtemp = self.grill_mqtt_msg["status"]["grill"]
+        return self.curtemp
 
     @property
     def target_temperature(self):
         """Return the temperature we try to reach."""
-        return self.grill_mqtt_msg["status"]["set"]
+        self.settemp = self.grill_mqtt_msg["status"]["set"]
+        return self.settemp
 
     @property
     def extra_state_attributes(self):
@@ -245,13 +286,47 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
     def current_temperature(self):
         """Return the current temperature."""
         acc_type = self.grill_accessory["type"]
-        return self.grill_accessory[acc_type]["get_temp"]
+        if (
+            self.curtemp != self.grill_accessory[acc_type]["get_temp"]
+            or self.settemp != self.grill_accessory[acc_type]["set_temp"]
+        ) and (
+            GRILL_MODE["Igniting"]
+            <= self.grill_mqtt_msg["status"]["system_status"]
+            <= GRILL_MODE["Shutdown"]
+        ):
+            self.curtemp = self.grill_accessory[acc_type]["get_temp"]
+            self.settemp = self.grill_accessory[acc_type]["set_temp"]
+            if self.settemp - 5 <= self.curtemp <= self.settemp + 5:
+                iconcolor = "#FF7900"
+            elif self.curtemp < self.settemp - 5:
+                iconcolor = "#0000FF"
+            else:
+                iconcolor = "#FF0000"
+            notifyliveupdate_text(
+                self.notify,
+                self.hass,
+                title=f"{self.name}",
+                msg=f"Actual: {self.curtemp}\nSet: {self.settemp}",
+                tag=self.unique_id,
+                icon="mdi:thermometer-probe",
+                icon_color=iconcolor,
+                silent=True,
+            )
+        else:
+            if self.grill_mqtt_msg["status"]["system_status"] in [
+                GRILL_MODE["Idle"],
+                GRILL_MODE["Sleeping"],
+            ]:
+                notifyclearliveupdate(self.notify, self.hass, tag=self.unique_id)
+        self.curtemp = self.grill_accessory[acc_type]["get_temp"]
+        return self.curtemp
 
     @property
     def target_temperature(self):
         """Return the temperature we try to reach."""
         acc_type = self.grill_accessory["type"]
-        return self.grill_accessory[acc_type]["set_temp"]
+        self.settemp = self.grill_accessory[acc_type]["set_temp"]
+        return self.settemp
 
     @property
     def extra_state_attributes(self):
