@@ -166,7 +166,7 @@ class CookCycNumberEntity(NumberEntity, TraegerBaseEntity):
         if self.num_value > 0 and self.grill_mqtt_msg["status"]["system_status"] in [
             GRILL_MODE["CoolingDown"],
             GRILL_MODE["Sleeping"],
-            GRILL_MODE["Shutdown"],
+            GRILL_MODE["ShuttingDown"],
             GRILL_MODE["Idle"],
         ]:
             _LOGGER.info("Steps not available when not cooking. Revert to 0.")

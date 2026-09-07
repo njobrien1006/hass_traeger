@@ -111,7 +111,7 @@ class TraegerClimateEntity(TraegerBaseClimate):
         ) and (
             GRILL_MODE["Igniting"]
             <= self.grill_mqtt_msg["status"]["system_status"]
-            <= GRILL_MODE["Shutdown"]
+            <= GRILL_MODE["ShuttingDown"]
         ):
             self.curtemp = self.grill_mqtt_msg["status"]["grill"]
             self.settemp = self.grill_mqtt_msg["status"]["set"]
@@ -198,7 +198,7 @@ class TraegerClimateEntity(TraegerBaseClimate):
             GRILL_MODE["Idle"],
             GRILL_MODE["Sleeping"],
             GRILL_MODE["Offline"],
-            GRILL_MODE["Shutdown"],
+            GRILL_MODE["ShuttingDown"],
         ]:
             returnval = HVACMode.OFF
         else:
@@ -292,7 +292,7 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
         ) and (
             GRILL_MODE["Igniting"]
             <= self.grill_mqtt_msg["status"]["system_status"]
-            <= GRILL_MODE["Shutdown"]
+            <= GRILL_MODE["ShuttingDown"]
         ):
             self.curtemp = self.grill_accessory[acc_type]["get_temp"]
             self.settemp = self.grill_accessory[acc_type]["set_temp"]
