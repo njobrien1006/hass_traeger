@@ -195,10 +195,13 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 self.entities[entity_entry.unique_id] = entity_id
         _LOGGER.info(json.dumps(self.entities))
         registry = dr.async_get(self.hass)
-        for dev in registry.devices.values():
-            if dev.id in list(self.notify):
-                _LOGGER.debug("MobileApp EntId: %s - %s - %s", dev.id, dev.name, dev.manufacturer)
-                self.notify[dev.id] = {"name": dev.name, "manu": dev.manufacturer}
+        config_entries = self.hass.config_entries.async_entries("mobile_app")
+        for entry in config_entries:
+            entry_devices = dr.async_entries_for_config_entry(registry, entry.entry_id)
+            for dev in entry_devices:
+                if dev.id in list(self.notify):
+                    _LOGGER.debug("MobileApp EntId: %s - %s - %s", dev.id, dev.name, dev.manufacturer)
+                    self.notify[dev.id] = {"name": dev.name, "manu": dev.manufacturer}
         _LOGGER.info(json.dumps(self.notify))
 
     def __mqtt_url_remaining(self):
