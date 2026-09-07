@@ -16,7 +16,7 @@
         {
             "label": "Pytest & Coverage Badge & Coverage Report",
             "type": "shell",
-            "command": "pytest --cov=custom_components/traeger && coverage-badge -o images/coverage.svg -f && coverage html -d tests/coverage",
+            "command": "pytest -vv --cov=custom_components/traeger && coverage-badge -o images/coverage.svg -f && coverage html -d tests/coverage",
             "problemMatcher": []
         },
         {

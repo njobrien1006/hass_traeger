@@ -18,12 +18,12 @@ async def client_connect(hass, client, grill_list):
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(0.1)
+    await asyncio.sleep(0.2)
 
 
-async def client_publish(hass, client, msg, dly=0.1):
+async def client_publish(hass, client, msg, dly=0.05):
     """Publish to MQTT Client"""
-    await asyncio.sleep(dly / 2)
+    await asyncio.sleep(dly / 4)
     client.mqtt_client.mqtt_client.publish(
         "prod/thing/update/0123456789ab",
         json.dumps(msg).encode("utf-8"),
