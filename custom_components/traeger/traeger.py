@@ -200,7 +200,12 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
             entry_devices = dr.async_entries_for_config_entry(registry, entry.entry_id)
             for dev in entry_devices:
                 if dev.id in list(self.notify):
-                    _LOGGER.debug("MobileApp EntId: %s - %s - %s", dev.id, dev.name, dev.manufacturer)
+                    _LOGGER.debug(
+                        "MobileApp EntId: %s - %s - %s",
+                        dev.id,
+                        dev.name,
+                        dev.manufacturer,
+                    )
                     self.notify[dev.id] = {"name": dev.name, "manu": dev.manufacturer}
         _LOGGER.info(json.dumps(self.notify))
 
