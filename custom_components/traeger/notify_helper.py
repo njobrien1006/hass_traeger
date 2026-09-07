@@ -90,7 +90,7 @@ def notifyliveupdate_text(
     """Live Update Text Only"""
     data = {
         "title": title,
-        "message": msg.replace("\n", chr(10)),
+        "message": msg,
         "data": {
             "tag": tag,
             "live_update": True,
