@@ -5,7 +5,7 @@ from homeassistant.const import UnitOfTemperature
 NAME = "Traeger"
 DOMAIN = "traeger"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "2026.09.04"
+VERSION = "2026.09.08"
 ATTRIBUTION = ""
 ISSUE_URL = "https://github.com/njobrien1006/hass_traeger/issues"
 
@@ -32,7 +32,7 @@ DEFAULT_NAME = DOMAIN
 # Grill Modes
 GRILL_MODES = {
     "Offline": 99,
-    "Shutdown": 9,
+    "ShuttingDown": 9,
     "CoolingDown": 8,
     "Cook_Custom": 7,
     "Cook_Manual": 6,

@@ -107,14 +107,14 @@ async def mock_broker(hass: HomeAssistant) -> Broker:
 async def connected_amqtt(mock_broker: Broker):
     """Fixture to connect & gracefull disc amqtt patricularily on fail"""
     # Start Broker
-    _LOGGER.error("Start Broker")
+    _LOGGER.info("Start Broker")
     await mock_broker.start()
     await asyncio.sleep(0.01)
 
     yield  # this is where the testing happens
 
     # Shutdown MQTT
-    _LOGGER.error("Stop Broker")
+    _LOGGER.info("Stop Broker")
     await mock_broker.shutdown()
     await asyncio.sleep(0.01)
 

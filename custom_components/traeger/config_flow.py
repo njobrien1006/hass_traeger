@@ -26,7 +26,10 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_reconfigure(self, user_input):
         """Handle reconfiguration of the integration."""
         self._errors = {}
+        config_entry = self.hass.config_entries.async_get_entry(self.context["entry_id"])
         if user_input:
+            if user_input.get(CONF_PASSWORD) == "":
+                user_input[CONF_PASSWORD] = config_entry.data.get(CONF_PASSWORD, "")
             valid, username = await self._test_credentials(user_input[CONF_USERNAME],
             user_input[CONF_PASSWORD])
             if valid:
@@ -40,18 +43,23 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
 
         return self.async_show_form(
             step_id="reconfigure",
-            data_schema=vol.Schema({
-                vol.Required(CONF_USERNAME):
-                    str,
-                vol.Required(CONF_PASSWORD):
-                    str,
-                vol.Optional(CONF_OPT_MOBILE_APP): selector.DeviceSelector(
-                    selector.EntitySelectorConfig(
-                        integration="mobile_app",
-                        multiple=True,
-                    )
-                ),
-            }),
+            data_schema=vol.Schema(
+                {
+                    vol.Required(
+                        CONF_USERNAME, default=config_entry.data.get(CONF_USERNAME, "")
+                    ): str,
+                    vol.Optional(CONF_PASSWORD, default=""): str,
+                    vol.Optional(
+                        CONF_OPT_MOBILE_APP,
+                        default=config_entry.data.get(CONF_OPT_MOBILE_APP, []),
+                    ): selector.DeviceSelector(
+                        selector.EntitySelectorConfig(
+                            integration="mobile_app",
+                            multiple=True,
+                        )
+                    ),
+                }
+            ),
             errors=self._errors,
             description_placeholders={
                 "github_url":

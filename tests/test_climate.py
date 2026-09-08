@@ -181,7 +181,6 @@ async def test_climate_setgrilltemp_cmd(
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["connected"] = True
     await client_publish(hass, traeger_client, mqtt_msg_change)
-    _LOGGER.error("Wait for onConnect to Subscribe")
 
     snapshotname = 2
     for system_status in [2, 3, 4, 5, 6, 7, 9, 2, 99]:
@@ -294,7 +293,7 @@ async def test_climate_setgrilltemp_cmd(
         {"sts": 6, "grill": 255, "set": 255, "rslt": "at_temp"},
     ]:
         # Climate Sensor Preheat..heating
-        _LOGGER.error("doing sensor step: %s", item)
+        _LOGGER.debug("doing sensor step: %s", item)
         mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
         mqtt_msg_change["status"]["system_status"] = item["sts"]
         mqtt_msg_change["status"]["grill"] = item["grill"]
@@ -436,7 +435,6 @@ async def test_climate_setprobetemp_cmds(
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["connected"] = True
     await client_publish(hass, traeger_client, mqtt_msg_change)
-    _LOGGER.error("Wait for onConnect to Subscribe")
 
     # Get Entity Happy Check
     entity = hass.states.get(f"{platform}.{entity_id}")
@@ -536,8 +534,10 @@ async def test_climate_setprobetemp_cmds(
 
     entity = hass.states.get(f"sensor.0123456789ab_probe_state_{mqtt_msg_acc['uuid']}")
     # Check Enttity
-    # if unit == "F":
     assert entity.state == "at_temp"
+    entity = hass.states.get(f"binary_sensor.0123456789ab_probe_alarm_{mqtt_msg_acc['uuid']}")
+    # Check Enttity
+    assert entity.state
 
     # Prove Over Temp ALM (per acc)
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
