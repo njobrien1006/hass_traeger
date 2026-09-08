@@ -13,7 +13,7 @@
         "description": "If you need help with the configuration have a look here: {github_url}",
         "data": {
           "username": "Username",
-          "password": "Password",
+          "password": "Password (leave blank to keep current password)",
           "notify_list": "Mobile App Notify Endpoints"
         }
       }

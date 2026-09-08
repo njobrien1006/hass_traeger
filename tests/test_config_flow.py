@@ -167,7 +167,7 @@ async def test_config_flow_reconfig_success(
     )
 
     # Submit credentials
-    result = await hass.config_entries.flow.async_configure(
+    cfgresult = await hass.config_entries.flow.async_configure(
         result["flow_id"],
         {
             CONF_USERNAME: "johnytraeger@traeger.com",
@@ -176,14 +176,14 @@ async def test_config_flow_reconfig_success(
     )
 
     # Flow Result is created entity
-    assert result["type"] == FlowResultType.CREATE_ENTRY
+    assert cfgresult["type"] == FlowResultType.CREATE_ENTRY
 
     # Prep ReCFG
     result = await hass.config_entries.flow.async_init(
         DOMAIN,
         context={
             "source": config_entries.SOURCE_RECONFIGURE,
-            "entry_id": result["result"].entry_id,
+            "entry_id": cfgresult["result"].entry_id,
         },
     )
 
@@ -193,6 +193,26 @@ async def test_config_flow_reconfig_success(
         {
             CONF_USERNAME: "johnytraeger@traeger.com",
             CONF_PASSWORD: "johnytraeger'sUpdatedpassword",
+        },
+    )
+
+    # Flow Result is updated entity
+    assert result["type"] == FlowResultType.ABORT
+
+    # Prep ReCFG2 without password to test that it uses the existing password
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={
+            "source": config_entries.SOURCE_RECONFIGURE,
+            "entry_id": cfgresult["result"].entry_id,
+        },
+    )
+
+    # Submit No Passord..reuses existing password
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        {
+            CONF_USERNAME: "johnytraeger@traeger.com"
         },
     )
 
