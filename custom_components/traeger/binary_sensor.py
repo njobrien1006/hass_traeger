@@ -205,7 +205,7 @@ class AccessoryTraegerBSensorEntity(TraegerBaseSensor):
     """Binary Sensor entity for Traeger grills"""
 
     def __init__(self, client, grill_id, sensor_id):
-        super().__init__(client, grill_id, "Probe Alarm", f"Probe_alarm {sensor_id}")
+        super().__init__(client, grill_id, f"Probe Alarm {sensor_id}", f"probe_alarm_{sensor_id}")
         self.sensor_id = sensor_id
         self.entity_id = (
             f"binary_sensor.{self.grill_id.lower()}_probe_"
