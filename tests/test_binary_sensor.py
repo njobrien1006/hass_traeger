@@ -13,7 +13,6 @@ from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import DOMAIN
 
-from .conftest import Broker
 from .zzcommon import client_connect, client_disconnect, client_publish
 from .zzMockResp import api_commands, api_user_self, mqtt_msg
 
@@ -53,7 +52,6 @@ async def test_binary_sensor_platform(
 async def test_binary_sensor_platform_asyncadd(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
@@ -132,7 +130,6 @@ async def test_binary_sensor_par(
     mqtt_loca,
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:

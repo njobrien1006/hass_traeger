@@ -16,7 +16,6 @@ from syrupy.assertion import SnapshotAssertion
 from custom_components.traeger.const import DOMAIN
 from custom_components.traeger.sensor import SENSOR_ENTITIES
 
-from .conftest import Broker
 from .zzcommon import client_connect, client_disconnect, client_publish
 from .zzMockResp import api_commands, api_user_self, mqtt_msg
 
@@ -57,7 +56,6 @@ async def test_sensor_platform(
 async def test_sensor_platform_asyncadd(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
@@ -143,7 +141,6 @@ async def test_sensor(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
     entity_registry: EntityRegistry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:

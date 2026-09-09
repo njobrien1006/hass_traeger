@@ -1,6 +1,5 @@
 """Test the Traeger Client."""
 
-import asyncio
 import logging
 
 import pytest
@@ -219,7 +218,6 @@ async def test_config_flow_reconfig_success(
     # Flow Result is updated entity
     assert result["type"] == FlowResultType.ABORT
 
-    await asyncio.sleep(0.1)
 
 
 async def test_config_flow_reconfig_fail(

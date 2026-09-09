@@ -20,7 +20,6 @@ from custom_components.traeger.const import (
     PROBE_PRESET_MODES,
 )
 
-from .conftest import Broker
 from .zzcommon import client_connect, client_disconnect, client_publish
 from .zzMockResp import api_commands, api_user_self, mqtt_msg
 
@@ -60,7 +59,6 @@ async def test_climate_platform(
 async def test_climate_platform_asyncadd(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
@@ -128,7 +126,6 @@ async def test_climate_setgrilltemp_cmd(
     unit,
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
@@ -259,7 +256,6 @@ async def test_climate_setgrilltemp_cmd(
     assert entity == snapshot(name=f"{snapshotname:02d}-changed")
     snapshotname += 1
 
-    await asyncio.sleep(0.1)
     await hass.services.async_call(
         "climate",
         "SET_TEMPERATURE",
@@ -364,7 +360,6 @@ async def test_climate_setprobetemp_cmds(
     mqtt_msg_acc,
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
@@ -461,7 +456,6 @@ async def test_climate_setprobetemp_cmds(
     assert entity.state != "unavailable"
     assert entity == snapshot(name="03-changed")
 
-    await asyncio.sleep(0.1)
     await hass.services.async_call(
         "climate",
         "SET_TEMPERATURE",
@@ -481,7 +475,6 @@ async def test_climate_setprobetemp_cmds(
 
     # Attempt turning Switching States
     for item in ["off", "cool", "heat"]:
-        await asyncio.sleep(0.1)
         try:
             await hass.services.async_call(
                 "climate",

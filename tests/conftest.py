@@ -1,12 +1,10 @@
 """Fixtures for testing."""
 
-import asyncio
 import json
 import logging
 
 import pytest
 from aiointercept import CallbackResult, aiointercept
-from amqtt.broker import Broker
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
@@ -28,7 +26,7 @@ from .zzMockResp import api_mqtt, api_token, api_user_self
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 # The MQTT port we will use instead of 443
-MQTTPORT = 4447
+MQTTPORT = 4443
 
 
 # pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments,redefined-outer-name,invalid-name
@@ -76,47 +74,6 @@ async def http():
         # mock.post(api_commands['url'], payload=api_commands['resp'], repeat=True)
         # mock.post(api_commands['urlg2'], payload=api_commands['resp'], repeat=True)
         yield mock
-
-
-@pytest.fixture
-async def mock_broker(hass: HomeAssistant) -> Broker:
-    """Fixture to Serve MQTT Client"""
-    mBroker = Broker(
-        {
-            "listeners": {
-                "default": {
-                    "bind": f"127.0.0.1:{MQTTPORT}",
-                    "type": "ws",
-                    "ssl": False,
-                    "max_connections": 10,
-                },
-            },
-            "plugins": {
-                "amqtt.plugins.authentication.AnonymousAuthPlugin": {
-                    "allow_anonymous": True
-                },
-                "amqtt.plugins.sys.broker.BrokerSysPlugin": {"sys_interval": 30},
-            },
-        },
-        loop=hass.loop,
-    )
-    return mBroker
-
-
-@pytest.fixture
-async def connected_amqtt(mock_broker: Broker):
-    """Fixture to connect & gracefull disc amqtt patricularily on fail"""
-    # Start Broker
-    _LOGGER.info("Start Broker")
-    await mock_broker.start()
-    await asyncio.sleep(0.01)
-
-    yield  # this is where the testing happens
-
-    # Shutdown MQTT
-    _LOGGER.info("Stop Broker")
-    await mock_broker.shutdown()
-    await asyncio.sleep(0.01)
 
 
 @pytest.fixture

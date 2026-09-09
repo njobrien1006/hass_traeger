@@ -15,7 +15,6 @@ from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import DOMAIN
 
-from .conftest import Broker
 from .zzcommon import client_connect, client_disconnect, client_publish
 from .zzMockResp import api_commands, api_user_self, mqtt_msg
 
@@ -64,7 +63,6 @@ async def test_switch_cmds(
     entity_id,
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:

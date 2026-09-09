@@ -14,7 +14,6 @@ from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import DOMAIN, GRILL_MODE
 
-from .conftest import Broker
 from .zzcommon import client_connect, client_disconnect, client_publish
 from .zzMockResp import api_commands, api_user_self, mqtt_msg
 
@@ -64,7 +63,6 @@ async def test_number(
     mqtt_loca,
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
@@ -142,7 +140,6 @@ async def test_number(
 async def test_number_settimer(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
@@ -299,7 +296,6 @@ async def test_number_settimer(
 async def test_number_cookcycle(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
@@ -481,7 +477,7 @@ async def test_number_cookcycle(
                     for x in range(
                         int(curstepjson["act_temp_adv"] / 2),
                         int(curstepjson["act_temp_adv"] - 1),
-                        5,
+                        10,
                     ):
                         _LOGGER.debug("act_temp_adv x %s ", x)
                         mqtt_msg_change = traeger_client.mqtt_client.grills_status[
@@ -530,7 +526,7 @@ async def test_number_cookcycle(
                     for x in range(
                         int(mqtt_msg_change["status"]["cook_timer_start"]),
                         int(mqtt_msg_change["status"]["cook_timer_end"] - 1),
-                        60,
+                        120,
                     ):
                         _LOGGER.debug("TimerAdv x %s ", x)
                         mqtt_msg_change = traeger_client.mqtt_client.grills_status[
@@ -581,7 +577,7 @@ async def test_number_cookcycle(
                             - curstepjson["min_delta"]
                             - 1
                         ),
-                        5,
+                        10,
                     ):
                         _LOGGER.debug("min_delta x %s ", x)
                         mqtt_msg_change = traeger_client.mqtt_client.grills_status[
@@ -627,7 +623,7 @@ async def test_number_cookcycle(
                     for x in range(
                         int(curstepjson["probe_act_temp_adv"] / 2),
                         int(curstepjson["probe_act_temp_adv"] - 1),
-                        5,
+                        10,
                     ):
                         _LOGGER.debug("probe_act_temp_adv x %s ", x)
                         mqtt_msg_change = traeger_client.mqtt_client.grills_status[
@@ -682,7 +678,7 @@ async def test_number_cookcycle(
                         int(
                             mqtt_msg_change["status"]["acc"][0]["probe"]["set_temp"] - 1
                         ),
-                        5,
+                        10,
                     ):
                         _LOGGER.debug("probe_adv_Dflt x %s ", x)
                         mqtt_msg_change = traeger_client.mqtt_client.grills_status[

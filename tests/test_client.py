@@ -15,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import DOMAIN
 
-from .conftest import MQTTPORT, Broker, TraegerTestClient
+from .conftest import MQTTPORT, TraegerTestClient
 from .zzcommon import client_connect, client_disconnect, client_publish
 from .zzMockResp import api_commands, api_mqtt, api_token, api_user_self, mqtt_msg
 
@@ -202,7 +202,6 @@ async def test_handle_cmd_bad(
 async def test_client_missing_sts(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
@@ -255,7 +254,6 @@ async def test_client_missing_sts(
 async def test_connect_cmds(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
@@ -353,7 +351,6 @@ async def test_connect_cmds(
 async def test_connect_autoupdate(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
