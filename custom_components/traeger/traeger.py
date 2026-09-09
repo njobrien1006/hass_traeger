@@ -326,11 +326,11 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 await asyncio.sleep(0.1)
             self.api['mqtt_url_expires'] = time.time()
             for grill in self.grills:  #Mark the grill(s) disconnected so they report unavail.
-                grill_id = grill[
-                    "thingName"]  #Also hit the callbacks to update HA
-                self.mqtt_client.grills_status[grill_id]["status"][
-                    "connected"] = False
-                await self.grill_callback(grill_id)
+                grill_id = grill["thingName"]
+                if grill_id in self.mqtt_client.grills_status:
+                    self.mqtt_client.grills_status[grill_id]["status"][
+                        "connected"] = False
+                    await self.grill_callback(grill_id)
         else:
             _LOGGER.info("Client Was not Connected?")
 
