@@ -50,7 +50,7 @@ async def test_binary_sensor_platform(
 
 
 @pytest.mark.usefixtures("socket_enabled")
-async def test_binarysensor_platform_asyncadd(
+async def test_binary_sensor_platform_asyncadd(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
     connected_amqtt: Broker,

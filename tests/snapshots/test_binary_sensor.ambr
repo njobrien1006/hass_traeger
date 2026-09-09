@@ -225,7 +225,7 @@
     }),
   ])
 # ---
-# name: test_binarysensor_platform_asyncadd
+# name: test_binary_sensor_platform_asyncadd
   list([
     dict({
       'device_class': None,
