@@ -280,7 +280,7 @@ async def test_connect_cmds(
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
-    traeger_client.mqtt_client.ssl = False
+    #traeger_client.mqtt_client.ssl = False
     traeger_client.mqtt_client.port = MQTTPORT
     await hass.services.async_call(
         "switch",
@@ -289,7 +289,7 @@ async def test_connect_cmds(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(2)
+    await asyncio.sleep(0.5)
 
     # Get Entity Trig Check
     entity = hass.states.get("switch.traeger_0123456789ab_connect")
@@ -305,7 +305,7 @@ async def test_connect_cmds(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(1)
+    await asyncio.sleep(0.1)
 
     # Get Entity Trig Check
     entity = hass.states.get("switch.traeger_0123456789ab_connect")
@@ -323,7 +323,7 @@ async def test_connect_cmds(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(2)
+    await asyncio.sleep(0.5)
 
     # Get Entity Trig Check
     entity = hass.states.get("switch.traeger_0123456789ab_connect")
@@ -338,7 +338,7 @@ async def test_connect_cmds(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(1)
+    await asyncio.sleep(0.1)
 
     # Get Entity Trig Check
     entity = hass.states.get("switch.traeger_0123456789ab_connect")
@@ -374,7 +374,7 @@ async def test_connect_autoupdate(
         return CallbackResult(status=404, payload=None)
 
     api_mqtt_resp = copy.deepcopy(api_mqtt["resp"])
-    api_mqtt_resp["expirationSeconds"] = 2
+    api_mqtt_resp["expirationSeconds"] = 1
     # Register Callbacks
     http.clear()
     http.post(api_token["url"], payload=api_token["resp"], repeat=True)
@@ -383,11 +383,11 @@ async def test_connect_autoupdate(
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
-    traeger_client.mqtt_client.ssl = False
+    #traeger_client.mqtt_client.ssl = False
     traeger_client.mqtt_client.port = MQTTPORT
 
     await traeger_client.main(1)
-    await asyncio.sleep(0.2)
+    await asyncio.sleep(0.5)
 
     # Check CON
     assert traeger_client.mqtt_client.isconnected
@@ -395,7 +395,7 @@ async def test_connect_autoupdate(
     mem_mqtt_url_expires = traeger_client.api["mqtt_url_expires"]
     assert traeger_client.api["mqtt_url_expires"] - time.time() < 10
 
-    await asyncio.sleep(3)
+    await asyncio.sleep(1.0)
 
     assert traeger_client.api["mqtt_url_expires"] != mem_mqtt_url_expires
 

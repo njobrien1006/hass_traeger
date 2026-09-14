@@ -28,7 +28,7 @@ async def test_connect_pub(
     traeger_client.mqtt_client.mqtt_client.publish(
         "prod/thing/update/0123456789ab", b"{}", qos=1
     )
-    await asyncio.sleep(0.1)
+    await asyncio.sleep(0.05)
     assert traeger_client.mqtt_client.grills_status["0123456789ab"] == {}
     await client_disconnect(traeger_client.hass, traeger_client)
 
@@ -44,7 +44,7 @@ async def test_connect_pub_unsubscribe(
     traeger_client.mqtt_client.mqtt_client.publish(
             "prod/thing/update/0123456789ab", b"{}", qos=1
         )
-    await asyncio.sleep(0.1)
+    await asyncio.sleep(0.05)
     #traeger_client.mqtt_client.mqtt_client.unsubscribe("prod/thing/update/0123456789ab")
     await client_disconnect(traeger_client.hass, traeger_client)
 
@@ -60,7 +60,7 @@ async def test_connect_bad_pub(
     traeger_client.mqtt_client.mqtt_client.publish(
         "prod/thing/update/0123456789ab", b"{badjson}", qos=1
     )
-    await asyncio.sleep(0.1)
+    await asyncio.sleep(0.05)
     assert traeger_client.mqtt_client.grills_status.get("0123456789ab", {}) == {}
     await client_disconnect(traeger_client.hass, traeger_client)
 
@@ -76,7 +76,7 @@ async def test_connect_grillmsg(
     traeger_client.mqtt_client.mqtt_client.publish(
         "prod/thing/update/0123456789ab", json.dumps(mqtt_msg).encode("utf-8"), qos=1
     )
-    await asyncio.sleep(0.1)
+    await asyncio.sleep(0.05)
     assert traeger_client.mqtt_client.grills_status.get("0123456789ab", {}) == mqtt_msg
     await client_disconnect(traeger_client.hass, traeger_client)
 

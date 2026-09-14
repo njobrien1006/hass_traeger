@@ -207,7 +207,7 @@ async def test_climate_setgrilltemp_cmd(
             blocking=True,
         )
         await hass.async_block_till_done()
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.05)
 
     # Change Before Ready for expected `NotImplementedError`
     with pytest.raises(NotImplementedError):
@@ -221,7 +221,7 @@ async def test_climate_setgrilltemp_cmd(
             blocking=True,
         )
         await hass.async_block_till_done()
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.05)
 
     # Put Grill in cook mode so we can expect the switch to be available.
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
@@ -248,7 +248,7 @@ async def test_climate_setgrilltemp_cmd(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(0.1)
+    await asyncio.sleep(0.05)
     # Get Entity Trig Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
@@ -266,7 +266,7 @@ async def test_climate_setgrilltemp_cmd(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(0.1)
+    await asyncio.sleep(0.05)
     # Get Entity Trig Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
@@ -294,13 +294,12 @@ async def test_climate_setgrilltemp_cmd(
         mqtt_msg_change["status"]["system_status"] = item["sts"]
         mqtt_msg_change["status"]["grill"] = item["grill"]
         mqtt_msg_change["status"]["set"] = item["set"]
-        await client_publish(hass, traeger_client, mqtt_msg_change)
+        await client_publish(hass, traeger_client, mqtt_msg_change, 0.01)
 
         entity = hass.states.get("sensor.traeger_0123456789ab_heating_state")
         # Check Enttity
         assert entity.state == item["rslt"]
 
-    await asyncio.sleep(0.1)
     await hass.services.async_call(
         "climate",
         "set_hvac_mode",
@@ -311,7 +310,7 @@ async def test_climate_setgrilltemp_cmd(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(0.1)
+    await asyncio.sleep(0.05)
     # Get Entity Trig Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
@@ -449,7 +448,7 @@ async def test_climate_setprobetemp_cmds(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(0.1)
+    await asyncio.sleep(0.05)
     # Get Entity Trig Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
@@ -466,7 +465,7 @@ async def test_climate_setprobetemp_cmds(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(0.1)
+    await asyncio.sleep(0.05)
     # Get Entity Trig Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
@@ -493,11 +492,10 @@ async def test_climate_setprobetemp_cmds(
         except Exception as exception:  # pylint: disable=broad-except
             _LOGGER.error("This should be failing - %s", exception)
             assert False
-        await asyncio.sleep(0.1)
+        await asyncio.sleep(0.05)
 
     # Run Through Presets
     for item in PROBE_PRESET_MODES:  # pylint: disable=consider-using-dict-items
-        await asyncio.sleep(0.05)
         await hass.services.async_call(
             "climate",
             "set_preset_mode",

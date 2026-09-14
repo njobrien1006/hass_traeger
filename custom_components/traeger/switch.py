@@ -72,7 +72,7 @@ class TraegerConnectEntity(TraegerBaseSwitch):
     # Switch Methods
     async def async_turn_on(self, **kwargs):  # pylint: disable=unused-argument
         """Set new Switch Val."""
-        await self.client.start(1)
+        await self.client.start(0.1)
 
     async def async_turn_off(self, **kwargs):  # pylint: disable=unused-argument
         """Set new Switch Val."""

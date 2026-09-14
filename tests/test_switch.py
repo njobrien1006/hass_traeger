@@ -126,14 +126,13 @@ async def test_switch_cmds(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(0.1)
+    await asyncio.sleep(0.05)
     # Get Entity Trig Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity
     assert entity.state == "on"
     assert entity == snapshot(name=f"02-{entity.state}")
 
-    await asyncio.sleep(0.1)
     await hass.services.async_call(
         "switch",
         SERVICE_TURN_OFF,
@@ -141,7 +140,7 @@ async def test_switch_cmds(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(0.1)
+    await asyncio.sleep(0.05)
     # Get Entity Trig Check
     entity = hass.states.get(f"{platform}.{entity_id}")
     # Check Enttity

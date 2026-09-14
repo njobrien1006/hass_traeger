@@ -235,7 +235,7 @@ async def test_number_settimer(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(0.1)
+    await asyncio.sleep(0.05)
     # Get Entity Trig Check
     entity_ids = [
         "number.traeger_0123456789ab_cook_timer",
@@ -261,7 +261,7 @@ async def test_number_settimer(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(0.1)
+    await asyncio.sleep(0.05)
     # Get Entity Trig Check
     entity_ids = [
         "number.traeger_0123456789ab_cook_timer",
@@ -453,7 +453,7 @@ async def test_number_cookcycle(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(0.2)
+    await asyncio.sleep(0.05)
     snapshotname = 4
 
     try:
@@ -739,6 +739,7 @@ async def test_number_cookcycle(
         blocking=True,
     )
     await hass.async_block_till_done()
+    await asyncio.sleep(0.1)
     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
     # Check Enttity
     assert isinstance(entity, State)
@@ -747,7 +748,7 @@ async def test_number_cookcycle(
     snapshotname += 1
 
     # Change Entity
-    await asyncio.sleep(0.1)
+
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["connected"] = False
     await client_publish(hass, traeger_client, mqtt_msg_change)
