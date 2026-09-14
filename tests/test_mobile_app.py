@@ -151,7 +151,8 @@ async def test_mobile_app_manu_sys(
     await client_publish(hass, traeger_client, mqtt_msg_change)
     jsondata = {}
     for req in reversed(http.ordered_requests):
-        if "home" in req[0][1]._netloc:
+        #_LOGGER.error("Was here: %s", req[0][1])
+        if "home" in str(req[0][1]):
             reqdata = req[1].kwargs.get("json", {"data": {"tag":""}})
             if reqdata["data"]["tag"] == "0123456789ab_sys_timer_complete":
                 jsondata = reqdata
@@ -242,7 +243,7 @@ async def test_mobile_app_manu_cook(
     await client_publish(hass, traeger_client, mqtt_msg_change)
     jsondata = {}
     for req in reversed(http.ordered_requests):
-        if "home" in req[0][1]._netloc:
+        if "home" in str(req[0][1]):
             reqdata = req[1].kwargs.get("json", {"data": {"tag":""}})
             if reqdata["data"]["tag"] == "0123456789ab_cook_timer_complete":
                 jsondata = reqdata
@@ -261,6 +262,7 @@ async def test_mobile_app_manu_cook(
         ("Google"),
     ],
 )
+# pylint: disable=too-many-statements
 async def test_mobile_app_manu_grill(
     manu,
     hass: HomeAssistant,
@@ -307,7 +309,6 @@ async def test_mobile_app_manu_grill(
     mqtt_msg_change["status"]["system_status"] = 6
     mqtt_msg_change["status"]["grill"] = 200
     mqtt_msg_change["status"]["set"] = 200
-    mqtt_msg_change["status"]["connected"] = True
     await client_publish(hass, traeger_client, mqtt_msg_change)
     jsondata = http.last_request.kwargs.get("json", {})
     assert jsondata == snapshot(name="01-startlive")
@@ -315,7 +316,6 @@ async def test_mobile_app_manu_grill(
     # Overtemp
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["grill"] = 210
-    mqtt_msg_change["status"]["connected"] = True
     await client_publish(hass, traeger_client, mqtt_msg_change)
     jsondata = http.last_request.kwargs.get("json", {})
     assert jsondata == snapshot(name="02-overtemp")
@@ -323,7 +323,6 @@ async def test_mobile_app_manu_grill(
     # Undertemp
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["grill"] = 190
-    mqtt_msg_change["status"]["connected"] = True
     await client_publish(hass, traeger_client, mqtt_msg_change)
     jsondata = http.last_request.kwargs.get("json", {})
     assert jsondata == snapshot(name="03-undertemp")
@@ -331,7 +330,6 @@ async def test_mobile_app_manu_grill(
     # AtTemp
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["grill"] = 200
-    mqtt_msg_change["status"]["connected"] = True
     await client_publish(hass, traeger_client, mqtt_msg_change)
     jsondata = http.last_request.kwargs.get("json", {})
     assert jsondata == snapshot(name="04-attemp")
@@ -339,11 +337,10 @@ async def test_mobile_app_manu_grill(
     # Cleared
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["system_status"] = 2
-    mqtt_msg_change["status"]["connected"] = True
     await client_publish(hass, traeger_client, mqtt_msg_change)
     jsondata = {}
     for req in reversed(http.ordered_requests):
-        if "home" in req[0][1]._netloc:
+        if "home" in str(req[0][1]):
             reqdata = req[1].kwargs.get("json", {"data": {"tag":""}})
             if reqdata["data"]["tag"] == "0123456789ab_climate":
                 jsondata = reqdata
@@ -362,6 +359,7 @@ async def test_mobile_app_manu_grill(
         ("Google"),
     ],
 )
+# pylint: disable=too-many-statements
 async def test_mobile_app_manu_probe(
     manu,
     hass: HomeAssistant,
@@ -408,7 +406,6 @@ async def test_mobile_app_manu_probe(
     mqtt_msg_change["status"]["system_status"] = 6
     mqtt_msg_change["status"]["acc"][0]["probe"]["get_temp"] = 200
     mqtt_msg_change["status"]["acc"][0]["probe"]["set_temp"] = 200
-    mqtt_msg_change["status"]["connected"] = True
     await client_publish(hass, traeger_client, mqtt_msg_change)
     jsondata = http.last_request.kwargs.get("json", {})
     assert jsondata == snapshot(name="01-startlive")
@@ -416,7 +413,6 @@ async def test_mobile_app_manu_probe(
     # Overtemp
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["acc"][0]["probe"]["get_temp"] = 210
-    mqtt_msg_change["status"]["connected"] = True
     await client_publish(hass, traeger_client, mqtt_msg_change)
     jsondata = http.last_request.kwargs.get("json", {})
     assert jsondata == snapshot(name="02-overtemp")
@@ -424,7 +420,6 @@ async def test_mobile_app_manu_probe(
     # Undertemp
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["acc"][0]["probe"]["get_temp"] = 190
-    mqtt_msg_change["status"]["connected"] = True
     await client_publish(hass, traeger_client, mqtt_msg_change)
     jsondata = http.last_request.kwargs.get("json", {})
     assert jsondata == snapshot(name="03-undertemp")
@@ -432,7 +427,6 @@ async def test_mobile_app_manu_probe(
     # AtTemp
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["acc"][0]["probe"]["get_temp"] = 200
-    mqtt_msg_change["status"]["connected"] = True
     await client_publish(hass, traeger_client, mqtt_msg_change)
     jsondata = http.last_request.kwargs.get("json", {})
     assert jsondata == snapshot(name="04-attemp")
@@ -440,11 +434,10 @@ async def test_mobile_app_manu_probe(
     # Cleared
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["system_status"] = 2
-    mqtt_msg_change["status"]["connected"] = True
     await client_publish(hass, traeger_client, mqtt_msg_change)
     jsondata = {}
     for req in reversed(http.ordered_requests):
-        if "home" in req[0][1]._netloc:
+        if "home" in str(req[0][1]):
             reqdata = req[1].kwargs.get("json", {"data": {"tag":""}})
             if reqdata["data"]["tag"] == "0123456789ab_probe_p0":
                 jsondata = reqdata
