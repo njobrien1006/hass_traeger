@@ -144,6 +144,21 @@ async def test_mobile_app_manu_sys(
     jsondata = http.last_request.kwargs.get("json", {})
     assert jsondata == snapshot(name="04-cooldowncmplt")
 
+    # Cleared
+    mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
+    mqtt_msg_change["status"]["system_status"] = 2
+    mqtt_msg_change["status"]["connected"] = True
+    await client_publish(hass, traeger_client, mqtt_msg_change)
+    jsondata = {}
+    for req in reversed(http.ordered_requests):
+        if "home" in req[0][1]._netloc:
+            reqdata = req[1].kwargs.get("json", {"data": {"tag":""}})
+            if reqdata["data"]["tag"] == "0123456789ab_sys_timer_complete":
+                jsondata = reqdata
+                break
+    assert jsondata["message"] == "clear_notification"
+    assert jsondata == snapshot(name="05-clear")
+
     await client_disconnect(hass, traeger_client)
 
 
@@ -219,6 +234,21 @@ async def test_mobile_app_manu_cook(
     mqtt_msg_change["status"]["cook_timer_start"] = 0
     mqtt_msg_change["status"]["cook_timer_end"] = 0
     await client_publish(hass, traeger_client, mqtt_msg_change)
+
+    # Cleared
+    mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
+    mqtt_msg_change["status"]["system_status"] = 2
+    mqtt_msg_change["status"]["connected"] = True
+    await client_publish(hass, traeger_client, mqtt_msg_change)
+    jsondata = {}
+    for req in reversed(http.ordered_requests):
+        if "home" in req[0][1]._netloc:
+            reqdata = req[1].kwargs.get("json", {"data": {"tag":""}})
+            if reqdata["data"]["tag"] == "0123456789ab_cook_timer_complete":
+                jsondata = reqdata
+                break
+    assert jsondata["message"] == "clear_notification"
+    assert jsondata == snapshot(name="03-clear")
 
     await client_disconnect(hass, traeger_client)
 
@@ -306,6 +336,24 @@ async def test_mobile_app_manu_grill(
     jsondata = http.last_request.kwargs.get("json", {})
     assert jsondata == snapshot(name="04-attemp")
 
+    # Cleared
+    mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
+    mqtt_msg_change["status"]["system_status"] = 2
+    mqtt_msg_change["status"]["connected"] = True
+    await client_publish(hass, traeger_client, mqtt_msg_change)
+    jsondata = {}
+    for req in reversed(http.ordered_requests):
+        if "home" in req[0][1]._netloc:
+            reqdata = req[1].kwargs.get("json", {"data": {"tag":""}})
+            if reqdata["data"]["tag"] == "0123456789ab_climate":
+                jsondata = reqdata
+                break
+    assert jsondata["message"] == "clear_notification"
+    assert jsondata == snapshot(name="05-clear")
+
+    await client_disconnect(hass, traeger_client)
+
+
 @pytest.mark.usefixtures("socket_enabled")
 @pytest.mark.parametrize(
     "manu",
@@ -388,3 +436,19 @@ async def test_mobile_app_manu_probe(
     await client_publish(hass, traeger_client, mqtt_msg_change)
     jsondata = http.last_request.kwargs.get("json", {})
     assert jsondata == snapshot(name="04-attemp")
+
+    # Cleared
+    mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
+    mqtt_msg_change["status"]["system_status"] = 2
+    mqtt_msg_change["status"]["connected"] = True
+    await client_publish(hass, traeger_client, mqtt_msg_change)
+    jsondata = {}
+    for req in reversed(http.ordered_requests):
+        if "home" in req[0][1]._netloc:
+            reqdata = req[1].kwargs.get("json", {"data": {"tag":""}})
+            if reqdata["data"]["tag"] == "0123456789ab_probe_p0":
+                jsondata = reqdata
+                break
+    assert jsondata == snapshot(name="05-clear")
+
+    await client_disconnect(hass, traeger_client)
