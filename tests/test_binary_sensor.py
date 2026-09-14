@@ -22,7 +22,7 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 # pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
 async def test_binary_sensor_platform(
     hass: HomeAssistant,
-    mock_config_entry: MockConfigEntry,
+    mock_config_entry_mobile_app: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test the binary sensor platform setup."""
@@ -39,7 +39,7 @@ async def test_binary_sensor_platform(
                 "original_name": entry.original_name,
             }
             for entry in registry.entities.values()
-            if entry.config_entry_id == mock_config_entry.entry_id
+            if entry.config_entry_id == mock_config_entry_mobile_app.entry_id
             and entry.domain == "binary_sensor"
         ],
         key=lambda entry: entry["entity_id"],
@@ -51,7 +51,7 @@ async def test_binary_sensor_platform(
 @pytest.mark.usefixtures("socket_enabled")
 async def test_binary_sensor_platform_asyncadd(
     hass: HomeAssistant,
-    mock_config_entry: MockConfigEntry,
+    mock_config_entry_mobile_app: MockConfigEntry,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
@@ -75,7 +75,7 @@ async def test_binary_sensor_platform_asyncadd(
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
-    traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    traeger_client = hass.data[DOMAIN][mock_config_entry_mobile_app.entry_id]
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
     _LOGGER.warning("Wait for onConnect to Subscribe")
     await client_publish(hass, traeger_client, mqtt_msg)
@@ -94,7 +94,7 @@ async def test_binary_sensor_platform_asyncadd(
                 "original_name": entry.original_name,
             }
             for entry in registry.entities.values()
-            if entry.config_entry_id == mock_config_entry.entry_id
+            if entry.config_entry_id == mock_config_entry_mobile_app.entry_id
             and entry.domain == "binary_sensor"
         ],
         key=lambda entry: entry["entity_id"],
@@ -129,7 +129,7 @@ async def test_binary_sensor_par(
     entity_id,
     mqtt_loca,
     hass: HomeAssistant,
-    mock_config_entry: MockConfigEntry,
+    mock_config_entry_mobile_app: MockConfigEntry,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
@@ -153,7 +153,7 @@ async def test_binary_sensor_par(
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
-    traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    traeger_client = hass.data[DOMAIN][mock_config_entry_mobile_app.entry_id]
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
 
     # Get Entity Init Check

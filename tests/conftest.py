@@ -87,15 +87,10 @@ async def traeger_client(hass: HomeAssistant, http: aiointercept) -> TraegerTest
 
 
 @pytest.fixture
-async def mock_config_entry(
-    hass: HomeAssistant,
-    traeger_client: TraegerTestClient,
-    http: aiointercept,
-    caplog: pytest.LogCaptureFixture,
-) -> MockConfigEntry:
-    """HASS Mock Config Entry"""
-    hass.config.units = US_CUSTOMARY_SYSTEM
-    caplog.set_level(logging.WARNING)
+async def mobile_app(
+    hass: HomeAssistant
+) -> list[str]:
+    """HASS Add Mobile Apps"""
 
     mobile_app = []
     registry = dr.async_get(hass)
@@ -160,7 +155,50 @@ async def mock_config_entry(
     if len(devices):
         mobile_app.append(devices[0].id)
 
-    _LOGGER.info("MobileAppIds: %s", mobile_app)
+    yield mobile_app
+
+
+@pytest.fixture
+async def mock_config_entry(
+    hass: HomeAssistant,
+    traeger_client: TraegerTestClient,
+    http: aiointercept,
+    caplog: pytest.LogCaptureFixture,
+) -> MockConfigEntry:
+    """HASS Mock Config Entry"""
+    hass.config.units = US_CUSTOMARY_SYSTEM
+    caplog.set_level(logging.WARNING)
+
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={
+            CONF_USERNAME: "johnytraeger@traeger.com",
+            CONF_PASSWORD: "johnytraeger'spassword"
+        },
+    )
+    hass.data[DOMAIN] = {entry.entry_id: traeger_client}
+    entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(entry.entry_id)
+    hass_traeger_client = hass.data[DOMAIN][entry.entry_id]
+    # Start with pending task cancelled.
+    await hass_traeger_client.kill()
+    await hass_traeger_client.get_entities()
+
+    yield entry
+
+    await hass_traeger_client.kill()
+
+@pytest.fixture
+async def mock_config_entry_mobile_app(
+    hass: HomeAssistant,
+    traeger_client: TraegerTestClient,
+    http: aiointercept,
+    caplog: pytest.LogCaptureFixture,
+    mobile_app: list[str]
+) -> MockConfigEntry:
+    """HASS Mock Config Entry"""
+    hass.config.units = US_CUSTOMARY_SYSTEM
+    caplog.set_level(logging.WARNING)
 
     entry = MockConfigEntry(
         domain=DOMAIN,

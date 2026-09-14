@@ -23,7 +23,7 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 # pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
 async def test_mobile_app_platform(
     hass: HomeAssistant,
-    mock_config_entry: MockConfigEntry,
+    mock_config_entry_mobile_app: MockConfigEntry,
     snapshot: SnapshotAssertion,
 ) -> None:
     """Test the mobile app platform setup."""
@@ -60,7 +60,7 @@ async def test_mobile_app_platform(
 async def test_mobile_app_manu_sys(
     manu,
     hass: HomeAssistant,
-    mock_config_entry: MockConfigEntry,
+    mock_config_entry_mobile_app: MockConfigEntry,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
@@ -84,7 +84,7 @@ async def test_mobile_app_manu_sys(
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
-    traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    traeger_client = hass.data[DOMAIN][mock_config_entry_mobile_app.entry_id]
     for noti in traeger_client.notify:
         if traeger_client.notify[noti]["manu"] != manu:
             traeger_client.notify[noti] = {}
@@ -158,7 +158,7 @@ async def test_mobile_app_manu_sys(
 async def test_mobile_app_manu_cook(
     manu,
     hass: HomeAssistant,
-    mock_config_entry: MockConfigEntry,
+    mock_config_entry_mobile_app: MockConfigEntry,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
@@ -182,7 +182,7 @@ async def test_mobile_app_manu_cook(
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
-    traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    traeger_client = hass.data[DOMAIN][mock_config_entry_mobile_app.entry_id]
     for noti in traeger_client.notify:
         if traeger_client.notify[noti]["manu"] != manu:
             traeger_client.notify[noti] = {}
@@ -234,7 +234,7 @@ async def test_mobile_app_manu_cook(
 async def test_mobile_app_manu_grill(
     manu,
     hass: HomeAssistant,
-    mock_config_entry: MockConfigEntry,
+    mock_config_entry_mobile_app: MockConfigEntry,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
@@ -258,7 +258,7 @@ async def test_mobile_app_manu_grill(
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
-    traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    traeger_client = hass.data[DOMAIN][mock_config_entry_mobile_app.entry_id]
     for noti in traeger_client.notify:
         if traeger_client.notify[noti]["manu"] != manu:
             traeger_client.notify[noti] = {}
@@ -317,7 +317,7 @@ async def test_mobile_app_manu_grill(
 async def test_mobile_app_manu_probe(
     manu,
     hass: HomeAssistant,
-    mock_config_entry: MockConfigEntry,
+    mock_config_entry_mobile_app: MockConfigEntry,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
@@ -341,7 +341,7 @@ async def test_mobile_app_manu_probe(
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)
     http.post(api_commands["urlg2"], callback=callback, repeat=True)
-    traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    traeger_client = hass.data[DOMAIN][mock_config_entry_mobile_app.entry_id]
     for noti in traeger_client.notify:
         if traeger_client.notify[noti]["manu"] != manu:
             traeger_client.notify[noti] = {}
