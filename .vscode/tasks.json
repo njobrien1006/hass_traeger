@@ -14,15 +14,84 @@
             "problemMatcher": []
         },
         {
+            "label": "MQTT Broker CERT",
+            "type": "shell",
+            "presentation": {
+                "echo": false
+            },
+            "command": [
+                "openssl req -x509 -out tests/broker.crt -keyout tests/broker.key ",
+                "-newkey rsa:2048 -nodes -sha256 ",
+                "-subj '/CN=localhost' -extensions EXT -config <( ",
+                " printf '[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth')"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run MQTT Broker",
+            "type": "shell",
+            "dependsOn": [
+                "MQTT Broker CERT"
+            ],
+            "presentation": {
+                "echo": false
+            },
+            "command": [
+                "if ! pgrep -x \"mosquitto\" > /dev/null; then\n",
+                "   echo \"Mosquitto is not running. Starting...\"\n",
+                "   mosquitto -c tests/broker.cfg\n",
+                "else\n",
+                "   echo \"Mosquitto is already running.\"\n",
+                "fi"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run MQTT Broker in Background",
+            "type": "shell",
+            "dependsOn": [
+                "MQTT Broker CERT"
+            ],
+            "presentation": {
+                "echo": false
+            },
+            "command": [
+                "if ! pgrep -x \"mosquitto\" > /dev/null; then\n",
+                "   echo \"Mosquitto is not running. Starting...\"\n",
+                "   mosquitto -c tests/broker.cfg &\n",
+                "   sleep 5\n",
+                "else\n",
+                "   echo \"Mosquitto is already running.\"\n",
+                "fi"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Stop MQTT Broker",
+            "type": "shell",
+            "command": "pkill mosquitto",
+            "problemMatcher": []
+        },
+        {
             "label": "Pytest & Coverage Badge & Coverage Report",
             "type": "shell",
-            "command": "pytest -vv --cov=custom_components/traeger && coverage-badge -o images/coverage.svg -f && coverage html -d tests/coverage",
+            "dependsOn": [
+                "Run MQTT Broker in Background"
+            ],
+            "command": [
+                "pytest -vv --cov=custom_components/traeger && ",
+                "coverage-badge -o images/coverage.svg -f && ",
+                "coverage html -d tests/coverage"
+            ],
             "problemMatcher": []
         },
         {
             "label": "Pylint Component",
             "type": "shell",
-            "command": "pylint custom_components/traeger/ --disable=duplicate-code,abstract-method,overridden-final-method",
+            "command": [
+                "pylint custom_components/traeger/ ",
+                "--disable=duplicate-code,abstract-method,overridden-final-method"
+            ],
             "problemMatcher": [],
             "presentation": {
                 "group": "quality-group"
