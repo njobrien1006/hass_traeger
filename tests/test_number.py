@@ -1,26 +1,24 @@
 """Tests for the number platform."""
 
 import asyncio
-import copy
 import json
 import logging
 
 import pytest
-from aiointercept import CallbackResult, aiointercept
+from aiointercept import aiointercept
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
-from custom_components.traeger.const import DOMAIN, GRILL_MODE
+from custom_components.traeger.const import DOMAIN
 
-from .zzcommon import client_connect, client_disconnect, client_publish
-from .zzMockResp import api_commands, api_user_self, mqtt_msg
+from .zzcommon import CallbackAPI, client_connect, client_disconnect, client_publish
+from .zzMockResp import api_user_self
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-# pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
 async def test_number_platform(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
@@ -67,26 +65,10 @@ async def test_number(
     http: aiointercept,
 ) -> None:
     """Test Numbers"""
+    # pylint: disable=too-many-arguments,too-many-positional-arguments
 
-    def callback(url, **kwargs):
-        """Setup API Callbacks"""
-        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        if kwargs["json"]["command"] == "90":
-            mqtt_msg_change = copy.deepcopy(mqtt_msg)
-        else:
-            return CallbackResult(status=404, payload=None)
-        # Publish Change
-        traeger_client.mqtt_client.mqtt_client.publish(
-            "prod/thing/update/0123456789ab",
-            json.dumps(mqtt_msg_change).encode("utf-8"),
-            qos=1,
-        )
-        return CallbackResult(status=200, payload=None)
-
-    # Register Callbacks
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    CallbackAPI(traeger_client, http)
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
 
     # Get Entity Init Check
@@ -136,7 +118,6 @@ async def test_number(
 
 
 @pytest.mark.usefixtures("socket_enabled")
-# pylint: disable=too-many-statements
 async def test_number_settimer(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
@@ -145,38 +126,8 @@ async def test_number_settimer(
 ) -> None:
     """Test Set Timer"""
 
-    def callback(url, **kwargs):
-        """Setup API Callbacks"""
-        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        if traeger_client.mqtt_client.grills_status == {}:
-            mqtt_msg_change = copy.deepcopy(mqtt_msg)
-        else:
-            mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
-        cmdsplit = kwargs["json"]["command"].split(",")
-        if cmdsplit[0] == "12":
-            mqtt_msg_change["status"]["time"] = 1577836800
-            mqtt_msg_change["status"]["cook_timer_start"] = 1577836800
-            mqtt_msg_change["status"]["cook_timer_end"] = 1577836800 + int(cmdsplit[1])
-        elif kwargs["json"]["command"] == "13":
-            mqtt_msg_change["status"]["time"] = 0
-            mqtt_msg_change["status"]["cook_timer_start"] = 0
-            mqtt_msg_change["status"]["cook_timer_end"] = 0
-        elif kwargs["json"]["command"] == "90":
-            mqtt_msg_change = copy.deepcopy(mqtt_msg)
-        else:
-            return CallbackResult(status=404, payload=None)
-        # Publish Change
-        traeger_client.mqtt_client.mqtt_client.publish(
-            "prod/thing/update/0123456789ab",
-            json.dumps(mqtt_msg_change).encode("utf-8"),
-            qos=1,
-        )
-        return CallbackResult(status=200, payload=None)
-
-    # Register Callbacks
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    CallbackAPI(traeger_client, http)
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
 
     # Get Entity Init Check
@@ -292,7 +243,6 @@ async def test_number_settimer(
 
 
 @pytest.mark.usefixtures("socket_enabled")
-# pylint: disable=too-many-branches,too-many-statements
 async def test_number_cookcycle(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
@@ -300,77 +250,10 @@ async def test_number_cookcycle(
     http: aiointercept,
 ) -> None:
     """Test Cook Cycles"""
+    # pylint: disable=too-many-branches,too-many-statements
 
-    def callback(url, **kwargs):  # pylint: disable=too-many-return-statements,too-many-branches
-        """Setup API Callbacks"""
-        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        if traeger_client.mqtt_client.grills_status == {}:
-            mqtt_msg_change = copy.deepcopy(mqtt_msg)
-        else:
-            mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
-        if mqtt_msg_change["status"]["cook_timer_complete"]:
-            mqtt_msg_change["status"]["cook_timer_start"] = 0
-            mqtt_msg_change["status"]["cook_timer_end"] = 0
-            mqtt_msg_change["status"]["time"] = 0
-            mqtt_msg_change["status"]["cook_timer_complete"] = 0
-        if mqtt_msg_change["status"]["probe_alarm_fired"]:
-            mqtt_msg_change["status"]["probe"] = 0
-            mqtt_msg_change["status"]["acc"][0]["probe"]["set_temp"] = 0
-            mqtt_msg_change["status"]["probe_alarm_fired"] = 0
-        cmdsplit = kwargs["json"]["command"].split(",")
-        if cmdsplit[0] == "11":
-            mqtt_msg_change["status"]["set"] = int(cmdsplit[1])
-            mqtt_msg_change["status"]["grill"] = int(cmdsplit[1]) / 2
-        elif cmdsplit[0] == "12":
-            mqtt_msg_change["status"]["time"] = 1577836800
-            mqtt_msg_change["status"]["cook_timer_start"] = 1577836800
-            mqtt_msg_change["status"]["cook_timer_end"] = 1577836800 + int(cmdsplit[1])
-        elif cmdsplit[0] == "14":
-            mqtt_msg_change["status"]["acc"][0]["probe"]["set_temp"] = int(cmdsplit[1])
-            mqtt_msg_change["status"]["acc"][0]["probe"]["get_temp"] = (
-                int(cmdsplit[1]) / 2
-            )
-            mqtt_msg_change["status"]["probe"] = int(cmdsplit[1]) / 2
-        elif cmdsplit[0] == "120" and len(cmdsplit) == 4:
-            # "command": "120,10,p0,120"
-            acc_indx120 = 0
-            acc120 = {}
-            for acc120 in mqtt_msg_change["status"]["acc"]:
-                if acc120["uuid"] == cmdsplit[2]:
-                    break
-                acc_indx120 += 1
-            mqtt_msg_change["status"]["acc"][acc_indx120][acc120["type"]][
-                "set_temp"
-            ] = int(cmdsplit[3])
-            mqtt_msg_change["status"]["acc"][acc_indx120][acc120["type"]][
-                "get_temp"
-            ] = int(cmdsplit[3]) / 2
-        elif kwargs["json"]["command"] == "17":
-            mqtt_msg_change["status"]["system_status"] = GRILL_MODE["CoolingDown"]
-        elif kwargs["json"]["command"] == "18":
-            mqtt_msg_change["status"]["keepwarm"] = 1
-        elif kwargs["json"]["command"] == "19":
-            mqtt_msg_change["status"]["keepwarm"] = 0
-        elif kwargs["json"]["command"] == "20":
-            mqtt_msg_change["status"]["smoke"] = 1
-        elif kwargs["json"]["command"] == "21":
-            mqtt_msg_change["status"]["smoke"] = 0
-        elif kwargs["json"]["command"] == "90":
-            mqtt_msg_change = copy.deepcopy(mqtt_msg)
-        else:
-            return CallbackResult(status=404, payload=None)
-        # Publish Change
-        traeger_client.mqtt_client.mqtt_client.publish(
-            "prod/thing/update/0123456789ab",
-            json.dumps(mqtt_msg_change).encode("utf-8"),
-            qos=1,
-        )
-        return CallbackResult(status=200, payload=None)
-
-    # Register Callbacks
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    CallbackAPI(traeger_client, http)
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
 
     # Get Entity Init Check
@@ -484,7 +367,9 @@ async def test_number_cookcycle(
                             "0123456789ab"
                         ]
                         mqtt_msg_change["status"]["grill"] = int(x)
-                        await client_publish(hass, traeger_client, mqtt_msg_change, 0.05)
+                        await client_publish(
+                            hass, traeger_client, mqtt_msg_change, 0.05
+                        )
                     # Check State
                     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
                     assert isinstance(entity, State)
@@ -533,7 +418,9 @@ async def test_number_cookcycle(
                             "0123456789ab"
                         ]
                         mqtt_msg_change["status"]["time"] = int(x)
-                        await client_publish(hass, traeger_client, mqtt_msg_change, 0.05)
+                        await client_publish(
+                            hass, traeger_client, mqtt_msg_change, 0.05
+                        )
                     # Check State
                     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
                     assert isinstance(entity, State)
@@ -584,7 +471,9 @@ async def test_number_cookcycle(
                             "0123456789ab"
                         ]
                         mqtt_msg_change["status"]["probe"] = int(x)
-                        await client_publish(hass, traeger_client, mqtt_msg_change, 0.05)
+                        await client_publish(
+                            hass, traeger_client, mqtt_msg_change, 0.05
+                        )
                     # Check State
                     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
                     assert isinstance(entity, State)
@@ -630,7 +519,9 @@ async def test_number_cookcycle(
                             "0123456789ab"
                         ]
                         mqtt_msg_change["status"]["probe"] = int(x)
-                        await client_publish(hass, traeger_client, mqtt_msg_change, 0.05)
+                        await client_publish(
+                            hass, traeger_client, mqtt_msg_change, 0.05
+                        )
                     # Check State
                     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
                     assert isinstance(entity, State)
@@ -685,7 +576,9 @@ async def test_number_cookcycle(
                             "0123456789ab"
                         ]
                         mqtt_msg_change["status"]["probe"] = int(x)
-                        await client_publish(hass, traeger_client, mqtt_msg_change, 0.05)
+                        await client_publish(
+                            hass, traeger_client, mqtt_msg_change, 0.05
+                        )
                     # Check State
                     entity = hass.states.get("number.traeger_0123456789ab_cook_cycle")
                     assert isinstance(entity, State)
@@ -719,7 +612,7 @@ async def test_number_cookcycle(
                 assert entity.state != "unavailable"
                 assert entity == snapshot(name=f"{snapshotname:02d}-TrackedEntity")
                 snapshotname += 1
-                if curstepjson == {'shutdown': 1}:
+                if curstepjson == {"shutdown": 1}:
                     break
     except TimeoutError:
         _LOGGER.error("Got stuck in cook cycle!")

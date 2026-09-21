@@ -2,7 +2,6 @@
 
 import asyncio
 import copy
-import json
 import logging
 import time
 
@@ -16,7 +15,7 @@ from syrupy.assertion import SnapshotAssertion
 from custom_components.traeger.const import DOMAIN
 
 from .conftest import MQTTPORT, TraegerTestClient
-from .zzcommon import client_connect, client_disconnect, client_publish
+from .zzcommon import CallbackAPI, client_connect, client_disconnect, client_publish
 from .zzMockResp import api_commands, api_mqtt, api_token, api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -119,11 +118,11 @@ async def test_handle_getgrills_bad_notjson(
     _LOGGER.error("do cognito resp: %s", traeger_client.grills)
 
 
-# pylint: disable=unused-argument
 async def test_handle_api_timeout(
     traeger_client: TraegerTestClient, http: aiointercept
 ) -> None:
     """test getting grills from user data"""
+    # pylint: disable=unused-argument
 
     def callback(url, **kwargs):
         """Setup API Callbacks"""
@@ -197,7 +196,6 @@ async def test_handle_cmd_bad(
     assert True
 
 
-# pylint: disable=unused-argument
 @pytest.mark.usefixtures("socket_enabled")
 async def test_client_missing_sts(
     hass: HomeAssistant,
@@ -206,23 +204,10 @@ async def test_client_missing_sts(
     http: aiointercept,
 ) -> None:
     """Test Bad MQTT formation"""
+    # pylint: disable=unused-argument
 
-    def callback(url, **kwargs):
-        """Setup API Callbacks"""
-        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        if kwargs["json"]["command"] == "90":
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        return CallbackResult(status=404, payload=None)
-
-    # Register Callbacks
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    CallbackAPI(traeger_client, http)
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
 
     # Set Connected
@@ -259,28 +244,9 @@ async def test_connect_cmds(
 ) -> None:
     """test switch connect cmds"""
 
-    def callback(url, **kwargs):
-        """Setup API Callbacks"""
-        _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
-        if kwargs["json"]["command"] == "90":
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg).encode("utf-8"),
-                qos=1,
-            )
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/cd0123456789",
-                json.dumps(mqtt_msg).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        return CallbackResult(status=404, payload=None)
-
-    # Register Callbacks
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
-    #traeger_client.mqtt_client.ssl = False
+    CallbackAPI(traeger_client, http)
+    # traeger_client.mqtt_client.ssl = False
     traeger_client.mqtt_client.port = MQTTPORT
     await hass.services.async_call(
         "switch",
@@ -355,23 +321,7 @@ async def test_connect_autoupdate(
     http: aiointercept,
 ) -> None:
     """test mqtt token auto refresh"""
-
-    def callback(url, **kwargs):
-        """Setup API Callbacks"""
-        _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
-        if kwargs["json"]["command"] == "90":
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg).encode("utf-8"),
-                qos=1,
-            )
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/cd0123456789",
-                json.dumps(mqtt_msg).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        return CallbackResult(status=404, payload=None)
+    # pylint: disable=unused-argument
 
     api_mqtt_resp = copy.deepcopy(api_mqtt["resp"])
     api_mqtt_resp["expirationSeconds"] = 1
@@ -380,10 +330,9 @@ async def test_connect_autoupdate(
     http.post(api_token["url"], payload=api_token["resp"], repeat=True)
     http.get(api_user_self["url"], payload=api_user_self["resp"], repeat=True)
     http.post(api_mqtt["url"], payload=api_mqtt_resp, repeat=True)
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
-    #traeger_client.mqtt_client.ssl = False
+    CallbackAPI(traeger_client, http)
+    # traeger_client.mqtt_client.ssl = False
     traeger_client.mqtt_client.port = MQTTPORT
 
     await traeger_client.main(1)

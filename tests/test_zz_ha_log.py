@@ -1,24 +1,21 @@
 """Tests to check HA Logs."""
 
-import copy
-import json
 import logging
 
 import pytest
-from aiointercept import CallbackResult, aiointercept
+from aiointercept import aiointercept
 from homeassistant.core import HomeAssistant
 from pytest_homeassistant_custom_component.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import DOMAIN
 
-from .zzcommon import client_connect, client_disconnect
-from .zzMockResp import api_commands, api_user_self, mqtt_msg
+from .zzcommon import CallbackAPI, client_connect, client_disconnect
+from .zzMockResp import api_user_self
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-# pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
 @pytest.mark.usefixtures("socket_enabled")
 async def test_zz_ha_log(
     hass: HomeAssistant,
@@ -28,24 +25,10 @@ async def test_zz_ha_log(
     caplog: pytest.LogCaptureFixture,
 ) -> None:
     """Test HA Logs"""
+    # pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
 
-    def callback(url, **kwargs):
-        """Setup API Callbacks"""
-        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        mqtt_msg_change = copy.deepcopy(mqtt_msg)
-        if kwargs["json"]["command"] == "90":
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg_change).encode("utf-8"),
-                qos=0,
-            )
-            return CallbackResult(status=200, payload=None)
-        return CallbackResult(status=404, payload=None)
-
-    # Register Callbacks
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    CallbackAPI(traeger_client, http)
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
 
     # Check a known log exists.

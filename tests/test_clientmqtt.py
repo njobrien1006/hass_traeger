@@ -16,7 +16,7 @@ _LOGGER: logging.Logger = logging.getLogger(__package__)
 """Test Traeger MQTT"""
 
 
-# pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
+# pylint: disable=unused-argument
 @pytest.mark.usefixtures("socket_enabled")
 async def test_connect_pub(
     traeger_client: TraegerTestClient, http: aiointercept
@@ -42,10 +42,10 @@ async def test_connect_pub_unsubscribe(
         traeger_client.hass, traeger_client, api_user_self["resp"]["things"]
     )
     traeger_client.mqtt_client.mqtt_client.publish(
-            "prod/thing/update/0123456789ab", b"{}", qos=1
-        )
+        "prod/thing/update/0123456789ab", b"{}", qos=1
+    )
     await asyncio.sleep(0.05)
-    #traeger_client.mqtt_client.mqtt_client.unsubscribe("prod/thing/update/0123456789ab")
+    # traeger_client.mqtt_client.mqtt_client.unsubscribe("prod/thing/update/0123456789ab")
     await client_disconnect(traeger_client.hass, traeger_client)
 
 

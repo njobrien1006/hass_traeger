@@ -53,7 +53,7 @@ async def http():
     """Fixture to mock `aiohttp` requests."""
     async with aiointercept(mock_external_urls=True) as mock:
 
-        def callback(url, **kwargs):
+        def ha_noti_callback(url, **kwargs):
             """Setup API Callbacks"""
             _LOGGER.info(
                 "Was at conftest callbacks\n%s\n%s",
@@ -67,7 +67,7 @@ async def http():
         mock.post(api_mqtt["url"], payload=api_mqtt["resp"], repeat=True)
         mock.post(
             "https://mobile-apps.home-assistant.io/api/sendPushNotification",
-            callback=callback,
+            callback=ha_noti_callback,
             repeat=True,
         )
         # cmd API handled in tests as they are variable.
@@ -87,9 +87,7 @@ async def traeger_client(hass: HomeAssistant, http: aiointercept) -> TraegerTest
 
 
 @pytest.fixture
-async def mobile_app(
-    hass: HomeAssistant
-) -> list[str]:
+async def mobile_app(hass: HomeAssistant) -> list[str]:
     """HASS Add Mobile Apps"""
 
     mobile_app = []
@@ -173,7 +171,7 @@ async def mock_config_entry(
         domain=DOMAIN,
         data={
             CONF_USERNAME: "johnytraeger@traeger.com",
-            CONF_PASSWORD: "johnytraeger'spassword"
+            CONF_PASSWORD: "johnytraeger'spassword",
         },
     )
     hass.data[DOMAIN] = {entry.entry_id: traeger_client}
@@ -188,13 +186,14 @@ async def mock_config_entry(
 
     await hass_traeger_client.kill()
 
+
 @pytest.fixture
 async def mock_config_entry_mobile_app(
     hass: HomeAssistant,
     traeger_client: TraegerTestClient,
     http: aiointercept,
     caplog: pytest.LogCaptureFixture,
-    mobile_app: list[str]
+    mobile_app: list[str],
 ) -> MockConfigEntry:
     """HASS Mock Config Entry"""
     hass.config.units = US_CUSTOMARY_SYSTEM

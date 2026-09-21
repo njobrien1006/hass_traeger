@@ -1,12 +1,10 @@
 """Tests for the climate platform."""
 
 import asyncio
-import copy
-import json
 import logging
 
 import pytest
-from aiointercept import CallbackResult, aiointercept
+from aiointercept import aiointercept
 from homeassistant.const import UnitOfTemperature
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry
@@ -16,17 +14,15 @@ from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import (
     DOMAIN,
-    GRILL_MODE,
     PROBE_PRESET_MODES,
 )
 
-from .zzcommon import client_connect, client_disconnect, client_publish
-from .zzMockResp import api_commands, api_user_self, mqtt_msg
+from .zzcommon import CallbackAPI, client_connect, client_disconnect, client_publish
+from .zzMockResp import api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-# pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
 async def test_climate_platform(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
@@ -64,25 +60,8 @@ async def test_climate_platform_asyncadd(
 ) -> None:
     """Check async add for the post init additions"""
 
-    def callback(url, **kwargs):
-        """Setup API Callbacks"""
-        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        if kwargs["json"]["command"] == "90":
-            mqtt_msg_change = copy.deepcopy(mqtt_msg)
-        else:
-            return CallbackResult(status=404, payload=None)
-        # Publish Change
-        traeger_client.mqtt_client.mqtt_client.publish(
-            "prod/thing/update/0123456789ab",
-            json.dumps(mqtt_msg_change).encode("utf-8"),
-            qos=1,
-        )
-        return CallbackResult(status=200, payload=None)
-
-    # Register Callbacks
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    CallbackAPI(traeger_client, http)
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
 
     assert traeger_client.mqtt_client.grills_status.get("0123456789ab", {}) == mqtt_msg
@@ -119,7 +98,6 @@ async def test_climate_platform_asyncadd(
         ("climate", "traeger_0123456789ab_climate", "C"),
     ],
 )
-# pylint: disable=too-many-statements
 async def test_climate_setgrilltemp_cmd(
     platform,
     entity_id,
@@ -130,6 +108,8 @@ async def test_climate_setgrilltemp_cmd(
     http: aiointercept,
 ) -> None:
     """test climate cmds"""
+    # pylint: disable=too-many-arguments,too-many-positional-arguments,too-many-statements
+
     if unit == "F":
         mqtt_msg["status"]["units"] = 1
         hass.config.units = US_CUSTOMARY_SYSTEM
@@ -137,34 +117,8 @@ async def test_climate_setgrilltemp_cmd(
         mqtt_msg["status"]["units"] = 0
         hass.config.units = METRIC_SYSTEM
 
-    def callback(url, **kwargs):
-        """Setup API Callbacks"""
-        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        if traeger_client.mqtt_client.grills_status == {}:
-            mqtt_msg_change = copy.deepcopy(mqtt_msg)
-        else:
-            mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
-        cmdsplit = kwargs["json"]["command"].split(",")
-        if cmdsplit[0] == "11":
-            mqtt_msg_change["status"]["set"] = int(cmdsplit[1])
-        elif kwargs["json"]["command"] == "17":
-            mqtt_msg_change["status"]["system_status"] = GRILL_MODE["CoolingDown"]
-        elif kwargs["json"]["command"] == "90":
-            mqtt_msg_change = copy.deepcopy(mqtt_msg)
-        else:
-            return CallbackResult(status=404, payload=None)
-        # Publish Change
-        traeger_client.mqtt_client.mqtt_client.publish(
-            "prod/thing/update/0123456789ab",
-            json.dumps(mqtt_msg_change).encode("utf-8"),
-            qos=1,
-        )
-        return CallbackResult(status=200, payload=None)
-
-    # Register Callbacks
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    CallbackAPI(traeger_client, http)
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
 
     # Get Entity Init Check
@@ -234,7 +188,7 @@ async def test_climate_setgrilltemp_cmd(
     # Check Enttity
     assert isinstance(entity, State)
     assert entity.state != "unavailable"
-    assert entity.attributes.get("min_temp",999) < entity.attributes.get("max_temp")
+    assert entity.attributes.get("min_temp", 999) < entity.attributes.get("max_temp")
     assert entity == snapshot(name=f"{snapshotname:02d}-ready")
     snapshotname += 1
 
@@ -354,7 +308,6 @@ async def test_climate_setgrilltemp_cmd(
     "mqtt_msg_acc",
     mqtt_msg["status"]["acc"],
 )
-# pylint: disable=too-many-statements,too-many-locals
 async def test_climate_setprobetemp_cmds(
     mqtt_msg_acc,
     hass: HomeAssistant,
@@ -363,59 +316,13 @@ async def test_climate_setprobetemp_cmds(
     http: aiointercept,
 ) -> None:
     """test climate cmds"""
+    # pylint: disable=too-many-statements
+
     platform = "climate"
     entity_id = f"0123456789ab_probe_{mqtt_msg_acc['uuid']}"
-    acc_indx = 0
-    for acc in mqtt_msg["status"]["acc"]:
-        if acc["uuid"] == mqtt_msg_acc["uuid"]:
-            break
-        acc_indx += 1
 
-    def callback(url, **kwargs):
-        """Setup API Callbacks"""
-        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        if traeger_client.mqtt_client.grills_status == {}:
-            mqtt_msg_change = copy.deepcopy(mqtt_msg)
-        else:
-            mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
-        cmdsplit = kwargs["json"]["command"].split(",")
-        if cmdsplit[0] == "14":
-            mqtt_msg_change["status"]["acc"][acc_indx][acc["type"]]["set_temp"] = int(
-                cmdsplit[1]
-            )
-            mqtt_msg_change["status"]["acc"][acc_indx][acc["type"]]["get_temp"] = (
-                int(cmdsplit[1]) / 2
-            )
-        elif cmdsplit[0] == "120" and len(cmdsplit) == 4:
-            # "command": "120,10,p0,120"
-            acc_indx120 = 0
-            acc120 = {}
-            for acc120 in mqtt_msg_change["status"]["acc"]:
-                if acc120["uuid"] == cmdsplit[2]:
-                    break
-                acc_indx120 += 1
-            mqtt_msg_change["status"]["acc"][acc_indx120][acc120["type"]][
-                "set_temp"
-            ] = int(cmdsplit[3])
-            mqtt_msg_change["status"]["acc"][acc_indx120][acc120["type"]][
-                "get_temp"
-            ] = int(cmdsplit[3]) / 2
-        elif kwargs["json"]["command"] == "90":
-            mqtt_msg_change = copy.deepcopy(mqtt_msg)
-        else:
-            return CallbackResult(status=404, payload=None)
-        # Publish Change
-        traeger_client.mqtt_client.mqtt_client.publish(
-            "prod/thing/update/0123456789ab",
-            json.dumps(mqtt_msg_change).encode("utf-8"),
-            qos=1,
-        )
-        return CallbackResult(status=200, payload=None)
-
-    # Register Callbacks
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    CallbackAPI(traeger_client, http)
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
 
     # Get Entity Init Check
@@ -435,7 +342,7 @@ async def test_climate_setprobetemp_cmds(
     # Check Enttity
     assert isinstance(entity, State)
     assert entity.state != "unavailable"
-    assert entity.attributes.get("min_temp",999) < entity.attributes.get("max_temp")
+    assert entity.attributes.get("min_temp", 999) < entity.attributes.get("max_temp")
     assert entity == snapshot(name="02-ready")
 
     await hass.services.async_call(
@@ -526,7 +433,9 @@ async def test_climate_setprobetemp_cmds(
     entity = hass.states.get(f"sensor.0123456789ab_probe_state_{mqtt_msg_acc['uuid']}")
     # Check Enttity
     assert entity.state == "at_temp"
-    entity = hass.states.get(f"binary_sensor.0123456789ab_probe_alarm_{mqtt_msg_acc['uuid']}")
+    entity = hass.states.get(
+        f"binary_sensor.0123456789ab_probe_alarm_{mqtt_msg_acc['uuid']}"
+    )
     # Check Enttity
     assert entity.state
 

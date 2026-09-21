@@ -1,11 +1,9 @@
 """Tests for the binary sensor platform."""
 
-import copy
-import json
 import logging
 
 import pytest
-from aiointercept import CallbackResult, aiointercept
+from aiointercept import aiointercept
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry
 from pytest_homeassistant_custom_component.common import MockConfigEntry
@@ -13,13 +11,12 @@ from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import DOMAIN
 
-from .zzcommon import client_connect, client_disconnect, client_publish
-from .zzMockResp import api_commands, api_user_self, mqtt_msg
+from .zzcommon import CallbackAPI, client_connect, client_disconnect, client_publish
+from .zzMockResp import api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-# pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
 async def test_binary_sensor_platform(
     hass: HomeAssistant,
     mock_config_entry_mobile_app: MockConfigEntry,
@@ -57,27 +54,10 @@ async def test_binary_sensor_platform_asyncadd(
 ) -> None:
     """Check async add for the post init additions"""
 
-    def callback(url, **kwargs):
-        """Setup API Callbacks"""
-        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        if kwargs["json"]["command"] == "90":
-            mqtt_msg_change = copy.deepcopy(mqtt_msg)
-        else:
-            return CallbackResult(status=404, payload=None)
-        # Publish Change
-        traeger_client.mqtt_client.mqtt_client.publish(
-            "prod/thing/update/0123456789ab",
-            json.dumps(mqtt_msg_change).encode("utf-8"),
-            qos=1,
-        )
-        return CallbackResult(status=200, payload=None)
-
-    # Register Callbacks
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry_mobile_app.entry_id]
+    CallbackAPI(traeger_client, http)
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
-    _LOGGER.warning("Wait for onConnect to Subscribe")
+
     await client_publish(hass, traeger_client, mqtt_msg)
     assert traeger_client.mqtt_client.grills_status.get("0123456789ab", {}) == mqtt_msg
     await client_disconnect(hass, traeger_client)
@@ -123,7 +103,6 @@ async def test_binary_sensor_platform_asyncadd(
         ),
     ],
 )
-# pylint: disable=too-many-statements
 async def test_binary_sensor_par(
     platform,
     entity_id,
@@ -134,26 +113,9 @@ async def test_binary_sensor_par(
     http: aiointercept,
 ) -> None:
     """Test Binary Sensor"""
-
-    def callback(url, **kwargs):
-        """Setup API Callbacks"""
-        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        if kwargs["json"]["command"] == "90":
-            mqtt_msg_change = copy.deepcopy(mqtt_msg)
-        else:
-            return CallbackResult(status=404, payload=None)
-        # Publish Change
-        traeger_client.mqtt_client.mqtt_client.publish(
-            "prod/thing/update/0123456789ab",
-            json.dumps(mqtt_msg_change).encode("utf-8"),
-            qos=1,
-        )
-        return CallbackResult(status=200, payload=None)
-
-    # Register Callbacks
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
+    # pylint: disable=too-many-arguments,too-many-positional-arguments
     traeger_client = hass.data[DOMAIN][mock_config_entry_mobile_app.entry_id]
+    CallbackAPI(traeger_client, http)
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
 
     # Get Entity Init Check
@@ -176,7 +138,6 @@ async def test_binary_sensor_par(
     assert entity.state != "unavailable"
     assert entity == snapshot(name="02-ready")
 
-
     # Change Entity
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]
     mqtt_msg_change["status"]["system_status"] = 6
@@ -189,7 +150,6 @@ async def test_binary_sensor_par(
     assert isinstance(entity, State)
     assert entity.state != "unavailable"
     assert entity == snapshot(name="03-triggered")
-
 
     # Change Entity
     mqtt_msg_change = traeger_client.mqtt_client.grills_status["0123456789ab"]

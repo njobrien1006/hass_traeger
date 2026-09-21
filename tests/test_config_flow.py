@@ -30,7 +30,6 @@ async def test_config_flow_show_user_form(
     assert result["errors"] == {}
 
 
-# pylint: disable=unused-argument
 async def test_config_flow_success(hass: HomeAssistant, http: aiointercept) -> None:
     """Test Success User Flow with Ent Create"""
     # Start the flow
@@ -52,7 +51,6 @@ async def test_config_flow_success(hass: HomeAssistant, http: aiointercept) -> N
     assert result["type"] == FlowResultType.CREATE_ENTRY
 
 
-# pylint: disable=too-many-arguments,too-many-positional-arguments
 @pytest.mark.parametrize(
     "p_api_token, p_api_user_self, p_api_mqtt, assert1, assert2",
     [
@@ -116,6 +114,8 @@ async def test_config_flow_fail(
     http: aiointercept,
 ) -> None:
     """Test Failed User Flow"""
+    # pylint: disable=too-many-arguments,too-many-positional-arguments
+
     http.clear()
     http.post(
         api_token["url"],
@@ -210,14 +210,11 @@ async def test_config_flow_reconfig_success(
     # Submit No Passord..reuses existing password
     result = await hass.config_entries.flow.async_configure(
         result["flow_id"],
-        {
-            CONF_USERNAME: "johnytraeger@traeger.com"
-        },
+        {CONF_USERNAME: "johnytraeger@traeger.com"},
     )
 
     # Flow Result is updated entity
     assert result["type"] == FlowResultType.ABORT
-
 
 
 async def test_config_flow_reconfig_fail(

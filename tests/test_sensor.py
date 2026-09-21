@@ -1,11 +1,9 @@
 """Tests for the sensor platform."""
 
-import copy
-import json
 import logging
 
 import pytest
-from aiointercept import CallbackResult, aiointercept
+from aiointercept import aiointercept
 from homeassistant.const import EntityCategory
 from homeassistant.core import HomeAssistant, State
 from homeassistant.helpers import entity_registry
@@ -16,13 +14,12 @@ from syrupy.assertion import SnapshotAssertion
 from custom_components.traeger.const import DOMAIN
 from custom_components.traeger.sensor import SENSOR_ENTITIES
 
-from .zzcommon import client_connect, client_disconnect, client_publish
-from .zzMockResp import api_commands, api_user_self, mqtt_msg
+from .zzcommon import CallbackAPI, client_connect, client_disconnect, client_publish
+from .zzMockResp import api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 
-# pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
 @pytest.mark.usefixtures("socket_enabled")
 async def test_sensor_platform(
     hass: HomeAssistant,
@@ -31,6 +28,8 @@ async def test_sensor_platform(
     http: aiointercept,
 ) -> None:
     """Test the sensor platform setup."""
+    # pylint: disable=unused-argument
+
     registry = entity_registry.async_get(hass)
 
     # Map registry entries to a simplified dict for the snapshot
@@ -61,27 +60,10 @@ async def test_sensor_platform_asyncadd(
 ) -> None:
     """Check async add for the post init additions"""
 
-    def callback(url, **kwargs):
-        """Setup API Callbacks"""
-        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        if kwargs["json"]["command"] == "90":
-            mqtt_msg_change = copy.deepcopy(mqtt_msg)
-        else:
-            return CallbackResult(status=404, payload=None)
-        # Publish Change
-        traeger_client.mqtt_client.mqtt_client.publish(
-            "prod/thing/update/0123456789ab",
-            json.dumps(mqtt_msg_change).encode("utf-8"),
-            qos=1,
-        )
-        return CallbackResult(status=200, payload=None)
-
-    # Register Callbacks
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    CallbackAPI(traeger_client, http)
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
-    _LOGGER.warning("Wait for onConnect to Subscribe")
+
     await client_publish(hass, traeger_client, mqtt_msg)
     assert traeger_client.mqtt_client.grills_status.get("0123456789ab", {}) == mqtt_msg
     await client_disconnect(hass, traeger_client)
@@ -133,7 +115,6 @@ async def test_sensor_platform_asyncadd(
         ("sensor", "traeger_0123456789ab_wifi_ssid", "WifI SSID"),
     ],
 )
-# pylint: disable=too-many-statements,redefined-outer-name
 async def test_sensor(
     platform,
     entity_id,
@@ -145,6 +126,8 @@ async def test_sensor(
     http: aiointercept,
 ) -> None:
     """Test Sensor"""
+    # pylint: disable=too-many-arguments,too-many-positional-arguments,redefined-outer-name
+
     mqtt_loca = SENSOR_ENTITIES[friendly_name]["json_loca"]
     if SENSOR_ENTITIES[friendly_name].get("enabledbydflt", True) is False:
         # Enable the entity
@@ -162,25 +145,8 @@ async def test_sensor(
         hass.config_entries.async_schedule_reload(mock_config_entry.entry_id)
         await hass.async_block_till_done()
 
-    def callback(url, **kwargs):
-        """Setup API Callbacks"""
-        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        if kwargs["json"]["command"] == "90":
-            mqtt_msg_change = copy.deepcopy(mqtt_msg)
-        else:
-            return CallbackResult(status=404, payload=None)
-        # Publish Change
-        traeger_client.mqtt_client.mqtt_client.publish(
-            "prod/thing/update/0123456789ab",
-            json.dumps(mqtt_msg_change).encode("utf-8"),
-            qos=1,
-        )
-        return CallbackResult(status=200, payload=None)
-
-    # Register Callbacks
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    CallbackAPI(traeger_client, http)
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
 
     # Get Entity Init Check

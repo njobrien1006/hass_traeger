@@ -393,9 +393,9 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][12-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 85.0,
       <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
-      'grill_native_cur_val': 43,
+      'grill_native_cur_val': 85.0,
       'grill_native_set_val': 170,
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
@@ -420,9 +420,9 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-C][13-changed2]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 127.5,
       <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
-      'grill_native_cur_val': 43,
+      'grill_native_cur_val': 127.5,
       'grill_native_set_val': 255,
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
@@ -817,9 +817,9 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][12-changed]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 85,
       <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
-      'grill_native_cur_val': 43,
+      'grill_native_cur_val': 85.0,
       'grill_native_set_val': 170,
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
@@ -844,9 +844,9 @@
 # name: test_climate_setgrilltemp_cmd[climate-traeger_0123456789ab_climate-F][13-changed2]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 43,
+      <ClimateEntityStateAttribute.CURRENT_TEMPERATURE: 'current_temperature'>: 128,
       <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Climate",
-      'grill_native_cur_val': 43,
+      'grill_native_cur_val': 127.5,
       'grill_native_set_val': 255,
       <ClimateEntityCapabilityAttribute.HVAC_MODES: 'hvac_modes'>: tuple(
         <HVACMode.HEAT: 'heat'>,
