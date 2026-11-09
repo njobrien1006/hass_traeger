@@ -1,16 +1,19 @@
+"""Bump version"""
+
 import datetime
 import re
 from pathlib import Path
 
 # Load file
 file_path = Path("custom_components/traeger/manifest.json")
-content = file_path.read_text()
+content = file_path.read_text(encoding="utf-8")
 
 # Find version
 pattern = r'(\"version\"\s*:\s*")(\d+)\.(\d+)\.(\d+)(")'
 
 
 def bump_version(match):
+    """Version Value"""
     year, month, patch = match.group(2), match.group(3), match.group(4)
     dtnow = datetime.datetime.now()
     if str(dtnow.year) == year and str(dtnow.month) == month:
@@ -23,12 +26,12 @@ def bump_version(match):
 new_content = re.sub(pattern, bump_version, content, count=1)
 
 # Save file
-file_path.write_text(new_content)
+file_path.write_text(new_content, encoding="utf-8")
 print("Minor version incremented successfully!")
 
 # Load file
 file_path = Path("custom_components/traeger/const.py")
-content = file_path.read_text()
+content = file_path.read_text(encoding="utf-8")
 
 # Find version
 pattern = r'(VERSION\s*=\s*")(\d+)\.(\d+)\.(\d+)(")'
@@ -36,5 +39,5 @@ pattern = r'(VERSION\s*=\s*")(\d+)\.(\d+)\.(\d+)(")'
 new_content = re.sub(pattern, bump_version, content, count=1)
 
 # Save file
-file_path.write_text(new_content)
+file_path.write_text(new_content, encoding="utf-8")
 print("Minor version incremented successfully!")
