@@ -9,7 +9,7 @@ import pytest
 from aiointercept import CallbackResult, aiointercept
 from homeassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
 from homeassistant.core import HomeAssistant
-from pytest_homeassistant_custom_component.common import MockConfigEntry
+from pytest_homeassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import DOMAIN
@@ -46,6 +46,25 @@ async def test_handle_tokens_bad_user_pass(
     traeger_client.api["password"] = ""
     response = await traeger_client.do_cognito()
     _LOGGER.warning("do cognito resp: %s", response)
+    assert response == {"error": "badpass"}
+
+
+async def test_handle_bad_api_status(
+    traeger_client: TraegerTestClient,
+    http: aiointercept,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """test getting token"""
+    http.clear()
+    http.post(api_token["url"], payload=api_token["resp"], status=404)
+    traeger_client.api["username"] = "JohnyTraeger@traeger.com"
+    traeger_client.api["password"] = "abc123"
+    response = await traeger_client.do_cognito()
+    _LOGGER.warning("do cognito resp: %s", response)
+    assert any(
+        f"Command to {api_token['url']} returned HTTP 404" in record.message
+        for record in caplog.records
+    )
 
 
 async def test_handle_user(
@@ -74,6 +93,7 @@ async def test_handle_user_bad(
     traeger_client.api["password"] = ""
     response = await traeger_client.get_user_data()
     _LOGGER.warning("do cognito resp: %s", response)
+    assert response == {"error": "badtoken"}
 
 
 async def test_handle_getgrills(
@@ -119,16 +139,16 @@ async def test_handle_getgrills_bad_notjson(
 
 
 async def test_handle_api_timeout(
-    traeger_client: TraegerTestClient, http: aiointercept
+    traeger_client: TraegerTestClient,
+    http: aiointercept,
+    caplog: pytest.LogCaptureFixture,
 ) -> None:
     """test getting grills from user data"""
     # pylint: disable=unused-argument
 
     def callback(url, **kwargs):
         """Setup API Callbacks"""
-        _LOGGER.error("callbackstart")
         time.sleep(2)
-        _LOGGER.error("callbackend")
         return CallbackResult(status=200, payload="badjson")
 
     http.clear()
@@ -138,6 +158,10 @@ async def test_handle_api_timeout(
     traeger_client.api["username"] = "JohnyTraeger@traeger.com"
     traeger_client.api["password"] = "abc123"
     await traeger_client.update_grills()
+    assert any(
+        f"Timeout error fetching information from {api_token['url']}" in record.message
+        for record in caplog.records
+    )
     _LOGGER.error("do cognito resp: %s", traeger_client.grills)
 
 
@@ -157,7 +181,9 @@ async def test_handle_mqtturl(
 
 
 async def test_handle_mqtturl_bad(
-    traeger_client: TraegerTestClient, http: aiointercept
+    traeger_client: TraegerTestClient,
+    http: aiointercept,
+    caplog: pytest.LogCaptureFixture,
 ) -> None:
     """test getting mqtt url bad"""
     http.clear()
@@ -166,6 +192,10 @@ async def test_handle_mqtturl_bad(
     traeger_client.api["username"] = ""
     traeger_client.api["password"] = ""
     response = await traeger_client.refresh_mqtt_url()
+    assert any(
+        "We had an exception: 'expiresIn'" in record.message
+        for record in caplog.records
+    )
     _LOGGER.warning("do cognito resp: %s", response)
 
 
@@ -180,11 +210,13 @@ async def test_handle_cmd(
     traeger_client.api["password"] = "abc123"
     response = await traeger_client.update_state("0123456789ab")
     _LOGGER.warning("do cognito resp: %s", response)
-    assert True
+    assert http.last_request.kwargs.get("json", {}) == {"command": "90"}
 
 
 async def test_handle_cmd_bad(
-    traeger_client: TraegerTestClient, http: aiointercept
+    traeger_client: TraegerTestClient,
+    http: aiointercept,
+    caplog: pytest.LogCaptureFixture,
 ) -> None:
     """test grill command"""
     http.clear()
@@ -193,7 +225,10 @@ async def test_handle_cmd_bad(
     traeger_client.api["username"] = "JohnyTraeger@traeger.com"
     traeger_client.api["password"] = None
     await traeger_client.update_state("0123456789ab")
-    assert True
+    assert any(
+        "We had an exception: 'expiresIn'" in record.message
+        for record in caplog.records
+    )
 
 
 @pytest.mark.usefixtures("socket_enabled")
