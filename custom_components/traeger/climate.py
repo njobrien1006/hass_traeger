@@ -59,7 +59,7 @@ class TraegerBaseClimate(ClimateEntity, TraegerBaseEntity):
 
     # Climate Properties
     @property
-    def temperature_unit(self):
+    def native_temperature_unit(self):
         """Return the unit of measurement used by the grill."""
         if self.grill_units == UnitOfTemperature.CELSIUS:
             return UnitOfTemperature.CELSIUS
@@ -103,7 +103,7 @@ class TraegerClimateEntity(TraegerBaseClimate):
 
     # Climate Properties
     @property
-    def current_temperature(self):
+    def native_current_temperature(self):
         """Return the current temperature."""
         if (
             self.curtemp != self.grill_mqtt_msg["status"]["grill"]
@@ -141,7 +141,7 @@ class TraegerClimateEntity(TraegerBaseClimate):
         return self.curtemp
 
     @property
-    def target_temperature(self):
+    def native_target_temperature(self):
         """Return the temperature we try to reach."""
         self.settemp = self.grill_mqtt_msg["status"]["set"]
         return self.settemp
@@ -283,7 +283,7 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
 
     # Climate Properties
     @property
-    def current_temperature(self):
+    def native_current_temperature(self):
         """Return the current temperature."""
         acc_type = self.grill_accessory["type"]
         if (
@@ -322,7 +322,7 @@ class AccessoryTraegerClimateEntity(TraegerBaseClimate):
         return self.curtemp
 
     @property
-    def target_temperature(self):
+    def native_target_temperature(self):
         """Return the temperature we try to reach."""
         acc_type = self.grill_accessory["type"]
         self.settemp = self.grill_accessory[acc_type]["set_temp"]
