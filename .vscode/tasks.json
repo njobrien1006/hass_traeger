@@ -10,7 +10,7 @@
         {
             "label": "Pytest + Logging + Failon_1st + Test Matching + Snapshot Update",
             "type": "shell",
-            "command": "pytest --log-cli-level=INFO -x -k 'test_climate_platform' --snapshot-update",
+            "command": "uv run pytest --log-cli-level=INFO -x -k 'test_climate_platform' --snapshot-update",
             "problemMatcher": []
         },
         {
@@ -79,7 +79,7 @@
                 "Run MQTT Broker in Background"
             ],
             "command": [
-                "pytest -vv --cov=custom_components/traeger && ",
+                "uv run pytest -vv --cov=custom_components/traeger && ",
                 "coverage-badge -o images/coverage.svg -f && ",
                 "coverage html -d tests/coverage"
             ],

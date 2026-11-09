@@ -8,7 +8,6 @@ __pycache__
 
 # misc
 .coverage
-.vscode
 coverage.xml
 *.crt
 *.key
@@ -21,3 +20,4 @@ config/.storage/*
 !config/.storage/lovelave_resources
 .devcontainer-lock.json
 requirements_ha_all.txt
+uv.lock
