@@ -25,6 +25,8 @@ from paho.mqtt import client as mqtt
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
+MAX_RETRY_DELAY = 900  # Seconds. Upper limit for retry backoff.
+
 
 class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attributes
     """Traeger API Wrapper"""
@@ -44,6 +46,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         self.request = request_library
 
         self.loop_task = None
+        self.main_failures = 0
         self.grill_callbacks = {}
 
         self.grills = {}
@@ -214,9 +217,14 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         return self.api['mqtt_url_expires'] - time.time()
 
     async def refresh_mqtt_url(self):
-        """Update MQTT Token"""
+        """
+        Update MQTT Token.
+        Return True when a usable MQTT URL is available.
+        """
         await self.__refresh_token()
+        success = True
         if self.__mqtt_url_remaining() < 60:
+            success = False
             try:
                 myjson = {}
                 mqtt_request_time = time.time()
@@ -227,6 +235,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 self.api['mqtt_url_expires'] = myjson["expirationSeconds"] + \
                     mqtt_request_time
                 self.api['mqtt_url'] = myjson["signedUrl"]
+                success = True
             except KeyError as exception:
                 _LOGGER.error("Key Error Failed to Parse MQTT URL %s - %s",
                               myjson, exception)
@@ -235,10 +244,10 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                               myjson, exception)
         _LOGGER.debug("MQTT URL:%s Expires @:%s", self.api['mqtt_url'],
                       self.api['mqtt_url_expires'])
+        return success
 
     async def __get_mqtt_client(self):
         """Setup the MQTT Client and let HA deal with it."""
-        await self.refresh_mqtt_url()
         _LOGGER.debug("Connect Client")
         await self.mqtt_client.connect(self.grills, self.api['mqtt_url'])
 
@@ -296,17 +305,35 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         self.hass.async_create_task(self.main())
 
     async def main(self, min_dly=30):
-        """This is the loop that keeps the tokens updated."""
+        """
+        This is the loop that keeps the tokens updated.
+        When the MQTT URL request fails, the delay doubles on each failure
+        (min_dly, 2*min_dly, ... up to MAX_RETRY_DELAY) so a failing API
+        is not requested every min_dly seconds.
+        """
         _LOGGER.debug("Current Main Loop Time: %s", time.time())
         _LOGGER.debug(
             "MQTT Logger Token Time Remaining:%s MQTT Time Remaining:%s",
             self.__token_remaining(), self.__mqtt_url_remaining())
+        url_ok = True
         if self.__mqtt_url_remaining() < 60:
-            if self.mqtt_client.isconnected:
-                await self.mqtt_client.disconnect()
-            await self.__get_mqtt_client()
-        _LOGGER.debug("Call_Later @: %s", self.api['mqtt_url_expires'])
-        delay = max(self.__mqtt_url_remaining(), min_dly)
+            # Get the new URL first. Keep the current connection if it fails.
+            url_ok = await self.refresh_mqtt_url()
+            if url_ok:
+                if self.mqtt_client.isconnected:
+                    await self.mqtt_client.disconnect()
+                await self.__get_mqtt_client()
+        if url_ok:
+            self.main_failures = 0
+            delay = max(self.__mqtt_url_remaining(), min_dly)
+        else:
+            self.main_failures += 1
+            delay = min(min_dly * 2**(self.main_failures - 1),
+                        MAX_RETRY_DELAY)
+            _LOGGER.warning(
+                "No MQTT URL (failure #%s). Retry in %s seconds.",
+                self.main_failures, delay)
+        _LOGGER.debug("Call_Later in: %s", delay)
         self.loop_task = self.hass.loop.call_later(delay, self.__syncmain)
         await self.get_entities()
 
