@@ -446,6 +446,7 @@ class TraegerMQTTClient:
 
         self._hass = hass
         self._grills = {}
+        self._pending_subs = {}  # Subscribe mid -> grill_id
 
         self.grill_callback = callback
         self.update_state = update_state
@@ -494,12 +495,14 @@ class TraegerMQTTClient:
     def _mqtt_onconnect(self, client, userdata, flags, reason_code, properties):
         """MQTT on_connect"""
         self.isconnected = self.mqtt_client.is_connected()
+        self._pending_subs.clear()
         for grill in self._grills:
             grill_id = grill["thingName"]
             if grill_id in self.grills_status:
                 del self.grills_status[grill_id]
             _LOGGER.debug("Subscribe To: %s", grill_id)
-            client.subscribe((f"prod/thing/update/{grill_id}", 1))
+            _, mid = client.subscribe((f"prod/thing/update/{grill_id}", 1))
+            self._pending_subs[mid] = grill_id
 
     def _mqtt_ondisconnect(self, client, userdata, flags, reason_code, properties):
         """MQTT on_undisconnect"""
@@ -532,8 +535,9 @@ class TraegerMQTTClient:
         """MQTT on_subscribe"""
         _LOGGER.debug("OnSubscribe Callback. Client:%s userdata:%s mid:%s",
                       client, userdata, mid)
-        for grill in self._grills:
-            grill_id = grill["thingName"]
+        # Request the state only for the grill this subscribe is for.
+        grill_id = self._pending_subs.pop(mid, None)
+        if grill_id is not None:
             self.update_state(grill_id)
 
     def _mqtt_onsocketclose(self, client, userdata, sock):
