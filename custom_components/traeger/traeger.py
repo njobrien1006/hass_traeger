@@ -47,6 +47,8 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
 
         self.loop_task = None
         self.main_failures = 0
+        self._main_lock = asyncio.Lock()
+        self._stopped = False
         self.grill_callbacks = {}
 
         self.grills = {}
@@ -294,6 +296,23 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         allow HA to finish starting up before lauching MQTT.
         """
         await self.update_grills()
+        self.schedule_main(delay)
+
+    def schedule_main(self, delay):
+        """
+        Schedule main() to run in delay seconds.
+        Cancel the pending run first, so only one loop exists.
+        Use this to reconnect without fetching the grill list again.
+        """
+        self._stopped = False
+        self.__reschedule(delay)
+
+    def __reschedule(self, delay):
+        """Replace the pending main() run. Do nothing after kill()."""
+        if self._stopped:
+            return
+        if self.loop_task is not None:
+            self.loop_task.cancel()
         _LOGGER.info("Call_Later in: %s seconds.", delay)
         self.loop_task = self.hass.loop.call_later(delay, self.__syncmain)
 
@@ -307,10 +326,16 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
     async def main(self, min_dly=30):
         """
         This is the loop that keeps the tokens updated.
+        Only one run is active at a time.
         When the MQTT URL request fails, the delay doubles on each failure
         (min_dly, 2*min_dly, ... up to MAX_RETRY_DELAY) so a failing API
         is not requested every min_dly seconds.
         """
+        async with self._main_lock:
+            await self.__main(min_dly)
+
+    async def __main(self, min_dly):
+        """Body of main(). Call only with _main_lock held."""
         _LOGGER.debug("Current Main Loop Time: %s", time.time())
         _LOGGER.debug(
             "MQTT Logger Token Time Remaining:%s MQTT Time Remaining:%s",
@@ -319,7 +344,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         if self.__mqtt_url_remaining() < 60:
             # Get the new URL first. Keep the current connection if it fails.
             url_ok = await self.refresh_mqtt_url()
-            if url_ok:
+            if url_ok and not self._stopped:
                 if self.mqtt_client.isconnected:
                     await self.mqtt_client.disconnect()
                 await self.__get_mqtt_client()
@@ -333,12 +358,12 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
             _LOGGER.warning(
                 "No MQTT URL (failure #%s). Retry in %s seconds.",
                 self.main_failures, delay)
-        _LOGGER.debug("Call_Later in: %s", delay)
-        self.loop_task = self.hass.loop.call_later(delay, self.__syncmain)
+        self.__reschedule(delay)
         await self.get_entities()
 
     async def kill(self):
         """This terminates the main loop and shutsdown the MQTT."""
+        self._stopped = True  # Stop a running main() from scheduling again.
         if self.loop_task is not None:
             _LOGGER.info("Cancel Task")
             _LOGGER.debug("Task Info: %s", self.loop_task)
