@@ -48,7 +48,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         self.loop_task = None
         self.main_failures = 0
         self._main_lock = asyncio.Lock()
-        self._stopped = False
+        self._generation = 0  # kill() adds 1. A running main() then stops.
         self.grill_callbacks = {}
 
         self.grills = {}
@@ -304,13 +304,10 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         Cancel the pending run first, so only one loop exists.
         Use this to reconnect without fetching the grill list again.
         """
-        self._stopped = False
         self.__reschedule(delay)
 
     def __reschedule(self, delay):
-        """Replace the pending main() run. Do nothing after kill()."""
-        if self._stopped:
-            return
+        """Replace the pending main() run."""
         if self.loop_task is not None:
             self.loop_task.cancel()
         _LOGGER.info("Call_Later in: %s seconds.", delay)
@@ -336,6 +333,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
 
     async def __main(self, min_dly):
         """Body of main(). Call only with _main_lock held."""
+        generation = self._generation
         _LOGGER.debug("Current Main Loop Time: %s", time.time())
         _LOGGER.debug(
             "MQTT Logger Token Time Remaining:%s MQTT Time Remaining:%s",
@@ -344,7 +342,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         if self.__mqtt_url_remaining() < 60:
             # Get the new URL first. Keep the current connection if it fails.
             url_ok = await self.refresh_mqtt_url()
-            if url_ok and not self._stopped:
+            if url_ok and generation == self._generation:
                 if self.mqtt_client.isconnected:
                     await self.mqtt_client.disconnect()
                 await self.__get_mqtt_client()
@@ -358,12 +356,14 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
             _LOGGER.warning(
                 "No MQTT URL (failure #%s). Retry in %s seconds.",
                 self.main_failures, delay)
+        if generation != self._generation:
+            return  # kill() ran during this run. Do not schedule again.
         self.__reschedule(delay)
         await self.get_entities()
 
     async def kill(self):
         """This terminates the main loop and shutsdown the MQTT."""
-        self._stopped = True  # Stop a running main() from scheduling again.
+        self._generation += 1  # Stop a running main() from scheduling again.
         if self.loop_task is not None:
             _LOGGER.info("Cancel Task")
             _LOGGER.debug("Task Info: %s", self.loop_task)
