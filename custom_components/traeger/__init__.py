@@ -87,8 +87,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         """Shut down the client."""
         await client.kill()
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, async_shutdown)
-    entry.add_update_listener(async_reload_entry)
+    entry.async_on_unload(
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, async_shutdown))
+    entry.async_on_unload(entry.add_update_listener(async_reload_entry))
     return True
 
 
@@ -104,5 +105,4 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 async def async_reload_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Reload config entry."""
-    await async_unload_entry(hass, entry)
-    await async_setup_entry(hass, entry)
+    await hass.config_entries.async_reload(entry.entry_id)

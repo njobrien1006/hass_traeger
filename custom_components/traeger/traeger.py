@@ -25,6 +25,8 @@ from paho.mqtt import client as mqtt
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
+MAX_RETRY_DELAY = 900  # Seconds. Upper limit for retry backoff.
+
 
 class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attributes
     """Traeger API Wrapper"""
@@ -44,6 +46,9 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         self.request = request_library
 
         self.loop_task = None
+        self.main_failures = 0
+        self._main_lock = asyncio.Lock()
+        self._generation = 0  # kill() adds 1. A running main() then stops.
         self.grill_callbacks = {}
 
         self.grills = {}
@@ -214,9 +219,14 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         return self.api['mqtt_url_expires'] - time.time()
 
     async def refresh_mqtt_url(self):
-        """Update MQTT Token"""
+        """
+        Update MQTT Token.
+        Return True when a usable MQTT URL is available.
+        """
         await self.__refresh_token()
+        success = True
         if self.__mqtt_url_remaining() < 60:
+            success = False
             try:
                 myjson = {}
                 mqtt_request_time = time.time()
@@ -227,6 +237,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 self.api['mqtt_url_expires'] = myjson["expirationSeconds"] + \
                     mqtt_request_time
                 self.api['mqtt_url'] = myjson["signedUrl"]
+                success = True
             except KeyError as exception:
                 _LOGGER.error("Key Error Failed to Parse MQTT URL %s - %s",
                               myjson, exception)
@@ -235,10 +246,10 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                               myjson, exception)
         _LOGGER.debug("MQTT URL:%s Expires @:%s", self.api['mqtt_url'],
                       self.api['mqtt_url_expires'])
+        return success
 
     async def __get_mqtt_client(self):
         """Setup the MQTT Client and let HA deal with it."""
-        await self.refresh_mqtt_url()
         _LOGGER.debug("Connect Client")
         await self.mqtt_client.connect(self.grills, self.api['mqtt_url'])
 
@@ -285,6 +296,20 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         allow HA to finish starting up before lauching MQTT.
         """
         await self.update_grills()
+        self.schedule_main(delay)
+
+    def schedule_main(self, delay):
+        """
+        Schedule main() to run in delay seconds.
+        Cancel the pending run first, so only one loop exists.
+        Use this to reconnect without fetching the grill list again.
+        """
+        self.__reschedule(delay)
+
+    def __reschedule(self, delay):
+        """Replace the pending main() run."""
+        if self.loop_task is not None:
+            self.loop_task.cancel()
         _LOGGER.info("Call_Later in: %s seconds.", delay)
         self.loop_task = self.hass.loop.call_later(delay, self.__syncmain)
 
@@ -296,22 +321,49 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         self.hass.async_create_task(self.main())
 
     async def main(self, min_dly=30):
-        """This is the loop that keeps the tokens updated."""
+        """
+        This is the loop that keeps the tokens updated.
+        Only one run is active at a time.
+        When the MQTT URL request fails, the delay doubles on each failure
+        (min_dly, 2*min_dly, ... up to MAX_RETRY_DELAY) so a failing API
+        is not requested every min_dly seconds.
+        """
+        async with self._main_lock:
+            await self.__main(min_dly)
+
+    async def __main(self, min_dly):
+        """Body of main(). Call only with _main_lock held."""
+        generation = self._generation
         _LOGGER.debug("Current Main Loop Time: %s", time.time())
         _LOGGER.debug(
             "MQTT Logger Token Time Remaining:%s MQTT Time Remaining:%s",
             self.__token_remaining(), self.__mqtt_url_remaining())
+        url_ok = True
         if self.__mqtt_url_remaining() < 60:
-            if self.mqtt_client.isconnected:
-                await self.mqtt_client.disconnect()
-            await self.__get_mqtt_client()
-        _LOGGER.debug("Call_Later @: %s", self.api['mqtt_url_expires'])
-        delay = max(self.__mqtt_url_remaining(), min_dly)
-        self.loop_task = self.hass.loop.call_later(delay, self.__syncmain)
+            # Get the new URL first. Keep the current connection if it fails.
+            url_ok = await self.refresh_mqtt_url()
+            if url_ok and generation == self._generation:
+                if self.mqtt_client.isconnected:
+                    await self.mqtt_client.disconnect()
+                await self.__get_mqtt_client()
+        if url_ok:
+            self.main_failures = 0
+            delay = max(self.__mqtt_url_remaining(), min_dly)
+        else:
+            self.main_failures += 1
+            delay = min(min_dly * 2**(self.main_failures - 1),
+                        MAX_RETRY_DELAY)
+            _LOGGER.warning(
+                "No MQTT URL (failure #%s). Retry in %s seconds.",
+                self.main_failures, delay)
+        if generation != self._generation:
+            return  # kill() ran during this run. Do not schedule again.
+        self.__reschedule(delay)
         await self.get_entities()
 
     async def kill(self):
         """This terminates the main loop and shutsdown the MQTT."""
+        self._generation += 1  # Stop a running main() from scheduling again.
         if self.loop_task is not None:
             _LOGGER.info("Cancel Task")
             _LOGGER.debug("Task Info: %s", self.loop_task)
@@ -394,6 +446,7 @@ class TraegerMQTTClient:
 
         self._hass = hass
         self._grills = {}
+        self._pending_subs = {}  # Subscribe mid -> grill_id
 
         self.grill_callback = callback
         self.update_state = update_state
@@ -442,12 +495,14 @@ class TraegerMQTTClient:
     def _mqtt_onconnect(self, client, userdata, flags, reason_code, properties):
         """MQTT on_connect"""
         self.isconnected = self.mqtt_client.is_connected()
+        self._pending_subs.clear()
         for grill in self._grills:
             grill_id = grill["thingName"]
             if grill_id in self.grills_status:
                 del self.grills_status[grill_id]
             _LOGGER.debug("Subscribe To: %s", grill_id)
-            client.subscribe((f"prod/thing/update/{grill_id}", 1))
+            _, mid = client.subscribe((f"prod/thing/update/{grill_id}", 1))
+            self._pending_subs[mid] = grill_id
 
     def _mqtt_ondisconnect(self, client, userdata, flags, reason_code, properties):
         """MQTT on_undisconnect"""
@@ -480,8 +535,9 @@ class TraegerMQTTClient:
         """MQTT on_subscribe"""
         _LOGGER.debug("OnSubscribe Callback. Client:%s userdata:%s mid:%s",
                       client, userdata, mid)
-        for grill in self._grills:
-            grill_id = grill["thingName"]
+        # Request the state only for the grill this subscribe is for.
+        grill_id = self._pending_subs.pop(mid, None)
+        if grill_id is not None:
             self.update_state(grill_id)
 
     def _mqtt_onsocketclose(self, client, userdata, sock):
