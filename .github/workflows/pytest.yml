@@ -28,13 +28,15 @@ jobs:
       run: |
         sudo apt-get update
         sudo apt-get install ffmpeg libturbojpeg0-dev libpcap-dev mosquitto
-    - name: Create Certs & Run Mosquitto
+    - name: Create Certs
       run: |
         openssl req -x509 -out tests/broker.crt -keyout tests/broker.key \
           -newkey rsa:2048 -nodes -sha256 \
           -subj '/CN=localhost' -extensions EXT -config <( \
           printf '[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth')
-        mosquitto -c tests/broker.cfg &
+    - name: Run Mosquitto
+      run: |
+        mosquitto -c tests/broker.cfg
     - name: Install Python Dependencies
       run: |
         python -m pip install --upgrade pip uv
