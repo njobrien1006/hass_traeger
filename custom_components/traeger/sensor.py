@@ -1,5 +1,5 @@
 """Sensor platform for Traeger."""
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 
 from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
 from homeassistant.const import EntityCategory, UnitOfTemperature
@@ -285,7 +285,7 @@ class TraegerFlexSensor(TraegerBaseEntity, SensorEntity):
         if len(self.value) == 1:
             rtrn = self.grill_mqtt_msg[self.value[0]]
         if self.dev_class == SensorDeviceClass.TIMESTAMP:
-            rtrn = datetime.fromtimestamp(rtrn, timezone.utc)
+            rtrn = datetime.fromtimestamp(rtrn, UTC)
         return rtrn
 
 

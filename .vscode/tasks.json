@@ -86,8 +86,8 @@
             ],
             "command": [
                 "uv run pytest -vv --cov=custom_components/traeger && ",
-                "coverage-badge -o images/coverage.svg -f && ",
-                "coverage html -d tests/coverage"
+                "uv run coverage-badge -o images/coverage.svg -f && ",
+                "uv run coverage html -d tests/coverage"
             ],
             "problemMatcher": []
         },
@@ -95,7 +95,7 @@
             "label": "Pylint Component",
             "type": "shell",
             "command": [
-                "pylint custom_components/traeger/ ",
+                "uv run pylint custom_components/traeger/ ",
                 "--disable=duplicate-code,abstract-method,overridden-final-method"
             ],
             "problemMatcher": [],
@@ -106,7 +106,7 @@
         {
             "label": "Pylint Test",
             "type": "shell",
-            "command": "pylint tests/ --disable=duplicate-code",
+            "command": "uv run pylint tests/ --disable=duplicate-code",
             "problemMatcher": [],
             "presentation": {
                 "group": "quality-group"
@@ -115,7 +115,7 @@
         {
             "label": "Ruff Check",
             "type": "shell",
-            "command": "ruff check",
+            "command": "uv run ruff check",
             "problemMatcher": [],
             "presentation": {
                 "group": "quality-group"

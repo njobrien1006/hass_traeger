@@ -364,7 +364,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 if not isinstance(data, (dict, list)):
                     raise TypeError("Valid JSON, but not a JSON Object or Array")
                 return data
-        except asyncio.TimeoutError as exception:
+        except TimeoutError as exception:
             _LOGGER.error("Timeout error fetching information from %s - %s",
                           url, exception)
             return {}
