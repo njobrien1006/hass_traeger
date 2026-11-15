@@ -19,6 +19,7 @@
                 "github.vscode-pull-request-github",
                 "ms-python.python",
                 "ms-python.vscode-pylance",
+                "ms-vscode.live-server",
                 "ryanluker.vscode-coverage-gutters"
             ],
             "settings": {
