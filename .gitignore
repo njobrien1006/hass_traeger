@@ -17,7 +17,7 @@ coverage.xml
 config/*
 !config/configuration.yaml
 config/.storage/*
-!config/.storage/lovelave_resources
+!config/.storage/lovelace.lovelace
 .devcontainer-lock.json
 requirements_ha_all.txt
 uv.lock
