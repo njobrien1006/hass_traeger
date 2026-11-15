@@ -284,9 +284,13 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         It does have a delay before doing MQTT connect to
         allow HA to finish starting up before lauching MQTT.
         """
-        await self.update_grills()
-        _LOGGER.info("Call_Later in: %s seconds.", delay)
-        self.loop_task = self.hass.loop.call_later(delay, self.__syncmain)
+        if not self.grills:
+            await self.update_grills()
+        if self.loop_task is None:
+            _LOGGER.info("Call_Later in: %s seconds.", delay)
+            self.loop_task = self.hass.loop.call_later(delay, self.__syncmain)
+            return
+        _LOGGER.info("loop task already running. Not starting another loop task.")
 
     def __syncmain(self):
         """

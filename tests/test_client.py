@@ -299,6 +299,9 @@ async def test_connect_cmds(
     assert entity.state == "on"
     assert entity == snapshot(name="01-On")
 
+    #Try Running another start to see if it handles the task already running.
+    await traeger_client.start(0)
+
     await hass.services.async_call(
         "switch",
         SERVICE_TURN_OFF,
