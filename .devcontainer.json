@@ -34,7 +34,8 @@
                 "python.terminal.activateEnvironment": false,
                 "[python]": {
                     "editor.defaultFormatter": "charliermarsh.ruff"
-                }
+                },
+                "terminal.integrated.scrollback": 10000
             }
         }
     },

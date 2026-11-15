@@ -10,7 +10,7 @@
         {
             "label": "Pytest + Logging + Failon_1st + Test Matching + Snapshot Update",
             "type": "shell",
-            "command": "uv run pytest --log-cli-level=INFO -x -k 'test_climate_platform' --snapshot-update",
+            "command": "uv run pytest --log-cli-level=INFO -x -k 'test_' --snapshot-update",
             "problemMatcher": []
         },
         {

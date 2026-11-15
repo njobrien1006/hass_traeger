@@ -3,6 +3,7 @@
 import logging
 
 import pytest
+import yaml
 from aiointercept import aiointercept
 from homeassistant.core import HomeAssistant
 from pytest_homeassistant.common import MockConfigEntry
@@ -38,6 +39,11 @@ async def test_zz_ha_log(
     assert not any(
         "Detected that custom integration 'traeger'" in record.message
         for record in caplog.records
+    )
+
+    print("caplog.records", caplog.records)
+    _LOGGER.debug(
+        "caplog.records\n%s", yaml.safe_dump(caplog.record_tuples)
     )
 
     await client_disconnect(hass, traeger_client)

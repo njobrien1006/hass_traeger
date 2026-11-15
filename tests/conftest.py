@@ -48,6 +48,21 @@ def allowed_hosts(socket_enabled):
     pass  # pylint: disable=unnecessary-pass
 
 
+@pytest.fixture(autouse=True)
+def enable_component_debug_logging():
+    """
+    Expose debug logging for the component under test.
+    Supress debug logging for other components to reduce test output noise.
+    """
+    logging.getLogger("custom_components.traeger").setLevel(logging.DEBUG)
+
+    logging.getLogger("aiohttp.access").setLevel(logging.WARNING)
+    logging.getLogger("asyncio").setLevel(logging.WARNING)
+    logging.getLogger("homeassistant.components.sensor").setLevel(logging.WARNING)
+    logging.getLogger("homeassistant.core").setLevel(logging.WARNING)
+    logging.getLogger("homeassistant.helpers.entity_registry").setLevel(logging.WARNING)
+    logging.getLogger("homeassistant.helpers.storage").setLevel(logging.WARNING)
+
 @pytest.fixture
 async def http():
     """Fixture to mock `aiohttp` requests."""
@@ -61,15 +76,42 @@ async def http():
                 json.dumps(kwargs["json"], indent=4),
             )
             return CallbackResult(status=200, payload={})
-
-        mock.post(api_token["url"], payload=api_token["resp"], repeat=True)
-        mock.get(api_user_self["url"], payload=api_user_self["resp"], repeat=True)
-        mock.post(api_mqtt["url"], payload=api_mqtt["resp"], repeat=True)
         mock.post(
             "https://mobile-apps.home-assistant.io/api/sendPushNotification",
             callback=ha_noti_callback,
             repeat=True,
         )
+
+        def ha_token_callback(url, **kwargs):
+            """Setup API Callbacks"""
+            _LOGGER.info(
+                "Was at token callbacks\n%s\n%s",
+                url,
+                json.dumps(kwargs["json"], indent=4),
+            )
+            return CallbackResult(status=200, payload=api_token["resp"])
+        mock.post(api_token["url"], callback=ha_token_callback, repeat=True)
+
+        def ha_user_callback(url, **kwargs):
+            """Setup API Callbacks"""
+            _LOGGER.info(
+                "Was at user callbacks\n%s\n%s",
+                url,
+                json.dumps(kwargs["json"], indent=4),
+            )
+            return CallbackResult(status=200, payload=api_user_self["resp"])
+        mock.get(api_user_self["url"], callback=ha_user_callback, repeat=True)
+
+        def ha_mqtt_callback(url, **kwargs):
+            """Setup API Callbacks"""
+            _LOGGER.info(
+                "Was at mqtt callbacks\n%s\n%s",
+                url,
+                json.dumps(kwargs["json"], indent=4),
+            )
+            return CallbackResult(status=200, payload=api_mqtt["resp"])
+        mock.post(api_mqtt["url"], callback=ha_mqtt_callback, repeat=True)
+
         # cmd API handled in tests as they are variable.
         # mock.post(api_commands['url'], payload=api_commands['resp'], repeat=True)
         # mock.post(api_commands['urlg2'], payload=api_commands['resp'], repeat=True)
@@ -165,7 +207,6 @@ async def mock_config_entry(
 ) -> MockConfigEntry:
     """HASS Mock Config Entry"""
     hass.config.units = US_CUSTOMARY_SYSTEM
-    caplog.set_level(logging.WARNING)
 
     entry = MockConfigEntry(
         domain=DOMAIN,
@@ -197,7 +238,6 @@ async def mock_config_entry_mobile_app(
 ) -> MockConfigEntry:
     """HASS Mock Config Entry"""
     hass.config.units = US_CUSTOMARY_SYSTEM
-    caplog.set_level(logging.WARNING)
 
     entry = MockConfigEntry(
         domain=DOMAIN,
