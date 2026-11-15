@@ -60,18 +60,21 @@ class CallbackAPI:
         """Setup API Callbacks"""
         end = str(url).rfind("/", 0)
         strt = str(url).rfind("/", 0, end)
+        g_id = str(url)[strt + 1 : end]
         _LOGGER.warning(
             "Was at callbacks %s - %s - %s",
             url,
             kwargs["json"],
-            str(url)[strt + 1 : end],
+            g_id,
         )
-
-        if self.traeger_client.mqtt_client.grills_status == {}:
+        if g_id.lower() not in self.traeger_client.mqtt_client.grills_status:
             mqtt_msg_change = copy.deepcopy(mqtt_msg)
+            mqtt_msg_change["thingName"] = g_id.lower()
+            mqtt_msg_change["details"]["thingName"] = g_id.upper()
+            mqtt_msg_change["details"]["thingNameLower"] = g_id.lower()
         else:
             mqtt_msg_change = self.traeger_client.mqtt_client.grills_status[
-                "0123456789ab"
+                g_id.lower()
             ]
         if mqtt_msg_change["status"]["cook_timer_complete"]:
             mqtt_msg_change["status"]["cook_timer_start"] = 0
@@ -126,11 +129,18 @@ class CallbackAPI:
             mqtt_msg_change["status"]["smoke"] = 0
         elif kwargs["json"]["command"] == "90":
             mqtt_msg_change = copy.deepcopy(mqtt_msg)
+            if g_id.lower() != "0123456789ab":
+                mqtt_msg_change["thingName"] = g_id.lower()
+                mqtt_msg_change["details"]["thingName"] = g_id.upper()
+                mqtt_msg_change["details"]["thingNameLower"] = g_id.lower()
+                #Only do acc and fname testing on single grill.
+                mqtt_msg_change["details"]["friendlyName"] = g_id.lower()
+                mqtt_msg_change["status"]["acc"] = []
         else:
             return CallbackResult(status=404, payload=None)
         # Publish Change
         self.traeger_client.mqtt_client.mqtt_client.publish(
-            "prod/thing/update/0123456789ab",
+            f"prod/thing/update/{g_id.lower()}",
             json.dumps(mqtt_msg_change).encode("utf-8"),
             qos=1,
         )
