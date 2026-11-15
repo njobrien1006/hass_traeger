@@ -34,10 +34,23 @@
             "problemMatcher": []
         },
         {
+            "label": "Arrange Broker Files",
+            "type": "shell",
+            "command": [
+                "sudo cp tests/broker.cfg /etc/mosquitto/mosquitto.conf\n",
+                "sudo cp tests/broker.crt /etc/mosquitto/certs/broker.crt\n",
+                "sudo cp tests/broker.key /etc/mosquitto/certs/broker.key\n",
+                "sudo chown -R vscode:vscode /etc/mosquitto/certs"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "Run MQTT Broker",
             "type": "shell",
+            "dependsOrder": "sequence",
             "dependsOn": [
-                "MQTT Broker CERT"
+                "MQTT Broker CERT",
+                "Arrange Broker Files"
             ],
             "presentation": {
                 "echo": false
@@ -45,7 +58,7 @@
             "command": [
                 "if ! pgrep -x \"mosquitto\" > /dev/null; then\n",
                 "   echo \"Mosquitto is not running. Starting...\"\n",
-                "   mosquitto -c tests/broker.cfg\n",
+                "   mosquitto -c /etc/mosquitto/mosquitto.conf\n",
                 "else\n",
                 "   echo \"Mosquitto is already running.\"\n",
                 "fi"
@@ -55,8 +68,10 @@
         {
             "label": "Run MQTT Broker in Background",
             "type": "shell",
+            "dependsOrder": "sequence",
             "dependsOn": [
-                "MQTT Broker CERT"
+                "MQTT Broker CERT",
+                "Arrange Broker Files"
             ],
             "presentation": {
                 "echo": false
@@ -64,7 +79,7 @@
             "command": [
                 "if ! pgrep -x \"mosquitto\" > /dev/null; then\n",
                 "   echo \"Mosquitto is not running. Starting...\"\n",
-                "   mosquitto -c tests/broker.cfg &\n",
+                "   mosquitto -c /etc/mosquitto/mosquitto.conf &\n",
                 "   sleep 5\n",
                 "else\n",
                 "   echo \"Mosquitto is already running.\"\n",
