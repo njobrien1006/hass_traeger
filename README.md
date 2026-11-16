@@ -66,13 +66,15 @@ Input | Description
 `Mobile_App` | Devices to recieve Live Updates/Activities and notifications
 
 ## Mobile App Notifications & Live Updates/Activities
-Still a work in progress. Currently only timers and global probe alarm are considered. Additional expansion to come. If any suggestions or ideas, consider discussing [here](https://github.com/njobrien1006/hass_traeger/discussions/115).
+Still a work in progress. If any suggestions or ideas, consider discussing [here](https://github.com/njobrien1006/hass_traeger/discussions/115).
 
 See requirements of [Live Updates/Activities][halive].
 
 Be aware of the [HA Notification Rate Limits][halimit].
 
 Consider enabling [Local Push][halocalpush].
+
+[IOS Example](https://github.com/njobrien1006/hass_traeger/blob/master/images/LiveUpdates.png)
 
 ## Platform Details
 Some of the platforms are fairly self-explanatory, others could use a little more explaining. Below are more details on some of those platforms.
