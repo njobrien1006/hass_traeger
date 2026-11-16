@@ -10,19 +10,109 @@
         {
             "label": "Pytest + Logging + Failon_1st + Test Matching + Snapshot Update",
             "type": "shell",
-            "command": "pytest --log-cli-level=INFO -x -k 'test_climate_platform' --snapshot-update",
+            "command": "uv run pytest --log-cli-level=INFO -x -k 'test_' --snapshot-update",
+            "problemMatcher": []
+        },
+        {
+            "label": "Bump Version",
+            "type": "shell",
+            "command": "python scripts/version.py",
+            "problemMatcher": []
+        },
+        {
+            "label": "MQTT Broker CERT",
+            "type": "shell",
+            "presentation": {
+                "echo": false
+            },
+            "command": [
+                "openssl req -x509 -out tests/broker.crt -keyout tests/broker.key ",
+                "-newkey rsa:2048 -nodes -sha256 ",
+                "-subj '/CN=localhost' -extensions EXT -config <( ",
+                " printf '[dn]\nCN=localhost\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=DNS:localhost\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth')"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Arrange Broker Files",
+            "type": "shell",
+            "command": [
+                "sudo cp tests/broker.cfg /etc/mosquitto/mosquitto.conf\n",
+                "sudo cp tests/broker.crt /etc/mosquitto/certs/broker.crt\n",
+                "sudo cp tests/broker.key /etc/mosquitto/certs/broker.key\n",
+                "sudo chown -R vscode:vscode /etc/mosquitto/certs"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run MQTT Broker",
+            "type": "shell",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "MQTT Broker CERT",
+                "Arrange Broker Files"
+            ],
+            "presentation": {
+                "echo": false
+            },
+            "command": [
+                "if ! pgrep -x \"mosquitto\" > /dev/null; then\n",
+                "   echo \"Mosquitto is not running. Starting...\"\n",
+                "   mosquitto -c /etc/mosquitto/mosquitto.conf\n",
+                "else\n",
+                "   echo \"Mosquitto is already running.\"\n",
+                "fi"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Run MQTT Broker in Background",
+            "type": "shell",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "MQTT Broker CERT",
+                "Arrange Broker Files"
+            ],
+            "presentation": {
+                "echo": false
+            },
+            "command": [
+                "if ! pgrep -x \"mosquitto\" > /dev/null; then\n",
+                "   echo \"Mosquitto is not running. Starting...\"\n",
+                "   mosquitto -c /etc/mosquitto/mosquitto.conf &\n",
+                "   sleep 5\n",
+                "else\n",
+                "   echo \"Mosquitto is already running.\"\n",
+                "fi"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Stop MQTT Broker",
+            "type": "shell",
+            "command": "pkill mosquitto",
             "problemMatcher": []
         },
         {
             "label": "Pytest & Coverage Badge & Coverage Report",
             "type": "shell",
-            "command": "pytest -vv --cov=custom_components/traeger && coverage-badge -o images/coverage.svg -f && coverage html -d tests/coverage",
+            "dependsOn": [
+                "Run MQTT Broker in Background"
+            ],
+            "command": [
+                "uv run pytest -vv --cov=custom_components/traeger && ",
+                "uv run coverage-badge -o images/coverage.svg -f && ",
+                "uv run coverage html -d tests/coverage"
+            ],
             "problemMatcher": []
         },
         {
             "label": "Pylint Component",
             "type": "shell",
-            "command": "pylint custom_components/traeger/ --disable=duplicate-code,abstract-method,overridden-final-method",
+            "command": [
+                "uv run pylint custom_components/traeger/ ",
+                "--disable=duplicate-code,abstract-method,overridden-final-method"
+            ],
             "problemMatcher": [],
             "presentation": {
                 "group": "quality-group"
@@ -31,7 +121,7 @@
         {
             "label": "Pylint Test",
             "type": "shell",
-            "command": "pylint tests/ --disable=duplicate-code",
+            "command": "uv run pylint tests/ --disable=duplicate-code",
             "problemMatcher": [],
             "presentation": {
                 "group": "quality-group"
@@ -40,7 +130,7 @@
         {
             "label": "Ruff Check",
             "type": "shell",
-            "command": "ruff check",
+            "command": "uv run ruff check",
             "problemMatcher": [],
             "presentation": {
                 "group": "quality-group"

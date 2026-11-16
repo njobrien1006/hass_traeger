@@ -19,6 +19,7 @@
                 "github.vscode-pull-request-github",
                 "ms-python.python",
                 "ms-python.vscode-pylance",
+                "ms-vscode.live-server",
                 "ryanluker.vscode-coverage-gutters"
             ],
             "settings": {
@@ -31,9 +32,11 @@
                 "python.analysis.typeCheckingMode": "basic",
                 "python.analysis.autoImportCompletions": true,
                 "python.defaultInterpreterPath": "/usr/local/python/current/bin/python",
+                "python.terminal.activateEnvironment": false,
                 "[python]": {
                     "editor.defaultFormatter": "charliermarsh.ruff"
-                }
+                },
+                "terminal.integrated.scrollback": 10000
             }
         }
     },
@@ -43,7 +46,7 @@
             "version": "3.14"
         },
         "ghcr.io/devcontainers-extra/features/apt-packages:1": {
-            "packages": "ffmpeg,libturbojpeg0-dev,libpcap-dev"
+            "packages": "ffmpeg,libturbojpeg0-dev,libpcap-dev,mosquitto"
         }
     }
 }

@@ -17,7 +17,7 @@ def notifydevices(
 ):
     """Central Notify Func"""
     data = {"title": title, "message": msg, "data": {}}
-    _LOGGER.info("MSG Base Data: %s", data)
+    _LOGGER.debug("MSG Base Data: %s", data)
     for notidev in notify:
         if notify[notidev] is not None and "name" in notify[notidev]:
             noti_data = copy.deepcopy(data)
@@ -25,7 +25,7 @@ def notifydevices(
                 noti_data["data"].update({"url": "/lovelace/grill"})
             else:
                 noti_data["data"].update({"clickAction": "/lovelace/grill"})
-            _LOGGER.info(
+            _LOGGER.debug(
                 "NotiDev Info: %s - %s\n%s",
                 notify[notidev]["name"],
                 notify[notidev]["manu"],
@@ -55,7 +55,7 @@ def notifystartliveupdate_time(notify, hass, *, tag, title, msg, unix, icon):
             "when": unix,
         },
     }
-    _LOGGER.info("MSG Base Data: %s", data)
+    _LOGGER.debug("MSG Base Data: %s", data)
     for notidev in notify:
         if notify[notidev] is not None and "name" in notify[notidev]:
             noti_data = copy.deepcopy(data)
@@ -67,7 +67,7 @@ def notifystartliveupdate_time(notify, hass, *, tag, title, msg, unix, icon):
                 noti_data["data"].update(
                     {"clickAction": "/lovelace/grill", "color": "#FF7900"}
                 )
-            _LOGGER.info(
+            _LOGGER.debug(
                 "NotiDev Info: %s - %s\n%s",
                 notify[notidev]["name"],
                 notify[notidev]["manu"],
@@ -97,7 +97,7 @@ def notifyliveupdate_text(
             "notification_icon": icon,
         },
     }
-    _LOGGER.info("MSG Base Data: %s", data)
+    _LOGGER.debug("MSG Base Data: %s", data)
     for notidev in notify:
         if notify[notidev] is not None and "name" in notify[notidev]:
             noti_data = copy.deepcopy(data)
@@ -117,7 +117,7 @@ def notifyliveupdate_text(
                         "alert_once": silent,
                     }
                 )
-            _LOGGER.info(
+            _LOGGER.debug(
                 "NotiDev Info: %s - %s\n%s",
                 notify[notidev]["name"],
                 notify[notidev]["manu"],
@@ -136,10 +136,10 @@ def notifyliveupdate_text(
 def notifyclearliveupdate(notify, hass, *, tag):
     """Clear Live Update Chrono"""
     data = {"message": "clear_notification", "data": {"tag": tag}}
-    _LOGGER.info("MSG Base Data: %s", data)
+    _LOGGER.debug("MSG Base Data: %s", data)
     for notidev in notify:
         if notify[notidev] is not None and "name" in notify[notidev]:
-            _LOGGER.info(
+            _LOGGER.debug(
                 "NotiDev Info: %s - %s",
                 notify[notidev]["name"],
                 notify[notidev]["manu"],

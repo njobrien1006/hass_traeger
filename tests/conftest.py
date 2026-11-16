@@ -1,18 +1,16 @@
 """Fixtures for testing."""
 
-import asyncio
 import json
 import logging
 
 import pytest
 from aiointercept import CallbackResult, aiointercept
-from amqtt.broker import Broker
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.util.unit_system import US_CUSTOMARY_SYSTEM
-from pytest_homeassistant_custom_component.common import MockConfigEntry
-from pytest_homeassistant_custom_component.syrupy import HomeAssistantSnapshotExtension
+from pytest_homeassistant.common import MockConfigEntry
+from pytest_homeassistant.syrupy import HomeAssistantSnapshotExtension
 from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import (
@@ -28,7 +26,7 @@ from .zzMockResp import api_mqtt, api_token, api_user_self
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
 # The MQTT port we will use instead of 443
-MQTTPORT = 4447
+MQTTPORT = 4443
 
 
 # pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments,redefined-outer-name,invalid-name
@@ -50,12 +48,27 @@ def allowed_hosts(socket_enabled):
     pass  # pylint: disable=unnecessary-pass
 
 
+@pytest.fixture(autouse=True)
+def enable_component_debug_logging():
+    """
+    Expose debug logging for the component under test.
+    Supress debug logging for other components to reduce test output noise.
+    """
+    logging.getLogger("custom_components.traeger").setLevel(logging.DEBUG)
+
+    logging.getLogger("aiohttp.access").setLevel(logging.WARNING)
+    logging.getLogger("asyncio").setLevel(logging.WARNING)
+    logging.getLogger("homeassistant.components.sensor").setLevel(logging.WARNING)
+    logging.getLogger("homeassistant.core").setLevel(logging.WARNING)
+    logging.getLogger("homeassistant.helpers.entity_registry").setLevel(logging.WARNING)
+    logging.getLogger("homeassistant.helpers.storage").setLevel(logging.WARNING)
+
 @pytest.fixture
 async def http():
     """Fixture to mock `aiohttp` requests."""
     async with aiointercept(mock_external_urls=True) as mock:
 
-        def callback(url, **kwargs):
+        def ha_noti_callback(url, **kwargs):
             """Setup API Callbacks"""
             _LOGGER.info(
                 "Was at conftest callbacks\n%s\n%s",
@@ -63,60 +76,46 @@ async def http():
                 json.dumps(kwargs["json"], indent=4),
             )
             return CallbackResult(status=200, payload={})
-
-        mock.post(api_token["url"], payload=api_token["resp"], repeat=True)
-        mock.get(api_user_self["url"], payload=api_user_self["resp"], repeat=True)
-        mock.post(api_mqtt["url"], payload=api_mqtt["resp"], repeat=True)
         mock.post(
             "https://mobile-apps.home-assistant.io/api/sendPushNotification",
-            callback=callback,
+            callback=ha_noti_callback,
             repeat=True,
         )
+
+        def ha_token_callback(url, **kwargs):
+            """Setup API Callbacks"""
+            _LOGGER.info(
+                "Was at token callbacks\n%s\n%s",
+                url,
+                json.dumps(kwargs["json"], indent=4),
+            )
+            return CallbackResult(status=200, payload=api_token["resp"])
+        mock.post(api_token["url"], callback=ha_token_callback, repeat=True)
+
+        def ha_user_callback(url, **kwargs):
+            """Setup API Callbacks"""
+            _LOGGER.info(
+                "Was at user callbacks\n%s\n%s",
+                url,
+                json.dumps(kwargs["json"], indent=4),
+            )
+            return CallbackResult(status=200, payload=api_user_self["resp"])
+        mock.get(api_user_self["url"], callback=ha_user_callback, repeat=True)
+
+        def ha_mqtt_callback(url, **kwargs):
+            """Setup API Callbacks"""
+            _LOGGER.info(
+                "Was at mqtt callbacks\n%s\n%s",
+                url,
+                json.dumps(kwargs["json"], indent=4),
+            )
+            return CallbackResult(status=200, payload=api_mqtt["resp"])
+        mock.post(api_mqtt["url"], callback=ha_mqtt_callback, repeat=True)
+
         # cmd API handled in tests as they are variable.
         # mock.post(api_commands['url'], payload=api_commands['resp'], repeat=True)
         # mock.post(api_commands['urlg2'], payload=api_commands['resp'], repeat=True)
         yield mock
-
-
-@pytest.fixture
-async def mock_broker(hass: HomeAssistant) -> Broker:
-    """Fixture to Serve MQTT Client"""
-    mBroker = Broker(
-        {
-            "listeners": {
-                "default": {
-                    "bind": f"127.0.0.1:{MQTTPORT}",
-                    "type": "ws",
-                    "ssl": False,
-                    "max_connections": 10,
-                },
-            },
-            "plugins": {
-                "amqtt.plugins.authentication.AnonymousAuthPlugin": {
-                    "allow_anonymous": True
-                },
-                "amqtt.plugins.sys.broker.BrokerSysPlugin": {"sys_interval": 30},
-            },
-        },
-        loop=hass.loop,
-    )
-    return mBroker
-
-
-@pytest.fixture
-async def connected_amqtt(mock_broker: Broker):
-    """Fixture to connect & gracefull disc amqtt patricularily on fail"""
-    # Start Broker
-    _LOGGER.info("Start Broker")
-    await mock_broker.start()
-    await asyncio.sleep(0.01)
-
-    yield  # this is where the testing happens
-
-    # Shutdown MQTT
-    _LOGGER.info("Stop Broker")
-    await mock_broker.shutdown()
-    await asyncio.sleep(0.01)
 
 
 @pytest.fixture
@@ -130,15 +129,8 @@ async def traeger_client(hass: HomeAssistant, http: aiointercept) -> TraegerTest
 
 
 @pytest.fixture
-async def mock_config_entry(
-    hass: HomeAssistant,
-    traeger_client: TraegerTestClient,
-    http: aiointercept,
-    caplog: pytest.LogCaptureFixture,
-) -> MockConfigEntry:
-    """HASS Mock Config Entry"""
-    hass.config.units = US_CUSTOMARY_SYSTEM
-    caplog.set_level(logging.WARNING)
+async def mobile_app(hass: HomeAssistant) -> list[str]:
+    """HASS Add Mobile Apps"""
 
     mobile_app = []
     registry = dr.async_get(hass)
@@ -203,7 +195,49 @@ async def mock_config_entry(
     if len(devices):
         mobile_app.append(devices[0].id)
 
-    _LOGGER.info("MobileAppIds: %s", mobile_app)
+    yield mobile_app
+
+
+@pytest.fixture
+async def mock_config_entry(
+    hass: HomeAssistant,
+    traeger_client: TraegerTestClient,
+    http: aiointercept,
+    caplog: pytest.LogCaptureFixture,
+) -> MockConfigEntry:
+    """HASS Mock Config Entry"""
+    hass.config.units = US_CUSTOMARY_SYSTEM
+
+    entry = MockConfigEntry(
+        domain=DOMAIN,
+        data={
+            CONF_USERNAME: "johnytraeger@traeger.com",
+            CONF_PASSWORD: "johnytraeger'spassword",
+        },
+    )
+    hass.data[DOMAIN] = {entry.entry_id: traeger_client}
+    entry.add_to_hass(hass)
+    await hass.config_entries.async_setup(entry.entry_id)
+    hass_traeger_client = hass.data[DOMAIN][entry.entry_id]
+    # Start with pending task cancelled.
+    await hass_traeger_client.kill()
+    await hass_traeger_client.get_entities()
+
+    yield entry
+
+    await hass_traeger_client.kill()
+
+
+@pytest.fixture
+async def mock_config_entry_mobile_app(
+    hass: HomeAssistant,
+    traeger_client: TraegerTestClient,
+    http: aiointercept,
+    caplog: pytest.LogCaptureFixture,
+    mobile_app: list[str],
+) -> MockConfigEntry:
+    """HASS Mock Config Entry"""
+    hass.config.units = US_CUSTOMARY_SYSTEM
 
     entry = MockConfigEntry(
         domain=DOMAIN,

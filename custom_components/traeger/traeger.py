@@ -64,7 +64,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
 
     async def do_cognito(self):
         """Intial API Login"""
-        _LOGGER.info("do_cognito self.username:%s", self.api['username'])
+        _LOGGER.debug("Requesting a new API token")
         return await self.api_wrapper(
             "post",
             "https://auth-api.iot.traegergrills.io/tokens",
@@ -198,7 +198,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 continue
             if entity_entry.platform == "traeger":
                 self.entities[entity_entry.unique_id] = entity_id
-        _LOGGER.info(json.dumps(self.entities))
+        _LOGGER.debug("Entities: %s", json.dumps(self.entities))
         registry = dr.async_get(self.hass)
         config_entries = self.hass.config_entries.async_entries("mobile_app")
         for entry in config_entries:
@@ -212,7 +212,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                         dev.manufacturer,
                     )
                     self.notify[dev.id] = {"name": dev.name, "manu": dev.manufacturer}
-        _LOGGER.info(json.dumps(self.notify))
+        _LOGGER.debug("Notify targets: %s", json.dumps(self.notify))
 
     def __mqtt_url_remaining(self):
         """Available MQTT time left."""
@@ -378,11 +378,11 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 await asyncio.sleep(0.1)
             self.api['mqtt_url_expires'] = time.time()
             for grill in self.grills:  #Mark the grill(s) disconnected so they report unavail.
-                grill_id = grill[
-                    "thingName"]  #Also hit the callbacks to update HA
-                self.mqtt_client.grills_status[grill_id]["status"][
-                    "connected"] = False
-                await self.grill_callback(grill_id)
+                grill_id = grill["thingName"]
+                if grill_id in self.mqtt_client.grills_status:
+                    self.mqtt_client.grills_status[grill_id]["status"][
+                        "connected"] = False
+                    await self.grill_callback(grill_id)
         else:
             _LOGGER.info("Client Was not Connected?")
 
@@ -416,7 +416,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 if not isinstance(data, (dict, list)):
                     raise TypeError("Valid JSON, but not a JSON Object or Array")
                 return data
-        except asyncio.TimeoutError as exception:
+        except TimeoutError as exception:
             _LOGGER.error("Timeout error fetching information from %s - %s",
                           url, exception)
             return {}

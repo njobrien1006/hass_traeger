@@ -13,7 +13,9 @@ _LOGGER = logging.getLogger(__name__)
 
 
 # pylint: disable=import-outside-toplevel
-async def register_static_path(hass: HomeAssistant, url_path: str, path: str):
+async def register_static_path(
+    hass: HomeAssistant, url_path: str, path: str
+):  # pragma: no cover
     """Register Static Path with HA."""
     if (MAJOR_VERSION, MINOR_VERSION) >= (2024, 7):
         from homeassistant.components.http import StaticPathConfig
@@ -25,7 +27,9 @@ async def register_static_path(hass: HomeAssistant, url_path: str, path: str):
         hass.http.register_static_path(url_path, path)
 
 
-async def init_resource(hass: HomeAssistant, url: str, ver: str) -> bool:
+async def init_resource(
+    hass: HomeAssistant, url: str, ver: str
+) -> bool:  # pragma: no cover
     """Add extra JS module for lovelace mode YAML and new lovelace resource
     for mode GUI. It's better to add extra JS for all modes, because it has
     random url to avoid problems with the cache. But chromecast don't support
@@ -72,12 +76,12 @@ async def init_resource(hass: HomeAssistant, url: str, ver: str) -> bool:
 
 
 def call_service_set_number(hass, entity, value):
-    '''sync set number'''
+    """sync set number"""
     hass.async_create_task(call_service_async_set_number(hass, entity, value))
 
 
 async def call_service_async_set_number(hass, entity, value):
-    '''async set number'''
+    """async set number"""
     await hass.services.async_call(
         "number",
         "set_value",
@@ -90,12 +94,12 @@ async def call_service_async_set_number(hass, entity, value):
 
 
 def call_service_set_climate(hass, entity, value):
-    '''sync set climate temp'''
+    """sync set climate temp"""
     hass.async_create_task(call_service_async_set_climate(hass, entity, value))
 
 
 async def call_service_async_set_climate(hass, entity, value):
-    '''async set climate temp'''
+    """async set climate temp"""
     await hass.services.async_call(
         "climate",
         "set_temperature",
@@ -108,12 +112,12 @@ async def call_service_async_set_climate(hass, entity, value):
 
 
 def call_service_set_climate_mode(hass, entity, mode):
-    '''sync set climate mode'''
+    """sync set climate mode"""
     hass.async_create_task(call_service_async_set_climate_mode(hass, entity, mode))
 
 
 async def call_service_async_set_climate_mode(hass, entity, mode):
-    '''async set climate mode'''
+    """async set climate mode"""
     await hass.services.async_call(
         "climate",
         "set_hvac_mode",
@@ -126,12 +130,12 @@ async def call_service_async_set_climate_mode(hass, entity, mode):
 
 
 def call_service_set_switch(hass, entity, mode):
-    '''sync set switch'''
+    """sync set switch"""
     hass.async_create_task(call_service_async_set_switch(hass, entity, mode))
 
 
 async def call_service_async_set_switch(hass, entity, mode):
-    '''async set switch'''
+    """async set switch"""
     if mode not in ["turn_off", "turn_on"]:
         if mode == 0:
             setmode = "turn_off"
