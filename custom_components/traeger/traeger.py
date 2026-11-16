@@ -49,6 +49,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         self.main_failures = 0
         self._main_lock = asyncio.Lock()
         self._generation = 0  # kill() adds 1. A running main() then stops.
+        self.min_dly = 30
         self.grill_callbacks = {}
 
         self.grills = {}
@@ -320,7 +321,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         _LOGGER.debug("@Call_Later SyncMain CreatingTask for async Main.")
         self.hass.async_create_task(self.main())
 
-    async def main(self, min_dly=30):
+    async def main(self):
         """
         This is the loop that keeps the tokens updated.
         Only one run is active at a time.
@@ -329,9 +330,9 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         is not requested every min_dly seconds.
         """
         async with self._main_lock:
-            await self.__main(min_dly)
+            await self.__main()
 
-    async def __main(self, min_dly):
+    async def __main(self):
         """Body of main(). Call only with _main_lock held."""
         generation = self._generation
         _LOGGER.debug("Current Main Loop Time: %s", time.time())
@@ -348,15 +349,16 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 await self.__get_mqtt_client()
         if url_ok:
             self.main_failures = 0
-            delay = max(self.__mqtt_url_remaining(), min_dly)
+            delay = max(self.__mqtt_url_remaining(), self.min_dly)
         else:
             self.main_failures += 1
-            delay = min(min_dly * 2**(self.main_failures - 1),
+            delay = min(self.min_dly * 2**(self.main_failures - 1),
                         MAX_RETRY_DELAY)
             _LOGGER.warning(
                 "No MQTT URL (failure #%s). Retry in %s seconds.",
                 self.main_failures, delay)
         if generation != self._generation:
+            _LOGGER.debug("Task generation changed. Not scheduling again.")
             return  # kill() ran during this run. Do not schedule again.
         self.__reschedule(delay)
         await self.get_entities()
@@ -374,8 +376,6 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         if self.mqtt_client.isconnected:
             _LOGGER.info("Stopping MQTT")
             await self.mqtt_client.disconnect()
-            while self.mqtt_client.isconnected:  #Wait for disconnect to finish
-                await asyncio.sleep(0.1)
             self.api['mqtt_url_expires'] = time.time()
             for grill in self.grills:  #Mark the grill(s) disconnected so they report unavail.
                 grill_id = grill["thingName"]
@@ -491,6 +491,10 @@ class TraegerMQTTClient:
         _LOGGER.debug("Stopping Traeger MQTT Class")
         self._hass.async_add_executor_job(self.mqtt_client.disconnect)
         _LOGGER.debug("Added disconnect to executor job (thread)")
+        while self.isconnected and self.mqtt_client.is_connected():  #Wait for disconnect to finish
+            await asyncio.sleep(0.1)
+        self.mqtt_client.loop_stop()
+        self.isconnected = False
 
     def _mqtt_onconnect(self, client, userdata, flags, reason_code, properties):
         """MQTT on_connect"""
@@ -509,7 +513,6 @@ class TraegerMQTTClient:
         self.isconnected = False
         _LOGGER.debug("OnDisconnect Callback. Client:%s userdata:%s rc:%s",
                       client, userdata, reason_code)
-        self.mqtt_client.loop_stop()
 
     def mqtt_onmessage(self, client, userdata, message):
         """MQTT on_message"""
