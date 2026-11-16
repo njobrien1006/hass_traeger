@@ -107,6 +107,19 @@
             "problemMatcher": []
         },
         {
+            "label": "Pytestx5 & Coverage Badge & Coverage Report",
+            "type": "shell",
+            "dependsOn": [
+                "Run MQTT Broker in Background"
+            ],
+            "command": [
+                "for i in {1..5}; do uv run pytest -vv --cov=custom_components/traeger; done && ",
+                "uv run coverage-badge -o images/coverage.svg -f && ",
+                "uv run coverage html -d tests/coverage"
+            ],
+            "problemMatcher": []
+        },
+        {
             "label": "Pylint Component",
             "type": "shell",
             "command": [

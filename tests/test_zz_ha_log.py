@@ -41,7 +41,6 @@ async def test_zz_ha_log(
         for record in caplog.records
     )
 
-    print("caplog.records", caplog.records)
     _LOGGER.debug(
         "caplog.records\n%s", yaml.safe_dump(caplog.record_tuples)
     )
