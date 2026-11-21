@@ -5,9 +5,10 @@ from homeassistant.const import UnitOfTemperature
 NAME = "Traeger"
 DOMAIN = "traeger"
 DOMAIN_DATA = f"{DOMAIN}_data"
-VERSION = "2026.09.08"
+VERSION = "2026.10.0"
 ATTRIBUTION = ""
 ISSUE_URL = "https://github.com/njobrien1006/hass_traeger/issues"
+USER_AGENT = f"njobrien1006/hass_traeger/{VERSION}"
 
 # Icons
 ICON = "mdi:format-quote-close"

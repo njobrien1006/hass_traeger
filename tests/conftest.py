@@ -65,6 +65,7 @@ async def http():
             return CallbackResult(status=200, payload={})
 
         mock.post(api_token["url"], payload=api_token["resp"], repeat=True)
+        mock.get(api_token["url"], payload=api_token["resp"], repeat=True)
         mock.get(api_user_self["url"], payload=api_user_self["resp"], repeat=True)
         mock.post(api_mqtt["url"], payload=api_mqtt["resp"], repeat=True)
         mock.post(
@@ -123,9 +124,14 @@ async def connected_amqtt(mock_broker: Broker):
 async def traeger_client(hass: HomeAssistant, http: aiointercept) -> TraegerTestClient:
     """Traeger Test Client"""
     session = async_get_clientsession(hass)
-    client = TraegerTestClient(
-        "johnytraeger@traeger.com", "johnytraeger'spassword", hass, session, {}
-    )
+    api = {
+        "username": "johnytraeger@traeger.com",
+        "password": "johnytraeger'spassword",
+        "api_token": "",
+        "api_expires": 0,
+        "grills": []
+    }
+    client = TraegerTestClient(hass, session, {}, api)
     return client
 
 
@@ -138,7 +144,6 @@ async def mock_config_entry(
 ) -> MockConfigEntry:
     """HASS Mock Config Entry"""
     hass.config.units = US_CUSTOMARY_SYSTEM
-    caplog.set_level(logging.WARNING)
 
     mobile_app = []
     registry = dr.async_get(hass)
@@ -210,7 +215,7 @@ async def mock_config_entry(
         data={
             CONF_USERNAME: "johnytraeger@traeger.com",
             CONF_PASSWORD: "johnytraeger'spassword",
-            CONF_OPT_MOBILE_APP: mobile_app,
+            CONF_OPT_MOBILE_APP: mobile_app
         },
     )
     hass.data[DOMAIN] = {entry.entry_id: traeger_client}

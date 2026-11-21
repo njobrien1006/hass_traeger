@@ -74,8 +74,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     notifydict = dict.fromkeys(entry.data.get(CONF_OPT_MOBILE_APP,[]))
 
     session = async_get_clientsession(hass)
-
-    client = Traeger(username, password, hass, session, notifydict)
+    api = {
+        "username": username,
+        "password": password,
+        "api_token": entry.data.get("api_token", ""),
+        "api_expires": entry.data.get("api_expires", 0),
+        "grills": entry.data.get("grills", [])
+    }
+    client = Traeger(hass, session, notifydict, api, entry)
 
     await client.start(15)
     hass.data[DOMAIN][entry.entry_id] = client
@@ -87,8 +93,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         """Shut down the client."""
         await client.kill()
 
-    hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, async_shutdown)
-    entry.add_update_listener(async_reload_entry)
+    entry.async_on_unload(
+        hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, async_shutdown))
+    entry.async_on_unload(entry.add_update_listener(async_reload_entry))
     return True
 
 
@@ -104,5 +111,4 @@ async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
 
 async def async_reload_entry(hass: HomeAssistant, entry: ConfigEntry) -> None:
     """Reload config entry."""
-    await async_unload_entry(hass, entry)
-    await async_setup_entry(hass, entry)
+    await hass.config_entries.async_reload(entry.entry_id)
