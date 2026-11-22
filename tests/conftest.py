@@ -65,7 +65,6 @@ async def http():
             return CallbackResult(status=200, payload={})
 
         mock.post(api_token["url"], payload=api_token["resp"], repeat=True)
-        mock.get(api_token["url"], payload=api_token["resp"], repeat=True)
         mock.get(api_user_self["url"], payload=api_user_self["resp"], repeat=True)
         mock.post(api_mqtt["url"], payload=api_mqtt["resp"], repeat=True)
         mock.post(
