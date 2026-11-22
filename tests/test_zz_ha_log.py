@@ -43,6 +43,7 @@ async def test_zz_ha_log(
             )
             return CallbackResult(status=200, payload=None)
         return CallbackResult(status=404, payload=None)
+    _LOGGER.warning("Running Log Check")
 
     # Register Callbacks
     http.post(api_commands["url"], callback=callback, repeat=True)
@@ -51,7 +52,7 @@ async def test_zz_ha_log(
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
 
     # Check a known log exists.
-    assert any("Was at callbacks" in record.message for record in caplog.records)
+    assert any("Running Log Check" in record.message for record in caplog.records)
 
     # Check if we have used any deprec items
     assert not any(
