@@ -8,12 +8,15 @@ Please see the LICENSE file that should have been included as part of this packa
 """
 
 import asyncio
+import base64
 import json
 import logging
+import random
 import socket
 import ssl
 import time
 import urllib
+import uuid
 
 import aiohttp
 import async_timeout
@@ -22,6 +25,8 @@ from homeassistant.components.mqtt.async_client import AsyncMQTTClient
 from homeassistant.helpers import device_registry as dr
 from homeassistant.helpers import entity_registry as er
 from paho.mqtt import client as mqtt
+
+from .const import USER_AGENT
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -32,29 +37,28 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
     """Traeger API Wrapper"""
 
     # pylint: disable=dangerous-default-value,too-many-arguments,too-many-positional-arguments
-    def __init__(self, username, password, hass, request_library, notifydict):
-        self.api = {
-            "username": username,
-            "password": password,
-            "api_token": "",
-            "api_expires": 0,
+    def __init__(self, hass, request_library, notifydict, api, cfgentry=None):
+        self.api = api
+        self.api.update({
             "mqtt_url_expires": time.time(),
             "mqtt_url": None,
             "timeout": 10
-        }
+        })
         self.hass = hass
         self.request = request_library
+        self.entry = cfgentry
 
         self.loop_task = None
         self.main_failures = 0
         self._main_lock = asyncio.Lock()
         self._generation = 0  # kill() adds 1. A running main() then stops.
+        self.min_dly = 30
         self.grill_callbacks = {}
 
-        self.grills = {}
+
+        self.grills = [{"thingName": grill} for grill in self.api["grills"]]
         self.mqtt_client = TraegerMQTTClient(self.hass,
-                                             self.sync_grill_callback,
-                                             self.sync_update_state)
+                                             self.sync_grill_callback)
         self.entities = {}
         self.notify = notifydict
 
@@ -68,25 +72,64 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         return await self.api_wrapper(
             "post",
             "https://auth-api.iot.traegergrills.io/tokens",
-            data={
-                "password": self.api['password'],
-                "username": self.api['username']
-            },
-            headers={'content-type': 'application/json'})
+            data={"password": self.api["password"], "username": self.api["username"]},
+            headers={"content-type": "application/json", "user-agent": USER_AGENT},
+        )
+
+    async def do_token_refresh(self):
+        """API Token Refresh"""
+        _LOGGER.info("do_cognito self.username:%s", self.api["username"])
+        return await self.api_wrapper(
+            "post",
+            "https://auth-api.iot.traegergrills.io/tokens/refresh",
+            data={"refreshToken": self.api["api_refresh"]},
+            headers={"content-type": "application/json", "user-agent": USER_AGENT},
+        )
 
     async def __refresh_token(self):
         """Refresh Token if expiration is soon."""
-        if self.__token_remaining() < 60:
+        if self.__token_remaining() < 5:
             request_time = time.time()
             response = await self.do_cognito()
             _LOGGER.debug("Do Cognito Response: %s", response)
             try:
                 self.api['api_expires'] = response["expiresIn"] + request_time
                 self.api['api_token'] = response["idToken"]
+                self.api['api_refresh'] = response["refreshToken"]
             except Exception as exception:  # pylint: disable=broad-except
                 _LOGGER.error(
                     "We had an exception: %s \n \
                 Do Cognito Response: %s", exception, response)
+                return
+        elif self.__token_remaining() < 3600 and self.api.get("api_refresh", "") != "":
+            request_time = time.time()
+            response = await self.do_token_refresh()
+            _LOGGER.debug("Do Token Refresh Response: %s", response)
+            try:
+                self.api['api_expires'] = response["expiresIn"] + request_time
+                self.api['api_token'] = response["idToken"]
+            except Exception as exception:  # pylint: disable=broad-except
+                _LOGGER.error(
+                    "We had an exception: %s \n \
+                Do Token Refresh Response: %s", exception, response)
+                self.api.pop("api_refresh", None)
+                self.api['api_expires'] = request_time
+                await asyncio.sleep(random.uniform(10, 20))
+                await self.__refresh_token()
+                return
+        else:
+            _LOGGER.info("Reuse Existing Token")
+            return
+        if self.entry:
+            new_data = {
+                **self.entry.data,
+                "api_token": self.api["api_token"],
+                "api_expires": self.api["api_expires"],
+                "api_refresh": self.api["api_refresh"],
+            }
+            self.hass.config_entries.async_update_entry(
+                self.entry, data=new_data,
+            )
 
     async def get_user_data(self):
         """Get User Data."""
@@ -95,9 +138,18 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
             "get",
             "https://mobile-iot-api.iot.traegergrills.io/users/self",
             headers={
-                'authorization': self.api['api_token'],
-                'content-type': 'application/json'
-            })
+                "authorization": self.api["api_token"],
+                "content-type": "application/json",
+                "user-agent": USER_AGENT,
+            },
+        )
+
+    async def get_glist(self, grills):
+        """GetGrill as simple List"""
+        glist = []
+        for grill in grills:
+            glist.append(grill["thingName"])
+        return glist
 
     async def __send_command(self, thingname, command):
         """
@@ -111,22 +163,14 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         await self.api_wrapper(
             "post_raw",
             f"{api_url}/things/{thingname}/commands",
-            data={'command': command},
+            data={"command": command},
             headers={
-                'authorization': self.api['api_token'],
+                "authorization": self.api["api_token"],
                 "content-type": "application/json",
                 "accept-language": "en-US",
-                "user-agent": "Traeger/11 CFNetwork/1209 Darwin/20.2.0",
-            })
-
-    def sync_update_state(self, thingname: str):
-        """Update State"""
-        asyncio.run_coroutine_threadsafe(self.update_state(thingname),
-                                         self.hass.loop)
-
-    async def update_state(self, thingname):
-        """Update State"""
-        await self.__send_command(thingname, "90")
+                "user-agent": USER_AGENT,
+            },
+        )
 
     async def set_temperature(self, thingname, temp):
         """Set Grill Temp Setpoint"""
@@ -158,6 +202,9 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         myjson = await self.get_user_data()
         try:
             self.grills = myjson["things"]
+            self.hass.config_entries.async_update_entry(
+                self.entry, data={**self.entry.data, "grills": await self.get_glist(self.grills)}
+            )
         except Exception as exception:  # pylint: disable=broad-except
             _LOGGER.error(
                 "We had an exception: %s \n \
@@ -233,7 +280,11 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 myjson = await self.api_wrapper(
                     "post",
                     "https://mobile-iot-api.iot.traegergrills.io/mqtt-connections",
-                    headers={'Authorization': self.api['api_token']})
+                    headers={
+                        "Authorization": self.api["api_token"],
+                        "user-agent": USER_AGENT,
+                    },
+                )
                 self.api['mqtt_url_expires'] = myjson["expirationSeconds"] + \
                     mqtt_request_time
                 self.api['mqtt_url'] = myjson["signedUrl"]
@@ -320,7 +371,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         _LOGGER.debug("@Call_Later SyncMain CreatingTask for async Main.")
         self.hass.async_create_task(self.main())
 
-    async def main(self, min_dly=30):
+    async def main(self):
         """
         This is the loop that keeps the tokens updated.
         Only one run is active at a time.
@@ -329,9 +380,9 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         is not requested every min_dly seconds.
         """
         async with self._main_lock:
-            await self.__main(min_dly)
+            await self.__main()
 
-    async def __main(self, min_dly):
+    async def __main(self):
         """Body of main(). Call only with _main_lock held."""
         generation = self._generation
         _LOGGER.debug("Current Main Loop Time: %s", time.time())
@@ -348,15 +399,16 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 await self.__get_mqtt_client()
         if url_ok:
             self.main_failures = 0
-            delay = max(self.__mqtt_url_remaining(), min_dly)
+            delay = max(self.__mqtt_url_remaining(), self.min_dly)
         else:
             self.main_failures += 1
-            delay = min(min_dly * 2**(self.main_failures - 1),
+            delay = min(self.min_dly * 2**(self.main_failures - 1),
                         MAX_RETRY_DELAY)
             _LOGGER.warning(
                 "No MQTT URL (failure #%s). Retry in %s seconds.",
                 self.main_failures, delay)
         if generation != self._generation:
+            _LOGGER.debug("Task generation changed. Not scheduling again.")
             return  # kill() ran during this run. Do not schedule again.
         self.__reschedule(delay)
         await self.get_entities()
@@ -374,11 +426,10 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         if self.mqtt_client.isconnected:
             _LOGGER.info("Stopping MQTT")
             await self.mqtt_client.disconnect()
-            while self.mqtt_client.isconnected:  #Wait for disconnect to finish
-                await asyncio.sleep(0.1)
             self.api['mqtt_url_expires'] = time.time()
             for grill in self.grills:  #Mark the grill(s) disconnected so they report unavail.
-                grill_id = grill["thingName"]
+                grill_id = grill[
+                    "thingName"]  #Also hit the callbacks to update HA
                 if grill_id in self.mqtt_client.grills_status:
                     self.mqtt_client.grills_status[grill_id]["status"][
                         "connected"] = False
@@ -437,7 +488,7 @@ class TraegerMQTTClient:
     """Traeger MQTT Wrapper"""
 
     # pylint: disable=unused-argument,too-many-instance-attributes,too-many-arguments,too-many-positional-arguments
-    def __init__(self, hass, callback, update_state):
+    def __init__(self, hass, callback):
         self.isconnected = False
         self.grills_status = {}
         self.context = None
@@ -449,10 +500,21 @@ class TraegerMQTTClient:
         self._pending_subs = {}  # Subscribe mid -> grill_id
 
         self.grill_callback = callback
-        self.update_state = update_state
 
-        self.mqtt_client = AsyncMQTTClient(mqtt.CallbackAPIVersion.VERSION2,
-                                           transport="websockets")
+        #22 Char Uniq (hopefully) HA ID.
+        clientid = (
+            base64.urlsafe_b64encode(
+                uuid.UUID(self._hass.data.get("core.uuid", uuid.uuid4().hex)).bytes
+            )
+            .rstrip(b"=")
+            .decode("UTF-8")
+        )
+
+        _LOGGER.info("MQTTclientid %s", clientid)
+
+        self.mqtt_client = AsyncMQTTClient(
+            mqtt.CallbackAPIVersion.VERSION2, transport="websockets", client_id=clientid
+        )
         self.mqtt_client.on_connect = self._mqtt_onconnect
         self.mqtt_client.on_subscribe = self._mqtt_onsubscribe
         self.mqtt_client.on_message = self.mqtt_onmessage
@@ -491,6 +553,10 @@ class TraegerMQTTClient:
         _LOGGER.debug("Stopping Traeger MQTT Class")
         self._hass.async_add_executor_job(self.mqtt_client.disconnect)
         _LOGGER.debug("Added disconnect to executor job (thread)")
+        while self.isconnected and self.mqtt_client.is_connected():  #Wait for disconnect to finish
+            await asyncio.sleep(0.1)
+        self.mqtt_client.loop_stop()
+        self.isconnected = False
 
     def _mqtt_onconnect(self, client, userdata, flags, reason_code, properties):
         """MQTT on_connect"""
@@ -501,15 +567,13 @@ class TraegerMQTTClient:
             if grill_id in self.grills_status:
                 del self.grills_status[grill_id]
             _LOGGER.debug("Subscribe To: %s", grill_id)
-            _, mid = client.subscribe((f"prod/thing/update/{grill_id}", 1))
-            self._pending_subs[mid] = grill_id
+            client.subscribe((f"prod/thing/update/{grill_id}", 0))
 
     def _mqtt_ondisconnect(self, client, userdata, flags, reason_code, properties):
         """MQTT on_undisconnect"""
         self.isconnected = False
         _LOGGER.debug("OnDisconnect Callback. Client:%s userdata:%s rc:%s",
                       client, userdata, reason_code)
-        self.mqtt_client.loop_stop()
 
     def mqtt_onmessage(self, client, userdata, message):
         """MQTT on_message"""
@@ -535,10 +599,6 @@ class TraegerMQTTClient:
         """MQTT on_subscribe"""
         _LOGGER.debug("OnSubscribe Callback. Client:%s userdata:%s mid:%s",
                       client, userdata, mid)
-        # Request the state only for the grill this subscribe is for.
-        grill_id = self._pending_subs.pop(mid, None)
-        if grill_id is not None:
-            self.update_state(grill_id)
 
     def _mqtt_onsocketclose(self, client, userdata, sock):
         """MQTT on_socketclose"""

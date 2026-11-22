@@ -26,6 +26,8 @@ async def client_connect(hass, client, grill_list):
     await hass.async_block_till_done()
     await asyncio.sleep(0.4)
 
+    await client_publish(hass, client, copy.deepcopy(mqtt_msg))
+
 
 async def client_publish(hass, client, msg, dly=0.05):
     """Publish to MQTT Client"""

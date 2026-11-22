@@ -33,7 +33,7 @@ async def test_zz_ha_log(
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
 
     # Check a known log exists.
-    assert any("Was at callbacks" in record.message for record in caplog.records)
+    assert any("Running Log Check" in record.message for record in caplog.records)
 
     # Check if we have used any deprec items
     assert not any(
@@ -41,7 +41,6 @@ async def test_zz_ha_log(
         for record in caplog.records
     )
 
-    print("caplog.records", caplog.records)
     _LOGGER.debug(
         "caplog.records\n%s", yaml.safe_dump(caplog.record_tuples)
     )
