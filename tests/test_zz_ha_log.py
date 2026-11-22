@@ -27,6 +27,7 @@ async def test_zz_ha_log(
 ) -> None:
     """Test HA Logs"""
     # pylint: disable=unused-argument,too-many-arguments,too-many-positional-arguments
+    _LOGGER.warning("Running Log Check")
 
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
     CallbackAPI(traeger_client, http)

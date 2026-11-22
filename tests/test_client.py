@@ -209,7 +209,6 @@ async def test_handle_cmd(
     traeger_client.api["username"] = "JohnyTraeger@traeger.com"
     traeger_client.api["password"] = "abc123"
     await traeger_client.reset_timer("0123456789ab")
-    _LOGGER.warning("do cognito resp: %s", response)
     assert http.last_request.kwargs.get("json", {}) == {"command": "13"}
 
 
@@ -291,7 +290,7 @@ async def test_connect_cmds(
     )
     await hass.async_block_till_done()
     await asyncio.sleep(0.5)
-    await client_publish(hass, traeger_client, mqtt_msg)    
+    await client_publish(hass, traeger_client, mqtt_msg)
 
     # Get Entity Trig Check
     entity = hass.states.get("switch.traeger_0123456789ab_connect")
