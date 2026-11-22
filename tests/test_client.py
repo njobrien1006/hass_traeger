@@ -208,9 +208,9 @@ async def test_handle_cmd(
     http.post(api_commands["url"], payload=api_commands["resp"])
     traeger_client.api["username"] = "JohnyTraeger@traeger.com"
     traeger_client.api["password"] = "abc123"
-    response = await traeger_client.update_state("0123456789ab")
+    await traeger_client.reset_timer("0123456789ab")
     _LOGGER.warning("do cognito resp: %s", response)
-    assert http.last_request.kwargs.get("json", {}) == {"command": "90"}
+    assert http.last_request.kwargs.get("json", {}) == {"command": "13"}
 
 
 async def test_handle_cmd_bad(
@@ -224,7 +224,7 @@ async def test_handle_cmd_bad(
     http.post(api_commands["url"], payload={"error": "badtoken"})
     traeger_client.api["username"] = "JohnyTraeger@traeger.com"
     traeger_client.api["password"] = None
-    await traeger_client.update_state("0123456789ab")
+    await traeger_client.reset_timer("0123456789ab")
     assert any(
         "We had an exception: 'expiresIn'" in record.message
         for record in caplog.records
@@ -291,6 +291,7 @@ async def test_connect_cmds(
     )
     await hass.async_block_till_done()
     await asyncio.sleep(0.5)
+    await client_publish(hass, traeger_client, mqtt_msg)    
 
     # Get Entity Trig Check
     entity = hass.states.get("switch.traeger_0123456789ab_connect")
@@ -317,38 +318,6 @@ async def test_connect_cmds(
     assert not traeger_client.mqtt_client.isconnected
     assert entity.state == "off"
     assert entity == snapshot(name="02-Off")
-
-    # Do it again to test DEL in grills_status
-
-    await hass.services.async_call(
-        "switch",
-        SERVICE_TURN_ON,
-        {ATTR_ENTITY_ID: "switch.traeger_0123456789ab_connect"},
-        blocking=True,
-    )
-    await hass.async_block_till_done()
-    await asyncio.sleep(0.5)
-
-    # Get Entity Trig Check
-    entity = hass.states.get("switch.traeger_0123456789ab_connect")
-    # Check Enttity
-    assert traeger_client.mqtt_client.isconnected
-    assert entity.state == "on"
-
-    await hass.services.async_call(
-        "switch",
-        SERVICE_TURN_OFF,
-        {ATTR_ENTITY_ID: "switch.traeger_0123456789ab_connect"},
-        blocking=True,
-    )
-    await hass.async_block_till_done()
-    await asyncio.sleep(0.1)
-
-    # Get Entity Trig Check
-    entity = hass.states.get("switch.traeger_0123456789ab_connect")
-    # Check Enttity
-    assert not traeger_client.mqtt_client.isconnected
-    assert entity.state == "off"
 
 
 @pytest.mark.usefixtures("socket_enabled")

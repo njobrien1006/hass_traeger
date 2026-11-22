@@ -122,9 +122,15 @@ async def http():
 async def traeger_client(hass: HomeAssistant, http: aiointercept) -> TraegerTestClient:
     """Traeger Test Client"""
     session = async_get_clientsession(hass)
-    client = TraegerTestClient(
-        "johnytraeger@traeger.com", "johnytraeger'spassword", hass, session, {}
-    )
+    api = {
+        "username": "johnytraeger@traeger.com",
+        "password": "johnytraeger'spassword",
+        "api_token": "",
+        "api_expires": 0,
+        "api_refresh": "",
+        "grills": []
+    }
+    client = TraegerTestClient(hass, session, {}, api)
     return client
 
 
@@ -244,7 +250,7 @@ async def mock_config_entry_mobile_app(
         data={
             CONF_USERNAME: "johnytraeger@traeger.com",
             CONF_PASSWORD: "johnytraeger'spassword",
-            CONF_OPT_MOBILE_APP: mobile_app,
+            CONF_OPT_MOBILE_APP: mobile_app
         },
     )
     hass.data[DOMAIN] = {entry.entry_id: traeger_client}
