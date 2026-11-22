@@ -95,7 +95,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                     "We had an exception: %s \n \
                 Do Cognito Response: %s", exception, response)
                 return
-        elif self.__token_remaining() < 3600 and 'api_refresh' in self.api:
+        elif self.__token_remaining() < 3600 and self.api.get("api_refresh", "") != "":
             request_time = time.time()
             response = await self.do_token_refresh()
             _LOGGER.debug("Do Token Refresh Response: %s", response)

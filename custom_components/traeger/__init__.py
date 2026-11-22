@@ -79,6 +79,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         "password": password,
         "api_token": entry.data.get("api_token", ""),
         "api_expires": entry.data.get("api_expires", 0),
+        "api_refresh": entry.data.get("api_refresh", ""),
         "grills": entry.data.get("grills", [])
     }
     client = Traeger(hass, session, notifydict, api, entry)
