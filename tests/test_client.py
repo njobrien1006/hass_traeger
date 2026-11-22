@@ -2,7 +2,6 @@
 
 import asyncio
 import copy
-import json
 import logging
 import time
 
@@ -10,13 +9,13 @@ import pytest
 from aiointercept import CallbackResult, aiointercept
 from homeassistant.const import ATTR_ENTITY_ID, SERVICE_TURN_OFF, SERVICE_TURN_ON
 from homeassistant.core import HomeAssistant
-from pytest_homeassistant_custom_component.common import MockConfigEntry
+from pytest_homeassistant.common import MockConfigEntry
 from syrupy.assertion import SnapshotAssertion
 
 from custom_components.traeger.const import DOMAIN
 
-from .conftest import MQTTPORT, Broker, TraegerTestClient
-from .zzcommon import client_connect, client_disconnect, client_publish
+from .conftest import MQTTPORT, TraegerTestClient
+from .zzcommon import CallbackAPI, client_connect, client_disconnect, client_publish
 from .zzMockResp import api_commands, api_mqtt, api_token, api_user_self, mqtt_msg
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
@@ -47,6 +46,25 @@ async def test_handle_tokens_bad_user_pass(
     traeger_client.api["password"] = ""
     response = await traeger_client.do_cognito()
     _LOGGER.warning("do cognito resp: %s", response)
+    assert response == {"error": "badpass"}
+
+
+async def test_handle_bad_api_status(
+    traeger_client: TraegerTestClient,
+    http: aiointercept,
+    caplog: pytest.LogCaptureFixture,
+) -> None:
+    """test getting token"""
+    http.clear()
+    http.post(api_token["url"], payload=api_token["resp"], status=404)
+    traeger_client.api["username"] = "JohnyTraeger@traeger.com"
+    traeger_client.api["password"] = "abc123"
+    response = await traeger_client.do_cognito()
+    _LOGGER.warning("do cognito resp: %s", response)
+    assert any(
+        f"Command to {api_token['url']} returned HTTP 404" in record.message
+        for record in caplog.records
+    )
 
 
 async def test_handle_user(
@@ -75,6 +93,7 @@ async def test_handle_user_bad(
     traeger_client.api["password"] = ""
     response = await traeger_client.get_user_data()
     _LOGGER.warning("do cognito resp: %s", response)
+    assert response == {"error": "badtoken"}
 
 
 async def test_handle_getgrills(
@@ -119,17 +138,17 @@ async def test_handle_getgrills_bad_notjson(
     _LOGGER.error("do cognito resp: %s", traeger_client.grills)
 
 
-# pylint: disable=unused-argument
 async def test_handle_api_timeout(
-    traeger_client: TraegerTestClient, http: aiointercept
+    traeger_client: TraegerTestClient,
+    http: aiointercept,
+    caplog: pytest.LogCaptureFixture,
 ) -> None:
     """test getting grills from user data"""
+    # pylint: disable=unused-argument
 
     def callback(url, **kwargs):
         """Setup API Callbacks"""
-        _LOGGER.error("callbackstart")
         time.sleep(2)
-        _LOGGER.error("callbackend")
         return CallbackResult(status=200, payload="badjson")
 
     http.clear()
@@ -139,6 +158,10 @@ async def test_handle_api_timeout(
     traeger_client.api["username"] = "JohnyTraeger@traeger.com"
     traeger_client.api["password"] = "abc123"
     await traeger_client.update_grills()
+    assert any(
+        f"Timeout error fetching information from {api_token['url']}" in record.message
+        for record in caplog.records
+    )
     _LOGGER.error("do cognito resp: %s", traeger_client.grills)
 
 
@@ -158,7 +181,9 @@ async def test_handle_mqtturl(
 
 
 async def test_handle_mqtturl_bad(
-    traeger_client: TraegerTestClient, http: aiointercept
+    traeger_client: TraegerTestClient,
+    http: aiointercept,
+    caplog: pytest.LogCaptureFixture,
 ) -> None:
     """test getting mqtt url bad"""
     http.clear()
@@ -167,6 +192,10 @@ async def test_handle_mqtturl_bad(
     traeger_client.api["username"] = ""
     traeger_client.api["password"] = ""
     response = await traeger_client.refresh_mqtt_url()
+    assert any(
+        "We had an exception: 'expiresIn'" in record.message
+        for record in caplog.records
+    )
     _LOGGER.warning("do cognito resp: %s", response)
 
 
@@ -180,11 +209,14 @@ async def test_handle_cmd(
     traeger_client.api["username"] = "JohnyTraeger@traeger.com"
     traeger_client.api["password"] = "abc123"
     await traeger_client.reset_timer("0123456789ab")
-    assert True
+    _LOGGER.warning("do cognito resp: %s", response)
+    assert http.last_request.kwargs.get("json", {}) == {"command": "13"}
 
 
 async def test_handle_cmd_bad(
-    traeger_client: TraegerTestClient, http: aiointercept
+    traeger_client: TraegerTestClient,
+    http: aiointercept,
+    caplog: pytest.LogCaptureFixture,
 ) -> None:
     """test grill command"""
     http.clear()
@@ -193,36 +225,24 @@ async def test_handle_cmd_bad(
     traeger_client.api["username"] = "JohnyTraeger@traeger.com"
     traeger_client.api["password"] = None
     await traeger_client.reset_timer("0123456789ab")
-    assert True
+    assert any(
+        "We had an exception: 'expiresIn'" in record.message
+        for record in caplog.records
+    )
 
 
-# pylint: disable=unused-argument
 @pytest.mark.usefixtures("socket_enabled")
 async def test_client_missing_sts(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
     """Test Bad MQTT formation"""
+    # pylint: disable=unused-argument
 
-    def callback(url, **kwargs):
-        """Setup API Callbacks"""
-        _LOGGER.warning("Was at callbacks %s - %s", url, kwargs["json"])
-        if kwargs["json"]["command"] == "90":
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        return CallbackResult(status=404, payload=None)
-
-    # Register Callbacks
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    CallbackAPI(traeger_client, http)
     await client_connect(hass, traeger_client, api_user_self["resp"]["things"])
 
     # Set Connected
@@ -254,34 +274,14 @@ async def test_client_missing_sts(
 async def test_connect_cmds(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
     """test switch connect cmds"""
 
-    def callback(url, **kwargs):
-        """Setup API Callbacks"""
-        _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
-        if kwargs["json"]["command"] == "90":
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg).encode("utf-8"),
-                qos=1,
-            )
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/cd0123456789",
-                json.dumps(mqtt_msg).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        return CallbackResult(status=404, payload=None)
-
-    # Register Callbacks
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
-    traeger_client.mqtt_client.ssl = False
+    CallbackAPI(traeger_client, http)
+    # traeger_client.mqtt_client.ssl = False
     traeger_client.mqtt_client.port = MQTTPORT
     await hass.services.async_call(
         "switch",
@@ -290,8 +290,8 @@ async def test_connect_cmds(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(2)
-    await client_publish(hass, traeger_client, mqtt_msg)
+    await asyncio.sleep(0.5)
+    await client_publish(hass, traeger_client, mqtt_msg)    
 
     # Get Entity Trig Check
     entity = hass.states.get("switch.traeger_0123456789ab_connect")
@@ -300,6 +300,9 @@ async def test_connect_cmds(
     assert entity.state == "on"
     assert entity == snapshot(name="01-On")
 
+    # Try Running another start to see if it handles the task already running.
+    await traeger_client.start(0)
+
     await hass.services.async_call(
         "switch",
         SERVICE_TURN_OFF,
@@ -307,7 +310,7 @@ async def test_connect_cmds(
         blocking=True,
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(1)
+    await asyncio.sleep(0.1)
 
     # Get Entity Trig Check
     entity = hass.states.get("switch.traeger_0123456789ab_connect")
@@ -321,57 +324,155 @@ async def test_connect_cmds(
 async def test_connect_autoupdate(
     hass: HomeAssistant,
     mock_config_entry: MockConfigEntry,
-    connected_amqtt: Broker,
     snapshot: SnapshotAssertion,
     http: aiointercept,
 ) -> None:
     """test mqtt token auto refresh"""
-
-    def callback(url, **kwargs):
-        """Setup API Callbacks"""
-        _LOGGER.error("Was at callbacks %s - %s", url, kwargs["json"])
-        if kwargs["json"]["command"] == "90":
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/0123456789ab",
-                json.dumps(mqtt_msg).encode("utf-8"),
-                qos=1,
-            )
-            traeger_client.mqtt_client.mqtt_client.publish(
-                "prod/thing/update/cd0123456789",
-                json.dumps(mqtt_msg).encode("utf-8"),
-                qos=1,
-            )
-            return CallbackResult(status=200, payload=None)
-        return CallbackResult(status=404, payload=None)
+    # pylint: disable=unused-argument,unused-variable
 
     api_mqtt_resp = copy.deepcopy(api_mqtt["resp"])
-    api_mqtt_resp["expirationSeconds"] = 2
+    api_mqtt_resp["expirationSeconds"] = 1
     # Register Callbacks
     http.clear()
     http.post(api_token["url"], payload=api_token["resp"], repeat=True)
     http.get(api_user_self["url"], payload=api_user_self["resp"], repeat=True)
     http.post(api_mqtt["url"], payload=api_mqtt_resp, repeat=True)
-    http.post(api_commands["url"], callback=callback, repeat=True)
-    http.post(api_commands["urlg2"], callback=callback, repeat=True)
     traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
-    traeger_client.mqtt_client.ssl = False
+    CallbackAPI(traeger_client, http)
+    # traeger_client.mqtt_client.ssl = False
     traeger_client.mqtt_client.port = MQTTPORT
 
-    await traeger_client.main(1)
+    traeger_client.min_dly = 1
+    await traeger_client.main()
+    await asyncio.sleep(0.8)
+
+    # Check CONN Update Multiple Times
+    for x in range(1, 2):
+        # Check CON
+        assert traeger_client.mqtt_client.isconnected
+
+        mem_mqtt_url_expires = traeger_client.api["mqtt_url_expires"]
+        assert traeger_client.api["mqtt_url_expires"] - time.time() < 10
+
+        await asyncio.sleep(1.0)
+
+        assert traeger_client.api["mqtt_url_expires"] != mem_mqtt_url_expires
+
+    await traeger_client.kill()
     await asyncio.sleep(0.2)
 
     # Check CON
+    assert not traeger_client.mqtt_client.isconnected
+
+
+@pytest.mark.usefixtures("socket_enabled")
+async def test_connect_reconnectbadmqtt(
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    http: aiointercept,
+) -> None:
+    """test api_mqtt with bad response and backoff"""
+    # pylint: disable=unused-argument
+
+    api_mqtt_resp = copy.deepcopy(api_mqtt["resp"])
+    api_mqtt_resp["expirationSeconds"] = 1
+    # Register Callbacks
+    http.clear()
+    http.post(api_token["url"], payload=api_token["resp"], repeat=True)
+    http.get(api_user_self["url"], payload=api_user_self["resp"], repeat=True)
+    http.post(api_mqtt["url"], payload=api_mqtt_resp, repeat=True)
+    traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    CallbackAPI(traeger_client, http)
+    # traeger_client.mqtt_client.ssl = False
+    traeger_client.mqtt_client.port = MQTTPORT
+
+    traeger_client.min_dly = 1
+    await traeger_client.main()
+    await asyncio.sleep(0.8)
+
     assert traeger_client.mqtt_client.isconnected
 
     mem_mqtt_url_expires = traeger_client.api["mqtt_url_expires"]
     assert traeger_client.api["mqtt_url_expires"] - time.time() < 10
 
-    await asyncio.sleep(3)
+    await asyncio.sleep(1.0)
 
     assert traeger_client.api["mqtt_url_expires"] != mem_mqtt_url_expires
 
+    http.post(api_mqtt["url"], payload={}, repeat=True)
+
+    await asyncio.sleep(3)
+
+    assert traeger_client.api["mqtt_url_expires"] < time.time()
+
+    http.post(api_mqtt["url"], payload=api_mqtt_resp, repeat=True)
+
+    await asyncio.sleep(1.0)
+
+    assert traeger_client.api["mqtt_url_expires"] > time.time()
+
     await traeger_client.kill()
     await asyncio.sleep(0.2)
+
+    # Check CON
+    assert not traeger_client.mqtt_client.isconnected
+
+
+@pytest.mark.usefixtures("socket_enabled")
+async def test_connect_regen(
+    hass: HomeAssistant,
+    mock_config_entry: MockConfigEntry,
+    http: aiointercept,
+) -> None:
+    """test task kill with main in progress"""
+    # pylint: disable=unused-argument,protected-access
+
+    api_mqtt_resp = copy.deepcopy(api_mqtt["resp"])
+    api_mqtt_resp["expirationSeconds"] = 1
+    # Register Callbacks
+    http.clear()
+    http.post(api_token["url"], payload=api_token["resp"], repeat=True)
+    http.get(api_user_self["url"], payload=api_user_self["resp"], repeat=True)
+
+    def stdcallback(url, **kwargs):
+        """Setup API Callbacks"""
+        return CallbackResult(status=200, payload=api_mqtt_resp)
+
+    def dlycallback(url, **kwargs):
+        """Setup API Callbacks"""
+        time.sleep(2)
+        return CallbackResult(status=200, payload=api_mqtt_resp)
+
+    http.post(api_mqtt["url"], callback=stdcallback, repeat=True)
+    traeger_client = hass.data[DOMAIN][mock_config_entry.entry_id]
+    CallbackAPI(traeger_client, http)
+    # traeger_client.mqtt_client.ssl = False
+    traeger_client.mqtt_client.port = MQTTPORT
+
+    traeger_client.min_dly = 1
+    await traeger_client.main()
+    await asyncio.sleep(0.8)
+
+    assert traeger_client.mqtt_client.isconnected
+
+    mem_mqtt_url_expires = traeger_client.api["mqtt_url_expires"]
+    assert traeger_client.api["mqtt_url_expires"] - time.time() < 10
+
+    await asyncio.sleep(1.0)
+
+    assert traeger_client.api["mqtt_url_expires"] != mem_mqtt_url_expires
+
+    http.post(api_mqtt["url"], callback=dlycallback, repeat=True)
+
+    await asyncio.sleep(1.0)
+
+    generation = traeger_client._generation
+    await traeger_client.kill()
+    assert traeger_client._generation != generation
+
+    await asyncio.sleep(1.0)
+
+    assert traeger_client.loop_task is None
 
     # Check CON
     assert not traeger_client.mqtt_client.isconnected

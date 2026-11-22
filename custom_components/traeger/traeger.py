@@ -30,6 +30,8 @@ from .const import USER_AGENT
 
 _LOGGER: logging.Logger = logging.getLogger(__package__)
 
+MAX_RETRY_DELAY = 900  # Seconds. Upper limit for retry backoff.
+
 
 class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attributes
     """Traeger API Wrapper"""
@@ -47,6 +49,10 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         self.entry = cfgentry
 
         self.loop_task = None
+        self.main_failures = 0
+        self._main_lock = asyncio.Lock()
+        self._generation = 0  # kill() adds 1. A running main() then stops.
+        self.min_dly = 30
         self.grill_callbacks = {}
 
 
@@ -62,7 +68,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
 
     async def do_cognito(self):
         """Intial API Login"""
-        _LOGGER.info("do_cognito self.username:%s", self.api["username"])
+        _LOGGER.debug("Requesting a new API token")
         return await self.api_wrapper(
             "post",
             "https://auth-api.iot.traegergrills.io/tokens",
@@ -239,7 +245,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 continue
             if entity_entry.platform == "traeger":
                 self.entities[entity_entry.unique_id] = entity_id
-        _LOGGER.info(json.dumps(self.entities))
+        _LOGGER.debug("Entities: %s", json.dumps(self.entities))
         registry = dr.async_get(self.hass)
         config_entries = self.hass.config_entries.async_entries("mobile_app")
         for entry in config_entries:
@@ -253,16 +259,21 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                         dev.manufacturer,
                     )
                     self.notify[dev.id] = {"name": dev.name, "manu": dev.manufacturer}
-        _LOGGER.info(json.dumps(self.notify))
+        _LOGGER.debug("Notify targets: %s", json.dumps(self.notify))
 
     def __mqtt_url_remaining(self):
         """Available MQTT time left."""
         return self.api['mqtt_url_expires'] - time.time()
 
     async def refresh_mqtt_url(self):
-        """Update MQTT Token"""
+        """
+        Update MQTT Token.
+        Return True when a usable MQTT URL is available.
+        """
         await self.__refresh_token()
+        success = True
         if self.__mqtt_url_remaining() < 60:
+            success = False
             try:
                 myjson = {}
                 mqtt_request_time = time.time()
@@ -277,6 +288,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 self.api['mqtt_url_expires'] = myjson["expirationSeconds"] + \
                     mqtt_request_time
                 self.api['mqtt_url'] = myjson["signedUrl"]
+                success = True
             except KeyError as exception:
                 _LOGGER.error("Key Error Failed to Parse MQTT URL %s - %s",
                               myjson, exception)
@@ -285,10 +297,10 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                               myjson, exception)
         _LOGGER.debug("MQTT URL:%s Expires @:%s", self.api['mqtt_url'],
                       self.api['mqtt_url_expires'])
+        return success
 
     async def __get_mqtt_client(self):
         """Setup the MQTT Client and let HA deal with it."""
-        await self.refresh_mqtt_url()
         _LOGGER.debug("Connect Client")
         await self.mqtt_client.connect(self.grills, self.api['mqtt_url'])
 
@@ -334,8 +346,21 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         It does have a delay before doing MQTT connect to
         allow HA to finish starting up before lauching MQTT.
         """
-        if not self.grills:
-            await self.update_grills()
+        await self.update_grills()
+        self.schedule_main(delay)
+
+    def schedule_main(self, delay):
+        """
+        Schedule main() to run in delay seconds.
+        Cancel the pending run first, so only one loop exists.
+        Use this to reconnect without fetching the grill list again.
+        """
+        self.__reschedule(delay)
+
+    def __reschedule(self, delay):
+        """Replace the pending main() run."""
+        if self.loop_task is not None:
+            self.loop_task.cancel()
         _LOGGER.info("Call_Later in: %s seconds.", delay)
         self.loop_task = self.hass.loop.call_later(delay, self.__syncmain)
 
@@ -346,23 +371,51 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         _LOGGER.debug("@Call_Later SyncMain CreatingTask for async Main.")
         self.hass.async_create_task(self.main())
 
-    async def main(self, min_dly=30):
-        """This is the loop that keeps the tokens updated."""
+    async def main(self):
+        """
+        This is the loop that keeps the tokens updated.
+        Only one run is active at a time.
+        When the MQTT URL request fails, the delay doubles on each failure
+        (min_dly, 2*min_dly, ... up to MAX_RETRY_DELAY) so a failing API
+        is not requested every min_dly seconds.
+        """
+        async with self._main_lock:
+            await self.__main()
+
+    async def __main(self):
+        """Body of main(). Call only with _main_lock held."""
+        generation = self._generation
         _LOGGER.debug("Current Main Loop Time: %s", time.time())
         _LOGGER.debug(
             "MQTT Logger Token Time Remaining:%s MQTT Time Remaining:%s",
             self.__token_remaining(), self.__mqtt_url_remaining())
+        url_ok = True
         if self.__mqtt_url_remaining() < 60:
-            if self.mqtt_client.isconnected:
-                await self.mqtt_client.disconnect()
-            await self.__get_mqtt_client()
-        _LOGGER.debug("Call_Later @: %s", self.api['mqtt_url_expires'])
-        delay = max(self.__mqtt_url_remaining(), min_dly)
-        self.loop_task = self.hass.loop.call_later(delay, self.__syncmain)
+            # Get the new URL first. Keep the current connection if it fails.
+            url_ok = await self.refresh_mqtt_url()
+            if url_ok and generation == self._generation:
+                if self.mqtt_client.isconnected:
+                    await self.mqtt_client.disconnect()
+                await self.__get_mqtt_client()
+        if url_ok:
+            self.main_failures = 0
+            delay = max(self.__mqtt_url_remaining(), self.min_dly)
+        else:
+            self.main_failures += 1
+            delay = min(self.min_dly * 2**(self.main_failures - 1),
+                        MAX_RETRY_DELAY)
+            _LOGGER.warning(
+                "No MQTT URL (failure #%s). Retry in %s seconds.",
+                self.main_failures, delay)
+        if generation != self._generation:
+            _LOGGER.debug("Task generation changed. Not scheduling again.")
+            return  # kill() ran during this run. Do not schedule again.
+        self.__reschedule(delay)
         await self.get_entities()
 
     async def kill(self):
         """This terminates the main loop and shutsdown the MQTT."""
+        self._generation += 1  # Stop a running main() from scheduling again.
         if self.loop_task is not None:
             _LOGGER.info("Cancel Task")
             _LOGGER.debug("Task Info: %s", self.loop_task)
@@ -373,8 +426,6 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         if self.mqtt_client.isconnected:
             _LOGGER.info("Stopping MQTT")
             await self.mqtt_client.disconnect()
-            while self.mqtt_client.isconnected:  #Wait for disconnect to finish
-                await asyncio.sleep(0.1)
             self.api['mqtt_url_expires'] = time.time()
             for grill in self.grills:  #Mark the grill(s) disconnected so they report unavail.
                 grill_id = grill[
@@ -416,7 +467,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 if not isinstance(data, (dict, list)):
                     raise TypeError("Valid JSON, but not a JSON Object or Array")
                 return data
-        except asyncio.TimeoutError as exception:
+        except TimeoutError as exception:
             _LOGGER.error("Timeout error fetching information from %s - %s",
                           url, exception)
             return {}
@@ -446,6 +497,7 @@ class TraegerMQTTClient:
 
         self._hass = hass
         self._grills = {}
+        self._pending_subs = {}  # Subscribe mid -> grill_id
 
         self.grill_callback = callback
 
@@ -501,10 +553,15 @@ class TraegerMQTTClient:
         _LOGGER.debug("Stopping Traeger MQTT Class")
         self._hass.async_add_executor_job(self.mqtt_client.disconnect)
         _LOGGER.debug("Added disconnect to executor job (thread)")
+        while self.isconnected and self.mqtt_client.is_connected():  #Wait for disconnect to finish
+            await asyncio.sleep(0.1)
+        self.mqtt_client.loop_stop()
+        self.isconnected = False
 
     def _mqtt_onconnect(self, client, userdata, flags, reason_code, properties):
         """MQTT on_connect"""
         self.isconnected = self.mqtt_client.is_connected()
+        self._pending_subs.clear()
         for grill in self._grills:
             grill_id = grill["thingName"]
             if grill_id in self.grills_status:
@@ -517,7 +574,6 @@ class TraegerMQTTClient:
         self.isconnected = False
         _LOGGER.debug("OnDisconnect Callback. Client:%s userdata:%s rc:%s",
                       client, userdata, reason_code)
-        self.mqtt_client.loop_stop()
 
     def mqtt_onmessage(self, client, userdata, message):
         """MQTT on_message"""
