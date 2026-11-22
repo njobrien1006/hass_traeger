@@ -66,6 +66,9 @@ async def test_connect_bad_pub(
     _LOGGER.warning("Wait for onConnect to Subscribe")
     await asyncio.sleep(0.2)
     traeger_client.mqtt_client.mqtt_client.publish(
+        "prod/thing/update/0123456789ab", b"{}", qos=1
+    )
+    traeger_client.mqtt_client.mqtt_client.publish(
         "prod/thing/update/0123456789ab", b"{badjson}", qos=1
     )
     await asyncio.sleep(0.1)

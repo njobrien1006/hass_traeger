@@ -1,10 +1,12 @@
 """Common Test Functions"""
 
 import asyncio
+import copy
 import json
 
 # import logging
 from .conftest import MQTTPORT
+from .zzMockResp import mqtt_msg
 
 # _LOGGER: logging.Logger = logging.getLogger(__package__)
 
@@ -19,6 +21,8 @@ async def client_connect(hass, client, grill_list):
     )
     await hass.async_block_till_done()
     await asyncio.sleep(0.2)
+
+    await client_publish(hass, client, copy.deepcopy(mqtt_msg))
 
 
 async def client_publish(hass, client, msg, dly=0.05):

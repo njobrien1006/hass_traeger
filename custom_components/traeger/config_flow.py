@@ -30,12 +30,13 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input:
             if user_input.get(CONF_PASSWORD) == "":
                 user_input[CONF_PASSWORD] = config_entry.data.get(CONF_PASSWORD, "")
-            valid, username, glist, api_token, api_expires = await self._test_credentials(user_input[CONF_USERNAME],
+            valid, username, glist, api_token, api_expires, api_refresh = await self._test_credentials(user_input[CONF_USERNAME],
             user_input[CONF_PASSWORD])
             if valid:
                 user_input["grills"] = glist
                 user_input["api_token"] = api_token
                 user_input["api_expires"] = api_expires
+                user_input["api_refresh"] = api_refresh
                 await self.async_set_unique_id(username)
                 self._abort_if_unique_id_mismatch(reason="wrong_account")
                 return self.async_update_and_abort(
@@ -79,12 +80,13 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         #     return self.async_abort(reason="single_instance_allowed")
 
         if user_input is not None:
-            valid, username, glist, api_token, api_expires = await self._test_credentials(user_input[CONF_USERNAME],
+            valid, username, glist, api_token, api_expires, api_refresh = await self._test_credentials(user_input[CONF_USERNAME],
                                                  user_input[CONF_PASSWORD])
             if valid:
                 user_input["grills"] = glist
                 user_input["api_token"] = api_token
                 user_input["api_expires"] = api_expires
+                user_input["api_refresh"] = api_refresh
                 await self.async_set_unique_id(username)
                 self._abort_if_unique_id_configured()
                 return self.async_create_entry(title=user_input[CONF_USERNAME],
@@ -147,7 +149,8 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 glist,
                 client.api["api_token"],
                 client.api["api_expires"],
+                client.api["api_refresh"],
             )
         except Exception as exception:  # pylint: disable=broad-except
             _LOGGER.error("Failed to login %s", exception)
-        return False, "", [], "", 0
+        return False, "", [], "", 0, ""
