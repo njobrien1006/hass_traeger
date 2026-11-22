@@ -30,8 +30,16 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input:
             if user_input.get(CONF_PASSWORD) == "":
                 user_input[CONF_PASSWORD] = config_entry.data.get(CONF_PASSWORD, "")
-            valid, username, glist, api_token, api_expires, api_refresh = await self._test_credentials(user_input[CONF_USERNAME],
-            user_input[CONF_PASSWORD])
+            (
+                valid,
+                username,
+                glist,
+                api_token,
+                api_expires,
+                api_refresh,
+            ) = await self._test_credentials(
+                user_input[CONF_USERNAME], user_input[CONF_PASSWORD]
+            )
             if valid:
                 user_input["grills"] = glist
                 user_input["api_token"] = api_token
@@ -80,8 +88,16 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         #     return self.async_abort(reason="single_instance_allowed")
 
         if user_input is not None:
-            valid, username, glist, api_token, api_expires, api_refresh = await self._test_credentials(user_input[CONF_USERNAME],
-                                                 user_input[CONF_PASSWORD])
+            (
+                valid,
+                username,
+                glist,
+                api_token,
+                api_expires,
+                api_refresh,
+            ) = await self._test_credentials(
+                user_input[CONF_USERNAME], user_input[CONF_PASSWORD]
+            )
             if valid:
                 user_input["grills"] = glist
                 user_input["api_token"] = api_token
