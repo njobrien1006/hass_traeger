@@ -54,6 +54,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         self._generation = 0  # kill() adds 1. A running main() then stops.
         self.min_dly = 30
         self.grill_callbacks = {}
+        self.apicalls = 0
 
 
         self.grills = [{"thingName": grill} for grill in self.api["grills"]]
@@ -445,6 +446,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                           data=None,
                           headers=None) -> dict:
         """Get information from the API."""
+        self.apicalls += 1
         if data is None:
             data = {}
         if headers is None:
@@ -495,6 +497,7 @@ class TraegerMQTTClient:
         self.context = None
         self.ssl = True
         self.port = 443
+        self.msgcount = 0
 
         self._hass = hass
         self._grills = {}
@@ -561,6 +564,7 @@ class TraegerMQTTClient:
 
     def _mqtt_onconnect(self, client, userdata, flags, reason_code, properties):
         """MQTT on_connect"""
+        self.msgcount += 1
         self.isconnected = self.mqtt_client.is_connected()
         self._pending_subs.clear()
         for grill in self._grills:
@@ -578,6 +582,7 @@ class TraegerMQTTClient:
 
     def mqtt_onmessage(self, client, userdata, message):
         """MQTT on_message"""
+        self.msgcount += 1
         _LOGGER.debug("grill_message: message.topic = %s, message.payload = %s",
                       message.topic, message.payload)
         if message.topic.startswith("prod/thing/update/"):
@@ -598,6 +603,7 @@ class TraegerMQTTClient:
 
     def _mqtt_onsubscribe(self, client, userdata, mid, reason_codes, properties):
         """MQTT on_subscribe"""
+        self.msgcount += 1
         _LOGGER.debug("OnSubscribe Callback. Client:%s userdata:%s mid:%s",
                       client, userdata, mid)
 

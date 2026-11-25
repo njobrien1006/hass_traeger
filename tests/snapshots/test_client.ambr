@@ -15,19 +15,63 @@
     'state': 'on',
   })
 # ---
-# name: test_connect_cmds[02-Off]
-  StateSnapshot({
-    'attributes': ReadOnlyDict({
-      'attribution': '',
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: "Johny's Traeger Connect",
-      <EntityStateAttribute.ICON: 'icon'>: 'mdi:lan-connect',
-      'integration': 'traeger',
-    }),
-    'context': <ANY>,
-    'entity_id': 'switch.traeger_0123456789ab_connect',
-    'last_changed': <ANY>,
-    'last_reported': <ANY>,
-    'last_updated': <ANY>,
-    'state': 'off',
+# name: test_connect_cmds[01-Onremotecalls]
+  dict({
+    'apicalls': 3,
+    'mqttmsgs': 3,
+  })
+# ---
+# name: test_connect_cmds[02-Offremotecalls]
+  dict({
+    'apicalls': 3,
+    'mqttmsgs': 3,
+  })
+# ---
+# name: test_connect_cmds[03-Onremotecalls]
+  dict({
+    'apicalls': 3,
+    'mqttmsgs': 6,
+  })
+# ---
+# name: test_connect_cmds[04-Offremotecalls]
+  dict({
+    'apicalls': 3,
+    'mqttmsgs': 6,
+  })
+# ---
+# name: test_connect_cmds[05-Onremotecalls]
+  dict({
+    'apicalls': 4,
+    'mqttmsgs': 9,
+  })
+# ---
+# name: test_connect_cmds[06-Offremotecalls]
+  dict({
+    'apicalls': 4,
+    'mqttmsgs': 9,
+  })
+# ---
+# name: test_connect_cmds[07-Onremotecalls]
+  dict({
+    'apicalls': 4,
+    'mqttmsgs': 12,
+  })
+# ---
+# name: test_connect_cmds[08-Offremotecalls]
+  dict({
+    'apicalls': 4,
+    'mqttmsgs': 12,
+  })
+# ---
+# name: test_connect_cmds[09-Onremotecalls]
+  dict({
+    'apicalls': 6,
+    'mqttmsgs': 15,
+  })
+# ---
+# name: test_connect_cmds[10-Offremotecalls]
+  dict({
+    'apicalls': 6,
+    'mqttmsgs': 15,
   })
 # ---
