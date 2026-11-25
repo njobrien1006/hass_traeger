@@ -294,7 +294,14 @@ async def test_connect_cmds(
         {"mode": mode_0, "con": False, "state": "off", "Sname": "06-Off"},
         {"mode": mode_1, "con": True, "state": "on", "Sname": "07-On"},
         {"mode": mode_0, "con": False, "state": "off", "Sname": "08-Off"},
-        {"mode": mode_1, "con": True, "state": "on", "Sname": "09-On", "apiexp": True, "mqtexp": True},
+        {
+            "mode": mode_1,
+            "con": True,
+            "state": "on",
+            "Sname": "09-On",
+            "apiexp": True,
+            "mqtexp": True,
+        },
         {"mode": mode_0, "con": False, "state": "off", "Sname": "10-Off"},
     ]:
         _LOGGER.warning("tcmds: %s", item)
