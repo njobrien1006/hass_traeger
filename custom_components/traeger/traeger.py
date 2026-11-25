@@ -79,7 +79,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
 
     async def do_token_refresh(self):
         """API Token Refresh"""
-        _LOGGER.info("do_cognito self.username:%s", self.api["username"])
+        _LOGGER.debug("Refreshing API token")
         return await self.api_wrapper(
             "post",
             "https://auth-api.iot.traegergrills.io/tokens/refresh",
@@ -399,6 +399,8 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                 if self.mqtt_client.isconnected:
                     await self.mqtt_client.disconnect()
                 await self.__get_mqtt_client()
+        elif not self.mqtt_client.isconnected and generation == self._generation:
+            await self.__get_mqtt_client()
         if url_ok:
             self.main_failures = 0
             delay = max(self.__mqtt_url_remaining(), self.min_dly)
@@ -428,7 +430,6 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         if self.mqtt_client.isconnected:
             _LOGGER.info("Stopping MQTT")
             await self.mqtt_client.disconnect()
-            self.api['mqtt_url_expires'] = time.time()
             for grill in self.grills:  #Mark the grill(s) disconnected so they report unavail.
                 grill_id = grill[
                     "thingName"]  #Also hit the callbacks to update HA
@@ -567,12 +568,12 @@ class TraegerMQTTClient:
         self.msgcount += 1
         self.isconnected = self.mqtt_client.is_connected()
         self._pending_subs.clear()
+        topics = []
         for grill in self._grills:
-            grill_id = grill["thingName"]
-            if grill_id in self.grills_status:
-                del self.grills_status[grill_id]
-            _LOGGER.debug("Subscribe To: %s", grill_id)
-            client.subscribe((f"prod/thing/update/{grill_id}", 0))
+            topics.append((f"prod/thing/update/{grill['thingName']}", 0))
+        if topics:
+            _LOGGER.debug("Subscribe To: %s", topics)
+            client.subscribe(topics)
 
     def _mqtt_ondisconnect(self, client, userdata, flags, reason_code, properties):
         """MQTT on_undisconnect"""
