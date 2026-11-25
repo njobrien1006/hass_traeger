@@ -91,6 +91,7 @@ async def http():
             )
             return CallbackResult(status=200, payload=api_token["resp"])
         mock.post(api_token["url"], callback=ha_token_callback, repeat=True)
+        mock.post(f"{api_token["url"]}/refresh", callback=ha_token_callback, repeat=True)
 
         def ha_user_callback(url, **kwargs):
             """Setup API Callbacks"""

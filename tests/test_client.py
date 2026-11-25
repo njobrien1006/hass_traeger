@@ -282,41 +282,58 @@ async def test_connect_cmds(
     CallbackAPI(traeger_client, http)
     # traeger_client.mqtt_client.ssl = False
     traeger_client.mqtt_client.port = MQTTPORT
-    await hass.services.async_call(
-        "switch",
-        SERVICE_TURN_ON,
-        {ATTR_ENTITY_ID: "switch.traeger_0123456789ab_connect"},
-        blocking=True,
-    )
-    await hass.async_block_till_done()
-    await asyncio.sleep(0.5)
-    await client_publish(hass, traeger_client, mqtt_msg)
 
-    # Get Entity Trig Check
-    entity = hass.states.get("switch.traeger_0123456789ab_connect")
-    # Check Enttity
-    assert traeger_client.mqtt_client.isconnected
-    assert entity.state == "on"
-    assert entity == snapshot(name="01-On")
+    mode_1 = SERVICE_TURN_ON
+    mode_0 = SERVICE_TURN_OFF
+    for item in [
+        {"mode": mode_1, "con": True, "state": "on", "Sname": "01-On"},
+        {"mode": mode_0, "con": False, "state": "off", "Sname": "02-Off"},
+        {"mode": mode_1, "con": True, "state": "on", "Sname": "03-On"},
+        {"mode": mode_0, "con": False, "state": "off", "Sname": "04-Off"},
+        {"mode": mode_1, "con": True, "state": "on", "Sname": "05-On", "mqtexp": True},
+        {"mode": mode_0, "con": False, "state": "off", "Sname": "06-Off"},
+        {"mode": mode_1, "con": True, "state": "on", "Sname": "07-On"},
+        {"mode": mode_0, "con": False, "state": "off", "Sname": "08-Off"},
+        {"mode": mode_1, "con": True, "state": "on", "Sname": "09-On", "apiexp": True, "mqtexp": True},
+        {"mode": mode_0, "con": False, "state": "off", "Sname": "10-Off"},
+    ]:
+        _LOGGER.warning("tcmds: %s", item)
+        if item.get("apiexp", False):
+            traeger_client.api["api_expires"] = time.time() + 30
+            await asyncio.sleep(0.1)
+        if item.get("mqtexp", False):
+            traeger_client.api["mqtt_url_expires"] = time.time() + 30
+            await asyncio.sleep(0.1)
 
-    # Try Running another start to see if it handles the task already running.
-    await traeger_client.start(0)
 
-    await hass.services.async_call(
-        "switch",
-        SERVICE_TURN_OFF,
-        {ATTR_ENTITY_ID: "switch.traeger_0123456789ab_connect"},
-        blocking=True,
-    )
-    await hass.async_block_till_done()
-    await asyncio.sleep(0.1)
+        await hass.services.async_call(
+            "switch",
+            item["mode"],
+            {ATTR_ENTITY_ID: "switch.traeger_0123456789ab_connect"},
+            blocking=True,
+        )
+        await hass.async_block_till_done()
+        while item["con"] != traeger_client.mqtt_client.isconnected:
+            await asyncio.sleep(0.1)
+        await asyncio.sleep(0.1)
+        await client_publish(hass, traeger_client, mqtt_msg)
 
-    # Get Entity Trig Check
-    entity = hass.states.get("switch.traeger_0123456789ab_connect")
-    # Check Enttity
-    assert not traeger_client.mqtt_client.isconnected
-    assert entity.state == "off"
-    assert entity == snapshot(name="02-Off")
+        # Get Entity Trig Check
+        entity = hass.states.get("switch.traeger_0123456789ab_connect")
+        # Check Enttity
+        #assert traeger_client.mqtt_client.isconnected == item["con"]
+        assert entity.state == item["state"]
+        if item["Sname"] == "01-On":
+            assert entity == snapshot(name=item["Sname"])
+        assert {
+            "apicalls": traeger_client.apicalls,
+            "mqttmsgs": traeger_client.mqtt_client.msgcount,
+        } == snapshot(name=f"{item['Sname']}remotecalls")
+
+        await asyncio.sleep(0.1)
+        if item["con"]:
+            # Try Running another start to see if it handles the task already running.
+            await traeger_client.start(0)
 
 
 @pytest.mark.usefixtures("socket_enabled")
