@@ -24,7 +24,9 @@ async def client_connect(hass, client, grill_list):
         "wss://127.0.0.1/mqtt?1391charsWORTHofCreds",
     )
     await hass.async_block_till_done()
-    await asyncio.sleep(0.4)
+    while not client.mqtt_client.isconnected:
+        await asyncio.sleep(0.1)
+    await asyncio.sleep(0.5)
 
     await client_publish(hass, client, copy.deepcopy(mqtt_msg))
 

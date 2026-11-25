@@ -96,7 +96,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
     entry.async_on_unload(
         hass.bus.async_listen_once(EVENT_HOMEASSISTANT_STOP, async_shutdown))
-    entry.async_on_unload(entry.add_update_listener(async_reload_entry))
+    #We dont want to reload on a cfg update.
+    #entry.async_on_unload(entry.add_update_listener(async_reload_entry))
     return True
 
 
