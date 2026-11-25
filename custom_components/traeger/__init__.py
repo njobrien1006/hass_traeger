@@ -18,9 +18,6 @@ from homeassistant.helpers.aiohttp_client import async_get_clientsession
 from homeassistant.helpers.typing import ConfigType
 
 from .const import (
-    CONF_OPT_MOBILE_APP,
-    CONF_PASSWORD,
-    CONF_USERNAME,
     DOMAIN,
     PLATFORMS,
     STARTUP_MESSAGE,
@@ -69,20 +66,9 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
         # 2. Add card to resources
         await init_resource(hass, "/traeger/" + name, str(version))
 
-    username = entry.data.get(CONF_USERNAME)
-    password = entry.data.get(CONF_PASSWORD)
-    notifydict = dict.fromkeys(entry.data.get(CONF_OPT_MOBILE_APP,[]))
-
     session = async_get_clientsession(hass)
-    api = {
-        "username": username,
-        "password": password,
-        "api_token": entry.data.get("api_token", ""),
-        "api_expires": entry.data.get("api_expires", 0),
-        "api_refresh": entry.data.get("api_refresh", ""),
-        "grills": entry.data.get("grills", [])
-    }
-    client = Traeger(hass, session, notifydict, api, entry)
+
+    client = Traeger(hass, session, entry)
 
     await client.start(15)
     hass.data[DOMAIN][entry.entry_id] = client

@@ -150,7 +150,7 @@ class BlueprintFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
                 "api_expires": 0,
                 "grills": [],
             }
-            client = Traeger(self.hass, session, {}, api)
+            client = Traeger(self.hass, session, api)
             grills = await client.get_user_data()
             glist = await client.get_glist(grills["things"])
             _LOGGER.debug("Test Creds Resp: %s", glist)

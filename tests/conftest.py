@@ -131,7 +131,7 @@ async def traeger_client(hass: HomeAssistant, http: aiointercept) -> TraegerTest
         "api_refresh": "",
         "grills": []
     }
-    client = TraegerTestClient(hass, session, {}, api)
+    client = TraegerTestClient(hass, session)
     return client
 
 

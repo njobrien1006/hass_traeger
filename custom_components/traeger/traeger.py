@@ -37,16 +37,30 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
     """Traeger API Wrapper"""
 
     # pylint: disable=dangerous-default-value,too-many-arguments,too-many-positional-arguments
-    def __init__(self, hass, request_library, notifydict, api, cfgentry=None):
-        self.api = api
-        self.api.update({
-            "mqtt_url_expires": time.time(),
-            "mqtt_url": None,
-            "timeout": 10
-        })
+    def __init__(self, hass, request_library, cfgentry=None):
+        if cfgentry is None:
+            cfgdata = {}
+            self.entry = None
+        elif isinstance(cfgentry, dict):
+            cfgdata = cfgentry
+            self.entry = None
+        else:
+            cfgdata = cfgentry.data
+            self.entry = cfgentry
+        self.api = {
+            "username": cfgdata.get("username", ""),
+            "password": cfgdata.get("password", ""),
+            "api_token": cfgdata.get("api_token", ""),
+            "api_expires": cfgdata.get("api_expires", 0),
+            "api_refresh": cfgdata.get("api_refresh", ""),
+            "mqtt_url_expires": cfgdata.get("mqtt_url_expires", 0),
+            "mqtt_url": cfgdata.get("mqtt_url", ""),
+            "grills": cfgdata.get("grills", []),
+            "timeout": 10,
+        }
+
         self.hass = hass
         self.request = request_library
-        self.entry = cfgentry
 
         self.loop_task = None
         self.main_failures = 0
@@ -61,7 +75,7 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         self.mqtt_client = TraegerMQTTClient(self.hass,
                                              self.sync_grill_callback)
         self.entities = {}
-        self.notify = notifydict
+        self.notify = dict.fromkeys(cfgdata.get("notify_list",[]))
 
     def __token_remaining(self):
         """Report remaining token time."""
@@ -298,6 +312,15 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
                               myjson, exception)
         _LOGGER.debug("MQTT URL:%s Expires @:%s", self.api['mqtt_url'],
                       self.api['mqtt_url_expires'])
+        if self.entry and success:
+            new_data = {
+                **self.entry.data,
+                "mqtt_url_expires": self.api['mqtt_url_expires'],
+                "mqtt_url": self.api['mqtt_url'],
+            }
+            self.hass.config_entries.async_update_entry(
+                self.entry, data=new_data,
+            )
         return success
 
     async def __get_mqtt_client(self):
