@@ -3,10 +3,13 @@
 import asyncio
 import json
 import logging
+from unittest.mock import AsyncMock, patch
 
 import pytest
 from aiointercept import aiointercept
 from paho.mqtt.client import MQTTMessage
+
+from custom_components.traeger.traeger import TraegerMQTTClient
 
 from .conftest import Broker, TraegerTestClient
 from .zzcommon import client_connect, client_disconnect
@@ -121,3 +124,37 @@ def test_handle_good_topic_and_message(traeger_client: TraegerTestClient) -> Non
     assert traeger_client.mqtt_client.grills_status["0123456789ab"] == json.loads(
         message.payload
     )
+
+
+@pytest.mark.usefixtures("socket_enabled")
+async def test_kill_clears_isconnected_above_debug(
+    traeger_client: TraegerTestClient, connected_amqtt: Broker, http: aiointercept
+) -> None:
+    """Disconnect must be tracked when the integration logs above DEBUG."""
+    traeger_logger = logging.getLogger("custom_components.traeger")
+    level = traeger_logger.level
+    traeger_logger.setLevel(logging.WARNING)
+    try:
+        traeger_client.mqtt_client = TraegerMQTTClient(
+            traeger_client.hass, traeger_client.sync_grill_callback
+        )
+    finally:
+        traeger_logger.setLevel(level)
+    traeger_client.grills = [{"thingName": "0123456789ab"}]
+    await client_connect(
+        traeger_client.hass, traeger_client, api_user_self["resp"]["things"]
+    )
+    assert traeger_client.mqtt_client.isconnected
+    await asyncio.wait_for(traeger_client.kill(), timeout=3)
+    assert not traeger_client.mqtt_client.isconnected
+
+
+async def test_kill_bounded_when_disconnect_unconfirmed(
+    traeger_client: TraegerTestClient, caplog: pytest.LogCaptureFixture
+) -> None:
+    """kill() must not hang if on_disconnect never fires."""
+    traeger_client.mqtt_client.isconnected = True
+    with patch.object(traeger_client.mqtt_client, "disconnect", AsyncMock()):
+        await asyncio.wait_for(traeger_client.kill(), timeout=10)
+    assert not traeger_client.mqtt_client.isconnected
+    assert "Timed out waiting for MQTT disconnect" in caplog.text

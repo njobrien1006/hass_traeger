@@ -373,8 +373,13 @@ class Traeger:  #pylint: disable=too-many-public-methods,too-many-instance-attri
         if self.mqtt_client.isconnected:
             _LOGGER.info("Stopping MQTT")
             await self.mqtt_client.disconnect()
-            while self.mqtt_client.isconnected:  #Wait for disconnect to finish
+            for _ in range(50):  #Wait up to 5s for disconnect to finish
+                if not self.mqtt_client.isconnected:
+                    break
                 await asyncio.sleep(0.1)
+            else:
+                _LOGGER.warning("Timed out waiting for MQTT disconnect")
+            self.mqtt_client.isconnected = False
             self.api['mqtt_url_expires'] = time.time()
             for grill in self.grills:  #Mark the grill(s) disconnected so they report unavail.
                 grill_id = grill[
@@ -467,9 +472,10 @@ class TraegerMQTTClient:
         self.mqtt_client.on_subscribe = self._mqtt_onsubscribe
         self.mqtt_client.on_message = self.mqtt_onmessage
         self.mqtt_client.on_publish = self._mqtt_onpublish  #Only Tests uses this.
+        #Always needed (any log level): kill() waits on isconnected.
+        self.mqtt_client.on_disconnect = self._mqtt_ondisconnect
         if _LOGGER.level <= 10:  #Add these callbacks only if our logging is Debug or less.
             self.mqtt_client.enable_logger(_LOGGER)
-            self.mqtt_client.on_disconnect = self._mqtt_ondisconnect
             self.mqtt_client.on_socket_close = self._mqtt_onsocketclose
             self.mqtt_client.on_socket_unregister_write = self._mqtt_onsocketunregisterwrite
 
@@ -517,7 +523,6 @@ class TraegerMQTTClient:
         self.isconnected = False
         _LOGGER.debug("OnDisconnect Callback. Client:%s userdata:%s rc:%s",
                       client, userdata, reason_code)
-        self.mqtt_client.loop_stop()
 
     def mqtt_onmessage(self, client, userdata, message):
         """MQTT on_message"""
