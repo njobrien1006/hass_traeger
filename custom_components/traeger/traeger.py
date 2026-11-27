@@ -467,9 +467,9 @@ class TraegerMQTTClient:
         self.mqtt_client.on_subscribe = self._mqtt_onsubscribe
         self.mqtt_client.on_message = self.mqtt_onmessage
         self.mqtt_client.on_publish = self._mqtt_onpublish  #Only Tests uses this.
+        self.mqtt_client.on_disconnect = self._mqtt_ondisconnect
         if _LOGGER.level <= 10:  #Add these callbacks only if our logging is Debug or less.
             self.mqtt_client.enable_logger(_LOGGER)
-            self.mqtt_client.on_disconnect = self._mqtt_ondisconnect
             self.mqtt_client.on_socket_close = self._mqtt_onsocketclose
             self.mqtt_client.on_socket_unregister_write = self._mqtt_onsocketunregisterwrite
 
